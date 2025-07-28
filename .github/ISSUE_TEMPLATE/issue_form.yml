@@ -1,5 +1,5 @@
 name: 'Team-mozu 이슈 생성'
-description: 'mozu 프론트 Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
+description: 'mozu 백엔드 Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
 labels: [order]
 title: '이슈 이름을 작성해주세요.'
 body:
@@ -8,7 +8,7 @@ body:
     attributes:
       label: '상위 작업 Ticket Number'
       description: '상위 작업의 Ticket Number를 기입해주세요.'
-      placeholder: 'ex. MZFE-00'
+      placeholder: 'ex. MZBE-00'
     validations:
       required: true
 
