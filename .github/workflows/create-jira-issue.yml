@@ -27,7 +27,7 @@ jobs:
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
-          template-path: .github/ISSUE_TEMPLATE/issue-form.yml
+          template-path: .github/ISSUE_TEMPLATE/issue_form.yml
 
       - name: Convert Markdown to Jira Format
         uses: peter-evans/jira2md@v1
