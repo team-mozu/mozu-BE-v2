@@ -14,15 +14,15 @@ class OrganJpaEntity(
     organName: String,
     password: String
 ) : BaseUUIDEntity(id) {
-    @Column(name = "admin_code", length = 5, nullable = false, unique = true)
+    @Column(name = "admin_code", columnDefinition = "VARCHAR(5)", nullable = false, unique = true)
     var adminCode: String = adminCode
         protected set
 
-    @Column(length = 100, nullable = false)
+    @Column(columnDefinition = "VARCHAR(100)", nullable = false)
     var organName: String = organName
         protected set
 
-    @Column(name = "password", length = 300, nullable = false)
+    @Column(name = "password", columnDefinition = "VARCHAR(300)", nullable = false)
     var password: String = password
         protected set
 }
