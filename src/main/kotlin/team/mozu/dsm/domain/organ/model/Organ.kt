@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class Organ(
     val id: UUID?,
-    val adminCode: String,
+    val organCode: String,
     val organName: String,
     val password: String
 )
