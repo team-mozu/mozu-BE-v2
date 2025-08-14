@@ -1,4 +1,4 @@
-package team.mozu.dms
+package team.mozu.dsm
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
