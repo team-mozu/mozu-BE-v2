@@ -1,4 +1,4 @@
-package team.mozu.dsm.infrastructure.persistence.organ
+package team.mozu.dsm.adapter.out.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
