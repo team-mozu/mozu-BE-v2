@@ -18,7 +18,7 @@ class OrganJpaEntity(
     var adminCode: String = adminCode
         protected set
 
-    @Column(name = "org_name", length = 100, nullable = false)
+    @Column(name = "organ_name", length = 100, nullable = false)
     var organName: String = organName
         protected set
 
