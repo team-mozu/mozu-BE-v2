@@ -8,4 +8,3 @@ data class Organ(
     val orgName: String,
     val password: String
 )
-

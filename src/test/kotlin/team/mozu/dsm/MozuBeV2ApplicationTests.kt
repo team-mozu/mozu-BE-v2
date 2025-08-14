@@ -9,5 +9,4 @@ class MozuBeV2ApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

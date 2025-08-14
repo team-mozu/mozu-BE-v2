@@ -11,7 +11,7 @@ class OrganJpaEntity(
     adminCode: String,
     organName: String,
     password: String
-): BaseUUIDEntity(id) {
+) : BaseUUIDEntity(id) {
     @Column(name = "admin_id", length = 5, nullable = false, unique = true)
     var adminCode: String = adminCode
         protected set
