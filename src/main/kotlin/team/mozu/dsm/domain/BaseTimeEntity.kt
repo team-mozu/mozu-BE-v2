@@ -23,5 +23,4 @@ abstract class BaseTimeEntity(
     @Column(nullable = false)
     var modifiedAt: LocalDateTime? = null
         protected set
-
 }
