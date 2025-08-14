@@ -21,6 +21,6 @@ abstract class BaseTimeEntity(
 
     @LastModifiedDate
     @Column(nullable = false)
-    var modifiedAt: LocalDateTime? = null
+    var updatedAt: LocalDateTime? = null
         protected set
 }
