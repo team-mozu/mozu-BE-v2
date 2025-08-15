@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.stereotype.Component
+import org.springframework.http.HttpStatus
 import org.springframework.web.filter.OncePerRequestFilter
 import team.mozu.dsm.global.error.exception.ErrorCode
 import team.mozu.dsm.global.error.exception.MozuException
@@ -24,15 +24,15 @@ class GlobalExceptionFilter(
             val errorCode: ErrorCode = e.errorCode
             writeErrorResponse(
                 response,
-                errorCode.status,
+                errorCode.httpStatus.value(), // HttpStatus → Int 변환
                 ErrorResponse.of(errorCode, errorCode.message)
             )
         } catch (e: Exception) {
             e.printStackTrace()
             writeErrorResponse(
                 response,
-                response.status,
-                ErrorResponse.of(response.status, e.message)
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, e.message)
             )
         }
     }
@@ -47,4 +47,5 @@ class GlobalExceptionFilter(
         response.characterEncoding = "UTF-8"
         objectMapper.writeValue(response.writer, errorResponse)
     }
+
 }
