@@ -8,6 +8,6 @@ enum class ErrorCode(
 ) {
 
     // general
-    BAD_REQUEST(400, "front fault"),
-    INTERNAL_SERVER_ERROR(500, "server fault");
+    BAD_REQUEST(400, "Bad Request"),
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),;
 }
