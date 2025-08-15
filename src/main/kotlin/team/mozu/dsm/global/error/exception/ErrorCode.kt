@@ -10,5 +10,5 @@ enum class ErrorCode(
 
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"),;
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error") ;
 }

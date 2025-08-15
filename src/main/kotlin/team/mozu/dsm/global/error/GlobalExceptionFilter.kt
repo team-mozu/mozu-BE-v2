@@ -48,5 +48,4 @@ class GlobalExceptionFilter(
         response.characterEncoding = "UTF-8"
         objectMapper.writeValue(response.writer, errorResponse)
     }
-
 }

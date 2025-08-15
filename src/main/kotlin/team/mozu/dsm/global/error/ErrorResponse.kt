@@ -14,7 +14,7 @@ data class ErrorResponse(
         fun of(errorCode: ErrorCode, description: String?): ErrorResponse =
             ErrorResponse(
                 message = errorCode.message,
-                status = errorCode.httpStatus.value(),   // 여기서 숫자로 변환
+                status = errorCode.httpStatus.value(), // 여기서 숫자로 변환
                 timestamp = LocalDateTime.now(),
                 description = description
             )
@@ -35,5 +35,4 @@ data class ErrorResponse(
                 description = description
             )
     }
-
 }
