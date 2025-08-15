@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 import team.mozu.dsm.global.error.exception.ErrorCode
 import team.mozu.dsm.global.error.exception.MozuException
@@ -43,7 +44,7 @@ class GlobalExceptionFilter(
         errorResponse: ErrorResponse
     ) {
         response.status = statusCode
-        response.contentType = "application/json"
+        response.contentType = MediaType.APPLICATION_JSON_VALUE
         response.characterEncoding = "UTF-8"
         objectMapper.writeValue(response.writer, errorResponse)
     }
