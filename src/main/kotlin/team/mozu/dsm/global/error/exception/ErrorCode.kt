@@ -1,13 +1,14 @@
 package team.mozu.dsm.global.error.exception
 import com.fasterxml.jackson.annotation.JsonFormat
+import org.springframework.http.HttpStatus
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 enum class ErrorCode(
-    val status: Int,
+    val httpStatus: HttpStatus,
     val message: String
 ) {
 
     // general
-    BAD_REQUEST(400, "Bad Request"),
-    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),;
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"),;
 }
