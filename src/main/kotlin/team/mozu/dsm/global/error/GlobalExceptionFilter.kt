@@ -9,7 +9,6 @@ import org.springframework.web.filter.OncePerRequestFilter
 import team.mozu.dsm.global.error.exception.ErrorCode
 import team.mozu.dsm.global.error.exception.MozuException
 
-@Component
 class GlobalExceptionFilter(
     private val objectMapper: ObjectMapper
 ) : OncePerRequestFilter() {
