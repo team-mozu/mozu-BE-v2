@@ -3,6 +3,7 @@ package team.mozu.dsm.global.error
 import jakarta.validation.ConstraintViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import team.mozu.dsm.global.error.exception.ErrorCode
@@ -19,12 +20,19 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(errorCode.status).body(body)
     }
 
-    // validation 예외
-    @ExceptionHandler(ConstraintViolationException::class)
-    fun handleConstraintViolationException(e: ConstraintViolationException): ResponseEntity<ErrorResponse> {
+    // DTO(@RequestBody) 필드 검증 실패
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleMethodArgumentNotValid(e: MethodArgumentNotValidException): ResponseEntity<ErrorResponse> {
         val errorCode = ErrorCode.BAD_REQUEST
         val body = ErrorResponse.of(errorCode, errorCode.message)
-        e.printStackTrace()
+        return ResponseEntity.status(errorCode.status).body(body)
+    }
+
+    // @PathVariable 검증 실패
+    @ExceptionHandler(ConstraintViolationException::class)
+    fun handleConstraintViolation(e: ConstraintViolationException): ResponseEntity<ErrorResponse> {
+        val errorCode = ErrorCode.BAD_REQUEST
+        val body = ErrorResponse.of(errorCode, errorCode.message)
         return ResponseEntity.status(errorCode.status).body(body)
     }
 
