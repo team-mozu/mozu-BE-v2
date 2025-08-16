@@ -4,16 +4,14 @@ import jakarta.persistence.Column
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
-import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.UuidGenerator
-import org.springframework.data.domain.Persistable
 import java.util.*
 
 @MappedSuperclass
-abstract class BaseUUIDEntity(
+abstract class BaseUUIDEntity {
     @Id
     @GeneratedValue(generator = "uuid4")
     @UuidGenerator
     @Column(columnDefinition = "BINARY(16)", nullable = false)
-    var id: UUID?
-)
+    lateinit var id: UUID
+}
