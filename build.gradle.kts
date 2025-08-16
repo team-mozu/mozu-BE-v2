@@ -58,6 +58,10 @@ dependencies {
     implementation(Dependencies.JWT_API)
     implementation(Dependencies.JWT_IMPL)
     runtimeOnly(Dependencies.JWT_JACKSON)
+
+    // MapStruct
+    implementation(Dependencies.MAPSTRUCT)
+    kapt(Dependencies.MAPSTRUCT_PROCESSOR)
 }
 
 kotlin {
