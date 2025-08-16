@@ -2,6 +2,7 @@ plugins {
     id(Plugin.KOTLIN_JVM) version PluginVersions.KOTLIN_VERSION
     id(Plugin.KOTLIN_SPRING) version PluginVersions.KOTLIN_VERSION
     id(Plugin.KOTLIN_KAPT) version PluginVersions.KOTLIN_VERSION
+    id(Plugin.JPA_PLUGIN) version PluginVersions.JPA_PLUGIN_VERSION
     id(Plugin.SPRING_BOOT) version PluginVersions.SPRING_BOOT_VERSION
     id(Plugin.SPRING_DEPENDENCY_MANAGEMENT) version PluginVersions.SPRING_DEPENDENCY_MANAGEMENT_VERSION
     id(Plugin.KTLINT) version PluginVersions.KTLINT_VERSION
