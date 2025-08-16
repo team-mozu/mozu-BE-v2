@@ -1,4 +1,4 @@
-package team.mozu.dsm.domain
+package team.mozu.dsm.global.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.GeneratedValue

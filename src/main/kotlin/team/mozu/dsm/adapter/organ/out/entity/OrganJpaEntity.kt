@@ -3,7 +3,7 @@ package team.mozu.dsm.adapter.organ.out.entity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
-import team.mozu.dsm.domain.BaseUUIDEntity
+import team.mozu.dsm.global.entity.BaseUUIDEntity
 
 @Entity
 @Table(name = "tbl_organ")
