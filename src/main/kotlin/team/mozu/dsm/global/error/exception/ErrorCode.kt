@@ -7,6 +7,8 @@ enum class ErrorCode(
     val httpStatus: HttpStatus,
     val message: String
 ) {
+    // organ
+    ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
 
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
