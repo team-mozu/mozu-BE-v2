@@ -1,4 +1,4 @@
-package team.mozu.dsm.domain
+package team.mozu.dsm.global.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
@@ -7,20 +7,15 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
-import java.util.UUID
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-abstract class BaseTimeEntity(
-    id: UUID? = null
-) : BaseUUIDEntity(id) {
+abstract class BaseTimeEntity : BaseUUIDEntity() {
     @CreatedDate
     @Column(updatable = false, nullable = false)
     var createdAt: LocalDateTime? = null
-        protected set
 
     @LastModifiedDate
     @Column(nullable = false)
     var updatedAt: LocalDateTime? = null
-        protected set
 }
