@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.UuidGenerator
 import org.springframework.data.domain.Persistable
 import java.util.*
 
@@ -12,7 +13,7 @@ import java.util.*
 abstract class BaseUUIDEntity(
     @Id
     @GeneratedValue(generator = "uuid4")
-    @GenericGenerator(name = "uuid4", strategy = "org.hibernate.id.UUIDGenerator")
+    @UuidGenerator
     @get:JvmName("getIdForJvm")
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     var id: UUID?
