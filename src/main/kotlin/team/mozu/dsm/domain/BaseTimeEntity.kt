@@ -7,13 +7,10 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
-import java.util.UUID
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-abstract class BaseTimeEntity(
-    id: UUID? = null
-) : BaseUUIDEntity(id) {
+abstract class BaseTimeEntity : BaseUUIDEntity() {
     @CreatedDate
     @Column(updatable = false, nullable = false)
     var createdAt: LocalDateTime? = null
