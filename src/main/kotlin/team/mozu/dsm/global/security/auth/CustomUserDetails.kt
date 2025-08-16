@@ -1,4 +1,4 @@
-package com.example.kotlin_practice.global.security.auth
+package team.mozu.dsm.global.security.auth
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
