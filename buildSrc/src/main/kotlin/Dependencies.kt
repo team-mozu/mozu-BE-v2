@@ -25,4 +25,8 @@ object Dependencies {
 
     // Test
     const val JUNIT_PLATFORM_LAUNCHER = "org.junit.platform:junit-platform-launcher"
+
+    // MapStruct
+    const val MAPSTRUCT = "org.mapstruct:mapstruct:${DependencyVersions.MAPSTRUCT}"
+    const val MAPSTRUCT_PROCESSOR = "org.mapstruct:mapstruct-processor:${DependencyVersions.MAPSTRUCT}"
 }
