@@ -13,5 +13,5 @@ abstract class BaseUUIDEntity {
     @GeneratedValue
     @UuidGenerator
     @Column(columnDefinition = "BINARY(16)", nullable = false)
-    lateinit var id: UUID
+    var id: UUID? = null
 }
