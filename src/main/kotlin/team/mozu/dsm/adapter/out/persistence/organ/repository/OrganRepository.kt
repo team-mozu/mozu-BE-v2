@@ -5,4 +5,5 @@ import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import java.util.*
 
 interface OrganRepository: JpaRepository<OrganJpaEntity, UUID> {
+    fun findByOrganCode(organCode: String): OrganJpaEntity?
 }
