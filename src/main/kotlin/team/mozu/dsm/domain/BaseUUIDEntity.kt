@@ -10,7 +10,7 @@ import java.util.*
 @MappedSuperclass
 abstract class BaseUUIDEntity {
     @Id
-    @GeneratedValue(generator = "uuid4")
+    @GeneratedValue
     @UuidGenerator
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     lateinit var id: UUID
