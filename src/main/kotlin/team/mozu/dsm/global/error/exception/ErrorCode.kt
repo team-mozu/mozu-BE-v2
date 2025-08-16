@@ -9,6 +9,7 @@ enum class ErrorCode(
 ) {
     // jwt
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "Expired Token"),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Invalid Token"),
 
     // organ
     ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
