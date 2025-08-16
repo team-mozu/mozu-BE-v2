@@ -14,11 +14,6 @@ abstract class BaseUUIDEntity(
     @Id
     @GeneratedValue(generator = "uuid4")
     @UuidGenerator
-    @get:JvmName("getIdForJvm")
     @Column(columnDefinition = "BINARY(16)", nullable = false)
     var id: UUID?
-) : Persistable<UUID> {
-    override fun getId(): UUID? = this.id
-
-    override fun isNew(): Boolean = this.id == null
-}
+)
