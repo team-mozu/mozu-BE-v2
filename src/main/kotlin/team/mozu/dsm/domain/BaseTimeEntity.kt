@@ -14,10 +14,8 @@ abstract class BaseTimeEntity : BaseUUIDEntity() {
     @CreatedDate
     @Column(updatable = false, nullable = false)
     var createdAt: LocalDateTime? = null
-        protected set
 
     @LastModifiedDate
     @Column(nullable = false)
     var updatedAt: LocalDateTime? = null
-        protected set
 }
