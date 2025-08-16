@@ -12,7 +12,7 @@ import team.mozu.dsm.global.security.jwt.JwtTokenProvider
 class FilterConfig(
     private val jwtTokenProvider: JwtTokenProvider,
     private val objectMapper: ObjectMapper
-): SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>() {
+) : SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>() {
 
     override fun configure(http: HttpSecurity) {
         val jwtTokenFilter = JwtTokenFilter(jwtTokenProvider)

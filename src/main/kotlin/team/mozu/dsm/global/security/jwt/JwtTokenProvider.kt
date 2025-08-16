@@ -104,7 +104,6 @@ class JwtTokenProvider(
                 refreshExpiredAt = now.time + jwtProperties.refreshExpiration * MILLISECONDS
             )
         }
-
     }
 
     fun resolveToken(request: HttpServletRequest): String? {
@@ -117,5 +116,4 @@ class JwtTokenProvider(
         }
         return null
     }
-
 }

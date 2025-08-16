@@ -42,7 +42,7 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it.requestMatchers(
                     "/user/**",
-                    "/auth/**",
+                    "/auth/**"
                 ).permitAll()
                     .anyRequest().authenticated()
             }
