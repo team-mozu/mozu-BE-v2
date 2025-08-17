@@ -1,4 +1,4 @@
-package team.mozu.dsm.infrastructure.exception.organ
+package team.mozu.dsm.application.exception.organ
 
 import team.mozu.dsm.global.error.exception.ErrorCode
 import team.mozu.dsm.global.error.exception.MozuException

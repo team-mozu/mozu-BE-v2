@@ -16,9 +16,9 @@ import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
 import team.mozu.dsm.application.port.out.organ.FindOrganPort
 import team.mozu.dsm.global.security.auth.CustomUserDetailsService
-import team.mozu.dsm.infrastructure.exception.auth.ExpiredTokenException
-import team.mozu.dsm.infrastructure.exception.auth.InvalidTokenException
-import team.mozu.dsm.infrastructure.exception.organ.OrganNotFoundException
+import team.mozu.dsm.application.exception.auth.ExpiredTokenException
+import team.mozu.dsm.application.exception.auth.InvalidTokenException
+import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import java.nio.charset.StandardCharsets
 import java.security.Key
 import java.time.LocalDateTime
