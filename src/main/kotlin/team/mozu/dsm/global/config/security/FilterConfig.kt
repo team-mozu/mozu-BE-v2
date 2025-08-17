@@ -1,4 +1,4 @@
-package team.mozu.dsm.infrastructure.config.filter
+package team.mozu.dsm.global.config.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter
