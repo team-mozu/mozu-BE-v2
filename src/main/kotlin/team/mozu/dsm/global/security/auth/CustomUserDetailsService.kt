@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Component
-import team.mozu.dsm.application.port.out.FindOrganPort
+import team.mozu.dsm.application.port.out.organ.FindOrganPort
 
 @Component
 class CustomUserDetailsService(

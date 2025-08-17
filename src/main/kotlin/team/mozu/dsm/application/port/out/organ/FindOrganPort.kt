@@ -1,4 +1,4 @@
-package team.mozu.dsm.application.port.out
+package team.mozu.dsm.application.port.out.organ
 
 import team.mozu.dsm.domain.organ.model.Organ
 

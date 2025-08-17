@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils
 import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
-import team.mozu.dsm.application.port.out.FindOrganPort
+import team.mozu.dsm.application.port.out.organ.FindOrganPort
 import team.mozu.dsm.global.security.auth.CustomUserDetailsService
 import team.mozu.dsm.infrastructure.exception.auth.ExpiredTokenException
 import team.mozu.dsm.infrastructure.exception.auth.InvalidTokenException
