@@ -1,6 +1,5 @@
 package team.mozu.dsm.global.security.auth
 
-import com.example.kotlin_practice.global.security.auth.CustomUserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Component
