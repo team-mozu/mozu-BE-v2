@@ -9,14 +9,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.StringUtils
 import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
 import team.mozu.dsm.application.exception.auth.ExpiredTokenException
 import team.mozu.dsm.application.exception.auth.InvalidTokenException
-import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.global.security.auth.CustomUserDetailsService
 import java.nio.charset.StandardCharsets
 import java.security.Key
@@ -27,7 +25,6 @@ import javax.crypto.SecretKey
 @Component
 class JwtTokenProvider(
     private val jwtProperties: JwtProperties,
-    private val findOrganPort: QueryOrganPort,
     private val customUserDetailsService: CustomUserDetailsService,
     private val refreshTokenRepository: RefreshTokenRepository
 ) {
