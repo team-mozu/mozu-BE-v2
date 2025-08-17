@@ -56,11 +56,11 @@ class JwtTokenProvider(
     }
 
     // 내부에서만 사용
-    private fun createAccessToken(organCode: String): String =
+    private fun generateAccessToken(organCode: String): String =
         generateToken(organCode, ACCESS_TYPE, jwtProperties.accessExpiration)
 
     // 내부에서만 사용
-    private fun createRefreshToken(organCode: String): String {
+    private fun generateRefreshToken(organCode: String): String {
         val refreshToken = generateToken(organCode, REFRESH_TYPE, jwtProperties.refreshExpiration)
 
         refreshTokenRepository.save(
@@ -78,8 +78,8 @@ class JwtTokenProvider(
         val now = LocalDateTime.now()
 
         return TokenResponse(
-            accessToken = createAccessToken(organCode),
-            refreshToken = createRefreshToken(organCode),
+            accessToken = generateAccessToken(organCode),
+            refreshToken = generateRefreshToken(organCode),
             accessExpiredAt = now.plusSeconds(jwtProperties.accessExpiration),
             refreshExpiredAt = now.plusSeconds(jwtProperties.refreshExpiration)
         )
