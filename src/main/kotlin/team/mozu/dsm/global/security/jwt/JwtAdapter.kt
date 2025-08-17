@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils
 import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
+import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.global.exception.ExpiredTokenException
 import team.mozu.dsm.global.exception.InvalidTokenException
 import team.mozu.dsm.global.security.auth.CustomUserDetailsService
@@ -24,11 +25,11 @@ import java.util.Date
 import javax.crypto.SecretKey
 
 @Component
-class JwtTokenProvider(
+class JwtAdapter(
     private val jwtProperties: JwtProperties,
     private val customUserDetailsService: CustomUserDetailsService,
     private val refreshTokenRepository: RefreshTokenRepository
-) {
+) : JwtPort {
     companion object {
         private const val TYPE_CLAIM = "type"
         private const val ACCESS_TYPE = "access"
@@ -72,7 +73,7 @@ class JwtTokenProvider(
     }
 
     // 외부 호출용 메서드
-    fun createToken(organCode: String): TokenResponse {
+    override fun createToken(organCode: String): TokenResponse {
         val now = LocalDateTime.now()
 
         return TokenResponse(
@@ -83,7 +84,7 @@ class JwtTokenProvider(
         )
     }
 
-    fun getAuthentication(token: String): Authentication {
+    override fun getAuthentication(token: String): Authentication {
         val claims = getClaims(token)
         val userDetails: UserDetails =
             customUserDetailsService.loadUserByUsername(claims.subject)
@@ -104,7 +105,7 @@ class JwtTokenProvider(
         }
     }
 
-    fun resolveToken(request: HttpServletRequest): String? {
+    override fun resolveToken(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader(jwtProperties.header) ?: return null
         val prefix = jwtProperties.prefix
 

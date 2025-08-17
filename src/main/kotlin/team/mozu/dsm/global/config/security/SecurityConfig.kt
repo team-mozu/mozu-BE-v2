@@ -16,14 +16,14 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import team.mozu.dsm.global.security.jwt.JwtTokenProvider
+import team.mozu.dsm.global.security.jwt.JwtAdapter
 import java.util.Arrays
 
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val jwtTokenProvider: JwtTokenProvider,
+    private val jwtTokenProvider: JwtAdapter,
     private val objectMapper: ObjectMapper
 ) {
 

@@ -7,10 +7,10 @@ import org.springframework.security.web.DefaultSecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import team.mozu.dsm.global.error.GlobalExceptionFilter
 import team.mozu.dsm.global.security.jwt.JwtTokenFilter
-import team.mozu.dsm.global.security.jwt.JwtTokenProvider
+import team.mozu.dsm.global.security.jwt.JwtAdapter
 
 class FilterConfig(
-    private val jwtTokenProvider: JwtTokenProvider,
+    private val jwtTokenProvider: JwtAdapter,
     private val objectMapper: ObjectMapper
 ) : SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>() {
 
