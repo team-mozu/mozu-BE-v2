@@ -17,8 +17,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import team.mozu.dsm.global.security.jwt.JwtTokenProvider
-import team.mozu.dsm.global.config.security.FilterConfig
-import java.util.Arrays
+import java.util.*
 
 @Configuration
 @EnableWebSecurity

@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
 import org.hibernate.annotations.UuidGenerator
-import java.util.*
+import java.util.UUID
 
 @MappedSuperclass
 abstract class BaseUUIDEntity {
