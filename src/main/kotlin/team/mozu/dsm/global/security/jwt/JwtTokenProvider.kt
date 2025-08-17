@@ -21,6 +21,7 @@ import team.mozu.dsm.infrastructure.exception.auth.InvalidTokenException
 import team.mozu.dsm.infrastructure.exception.organ.OrganNotFoundException
 import java.nio.charset.StandardCharsets
 import java.security.Key
+import java.time.LocalDateTime
 import java.util.*
 import javax.crypto.SecretKey
 
@@ -91,19 +92,19 @@ class JwtTokenProvider(
         } catch (e: Exception) {
             throw InvalidTokenException
         }
+    }
 
-        fun receiveToken(organCode: String): TokenResponse {
-            val now = Date()
+    fun receiveToken(organCode: String): TokenResponse {
+        findOrganPort.findByOrganCode(organCode) ?: throw OrganNotFoundException
 
-            findOrganPort.findByOrganCode(organCode) ?: throw OrganNotFoundException
+        val now = LocalDateTime.now()
 
-            return TokenResponse(
-                accessToken = createAccessToken(organCode),
-                refreshToken = createRefreshToken(organCode),
-                accessExpiredAt = now.time + jwtProperties.accessExpiration * MILLISECONDS,
-                refreshExpiredAt = now.time + jwtProperties.refreshExpiration * MILLISECONDS
-            )
-        }
+        return TokenResponse(
+            accessToken = createAccessToken(organCode),
+            refreshToken = createRefreshToken(organCode),
+            accessExpiredAt = now.plusSeconds(jwtProperties.accessExpiration),
+            refreshExpiredAt = now.plusSeconds(jwtProperties.refreshExpiration)
+        )
     }
 
     fun resolveToken(request: HttpServletRequest): String? {
