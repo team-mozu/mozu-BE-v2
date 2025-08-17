@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.index.Indexed
 
 @RedisHash
 class RefreshTokenRedisEntity(
+
     @Id
     val organCode: String,
 

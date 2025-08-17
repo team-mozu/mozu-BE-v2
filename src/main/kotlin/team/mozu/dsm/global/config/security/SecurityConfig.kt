@@ -25,6 +25,7 @@ class SecurityConfig(
     private val jwtTokenProvider: JwtTokenProvider,
     private val objectMapper: ObjectMapper
 ) {
+
     @Bean
     fun passwordEncorder(): PasswordEncoder = BCryptPasswordEncoder()
 
