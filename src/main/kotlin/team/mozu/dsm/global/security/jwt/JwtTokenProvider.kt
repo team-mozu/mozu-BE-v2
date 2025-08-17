@@ -95,7 +95,7 @@ class JwtTokenProvider(
         fun receiveToken(organCode: String): TokenResponse {
             val now = Date()
 
-            findOrganPort.findByOrganCode(organCode) ?: throw OrganNotFoundException.EXCEPTION
+            findOrganPort.findByOrganCode(organCode) ?: throw OrganNotFoundException
 
             return TokenResponse(
                 accessToken = createAccessToken(organCode),
