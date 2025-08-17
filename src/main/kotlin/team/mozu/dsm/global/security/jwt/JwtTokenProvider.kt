@@ -14,11 +14,10 @@ import org.springframework.util.StringUtils
 import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
-import team.mozu.dsm.application.port.out.organ.QueryOrganPort
-import team.mozu.dsm.global.security.auth.CustomUserDetailsService
 import team.mozu.dsm.application.exception.auth.ExpiredTokenException
 import team.mozu.dsm.application.exception.auth.InvalidTokenException
-import team.mozu.dsm.application.exception.organ.OrganNotFoundException
+import team.mozu.dsm.application.port.out.organ.QueryOrganPort
+import team.mozu.dsm.global.security.auth.CustomUserDetailsService
 import java.nio.charset.StandardCharsets
 import java.security.Key
 import java.time.LocalDateTime
@@ -56,11 +55,12 @@ class JwtTokenProvider(
             .compact()
     }
 
-    fun createAccessToken(organCode: String): String =
+    // 내부에서만 사용
+    private fun createAccessToken(organCode: String): String =
         generateToken(organCode, ACCESS_TYPE, jwtProperties.accessExpiration)
 
-    @Transactional
-    fun createRefreshToken(organCode: String): String {
+    // 내부에서만 사용
+    private fun createRefreshToken(organCode: String): String {
         val refreshToken = generateToken(organCode, REFRESH_TYPE, jwtProperties.refreshExpiration)
 
         refreshTokenRepository.save(
@@ -71,6 +71,18 @@ class JwtTokenProvider(
             )
         )
         return refreshToken
+    }
+
+    // 외부 호출용 메서드
+    fun createToken(organCode: String): TokenResponse {
+        val now = LocalDateTime.now()
+
+        return TokenResponse(
+            accessToken = createAccessToken(organCode),
+            refreshToken = createRefreshToken(organCode),
+            accessExpiredAt = now.plusSeconds(jwtProperties.accessExpiration),
+            refreshExpiredAt = now.plusSeconds(jwtProperties.refreshExpiration)
+        )
     }
 
     fun getAuthentication(token: String): Authentication {
