@@ -4,11 +4,11 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Component
-import team.mozu.dsm.application.port.out.organ.FindOrganPort
+import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 
 @Component
 class CustomUserDetailsService(
-    private val findOrganPort: FindOrganPort
+    private val findOrganPort: QueryOrganPort
 ) : UserDetailsService {
 
     override fun loadUserByUsername(organCode: String): UserDetails {
