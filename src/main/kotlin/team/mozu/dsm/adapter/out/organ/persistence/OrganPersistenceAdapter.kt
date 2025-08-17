@@ -8,10 +8,10 @@ import team.mozu.dsm.domain.organ.model.Organ
 
 @Component
 class OrganPersistenceAdapter(
-    private val OrganRepository: OrganRepository,
+    private val organRepository: OrganRepository,
     private val organMapper: OrganMapper
 ) : QueryOrganPort {
     override fun findByOrganCode(organCode: String): Organ? {
-        return OrganRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
+        return organRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
     }
 }
