@@ -1,4 +1,4 @@
-package team.mozu.dsm.infrastructure.config.redis
+package team.mozu.dsm.global.config.redis
 
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties
 import org.springframework.context.annotation.Bean

@@ -1,4 +1,4 @@
-package team.mozu.dsm.infrastructure.config.security
+package team.mozu.dsm.global.config.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
@@ -17,7 +17,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import team.mozu.dsm.global.security.jwt.JwtTokenProvider
-import team.mozu.dsm.infrastructure.config.filter.FilterConfig
+import team.mozu.dsm.global.config.security.FilterConfig
 import java.util.Arrays
 
 @Configuration
