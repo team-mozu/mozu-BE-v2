@@ -87,9 +87,9 @@ class JwtTokenProvider(
 
             parser.parseSignedClaims(token).payload
         } catch (e: ExpiredJwtException) {
-            throw ExpiredTokenException.EXCEPTION
+            throw ExpiredTokenException
         } catch (e: Exception) {
-            throw InvalidTokenException.EXCEPTION
+            throw InvalidTokenException
         }
 
         fun receiveToken(organCode: String): TokenResponse {
