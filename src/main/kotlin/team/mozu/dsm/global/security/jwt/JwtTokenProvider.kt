@@ -13,8 +13,8 @@ import org.springframework.util.StringUtils
 import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
-import team.mozu.dsm.application.exception.auth.ExpiredTokenException
-import team.mozu.dsm.application.exception.auth.InvalidTokenException
+import team.mozu.dsm.global.exception.ExpiredTokenException
+import team.mozu.dsm.global.exception.InvalidTokenException
 import team.mozu.dsm.global.security.auth.CustomUserDetailsService
 import java.nio.charset.StandardCharsets
 import java.security.Key
