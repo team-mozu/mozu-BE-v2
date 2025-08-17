@@ -1,7 +1,8 @@
-package team.mozu.dsm.adapter.out.persistence.organ
+package team.mozu.dsm.adapter.out.organ.persistence
 
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.out.persistence.organ.repository.OrganRepository
+import team.mozu.dsm.adapter.out.organ.persistence.mapper.OrganMapper
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.port.out.FindOrganPort
 import team.mozu.dsm.domain.organ.model.Organ
 

@@ -1,4 +1,4 @@
-package team.mozu.dsm.adapter.out.persistence.organ.repository
+package team.mozu.dsm.adapter.out.organ.persistence.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
