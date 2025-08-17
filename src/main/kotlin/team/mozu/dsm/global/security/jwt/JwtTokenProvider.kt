@@ -94,19 +94,6 @@ class JwtTokenProvider(
         }
     }
 
-    fun receiveToken(organCode: String): TokenResponse {
-        findOrganPort.findByOrganCode(organCode) ?: throw OrganNotFoundException
-
-        val now = LocalDateTime.now()
-
-        return TokenResponse(
-            accessToken = createAccessToken(organCode),
-            refreshToken = createRefreshToken(organCode),
-            accessExpiredAt = now.plusSeconds(jwtProperties.accessExpiration),
-            refreshExpiredAt = now.plusSeconds(jwtProperties.refreshExpiration)
-        )
-    }
-
     fun resolveToken(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader(jwtProperties.header) ?: return null
         val prefix = jwtProperties.prefix
