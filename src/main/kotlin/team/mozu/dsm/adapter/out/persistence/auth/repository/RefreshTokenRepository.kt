@@ -1,6 +1,8 @@
 package team.mozu.dsm.adapter.out.persistence.auth.repository
 
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 
-interface RefreshTokenRepository : JpaRepository<RefreshTokenRedisEntity, String>
+@Repository
+interface RefreshTokenRepository : CrudRepository<RefreshTokenRedisEntity, String>
