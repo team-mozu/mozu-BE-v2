@@ -10,6 +10,7 @@ import team.mozu.dsm.application.port.out.organ.FindOrganPort
 class CustomUserDetailsService(
     private val findOrganPort: FindOrganPort
 ) : UserDetailsService {
+
     override fun loadUserByUsername(organCode: String): UserDetails {
         val organ = findOrganPort.findByOrganCode(organCode) ?: throw UsernameNotFoundException("Organ Not Found")
         return CustomUserDetails(organ)

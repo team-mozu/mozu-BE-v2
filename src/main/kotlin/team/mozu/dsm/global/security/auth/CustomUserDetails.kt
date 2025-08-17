@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import team.mozu.dsm.domain.organ.model.Organ
 
 class CustomUserDetails(val organ: Organ) : UserDetails {
+
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = mutableListOf()
 
     override fun getPassword(): String? = null
