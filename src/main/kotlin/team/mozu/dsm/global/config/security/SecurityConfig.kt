@@ -19,7 +19,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import team.mozu.dsm.global.security.jwt.JwtAdapter
 import java.util.Arrays
 
-
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
