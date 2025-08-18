@@ -2,14 +2,11 @@ package team.mozu.dsm.adapter.out.`class`.persistence.mapper
 
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.`class`.entity.ClassJpaEntity
-import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
-import team.mozu.dsm.application.exception.organ.OrganNotFoundException
+import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import team.mozu.dsm.domain.`class`.model.Class
 
 @Component
-class ClassMapper(
-    private val organRepository: OrganRepository
-) {
+class ClassMapper {
 
     fun toModel(entity: ClassJpaEntity): Class {
         return Class(
@@ -28,12 +25,9 @@ class ClassMapper(
         )
     }
 
-    fun toEntity(model: Class): ClassJpaEntity {
-        val organEntity = organRepository.findById(model.organId)
-            .orElseThrow{ OrganNotFoundException }
-
-        return ClassJpaEntity(
-            organ = organEntity,
+    fun toEntity(model: Class, organ: OrganJpaEntity): ClassJpaEntity {
+    return ClassJpaEntity(
+            organ = organ,
             className = model.className,
             maxInvRound = model.maxInvRound,
             curInvRound = model.curInvRound,
