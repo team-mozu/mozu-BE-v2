@@ -1,8 +1,10 @@
 package team.mozu.dsm.domain.`class`.model
 
+import team.mozu.dsm.domain.annotation.Aggregate
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Aggregate
 data class Class(
     val id: UUID?,
     val organId: UUID,
