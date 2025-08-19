@@ -26,3 +26,14 @@ jwt:
   secret-key: ${JWT_SECRET}
   access-exp: ${ACCESS_EXP}
   refresh-exp: ${REFRESH_EXP}
+
+cloud:
+    aws:
+        s3:
+            bucket: ${BUCKET_NAME}
+            url-prefix: ${S3_URL_PREFIX}
+        region:
+            static: ${AWS_REGION}
+        credentials:
+            accessKey: ${AWS_ACCESS_KEY_ID}
+            secretKey: ${AWS_SECRET_ACCESS_KEY}
