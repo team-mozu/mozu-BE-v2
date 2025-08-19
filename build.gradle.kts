@@ -62,6 +62,9 @@ dependencies {
     // MapStruct
     implementation(Dependencies.MAPSTRUCT)
     kapt(Dependencies.MAPSTRUCT_PROCESSOR)
+
+    // AWS S3
+    implementation(Dependencies.AWS_S3)
 }
 
 kotlin {
