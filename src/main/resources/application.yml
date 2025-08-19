@@ -34,6 +34,3 @@ cloud:
             url-prefix: ${S3_URL_PREFIX}
         region:
             static: ${AWS_REGION}
-        credentials:
-            accessKey: ${AWS_ACCESS_KEY_ID}
-            secretKey: ${AWS_SECRET_ACCESS_KEY}
