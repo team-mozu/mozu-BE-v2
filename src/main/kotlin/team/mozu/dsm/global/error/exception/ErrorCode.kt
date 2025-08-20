@@ -13,8 +13,8 @@ enum class ErrorCode(
 
     // s3
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "Image Not Found"),
-    FAILED_UPLOAD(HttpStatus.INTERNAL_SERVER_ERROR, "Failed_Upload"),
-    FAILED_DELETE(HttpStatus.INTERNAL_SERVER_ERROR, "Failed_Delete"),
+    IMAGE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Image Upload Failed"),
+    IMAGE_FAILED_DELETE(HttpStatus.INTERNAL_SERVER_ERROR, "Image Delete Failed"),
 
     // organ
     ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
