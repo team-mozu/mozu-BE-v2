@@ -23,11 +23,13 @@ class S3Adapter(
     @Value("\${cloud.aws.s3.url-prefix}") private val urlPrefix: String
 ) : S3Port {
 
-    private val allowedExtensions = setOf("jpg", "jpeg", "png", "webp")
+    companion object {
+        private val ALLOWED_EXTENSIONS: Set<String> = setOf("jpg", "jpeg", "png", "webp")
+    }
 
     override fun upload(file: MultipartFile): String {
         val fileName = file.originalFilename ?: throw ImageNotFoundException
-        validate(fileName)
+        validateExtension(fileName)
 
         val key = "${UUID.randomUUID()}.${getExtension(fileName)}"
 
@@ -66,9 +68,9 @@ class S3Adapter(
         }
     }
 
-    private fun validate(fileName: String) {
+    private fun validateExtension(fileName: String) {
         val ext = getExtension(fileName)
-        if (!allowedExtensions.contains(ext)) {
+        if (!ALLOWED_EXTENSIONS.contains(ext)) {
             throw FailedUploadException
         }
     }
