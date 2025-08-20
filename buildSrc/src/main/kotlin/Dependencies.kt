@@ -29,4 +29,7 @@ object Dependencies {
     // MapStruct
     const val MAPSTRUCT = "org.mapstruct:mapstruct:${DependencyVersions.MAPSTRUCT}"
     const val MAPSTRUCT_PROCESSOR = "org.mapstruct:mapstruct-processor:${DependencyVersions.MAPSTRUCT}"
+
+    // AWS S3
+    const val AWS_S3 = "software.amazon.awssdk:s3:${DependencyVersions.AWS_S3}"
 }

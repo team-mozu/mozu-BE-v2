@@ -11,6 +11,11 @@ enum class ErrorCode(
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "Expired Token"),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Invalid Token"),
 
+    // s3
+    IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "Image Not Found"),
+    IMAGE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Image Upload Failed"),
+    IMAGE_FAILED_DELETE(HttpStatus.INTERNAL_SERVER_ERROR, "Image Delete Failed"),
+
     // organ
     ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
 
