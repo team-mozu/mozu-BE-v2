@@ -1,4 +1,4 @@
-package team.mozu.dsm.global.config
+package team.mozu.dsm.global.config.env
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing

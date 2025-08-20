@@ -7,6 +7,6 @@ class JwtProperties(
     val header: String,
     val prefix: String,
     val secretKey: String,
-    val accessExpiration: Long,
-    val refreshExpiration: Long
+    val accessExp: Long,
+    val refreshExp: Long
 )

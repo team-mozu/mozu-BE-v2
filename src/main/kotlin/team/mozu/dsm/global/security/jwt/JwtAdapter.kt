@@ -56,17 +56,17 @@ class JwtAdapter(
 
     // 내부에서만 사용
     private fun generateAccessToken(organCode: String): String =
-        generateToken(organCode, ACCESS_TYPE, jwtProperties.accessExpiration)
+        generateToken(organCode, ACCESS_TYPE, jwtProperties.accessExp)
 
     // 내부에서만 사용
     private fun generateRefreshToken(organCode: String): String {
-        val refreshToken = generateToken(organCode, REFRESH_TYPE, jwtProperties.refreshExpiration)
+        val refreshToken = generateToken(organCode, REFRESH_TYPE, jwtProperties.refreshExp)
 
         refreshTokenRepository.save(
             RefreshTokenRedisEntity(
                 organCode = organCode,
                 token = refreshToken,
-                timeToLive = jwtProperties.refreshExpiration
+                timeToLive = jwtProperties.refreshExp
             )
         )
         return refreshToken
@@ -79,8 +79,8 @@ class JwtAdapter(
         return TokenResponse(
             accessToken = generateAccessToken(organCode),
             refreshToken = generateRefreshToken(organCode),
-            accessExpiredAt = now.plusSeconds(jwtProperties.accessExpiration),
-            refreshExpiredAt = now.plusSeconds(jwtProperties.refreshExpiration)
+            accessExpiredAt = now.plusSeconds(jwtProperties.accessExp),
+            refreshExpiredAt = now.plusSeconds(jwtProperties.refreshExp)
         )
     }
 
