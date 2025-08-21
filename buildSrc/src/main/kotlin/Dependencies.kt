@@ -32,4 +32,14 @@ object Dependencies {
 
     // AWS S3
     const val AWS_S3 = "software.amazon.awssdk:s3:${DependencyVersions.AWS_S3}"
+
+    // QueryDSL
+    const val QUERYDSL_JPA = "com.querydsl:querydsl-jpa:${DependencyVersions.QUERYDSL}:jakarta"
+    const val QUERYDSL_APT = "com.querydsl:querydsl-apt:${DependencyVersions.QUERYDSL}:jakarta"
+
+    // Q타입 생성 보조
+    const val JAKARTA_PERSISTENCE_API =
+        "jakarta.persistence:jakarta.persistence-api:${DependencyVersions.JAKARTA_PERSISTENCE}"
+    const val JAKARTA_ANNOTATION_API =
+        "jakarta.annotation:jakarta.annotation-api:${DependencyVersions.JAKARTA_ANNOTATION}"
 }
