@@ -9,7 +9,7 @@ data class Item (
     val id : UUID?,
     val organId : UUID,
     val itemName : String,
-    val itemLogo : String,
+    val itemLogo : String?,
     val itemInfo : String,
     val createdAt : LocalDateTime?,
     val money : Int,
