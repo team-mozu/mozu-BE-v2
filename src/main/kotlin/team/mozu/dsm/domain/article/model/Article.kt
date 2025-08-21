@@ -12,6 +12,7 @@ data class Article (
     val articleDescription : String,
     val articleImage : String?,
     val createAt : LocalDateTime = LocalDateTime.now(),
+    val updatedAt : LocalDateTime,
     val isDeleted : Boolean
 )
 
