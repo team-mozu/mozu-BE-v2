@@ -26,7 +26,7 @@ class ClassMapper {
     }
 
     fun toEntity(model: Class, organ: OrganJpaEntity): ClassJpaEntity {
-    return ClassJpaEntity(
+        return ClassJpaEntity(
             organ = organ,
             className = model.className,
             maxInvRound = model.maxInvRound,
