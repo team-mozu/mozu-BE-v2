@@ -15,7 +15,7 @@ class ArticleJpaEntity (
     var articleDescription: String,
 
     @Column(nullable = true, columnDefinition = "VARCHAR(255)")
-    var articleImage: String,
+    var articleImage: String?,
 
     @Column(nullable = false)
     var isDeleted: Boolean = false,
