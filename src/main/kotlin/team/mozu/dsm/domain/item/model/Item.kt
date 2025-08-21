@@ -12,6 +12,7 @@ data class Item (
     val itemLogo : String?,
     val itemInfo : String,
     val createdAt : LocalDateTime = LocalDateTime.now(),
+    val updatedAt: LocalDateTime,
     val money : Int,
     val debt : Int,
     val capital : Int,
