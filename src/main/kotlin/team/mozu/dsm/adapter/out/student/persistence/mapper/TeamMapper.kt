@@ -5,7 +5,7 @@ import team.mozu.dsm.adapter.out.`class`.entity.ClassJpaEntity
 import team.mozu.dsm.adapter.out.student.entity.TeamJpaEntity
 import team.mozu.dsm.domain.student.model.Team
 
-@Mapper
+@Mapper(componentModel = "spring")
 class TeamMapper {
 
     fun toModel(entity: TeamJpaEntity): Team {
