@@ -1,11 +1,11 @@
 package team.mozu.dsm.adapter.out.`class`.persistence.mapper
 
-import org.springframework.stereotype.Component
+import org.mapstruct.Mapper
 import team.mozu.dsm.adapter.out.`class`.entity.ClassJpaEntity
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import team.mozu.dsm.domain.`class`.model.Class
 
-@Component
+@Mapper(componentModel = "spring")
 class ClassMapper {
 
     fun toModel(entity: ClassJpaEntity): Class {
