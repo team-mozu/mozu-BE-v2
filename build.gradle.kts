@@ -65,6 +65,12 @@ dependencies {
 
     // AWS S3
     implementation(Dependencies.AWS_S3)
+
+    // Querydsl
+    implementation(Dependencies.QUERYDSL_JPA)
+    kapt(Dependencies.QUERYDSL_APT)
+    kapt(Dependencies.JAKARTA_PERSISTENCE_API)
+    kapt(Dependencies.JAKARTA_ANNOTATION_API)
 }
 
 kotlin {
@@ -75,4 +81,14 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+sourceSets {
+    named("main") {
+        java.srcDirs("build/generated/source/kapt/main")
+    }
 }

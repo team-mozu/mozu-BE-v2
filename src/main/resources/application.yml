@@ -31,6 +31,6 @@ cloud:
     aws:
         s3:
             bucket: ${BUCKET_NAME}
-            url-prefix: ${S3_URL_PREFIX}
+            url-prefix: ${MOZU_IMAGE_FOLDER}
         region:
             static: ${AWS_REGION}
