@@ -14,7 +14,7 @@ data class Team(
     val cashMoney: Long,
     val valuationMoney: Long,
     val classNumber: String,
-    val investmentCompleteYn: Boolean,
+    val isInvestmentCompleted: Boolean,
     val participationDate: LocalDateTime,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?

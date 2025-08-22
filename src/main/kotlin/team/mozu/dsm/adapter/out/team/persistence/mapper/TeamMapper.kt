@@ -21,7 +21,7 @@ abstract class TeamMapper {
             cashMoney = model.cashMoney,
             valuationMoney = model.valuationMoney,
             classNumber = model.classNumber,
-            investmentCompleteYn = model.investmentCompleteYn,
+            isInvestmentCompleted = model.isInvestmentCompleted,
             participationDate = model.participationDate
         )
     }

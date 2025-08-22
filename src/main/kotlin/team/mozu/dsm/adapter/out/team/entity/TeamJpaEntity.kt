@@ -14,28 +14,28 @@ import java.time.LocalDateTime
 @Table(name = "tbl_class_team")
 class TeamJpaEntity(
 
-    @Column(name = "team_name", columnDefinition = "VARCHAR(100)")
+    @Column(columnDefinition = "VARCHAR(100)")
     var teamName: String?,
 
-    @Column(name = "school_name", nullable = false, columnDefinition = "VARCHAR(100)")
+    @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var schoolName: String,
 
-    @Column(name = "total_money", nullable = false)
+    @Column(nullable = false)
     var totalMoney: Long,
 
-    @Column(name = "cash_money", nullable = false)
+    @Column(nullable = false)
     var cashMoney: Long,
 
-    @Column(name = "valuation_money", nullable = false)
+    @Column(nullable = false)
     var valuationMoney: Long,
 
-    @Column(name = "class_number", nullable = false, columnDefinition = "VARCHAR(40)")
+    @Column(nullable = false, columnDefinition = "VARCHAR(40)")
     var classNumber: String,
 
-    @Column(name = "investment_complete_yn", nullable = false)
-    var investmentCompleteYn: Boolean = false,
+    @Column(nullable = false)
+    var isInvestmentCompleted: Boolean = false,
 
-    @Column(name = "participation_date", nullable = false)
+    @Column(nullable = false)
     var participationDate: LocalDateTime,
 
     @ManyToOne(fetch = FetchType.LAZY)
