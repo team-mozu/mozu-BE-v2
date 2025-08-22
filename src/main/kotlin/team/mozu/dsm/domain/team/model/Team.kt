@@ -1,4 +1,4 @@
-package team.mozu.dsm.domain.student.model
+package team.mozu.dsm.domain.team.model
 
 import team.mozu.dsm.domain.annotation.Aggregate
 import java.time.LocalDateTime

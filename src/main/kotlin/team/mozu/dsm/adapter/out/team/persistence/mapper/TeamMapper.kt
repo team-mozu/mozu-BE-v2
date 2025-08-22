@@ -1,10 +1,10 @@
-package team.mozu.dsm.adapter.out.student.persistence.mapper
+package team.mozu.dsm.adapter.out.team.persistence.mapper
 
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import team.mozu.dsm.adapter.out.`class`.entity.ClassJpaEntity
-import team.mozu.dsm.adapter.out.student.entity.TeamJpaEntity
-import team.mozu.dsm.domain.student.model.Team
+import team.mozu.dsm.adapter.out.team.entity.TeamJpaEntity
+import team.mozu.dsm.domain.team.model.Team
 
 @Mapper(componentModel = "spring")
 interface TeamMapper {
