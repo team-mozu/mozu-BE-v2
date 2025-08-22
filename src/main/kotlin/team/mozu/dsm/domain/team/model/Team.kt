@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Aggregate
-data class Team (
+data class Team(
     val id: UUID?,
     val classId: UUID,
     val teamName: String?,
