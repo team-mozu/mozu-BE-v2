@@ -1,6 +1,7 @@
 package team.mozu.dsm.adapter.out.item.persistence.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
+import team.mozu.dsm.adapter.out.item.entity.ItemJpaEntity
 import java.util.UUID
 
-interface ItemRepository : JpaRepository<ItemRepository, UUID>
+interface ItemRepository : JpaRepository<ItemJpaEntity, UUID>
