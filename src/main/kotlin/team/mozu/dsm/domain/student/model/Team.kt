@@ -16,6 +16,6 @@ data class Team (
     val classNumber: String,
     val investmentCompleteYn: Boolean,
     val participationDate: LocalDateTime,
-    val createdAt: LocalDateTime?,
+    val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?
 )
