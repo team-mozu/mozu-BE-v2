@@ -14,5 +14,5 @@ interface TeamMapper {
     @Mapping(target = "updatedAt", source = "updatedAt")
     fun toModel(entity: TeamJpaEntity): Team
 
-    fun toEntity(model: Team, `class`: ClassJpaEntity): TeamJpaEntity
+    fun toEntity(model: Team, clazz: ClassJpaEntity): TeamJpaEntity
 }
