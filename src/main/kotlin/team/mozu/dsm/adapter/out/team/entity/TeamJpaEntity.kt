@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tbl_class_team")
-class TeamJpaEntity (
+class TeamJpaEntity(
 
     @Column(name = "team_name", columnDefinition = "VARCHAR(100)")
     var teamName: String?,
@@ -40,6 +40,6 @@ class TeamJpaEntity (
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id", nullable = false)
-    var `class` : ClassJpaEntity
+    var clazz: ClassJpaEntity
 
 ) : BaseTimeEntity()
