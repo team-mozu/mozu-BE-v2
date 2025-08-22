@@ -10,8 +10,6 @@ import team.mozu.dsm.domain.team.model.Team
 abstract class TeamMapper {
 
     @Mapping(target = "classId", expression = "java(entity.getClazz().getId())")
-    @Mapping(target = "createdAt", source = "createdAt")
-    @Mapping(target = "updatedAt", source = "updatedAt")
     abstract fun toModel(entity: TeamJpaEntity): Team
 
     fun toEntity(model: Team, clazz: ClassJpaEntity): TeamJpaEntity {
