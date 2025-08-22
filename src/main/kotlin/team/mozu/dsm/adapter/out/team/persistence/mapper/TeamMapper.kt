@@ -10,6 +10,8 @@ import team.mozu.dsm.domain.team.model.Team
 interface TeamMapper {
 
     @Mapping(target = "classId", source = "class.id")
+    @Mapping(target = "createdAt", source = "createdAt")
+    @Mapping(target = "updatedAt", source = "updatedAt")
     fun toModel(entity: TeamJpaEntity): Team
 
     fun toEntity(model: Team, `class`: ClassJpaEntity): TeamJpaEntity
