@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Aggregate
-data class HoldItem(
+data class Stock(
     val id: UUID?,
     val teamId: UUID,
     val itemName: String,

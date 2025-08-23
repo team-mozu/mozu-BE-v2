@@ -10,7 +10,7 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
 @Table(name = "tbl_hold_item")
-class HoldItemJpaEntity(
+class StockJpaEntity(
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var itemName: String,

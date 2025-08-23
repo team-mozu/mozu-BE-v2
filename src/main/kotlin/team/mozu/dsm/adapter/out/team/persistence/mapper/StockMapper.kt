@@ -2,18 +2,18 @@ package team.mozu.dsm.adapter.out.team.persistence.mapper
 
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
-import team.mozu.dsm.adapter.out.team.entity.HoldItemJpaEntity
+import team.mozu.dsm.adapter.out.team.entity.StockJpaEntity
 import team.mozu.dsm.adapter.out.team.entity.TeamJpaEntity
-import team.mozu.dsm.domain.team.model.HoldItem
+import team.mozu.dsm.domain.team.model.Stock
 
 @Mapper(componentModel = "spring")
-abstract class HoldItemMapper {
+abstract class StockMapper {
 
     @Mapping(target = "teamId", source = "team.id")
-    abstract fun toModel(entity: HoldItemJpaEntity): HoldItem
+    abstract fun toModel(entity: StockJpaEntity): Stock
 
-    fun toEntity(model: HoldItem, team: TeamJpaEntity): HoldItemJpaEntity {
-        return HoldItemJpaEntity(
+    fun toEntity(model: Stock, team: TeamJpaEntity): StockJpaEntity {
+        return StockJpaEntity(
             team = team,
             itemName = model.itemName,
             itemCount = model.itemCount,
