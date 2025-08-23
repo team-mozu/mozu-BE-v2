@@ -5,14 +5,13 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Aggregate
-data class Article (
-    val id : UUID?,
-    val organId : UUID,
-    val articleName : String,
-    val articleDescription : String,
-    val articleImage : String?,
-    val createdAt : LocalDateTime,
-    val updatedAt : LocalDateTime?,
-    val isDeleted : Boolean
+data class Article(
+    val id: UUID?,
+    val organId: UUID,
+    val articleName: String,
+    val articleDescription: String,
+    val articleImage: String?,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime?,
+    val isDeleted: Boolean
 )
-
