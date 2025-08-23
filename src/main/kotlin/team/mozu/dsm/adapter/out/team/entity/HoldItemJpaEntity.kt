@@ -6,7 +6,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
-import team.mozu.dsm.global.entity.BaseUUIDEntity
+import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
 @Table(name = "tbl_hold_item")
@@ -31,4 +31,4 @@ class HoldItemJpaEntity(
     @JoinColumn(name = "team_id", nullable = false)
     var team: TeamJpaEntity
 
-) : BaseUUIDEntity()
+) : BaseTimeEntity()
