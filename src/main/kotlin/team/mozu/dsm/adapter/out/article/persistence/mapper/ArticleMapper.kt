@@ -9,6 +9,7 @@ import team.mozu.dsm.domain.article.model.Article
 @Mapper(componentModel = "spring")
 interface ArticleMapper {
 
+    @Mapping(target = "organId", source = "entity.organ.id")
     fun toModel(entity: ArticleJpaEntity): Article
 
     @Mapping(target = "id", source = "model.id")
