@@ -9,7 +9,7 @@ import team.mozu.dsm.domain.lesson.model.Lesson
 @Mapper(componentModel = "spring")
 abstract class LessonMapper {
 
-    @Mapping(target = "organId", source = "entity.organ.id")
+    @Mapping(target = "organId", source = "organ.id")
     abstract fun toModel(entity: LessonJpaEntity): Lesson
 
     fun toEntity(model: Lesson, organ: OrganJpaEntity): LessonJpaEntity {
