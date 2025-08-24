@@ -11,7 +11,7 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
 @Table(name = "tbl_item")
-class ItemJpaEntity (
+class ItemJpaEntity(
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var itemName: String,
 
@@ -48,4 +48,4 @@ class ItemJpaEntity (
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organ_id", nullable = false)
     var organ: OrganJpaEntity
-) : BaseTimeEntity ()
+) : BaseTimeEntity()

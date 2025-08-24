@@ -15,7 +15,10 @@ class SseWebAdapter(
 ) {
 
     @GetMapping("/subscribe")
-    fun subscribe(@RequestBody @Valid clientId: String): SseEmitter {
+    fun subscribe(
+        @RequestBody @Valid
+        clientId: String
+    ): SseEmitter {
         return sseUseCase.subscribe(clientId)
     }
 }
