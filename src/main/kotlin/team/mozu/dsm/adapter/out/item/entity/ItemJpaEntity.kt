@@ -11,12 +11,12 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
 @Table(name = "tbl_item")
-class ItemJpaEntity (
+class ItemJpaEntity(
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var itemName: String,
 
     @Column(columnDefinition = "VARCHAR(255)")
-    var itemLogo: String,
+    var itemLogo: String?,
 
     @Column(nullable = false, columnDefinition = "VARCHAR(30000)")
     var itemInfo: String,
@@ -48,4 +48,4 @@ class ItemJpaEntity (
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organ_id", nullable = false)
     var organ: OrganJpaEntity
-) : BaseTimeEntity ()
+) : BaseTimeEntity()
