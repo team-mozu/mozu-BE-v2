@@ -7,10 +7,10 @@ import team.mozu.dsm.adapter.out.team.entity.TeamJpaEntity
 import team.mozu.dsm.domain.team.model.Team
 
 @Mapper(componentModel = "spring")
-interface TeamMapper {
+abstract class TeamMapper {
 
     @Mapping(target = "lessonId", source = "entity.lesson.id")
-    fun toModel(entity: TeamJpaEntity): Team
+    abstract fun toModel(entity: TeamJpaEntity): Team
 
     fun toEntity(model: Team, lesson: LessonJpaEntity): TeamJpaEntity {
         return TeamJpaEntity(
