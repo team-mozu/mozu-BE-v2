@@ -16,6 +16,9 @@ enum class ErrorCode(
     IMAGE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Image Upload Failed"),
     IMAGE_FAILED_DELETE(HttpStatus.INTERNAL_SERVER_ERROR, "Image Delete Failed"),
 
+    // SSE
+    SSE_CONNECTION_CLOSED(HttpStatus.GONE, "SSE Connection Closed"),
+
     // organ
     ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
 
