@@ -8,7 +8,7 @@ import team.mozu.dsm.application.port.out.sse.SsePort
 import team.mozu.dsm.global.error.sse.SseExceptionHandler
 
 @Component
-class SseAdapter(
+class SsePersistenceAdapter(
     private val sseEmitterRepository: SseEmitterRepository,
     private val sseExceptionHandler: SseExceptionHandler
 ) : SseUseCase, SsePort {
