@@ -5,10 +5,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
 import team.mozu.dsm.application.port.`in`.sse.SseUseCase
 import team.mozu.dsm.application.port.out.sse.SsePort
+import team.mozu.dsm.global.error.sse.SseExceptionHandler
 
 @Component
 class SseAdapter(
-    private val sseEmitterRepository: SseEmitterRepository
+    private val sseEmitterRepository: SseEmitterRepository,
+    private val sseExceptionHandler: SseExceptionHandler
 ) : SseUseCase, SsePort {
 
     companion object {
@@ -26,11 +28,11 @@ class SseAdapter(
     }
 
     override fun publishTo(clientId: String, eventName: String, data: Any) {
-        sseEmitterRepository.get(clientId)?.let {
+        sseEmitterRepository.get(clientId)?.let { emitter ->
             try {
-                it.send(SseEmitter.event().name(eventName).data(data))
+                emitter.send(SseEmitter.event().name(eventName).data(data))
             } catch (e: Exception) {
-                sseEmitterRepository.delete(clientId)
+                sseExceptionHandler.handle(clientId, emitter, e)
             }
         }
     }
@@ -40,7 +42,7 @@ class SseAdapter(
             try {
                 emitter.send(SseEmitter.event().name(eventName).data(data))
             } catch (e: Exception) {
-                sseEmitterRepository.delete(clientId)
+                sseExceptionHandler.handle(clientId, emitter, e)
             }
         }
     }
