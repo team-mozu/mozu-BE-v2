@@ -3,7 +3,6 @@ package team.mozu.dsm.adapter.out.sse
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
-import team.mozu.dsm.application.port.`in`.sse.SseUseCase
 import team.mozu.dsm.application.port.out.sse.SsePort
 import team.mozu.dsm.global.error.sse.SseExceptionHandler
 
