@@ -1,12 +1,12 @@
 package team.mozu.dsm.adapter.out.team.entity
 
-import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.Table
+import jakarta.persistence.Column
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
-import team.mozu.dsm.adapter.out.`class`.entity.ClassJpaEntity
+import team.mozu.dsm.adapter.out.lesson.entity.LessonJpaEntity
 import team.mozu.dsm.global.entity.BaseTimeEntity
 import java.time.LocalDateTime
 
@@ -40,6 +40,5 @@ class TeamJpaEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id", nullable = false)
-    var clazz: ClassJpaEntity
-
+    var lesson: LessonJpaEntity
 ) : BaseTimeEntity()
