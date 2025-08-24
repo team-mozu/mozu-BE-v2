@@ -17,15 +17,17 @@ class SseExceptionHandler(
     private val log = org.slf4j.LoggerFactory.getLogger(javaClass)
 
     fun handle(clientId: String, emitter: SseEmitter, exception: Exception) {
-        sseEmitterRepository.delete(clientId)
-
         when (exception) {
             is IOException -> {
                 log.warn("SSE IOException: clientId=$clientId, msg=${exception.message}")
+                runCatching { emitter.completeWithError(exception) }
+                sseEmitterRepository.delete(clientId)
                 throw SseConnectionClosedException
             }
             is IllegalStateException -> {
                 log.warn("SSE IllegalState: clientId=$clientId, msg=${exception.message}")
+                runCatching { emitter.completeWithError(exception) }
+                sseEmitterRepository.delete(clientId)
                 throw InvalidSseStateException
             }
             is IllegalArgumentException -> {
@@ -34,6 +36,8 @@ class SseExceptionHandler(
             }
             else -> {
                 log.error("Unknown error: clientId=$clientId", exception)
+                runCatching { emitter.completeWithError(exception) }
+                sseEmitterRepository.delete(clientId)
                 throw UnknownSseErrorException
             }
         }
