@@ -1,0 +1,27 @@
+package team.mozu.dsm.adapter.out.sse
+
+import org.springframework.stereotype.Component
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
+import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
+import team.mozu.dsm.application.port.`in`.sse.SseUseCase
+import team.mozu.dsm.application.port.out.sse.SsePort
+
+@Component
+class SseAdapter(
+    private val sseEmitterRepository: SseEmitterRepository
+) : SseUseCase, SsePort {
+
+    companion object {
+        private const val DEFAULT_TIMEOUT = 60L * 1000 * 60
+    }
+
+    override fun subscribe(clientId: String): SseEmitter {
+        val emitter = SseEmitter(DEFAULT_TIMEOUT)
+        sseEmitterRepository.save(clientId, emitter)
+
+        emitter.onCompletion { sseEmitterRepository.delete(clientId) }
+        emitter.onTimeout { sseEmitterRepository.delete(clientId) }
+
+        return emitter
+    }
+}
