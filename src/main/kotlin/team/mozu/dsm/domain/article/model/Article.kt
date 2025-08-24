@@ -11,7 +11,7 @@ data class Article(
     val articleName: String,
     val articleDescription: String,
     val articleImage: String?,
+    val isDeleted: Boolean,
     val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime?,
-    val isDeleted: Boolean
+    val updatedAt: LocalDateTime?
 )
