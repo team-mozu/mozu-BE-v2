@@ -7,7 +7,7 @@ import java.util.UUID
 @Aggregate
 data class Team(
     val id: UUID?,
-    val classId: UUID,
+    val lessonId: UUID,
     val teamName: String?,
     val schoolName: String,
     val totalMoney: Long,

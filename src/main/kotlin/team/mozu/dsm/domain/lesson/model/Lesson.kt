@@ -1,18 +1,18 @@
-package team.mozu.dsm.domain.`class`.model
+package team.mozu.dsm.domain.lesson.model
 
 import team.mozu.dsm.domain.annotation.Aggregate
 import java.time.LocalDateTime
 import java.util.UUID
 
 @Aggregate
-data class Class(
+data class Lesson(
     val id: UUID?,
     val organId: UUID,
-    val className: String,
+    val lessonName: String,
     val maxInvRound: Int,
     val curInvRound: Int,
     val baseMoney: Int,
-    val classNum: String,
+    val lessonNum: String,
     val isStarred: Boolean,
     val isDeleted: Boolean,
     val isInProgress: Boolean,
