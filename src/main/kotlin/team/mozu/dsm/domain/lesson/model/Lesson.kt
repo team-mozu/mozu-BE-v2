@@ -16,6 +16,6 @@ data class Lesson(
     val isStarred: Boolean,
     val isDeleted: Boolean,
     val isInProgress: Boolean,
-    val createdAt: LocalDateTime?,
+    val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?
 )
