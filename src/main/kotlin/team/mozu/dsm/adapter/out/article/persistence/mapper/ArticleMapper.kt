@@ -7,11 +7,18 @@ import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import team.mozu.dsm.domain.article.model.Article
 
 @Mapper(componentModel = "spring")
-interface ArticleMapper {
+abstract class ArticleMapper {
 
     @Mapping(target = "organId", source = "entity.organ.id")
-    fun toModel(entity: ArticleJpaEntity): Article
+    abstract fun toModel(entity: ArticleJpaEntity): Article
 
-    @Mapping(target = "id", source = "model.id")
-    fun toEntity(model: Article, organ: OrganJpaEntity): ArticleJpaEntity
+    fun toEntity(model: Article, organ: OrganJpaEntity): ArticleJpaEntity {
+        return ArticleJpaEntity(
+            organ = organ,
+            articleName = model.articleName,
+            articleDescription = model.articleDescription,
+            articleImage = model.articleImage,
+            isDeleted = model.isDeleted
+        )
+    }
 }
