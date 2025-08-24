@@ -20,6 +20,7 @@ enum class ErrorCode(
     SSE_CONNECTION_CLOSED(HttpStatus.GONE, "SSE Connection Closed"),
     INVALID_SSE_STATE(HttpStatus.INTERNAL_SERVER_ERROR, "Invalid SSE State"),
     INVALID_SSE_DATA(HttpStatus.BAD_REQUEST, "Invalid SSE Data"),
+    UNKNOWN_SSE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown SSE Error"),
 
     // organ
     ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
