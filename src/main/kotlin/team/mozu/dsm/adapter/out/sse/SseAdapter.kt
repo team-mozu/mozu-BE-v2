@@ -24,4 +24,24 @@ class SseAdapter(
 
         return emitter
     }
+
+    override fun publishTo(clientId: String, eventName: String, data: Any) {
+        sseEmitterRepository.get(clientId)?.let {
+            try {
+                it.send(SseEmitter.event().name(eventName).data(data))
+            } catch (e: Exception) {
+                sseEmitterRepository.delete(clientId)
+            }
+        }
+    }
+
+    override fun publishToAll(eventName: String, data: Any) {
+        sseEmitterRepository.getAll().forEach { (clientId, emitter) ->
+            try {
+                emitter.send(SseEmitter.event().name(eventName).data(data))
+            } catch (e: Exception) {
+                sseEmitterRepository.delete(clientId)
+            }
+        }
+    }
 }
