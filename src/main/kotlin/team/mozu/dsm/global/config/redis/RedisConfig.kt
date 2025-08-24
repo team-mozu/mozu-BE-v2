@@ -15,7 +15,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 @EnableRedisRepositories(
     enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP,
     keyspaceNotificationsConfigParameter = "" // Elasticache는 CONFIG 명령어 제한 → 우회
-) class RedisConfig(
+)
+class RedisConfig(
     private val redisProperties: RedisProperties
 ) {
 
