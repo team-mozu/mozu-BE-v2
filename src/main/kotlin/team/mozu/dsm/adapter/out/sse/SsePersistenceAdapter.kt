@@ -11,7 +11,7 @@ import team.mozu.dsm.global.error.sse.SseExceptionHandler
 class SsePersistenceAdapter(
     private val sseEmitterRepository: SseEmitterRepository,
     private val sseExceptionHandler: SseExceptionHandler
-) : SseUseCase, SsePort {
+) : SsePort {
 
     companion object {
         private const val DEFAULT_TIMEOUT = 60L * 1000 * 60
