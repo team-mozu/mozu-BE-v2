@@ -1,11 +1,11 @@
 package team.mozu.dsm.adapter.out.team.entity
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Entity
+import jakarta.persistence.Table
+import jakarta.persistence.Column
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.FetchType
+import jakarta.persistence.JoinColumn
 import team.mozu.dsm.adapter.out.lesson.entity.LessonJpaEntity
 import team.mozu.dsm.global.entity.BaseTimeEntity
 import java.time.LocalDateTime

@@ -6,7 +6,7 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
 @Table(name = "tbl_article")
-class ArticleJpaEntity (
+class ArticleJpaEntity(
 
     @Column(nullable = false, columnDefinition = "VARCHAR(300)")
     var articleName: String,
