@@ -7,7 +7,7 @@ import team.mozu.dsm.adapter.out.team.entity.OrderItemJpaEntity
 import team.mozu.dsm.adapter.out.team.entity.TeamJpaEntity
 import team.mozu.dsm.domain.team.model.OrderItem
 
-@Mapper
+@Mapper(componentModel = "spring")
 abstract class OrderItemMapper {
 
     @Mapping(target = "teamId", source = "team.id")
