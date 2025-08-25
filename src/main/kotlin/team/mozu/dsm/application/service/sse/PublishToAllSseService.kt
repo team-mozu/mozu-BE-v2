@@ -1,4 +1,4 @@
-package team.mozu.dsm.application.sse
+package team.mozu.dsm.application.service.sse
 
 import org.springframework.stereotype.Service
 import team.mozu.dsm.application.port.`in`.sse.PublishToAllSseUseCase
