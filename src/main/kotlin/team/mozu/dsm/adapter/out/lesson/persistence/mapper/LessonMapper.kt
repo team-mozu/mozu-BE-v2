@@ -3,6 +3,8 @@ package team.mozu.dsm.adapter.out.lesson.persistence.mapper
 import org.mapstruct.Mapper
 import team.mozu.dsm.adapter.out.lesson.entity.LessonJpaEntity
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
+import team.mozu.dsm.application.exception.lesson.LessonCreatedAtNotFoundException
+import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.domain.lesson.model.Lesson
 
 @Mapper(componentModel = "spring")
@@ -16,7 +18,7 @@ abstract class LessonMapper {
     fun toModel(entity: LessonJpaEntity): Lesson {
         return Lesson(
             id = entity.id,
-            organId = entity.organ.id!!,
+            organId = entity.organ.id ?: throw OrganNotFoundException,
             lessonName = entity.lessonName,
             maxInvRound = entity.maxInvRound,
             curInvRound = entity.curInvRound,
@@ -25,7 +27,7 @@ abstract class LessonMapper {
             isStarred = entity.isStarred,
             isDeleted = entity.isDeleted,
             isInProgress = entity.isInProgress,
-            createdAt = entity.createdAt!!,
+            createdAt = entity.createdAt ?: throw LessonCreatedAtNotFoundException,
             updatedAt = entity.updatedAt
         )
     }
