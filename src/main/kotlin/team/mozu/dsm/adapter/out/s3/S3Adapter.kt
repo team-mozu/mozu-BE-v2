@@ -22,7 +22,6 @@ class S3Adapter(
     @Value("\${cloud.aws.s3.bucket}") private val bucket: String,
     @Value("\${cloud.aws.s3.url-prefix}") private val urlPrefix: String
 ) : S3Port {
-
     companion object {
         private val ALLOWED_EXTENSIONS: Set<String> = setOf("jpg", "jpeg", "png", "webp")
     }

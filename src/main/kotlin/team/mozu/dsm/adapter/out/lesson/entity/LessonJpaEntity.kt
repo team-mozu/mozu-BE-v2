@@ -1,4 +1,4 @@
-package team.mozu.dsm.adapter.out.`class`.entity
+package team.mozu.dsm.adapter.out.lesson.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
@@ -10,11 +10,11 @@ import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
-@Table(name = "tbl_class")
-class ClassJpaEntity(
+@Table(name = "tbl_lesson")
+class LessonJpaEntity(
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
-    var className: String,
+    var lessonName: String,
 
     @Column(nullable = false)
     var maxInvRound: Int,
@@ -26,7 +26,7 @@ class ClassJpaEntity(
     var baseMoney: Int,
 
     @Column(nullable = false, unique = true, columnDefinition = "VARCHAR(10)")
-    var classNum: String,
+    var lessonNum: String,
 
     @Column(nullable = false)
     var isStarred: Boolean = false,

@@ -11,8 +11,6 @@ data class Item(
     val itemName: String,
     val itemLogo: String?,
     val itemInfo: String,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime?,
     val money: Int,
     val debt: Int,
     val capital: Int,
@@ -20,5 +18,7 @@ data class Item(
     val profitOg: Int,
     val profitBenefit: Int,
     val netProfit: Int,
-    val isDeleted: Boolean
+    val isDeleted: Boolean,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime?
 )
