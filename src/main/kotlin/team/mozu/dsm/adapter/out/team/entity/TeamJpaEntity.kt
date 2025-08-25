@@ -30,10 +30,10 @@ class TeamJpaEntity(
     var valuationMoney: Long,
 
     @Column(nullable = false, columnDefinition = "VARCHAR(40)")
-    var classNumber: String,
+    var lessonNum: String,
 
     @Column(nullable = false)
-    var isInvestmentCompleted: Boolean = false,
+    var isInvestmentInProgress: Boolean = false,
 
     @Column(nullable = false)
     var participationDate: LocalDateTime,
