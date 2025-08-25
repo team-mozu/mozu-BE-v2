@@ -5,7 +5,7 @@ import java.util.UUID
 
 @Aggregate
 data class Organ(
-    val id: UUID?,
+    val id: UUID? = null,
     val organCode: String,
     val organName: String,
     val password: String
