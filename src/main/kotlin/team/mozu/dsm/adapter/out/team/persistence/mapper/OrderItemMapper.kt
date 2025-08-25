@@ -14,7 +14,7 @@ abstract class OrderItemMapper {
     @Mapping(target = "lessonItemId", source = "lessonItemId")
     abstract fun toModel(entity: OrderItemJpaEntity): OrderItem
 
-    fun toEntity(model: OrderItem,lessonItem: LessonItemJpaEntity ,team: TeamJpaEntity): OrderItemJpaEntity {
+    fun toEntity(model: OrderItem, lessonItem: LessonItemJpaEntity, team: TeamJpaEntity): OrderItemJpaEntity {
         return OrderItemJpaEntity(
             lessonItemId = lessonItem.lessonItemId,
             lessonItem = lessonItem,

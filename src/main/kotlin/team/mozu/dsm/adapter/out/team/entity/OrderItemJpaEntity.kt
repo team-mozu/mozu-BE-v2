@@ -18,7 +18,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tbl_order_item")
-class OrderItemJpaEntity (
+class OrderItemJpaEntity(
 
     @Column(nullable = false)
     var orderType: OrderType,

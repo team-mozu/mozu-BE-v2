@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Aggregate
-data class OrderItem (
+data class OrderItem(
     val id: UUID?,
     val lessonItemId: LessonItemId,
     val lessonItem: LessonItem,
