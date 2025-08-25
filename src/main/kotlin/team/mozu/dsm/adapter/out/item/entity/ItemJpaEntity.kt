@@ -12,7 +12,6 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 @Entity
 @Table(name = "tbl_item")
 class ItemJpaEntity(
-
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var itemName: String,
 
