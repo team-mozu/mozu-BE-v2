@@ -12,7 +12,6 @@ import jakarta.persistence.Table
 import team.mozu.dsm.adapter.out.lesson.entity.LessonItemJpaEntity
 import team.mozu.dsm.domain.team.type.OrderType
 import team.mozu.dsm.global.entity.BaseTimeEntity
-import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tbl_team_order")
