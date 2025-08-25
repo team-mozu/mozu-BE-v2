@@ -13,8 +13,8 @@ data class Team(
     val totalMoney: Long,
     val cashMoney: Long,
     val valuationMoney: Long,
-    val classNumber: String,
-    val isInvestmentCompleted: Boolean,
+    val lessonNum: String,
+    val isInvestmentInProgress: Boolean,
     val participationDate: LocalDateTime,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?
