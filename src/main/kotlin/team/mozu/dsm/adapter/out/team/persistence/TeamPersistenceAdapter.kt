@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.team.persistence.mapper.TeamMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
+import team.mozu.dsm.application.exception.lesson.LessonIdNotFoundException
 import team.mozu.dsm.application.port.out.team.TeamPort
 import team.mozu.dsm.domain.team.model.Team
 
@@ -14,7 +15,8 @@ class TeamPersistenceAdapter(
     private val teamMapper: TeamMapper
 ) : TeamPort {
     override fun save(team: Team): Team {
-        val lessonEntity = lessonRepository.getReferenceById(team.lessonId)
+        val lessonEntity = lessonRepository.findById(team.lessonId)
+            .orElseThrow { LessonIdNotFoundException }
         val entity = teamMapper.toEntity(team, lessonEntity)
 
         val saved = teamRepository.save(entity)
