@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
+import team.mozu.dsm.application.exception.lesson.LessonDeletedException
 import team.mozu.dsm.application.exception.lesson.LessonIdNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotInProgressException
 import team.mozu.dsm.application.exception.lesson.LessonNumNotFoundException
@@ -29,6 +30,10 @@ class TeamParticipationService(
 
         if (!lesson.isInProgress) {
             throw LessonNotInProgressException
+        }
+
+        if (lesson.isDeleted) {
+            throw LessonDeletedException
         }
 
         val team = Team(

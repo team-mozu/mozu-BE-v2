@@ -30,6 +30,8 @@ enum class ErrorCode(
     LESSON_NUM_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Num Not Found"),
     LESSON_ID_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Id Not Found"),
     LESSON_NOT_IN_PROGRESS(HttpStatus.NOT_FOUND, "Lesson Not In Progress"),
+    LESSON_DELETED(HttpStatus.NOT_FOUND, "Lesson Deleted"),
+
 
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
