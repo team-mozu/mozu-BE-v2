@@ -18,6 +18,7 @@ import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenReposit
 import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.global.exception.ExpiredTokenException
 import team.mozu.dsm.global.exception.InvalidTokenException
+import team.mozu.dsm.global.exception.UnauthorizedTokenTypeException
 import team.mozu.dsm.global.security.auth.CustomUserDetailsService
 import java.nio.charset.StandardCharsets
 import java.security.Key
@@ -124,10 +125,13 @@ class JwtAdapter(
                     listOf(SimpleGrantedAuthority("ROLE_STUDENT"))
                 )
             }
-            else -> {
+            ACCESS_TYPE -> {
                 val userDetails: UserDetails =
                     customUserDetailsService.loadUserByUsername(claims.subject)
                 UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
+            }
+            else -> {
+                throw UnauthorizedTokenTypeException
             }
         }
     }
