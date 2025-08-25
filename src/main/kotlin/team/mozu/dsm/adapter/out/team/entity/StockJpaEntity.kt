@@ -9,7 +9,7 @@ import jakarta.persistence.Table
 import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
-@Table(name = "tbl_hold_item")
+@Table(name = "tbl_stock")
 class StockJpaEntity(
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
