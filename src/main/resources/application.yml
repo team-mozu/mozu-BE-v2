@@ -26,6 +26,7 @@ jwt:
   secret-key: ${JWT_SECRET}
   access-exp: ${ACCESS_EXP}
   refresh-exp: ${REFRESH_EXP}
+  student-access-exp: ${STUDENT_ACCESS_EXP}
 
 cloud:
     aws:
