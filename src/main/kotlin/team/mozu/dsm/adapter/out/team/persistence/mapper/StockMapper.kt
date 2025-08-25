@@ -3,11 +3,15 @@ package team.mozu.dsm.adapter.out.team.persistence.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import team.mozu.dsm.adapter.out.lesson.entity.LessonItemJpaEntity
+import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
 import team.mozu.dsm.adapter.out.team.entity.StockJpaEntity
 import team.mozu.dsm.adapter.out.team.entity.TeamJpaEntity
 import team.mozu.dsm.domain.team.model.Stock
 
-@Mapper(componentModel = "spring")
+@Mapper(
+    componentModel = "spring",
+    uses = [LessonItemMapper::class]
+)
 abstract class StockMapper {
 
     /**
