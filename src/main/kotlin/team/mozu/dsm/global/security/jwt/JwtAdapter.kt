@@ -15,6 +15,7 @@ import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
+import team.mozu.dsm.application.port.`in`.team.dto.response.TeamToken
 import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.global.exception.ExpiredTokenException
 import team.mozu.dsm.global.exception.InvalidTokenException
@@ -103,10 +104,10 @@ class JwtAdapter(
     }
 
     //외부 호출
-    override fun createStudentAccessToken(lessonNum: String): TeamTokenResponse {
+    override fun createStudentAccessToken(lessonNum: String): TeamToken {
         val now = LocalDateTime.now()
 
-        return TeamTokenResponse(
+        return TeamToken(
             accessToken = generateStudentAccessToken(lessonNum),
             accessExpiredAt = now.plusSeconds(jwtProperties.studentAccessExp)
         )

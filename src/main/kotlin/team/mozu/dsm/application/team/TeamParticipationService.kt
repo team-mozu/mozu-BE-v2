@@ -12,6 +12,8 @@ import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.application.port.out.lesson.LessonPort
 import team.mozu.dsm.application.port.out.team.TeamPort
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
+import team.mozu.dsm.application.port.`in`.team.dto.request.TeamParticipationCommand
+import team.mozu.dsm.application.port.`in`.team.dto.response.TeamToken
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
 import java.util.UUID
@@ -25,7 +27,7 @@ class TeamParticipationService(
 ) : TeamParticipationUseCase {
 
     @Transactional
-    override fun execute(request: TeamParticipationRequest): TeamTokenResponse {
+    override fun participate(request: TeamParticipationCommand): TeamToken {
         val lesson = lessonPort.findByLessonNum(request.lessonNum)
             ?: throw LessonNumNotFoundException
 
@@ -38,7 +40,7 @@ class TeamParticipationService(
         }
 
         val team = Team(
-            id = UUID.randomUUID(),
+            id = null,
             lessonId = lesson.id ?: throw LessonIdNotFoundException,
             teamName = request.teamName,
             schoolName = request.schoolName,
@@ -51,7 +53,7 @@ class TeamParticipationService(
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now()
         )
-        teamPort.save(team)
+        val savedTeam = teamPort.save(team)
 
         /**
          * 트랜잭션 안에서 SSE 이벤트를 직접 발행하면
@@ -63,16 +65,15 @@ class TeamParticipationService(
             object : org.springframework.transaction.support.TransactionSynchronizationAdapter() {
                 override fun afterCommit() {
                     val eventData = TeamParticipationEventDTO(
-                        teamId = team.id ?: throw LessonIdNotFoundException,
-                        teamName = team.teamName ?: throw TeamNameRequiredException,
-                        schoolName = team.schoolName,
+                        teamId = savedTeam.id ?: throw LessonIdNotFoundException,
+                        teamName = savedTeam.teamName ?: throw TeamNameRequiredException,
+                        schoolName = savedTeam.schoolName,
                         lessonNum = lesson.lessonNum
                     )
                     publishToAllSseUseCase.publishToAll("EVENT_TEAM_PARTICIPATION", eventData)
                 }
             }
         )
-
         return jwtPort.createStudentAccessToken(lesson.lessonNum)
     }
 }
