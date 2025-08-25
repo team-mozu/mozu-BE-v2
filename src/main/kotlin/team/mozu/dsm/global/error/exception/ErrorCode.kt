@@ -26,6 +26,11 @@ enum class ErrorCode(
     // organ
     ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
 
+    //lesson
+    LESSON_NUM_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Num Not Found"),
+    LESSON_ID_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Id Not Found"),
+    LESSON_NOT_IN_PROGRESS(HttpStatus.NOT_FOUND, "Lesson Not In Progress"),
+
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error") ;
