@@ -2,10 +2,9 @@ package team.mozu.dsm.application.team
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionSynchronization
 import org.springframework.transaction.support.TransactionSynchronizationManager
 import team.mozu.dsm.adapter.`in`.team.dto.TeamParticipationEventDTO
-import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
-import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.application.exception.lesson.*
 import team.mozu.dsm.application.port.`in`.sse.PublishToAllSseUseCase
 import team.mozu.dsm.application.port.out.auth.JwtPort
@@ -16,7 +15,6 @@ import team.mozu.dsm.application.port.`in`.team.dto.request.TeamParticipationCom
 import team.mozu.dsm.application.port.`in`.team.dto.response.TeamToken
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
-import java.util.UUID
 
 @Service
 class TeamParticipationService(
@@ -62,11 +60,11 @@ class TeamParticipationService(
          * 트랜잭션이 성공적으로 커밋된 이후에만 SSE를 발행함
          */
         TransactionSynchronizationManager.registerSynchronization(
-            object : org.springframework.transaction.support.TransactionSynchronizationAdapter() {
+            object : TransactionSynchronization {
                 override fun afterCommit() {
                     val eventData = TeamParticipationEventDTO(
-                        teamId = savedTeam.id ?: throw LessonIdNotFoundException,
-                        teamName = savedTeam.teamName ?: throw TeamNameRequiredException,
+                        teamId = savedTeam.id!!, //save한 직후여서 null일 가능성 없음
+                        teamName = savedTeam.teamName!!,
                         schoolName = savedTeam.schoolName,
                         lessonNum = lesson.lessonNum
                     )
