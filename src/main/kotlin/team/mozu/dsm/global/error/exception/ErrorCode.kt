@@ -10,6 +10,7 @@ enum class ErrorCode(
     // jwt
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "Expired Token"),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Invalid Token"),
+    UNAUTHORIZED_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "Unauthorized Token Type"),
 
     // s3
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "Image Not Found"),
