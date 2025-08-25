@@ -11,13 +11,15 @@ import team.mozu.dsm.domain.lesson.model.LessonItem
 @Mapper(componentModel = "spring")
 abstract class LessonItemMapper {
 
-    @Mapping(target = "lessonId", source = "lesson.id")
-    @Mapping(target = "itemId", source = "item.id")
+    @Mapping(target = "lessonItemId", source = "lessonItemId")
     abstract fun toModel(entity: LessonItemJpaEntity): LessonItem
 
     fun toEntity(model: LessonItem, lesson: LessonJpaEntity, item: ItemJpaEntity): LessonItemJpaEntity {
         return LessonItemJpaEntity(
-            lessonItemId = LessonItemId(model.lessonId, model.itemId),
+            lessonItemId = LessonItemId(
+                model.lessonItemId.lessonId,
+                model.lessonItemId.itemId
+            ),
             lesson = lesson,
             item = item,
             currentMoney = model.currentMoney,
