@@ -27,7 +27,7 @@ class TeamParticipationService(
         val lesson = lessonPort.findByLessonNum(request.lessonNum)
             ?: throw LessonNumNotFoundException
 
-        if(!lesson.isInProgress) {
+        if (!lesson.isInProgress) {
             throw LessonNotInProgressException
         }
 
