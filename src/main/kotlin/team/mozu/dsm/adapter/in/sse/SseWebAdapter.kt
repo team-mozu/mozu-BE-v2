@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
-import team.mozu.dsm.application.port.`in`.sse.SseUseCase
+import team.mozu.dsm.application.port.`in`.sse.SubscribeSseUseCase
 
 @RestController
 @RequestMapping("/sse")
 class SseWebAdapter(
-    private val sseUseCase: SseUseCase
+    private val subscribeSseUseCase: SubscribeSseUseCase
 ) {
 
     @GetMapping("/subscribe")
@@ -19,6 +19,6 @@ class SseWebAdapter(
         @RequestBody @Valid
         clientId: String
     ): SseEmitter {
-        return sseUseCase.subscribe(clientId)
+        return subscribeSseUseCase.subscribe(clientId)
     }
 }
