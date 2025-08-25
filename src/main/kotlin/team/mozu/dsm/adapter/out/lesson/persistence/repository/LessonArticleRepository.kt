@@ -4,4 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import team.mozu.dsm.adapter.out.lesson.entity.LessonArticleJpaEntity
 import team.mozu.dsm.adapter.out.lesson.entity.id.LessonArticleId
 
-interface LessonArticleRepository: JpaRepository<LessonArticleJpaEntity, LessonArticleId>
+interface LessonArticleRepository : JpaRepository<LessonArticleJpaEntity, LessonArticleId>

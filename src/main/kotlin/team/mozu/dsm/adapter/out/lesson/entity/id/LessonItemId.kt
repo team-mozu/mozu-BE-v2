@@ -5,7 +5,7 @@ import java.io.Serializable
 import java.util.UUID
 
 @Embeddable
-data class LessonItemId (
+data class LessonItemId(
     var lessonId: UUID,
     var itemId: UUID
-): Serializable
+) : Serializable

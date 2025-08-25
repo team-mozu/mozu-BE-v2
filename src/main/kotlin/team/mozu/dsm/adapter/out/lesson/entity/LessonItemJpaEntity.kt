@@ -13,7 +13,7 @@ import team.mozu.dsm.adapter.out.lesson.entity.id.LessonItemId
 
 @Entity
 @Table(name = "tbl_lesson_item")
-class LessonItemJpaEntity (
+class LessonItemJpaEntity(
 
     @EmbeddedId
     var lessonItemId: LessonItemId,

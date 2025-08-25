@@ -15,5 +15,5 @@ data class LessonItem(
     val round5Money: Int?,
     val round6Money: Int?,
     val round7Money: Int?,
-    val round8Money: Int?,
+    val round8Money: Int?
 )
