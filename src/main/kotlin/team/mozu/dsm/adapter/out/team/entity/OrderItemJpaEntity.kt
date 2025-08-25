@@ -41,23 +41,10 @@ class OrderItemJpaEntity(
     @Column(nullable = false)
     var invCnt: Int,
 
-    /**
-     * 객체 참조가 아닌 값을 직접 저장
-     */
-    @AttributeOverrides(
-        AttributeOverride(name = "lessonId", column = Column(name = "lesson_id")),
-        AttributeOverride(name = "itemId", column = Column(name = "item_id"))
-    )
-    @Embedded
-    var lessonItemId: LessonItemId,
-
-    /**
-     * 위의 lessonItemId에 저장된 값들을 이용해서 실제 LessonItemJpaEntity 객체를 조회 및 참조
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns(
-        JoinColumn(name = "lesson_id", referencedColumnName = "lesson_id", insertable = false, updatable = false),
-        JoinColumn(name = "item_id", referencedColumnName = "item_id", insertable = false, updatable = false)
+        JoinColumn(name = "lesson_id", referencedColumnName = "lesson_id", nullable = false),
+        JoinColumn(name = "item_id", referencedColumnName = "item_id", nullable = false)
     )
     var lessonItem: LessonItemJpaEntity,
 
