@@ -7,7 +7,9 @@ import team.mozu.dsm.domain.organ.model.Organ
 
 class CustomUserDetails(val organ: Organ) : UserDetails {
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = mutableListOf(SimpleGrantedAuthority("ROLE_ORGAN"))
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = mutableListOf(
+        SimpleGrantedAuthority("ROLE_ORGAN")
+    )
 
     override fun getPassword(): String? = null
 
