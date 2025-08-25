@@ -7,10 +7,12 @@ import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
+import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
 import team.mozu.dsm.application.port.out.auth.JwtPort
@@ -34,6 +36,7 @@ class JwtAdapter(
         private const val TYPE_CLAIM = "type"
         private const val ACCESS_TYPE = "access"
         private const val REFRESH_TYPE = "refresh"
+        private const val STUDENT_ACCESS_TYPE = "student_access"
         private const val MILLISECONDS = 1000
     }
 
@@ -45,6 +48,7 @@ class JwtAdapter(
 
     private fun generateToken(organCode: String, type: String, expirationSeconds: Long): String {
         val now = Date()
+
         return Jwts.builder()
             .setSubject(organCode)
             .claim(TYPE_CLAIM, type)
@@ -72,6 +76,19 @@ class JwtAdapter(
         return refreshToken
     }
 
+    // 내부 학생용 accessToken 생성
+    fun generateStudentAccessToken(lessonNum: String): String {
+        val now = Date()
+
+        return Jwts.builder()
+            .setSubject(lessonNum)
+            .claim(TYPE_CLAIM, STUDENT_ACCESS_TYPE)
+            .setIssuedAt(now)
+            .setExpiration(Date(now.time + jwtProperties.studentAccessExp * MILLISECONDS))
+            .signWith(secretKey)
+            .compact()
+    }
+
     // 외부 호출용 메서드
     override fun createToken(organCode: String): TokenResponse {
         val now = LocalDateTime.now()
@@ -84,11 +101,35 @@ class JwtAdapter(
         )
     }
 
+    //외부 호출
+    override fun createStudentAccessToken(lessonNum: String): TeamTokenResponse {
+        val now = LocalDateTime.now()
+
+        return TeamTokenResponse(
+            accessToken = generateStudentAccessToken(lessonNum),
+            accessExpiredAt = now.plusSeconds(jwtProperties.studentAccessExp)
+        )
+    }
+
     override fun getAuthentication(token: String): Authentication {
         val claims = getClaims(token)
-        val userDetails: UserDetails =
-            customUserDetailsService.loadUserByUsername(claims.subject)
-        return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
+        val tokenType = claims.get(TYPE_CLAIM, String::class.java)
+
+        return when (tokenType) {
+            STUDENT_ACCESS_TYPE -> {
+                val lessonNum = claims.subject
+                UsernamePasswordAuthenticationToken(
+                    lessonNum,
+                    null,
+                    listOf(SimpleGrantedAuthority("ROLE_STUDENT"))
+                )
+            }
+            else -> {
+                val userDetails: UserDetails =
+                    customUserDetailsService.loadUserByUsername(claims.subject)
+                UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
+            }
+        }
     }
 
     fun getClaims(token: String): Claims {
