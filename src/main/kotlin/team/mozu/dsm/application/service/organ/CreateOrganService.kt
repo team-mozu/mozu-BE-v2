@@ -16,7 +16,6 @@ class CreateOrganService(
 
     @Transactional
     override fun create(command: CreateOrganCommand): Organ {
-
         val organ = Organ(
             organCode = command.organCode,
             organName = command.organName,
