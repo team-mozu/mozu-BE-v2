@@ -45,7 +45,7 @@ class TeamParticipationService(
             totalMoney = 0L,
             cashMoney = 0L,
             valuationMoney = 0L,
-            lessonNum = lesson.lessonNum,
+            lessonNum = request.lessonNum,
             isInvestmentInProgress = true, //투자 종료 시 false
             participationDate = LocalDateTime.now(),
             createdAt = LocalDateTime.now(),
@@ -66,7 +66,7 @@ class TeamParticipationService(
                         teamId = savedTeam.id!!, //save한 직후여서 null일 가능성 없음
                         teamName = savedTeam.teamName!!,
                         schoolName = savedTeam.schoolName,
-                        lessonNum = lesson.lessonNum
+                        lessonNum = savedTeam.lessonNum
                     )
                     publishToAllSseUseCase.publishToAll("EVENT_TEAM_PARTICIPATION", eventData)
                 }
