@@ -1,12 +1,10 @@
 package team.mozu.dsm.domain.lesson.model
 
 import team.mozu.dsm.domain.annotation.Aggregate
-import java.util.UUID
 
 @Aggregate
 data class LessonItem(
-    val lessonId: UUID,
-    val itemId: UUID,
+    val lessonItemId: LessonItemId,
     val currentMoney: Int,
     val round1Money: Int,
     val round2Money: Int,

@@ -2,20 +2,21 @@ package team.mozu.dsm.domain.team.model
 
 import team.mozu.dsm.domain.annotation.Aggregate
 import team.mozu.dsm.domain.lesson.model.LessonItemId
+import team.mozu.dsm.domain.team.type.OrderType
 import java.time.LocalDateTime
 import java.util.UUID
 
 @Aggregate
-data class Stock(
+data class OrderItem(
     val id: UUID?,
-    val teamId: UUID,
     val lessonItemId: LessonItemId,
+    val teamId: UUID,
     val itemName: String,
-    val avgPurchasePrice: Long,
-    val quantity: Int,
-    val buyMoney: Long,
-    val valProfit: Long,
-    val profitNum: Double,
+    val orderType: OrderType,
+    val orderCount: Int,
+    val itemPrice: Long,
+    val totalAmount: Long,
+    val invCount: Int,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?
 )
