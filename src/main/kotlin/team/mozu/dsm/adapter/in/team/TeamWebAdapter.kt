@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
-import team.mozu.dsm.application.team.port.`in`.TeamParticipationUseCase
+import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 
 @RestController
 @RequestMapping("/team")

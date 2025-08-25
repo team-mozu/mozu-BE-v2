@@ -1,4 +1,4 @@
-package team.mozu.dsm.application.team.service
+package team.mozu.dsm.application.team
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -10,7 +10,7 @@ import team.mozu.dsm.application.exception.lesson.LessonNumNotFoundException
 import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.application.port.out.lesson.LessonPort
 import team.mozu.dsm.application.port.out.team.TeamPort
-import team.mozu.dsm.application.team.port.`in`.TeamParticipationUseCase
+import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
 import java.util.UUID
