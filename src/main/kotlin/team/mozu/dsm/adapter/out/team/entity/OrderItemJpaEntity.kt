@@ -1,9 +1,6 @@
 package team.mozu.dsm.adapter.out.team.entity
 
-import jakarta.persistence.AttributeOverride
-import jakarta.persistence.AttributeOverrides
 import jakarta.persistence.Column
-import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -13,7 +10,6 @@ import jakarta.persistence.JoinColumns
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import team.mozu.dsm.adapter.out.lesson.entity.LessonItemJpaEntity
-import team.mozu.dsm.adapter.out.lesson.entity.id.LessonItemId
 import team.mozu.dsm.domain.team.type.OrderType
 import team.mozu.dsm.global.entity.BaseTimeEntity
 import java.time.LocalDateTime
