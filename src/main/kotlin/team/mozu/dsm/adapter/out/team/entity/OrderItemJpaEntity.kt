@@ -15,8 +15,11 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "tbl_order_item")
+@Table(name = "tbl_team_order")
 class OrderItemJpaEntity(
+
+    @Column(nullable = false, columnDefinition = "VARCHAR(100)")
+    var itemName: String,
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -32,10 +35,7 @@ class OrderItemJpaEntity(
     var totalAmount: Long,
 
     @Column(nullable = false)
-    var orderedAt: LocalDateTime,
-
-    @Column(nullable = false)
-    var invCnt: Int,
+    var invCount: Int,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns(
