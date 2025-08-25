@@ -12,14 +12,14 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 @Entity
 @Table(name = "tbl_item")
 class ItemJpaEntity(
-  
+
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var itemName: String,
 
     @Column(columnDefinition = "VARCHAR(255)")
     var itemLogo: String?,
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(30000)")
+    @Column(nullable = false, columnDefinition = "TEXT")
     var itemInfo: String,
 
     @Column(nullable = false)

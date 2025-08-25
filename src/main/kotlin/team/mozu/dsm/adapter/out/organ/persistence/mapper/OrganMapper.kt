@@ -5,9 +5,15 @@ import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import team.mozu.dsm.domain.organ.model.Organ
 
 @Mapper(componentModel = "spring")
-interface OrganMapper {
+abstract class OrganMapper {
 
-    fun toModel(entity: OrganJpaEntity): Organ
+    abstract fun toModel(entity: OrganJpaEntity): Organ
 
-    fun toEntity(model: Organ): OrganJpaEntity
+    fun toEntity(model: Organ): OrganJpaEntity {
+        return OrganJpaEntity(
+            organCode = model.organCode,
+            organName = model.organName,
+            password = model.password
+        )
+    }
 }
