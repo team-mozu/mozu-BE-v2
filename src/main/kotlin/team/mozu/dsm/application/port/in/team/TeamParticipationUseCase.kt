@@ -1,9 +1,9 @@
 package team.mozu.dsm.application.port.`in`.team
 
-import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
-import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
+import team.mozu.dsm.application.port.`in`.team.dto.request.TeamParticipationCommand
+import team.mozu.dsm.application.port.`in`.team.dto.response.TeamToken
 
 interface TeamParticipationUseCase {
 
-    fun execute(request: TeamParticipationRequest): TeamTokenResponse
+    fun participate(request: TeamParticipationCommand): TeamToken
 }
