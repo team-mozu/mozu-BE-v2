@@ -1,5 +1,6 @@
 package team.mozu.dsm.adapter.`in`.team
 
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -17,7 +18,7 @@ class TeamWebAdapter(
 ) {
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
-    fun participate(@RequestBody request: TeamParticipationRequest): TeamTokenResponse {
+    fun participate(@Valid @RequestBody request: TeamParticipationRequest): TeamTokenResponse {
         return teamParticipationUseCase.execute(request)
     }
 }
