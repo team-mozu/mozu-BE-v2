@@ -3,14 +3,15 @@ package team.mozu.dsm.adapter.out.sse
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
-import team.mozu.dsm.application.port.out.sse.SsePort
+import team.mozu.dsm.application.port.out.sse.PublishSsePort
+import team.mozu.dsm.application.port.out.sse.SubscribeSsePort
 import team.mozu.dsm.global.error.sse.SseExceptionHandler
 
 @Component
 class SsePersistenceAdapter(
     private val sseEmitterRepository: SseEmitterRepository,
     private val sseExceptionHandler: SseExceptionHandler
-) : SsePort {
+) : SubscribeSsePort, PublishSsePort {
 
     companion object {
         private const val DEFAULT_TIMEOUT = 60L * 1000 * 60
