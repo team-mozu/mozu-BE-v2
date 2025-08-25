@@ -10,7 +10,7 @@ import java.util.UUID
 data class OrderItem(
     val id: UUID?,
     val lessonItemId: LessonItemId,
-    val teamId: String,
+    val teamId: UUID,
     val itemName: String,
     val orderType: OrderType,
     val orderCount: Int,
