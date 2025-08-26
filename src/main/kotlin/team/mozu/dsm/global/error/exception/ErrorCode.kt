@@ -12,6 +12,9 @@ enum class ErrorCode(
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Invalid Token"),
     UNAUTHORIZED_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "Unauthorized Token Type"),
 
+    // auth
+    UNAUTHENTICATED(HttpStatus.UNAUTHORIZED, "Authentication Required"),
+
     // s3
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "Image Not Found"),
     IMAGE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Image Upload Failed"),
@@ -33,6 +36,12 @@ enum class ErrorCode(
     LESSON_NOT_IN_PROGRESS(HttpStatus.UNPROCESSABLE_ENTITY, "Lesson Not In Progress"),
     LESSON_DELETED(HttpStatus.BAD_REQUEST, "Lesson Deleted"),
     TEAM_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "Team Name Required"),
+
+    // item
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "Item Not Found"),
+
+    // article
+    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "Article Not Found"),
 
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
