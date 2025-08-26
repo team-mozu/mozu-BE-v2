@@ -70,7 +70,7 @@ class JwtAdapter(
         refreshTokenRepository.save(
             RefreshTokenRedisEntity(
                 organCode = organCode,
-                token = refreshToken,
+                refreshToken = refreshToken,
                 timeToLive = jwtProperties.refreshExp
             )
         )
