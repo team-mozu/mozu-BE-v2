@@ -27,10 +27,7 @@ abstract class LessonItemMapper {
             round2Money = model.round2Money,
             round3Money = model.round3Money,
             round4Money = model.round4Money,
-            round5Money = model.round5Money,
-            round6Money = model.round6Money,
-            round7Money = model.round7Money,
-            round8Money = model.round8Money
+            round5Money = model.round5Money
         )
     }
 }
