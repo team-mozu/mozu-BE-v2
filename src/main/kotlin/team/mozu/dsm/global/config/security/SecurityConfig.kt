@@ -39,16 +39,10 @@ class SecurityConfig(
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authorizeHttpRequests {
-                //auth
-                it.requestMatchers("/auth/**").permitAll()
-
-                //user
-                it.requestMatchers("/user/**").permitAll()
-                
                 //organ
                 it.requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
                 it.requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
-                it.anyRequest().authenticated()                
+
                 //team
                 it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
                     .anyRequest().authenticated()
