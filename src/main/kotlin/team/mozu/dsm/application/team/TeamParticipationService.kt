@@ -39,7 +39,7 @@ class TeamParticipationService(
 
         val team = Team(
             id = null,
-            lessonId = lesson.id ?: throw LessonIdNotFoundException,
+            lessonId = lesson.id ?: throw LessonNotFoundException,
             teamName = command.teamName,
             schoolName = command.schoolName,
             totalMoney = 0L,
