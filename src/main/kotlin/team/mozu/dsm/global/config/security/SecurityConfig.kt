@@ -40,6 +40,7 @@ class SecurityConfig(
             }
             .authorizeHttpRequests {
                 it.requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
+                it.requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
                 it.anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
