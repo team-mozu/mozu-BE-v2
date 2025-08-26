@@ -9,11 +9,12 @@ import team.mozu.dsm.application.port.out.team.TeamCommandPort
 import team.mozu.dsm.domain.team.model.Team
 
 @Component
-class TeamCommandPersistenceAdapter(
+class TeamPersistenceAdapter(
     private val teamRepository: TeamRepository,
     private val lessonRepository: LessonRepository,
     private val teamMapper: TeamMapper
 ) : TeamCommandPort {
+
     override fun save(team: Team): Team {
         val lessonEntity = lessonRepository.findById(team.lessonId)
             .orElseThrow { LessonNotFoundException }
