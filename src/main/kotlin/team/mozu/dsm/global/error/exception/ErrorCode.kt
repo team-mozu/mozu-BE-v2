@@ -32,7 +32,7 @@ enum class ErrorCode(
     LESSON_ID_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Id Not Found"),
     LESSON_NOT_IN_PROGRESS(HttpStatus.UNPROCESSABLE_ENTITY, "Lesson Not In Progress"),
     LESSON_DELETED(HttpStatus.BAD_REQUEST, "Lesson Deleted"),
-    TEAM_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "Team name must not be null or empty"),
+    TEAM_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "Team Name Required"),
 
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
