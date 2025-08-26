@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size
 
 data class LoginOrganRequest(
     @field:NotBlank(message = "기관코드를 입력하세요")
-    @field:Size(max = 100, message = "기관코드는 30자 이내로 작성해주세요")
+    @field:Size(max = 30, message = "기관코드는 30자 이내로 작성해주세요")
     val code: String,
 
     @field:NotBlank(message = "비밀번호를 입력하세요")
