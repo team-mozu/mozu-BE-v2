@@ -40,11 +40,14 @@ class SecurityConfig(
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authorizeHttpRequests {
-                it.requestMatchers(
-                    "/user/**",
-                    "/auth/**",
-                    "/team/participate"
-                ).permitAll()
+                //auth
+                it.requestMatchers("/auth/**").permitAll()
+
+                //user
+                it.requestMatchers("/user/**").permitAll()
+
+                //team
+                it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
                     .anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
