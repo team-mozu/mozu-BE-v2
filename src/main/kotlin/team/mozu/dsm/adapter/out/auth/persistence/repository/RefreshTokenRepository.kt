@@ -7,5 +7,5 @@ interface RefreshTokenRepository : CrudRepository<RefreshTokenRedisEntity, Strin
 
     fun findByRefreshToken(refreshToken: String): RefreshTokenRedisEntity?
 
-    fun deleteToken(refreshToken: String): RefreshTokenRedisEntity?
+    fun deleteByRefreshToken(refreshToken: String): RefreshTokenRedisEntity?
 }

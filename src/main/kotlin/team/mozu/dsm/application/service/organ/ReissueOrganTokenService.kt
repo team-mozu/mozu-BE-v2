@@ -20,7 +20,7 @@ class ReissueOrganTokenService(
         val refreshToken = queryTokenPort.findByRefreshToken(request.refreshToken)
             ?: throw RefreshTokenNotFoundException
 
-        commandTokenPort.deleteToken(request.refreshToken)
+        commandTokenPort.deleteByRefreshToken(request.refreshToken)
 
         return jwtPort.createToken(refreshToken.organCode)
     }
