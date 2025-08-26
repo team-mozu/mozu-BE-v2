@@ -15,7 +15,7 @@ class ReissueOrganTokenService(
 ) : ReissueOrganTokenUseCase {
 
     override fun reissue(request: ReissueOrganTokenRequest): TokenResponse {
-        val refreshToken = queryTokenPort.findByToken(request.token)
+        val refreshToken = queryTokenPort.findByToken(request.refreshToken)
             ?: throw RefreshTokenNotFoundException
 
         return jwtPort.createToken(refreshToken.organCode)

@@ -4,5 +4,5 @@ import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 
 interface QueryTokenPort {
 
-    fun findByToken(token: String): RefreshTokenRedisEntity?
+    fun findByRefreshToken(refreshToken: String): RefreshTokenRedisEntity?
 }

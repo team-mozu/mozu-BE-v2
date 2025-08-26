@@ -10,7 +10,7 @@ class RefreshTokenPersistenceAdapter(
     private val refreshTokenRepository: RefreshTokenRepository
 ) : QueryTokenPort {
 
-    override fun findByToken(token: String): RefreshTokenRedisEntity? {
-        return refreshTokenRepository.findByToken(token)
+    override fun findByRefreshToken(refreshToken: String): RefreshTokenRedisEntity? {
+        return refreshTokenRepository.findByRefreshToken(refreshToken)
     }
 }
