@@ -5,15 +5,15 @@ import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.team.persistence.mapper.TeamMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.lesson.LessonIdNotFoundException
-import team.mozu.dsm.application.port.out.team.TeamPort
+import team.mozu.dsm.application.port.out.team.TeamCommandPort
 import team.mozu.dsm.domain.team.model.Team
 
 @Component
-class TeamPersistenceAdapter(
+class TeamCommandPersistenceAdapter(
     private val teamRepository: TeamRepository,
     private val lessonRepository: LessonRepository,
     private val teamMapper: TeamMapper
-) : TeamPort {
+) : TeamCommandPort {
     override fun save(team: Team): Team {
         val lessonEntity = lessonRepository.findById(team.lessonId)
             .orElseThrow { LessonIdNotFoundException }
