@@ -18,7 +18,10 @@ class TeamWebAdapter(
 ) {
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
-    fun participate(@Valid @RequestBody request: TeamParticipationRequest): TeamTokenResponse {
+    fun participate(
+        @Valid @RequestBody
+        request: TeamParticipationRequest
+    ): TeamTokenResponse {
         return teamParticipationUseCase.participate(request)
     }
 }

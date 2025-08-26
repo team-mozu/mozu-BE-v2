@@ -12,7 +12,7 @@ class RefreshTokenRedisEntity(
     val organCode: String,
 
     @Indexed
-    val token: String,
+    val refreshToken: String,
 
     @TimeToLive
     val timeToLive: Long
