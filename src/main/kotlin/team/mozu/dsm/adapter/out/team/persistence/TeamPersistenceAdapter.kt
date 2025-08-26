@@ -15,6 +15,9 @@ class TeamPersistenceAdapter(
     private val teamMapper: TeamMapper
 ) : TeamCommandPort {
 
+    //--Query--//
+
+    //--Command--//
     override fun save(team: Team): Team {
         val lessonEntity = lessonRepository.findById(team.lessonId)
             .orElseThrow { LessonNotFoundException }

@@ -13,10 +13,12 @@ class OrganPersistenceAdapter(
     private val organMapper: OrganMapper
 ) : QueryOrganPort, CommandOrganPort {
 
+    //--Query--//
     override fun findByOrganCode(organCode: String): Organ? {
         return organRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
     }
 
+    //--Command--//
     override fun save(organ: Organ): Organ {
         val organ = organMapper.toEntity(organ)
         val savedOrgan = organRepository.save(organ)
