@@ -1,4 +1,4 @@
-package team.mozu.dsm.application.team
+package team.mozu.dsm.application.service.team
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
