@@ -5,20 +5,23 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronization
 import org.springframework.transaction.support.TransactionSynchronizationManager
 import team.mozu.dsm.adapter.`in`.team.dto.TeamParticipationEventDTO
-import team.mozu.dsm.application.exception.lesson.*
+import team.mozu.dsm.application.exception.lesson.LessonDeletedException
+import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
+import team.mozu.dsm.application.exception.lesson.LessonNotInProgressException
+import team.mozu.dsm.application.exception.lesson.LessonNumNotFoundException
 import team.mozu.dsm.application.port.`in`.sse.PublishToAllSseUseCase
-import team.mozu.dsm.application.port.out.auth.JwtPort
-import team.mozu.dsm.application.port.out.lesson.LessonQueryPort
-import team.mozu.dsm.application.port.out.team.TeamCommandPort
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.`in`.team.dto.request.TeamParticipationCommand
 import team.mozu.dsm.application.port.`in`.team.dto.response.TeamToken
+import team.mozu.dsm.application.port.out.auth.JwtPort
+import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
+import team.mozu.dsm.application.port.out.team.TeamCommandPort
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
 
 @Service
 class TeamParticipationService(
-    private val lessonQueryPort: LessonQueryPort,
+    private val queryLessonPort: QueryLessonPort,
     private val teamCommandPort: TeamCommandPort,
     private val jwtPort: JwtPort,
     private val publishToAllSseUseCase: PublishToAllSseUseCase
@@ -26,7 +29,7 @@ class TeamParticipationService(
 
     @Transactional
     override fun participate(command: TeamParticipationCommand): TeamToken {
-        val lesson = lessonQueryPort.findByLessonNum(command.lessonNum)
+        val lesson = queryLessonPort.findByLessonNum(command.lessonNum)
             ?: throw LessonNumNotFoundException
 
         if (!lesson.isInProgress) {
