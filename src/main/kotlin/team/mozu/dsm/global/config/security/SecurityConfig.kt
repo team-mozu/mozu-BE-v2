@@ -39,12 +39,8 @@ class SecurityConfig(
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authorizeHttpRequests {
-                it.requestMatchers(
-                    "/user/**",
-                    "/auth/**",
-                    "/organ/**"
-                ).permitAll()
-                    .anyRequest().authenticated()
+                it.requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
+                it.anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
 
