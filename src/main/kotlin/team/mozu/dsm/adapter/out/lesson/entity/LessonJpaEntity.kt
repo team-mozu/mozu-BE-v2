@@ -26,7 +26,7 @@ class LessonJpaEntity(
     var baseMoney: Long,
 
     @Column(unique = true, columnDefinition = "VARCHAR(10)")
-    var lessonNum: String,
+    var lessonNum: String?,
 
     @Column(nullable = false)
     var isStarred: Boolean = false,
