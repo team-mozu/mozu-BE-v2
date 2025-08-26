@@ -15,7 +15,7 @@ class RefreshTokenPersistenceAdapter(
         return refreshTokenRepository.findByRefreshToken(refreshToken)
     }
 
-    override fun deleteToken(refreshToken: String): RefreshTokenRedisEntity? {
-        return refreshTokenRepository.deleteToken(refreshToken)
+    override fun deleteByRefreshToken(refreshToken: String): RefreshTokenRedisEntity? {
+        return refreshTokenRepository.deleteByRefreshToken(refreshToken)
     }
 }

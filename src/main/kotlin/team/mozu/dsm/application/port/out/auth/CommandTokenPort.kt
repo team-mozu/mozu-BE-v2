@@ -4,5 +4,5 @@ import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 
 interface CommandTokenPort {
 
-    fun deleteToken(refreshToken: String): RefreshTokenRedisEntity?
+    fun deleteByRefreshToken(refreshToken: String): RefreshTokenRedisEntity?
 }
