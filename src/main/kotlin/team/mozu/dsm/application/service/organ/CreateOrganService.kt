@@ -17,7 +17,7 @@ class CreateOrganService(
     @Transactional
     override fun create(request: CreateOrganRequest): Organ {
         val organ = Organ(
-            organCode = request.organCode,
+            organCode = request.code,
             organName = request.organName,
             password = passwordEncoder.encode(request.password)
         )

@@ -3,11 +3,7 @@ package team.mozu.dsm.adapter.`in`.organ.dto.request
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
-data class CreateOrganRequest(
-    @field:NotBlank(message = "기관이름을 입력하세요")
-    @field:Size(max = 100, message = "기관이름은 100자 이내로 작성해주세요")
-    val organName: String,
-
+data class LoginOrganRequest(
     @field:NotBlank(message = "기관코드를 입력하세요")
     @field:Size(max = 30, message = "기관코드는 30자 이내로 작성해주세요")
     val code: String,
