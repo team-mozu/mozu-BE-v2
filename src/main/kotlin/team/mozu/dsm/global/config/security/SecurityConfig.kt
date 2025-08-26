@@ -44,14 +44,13 @@ class SecurityConfig(
 
                 //user
                 it.requestMatchers("/user/**").permitAll()
-                
+
                 //organ
                 it.requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
-                
+
                 //team
                 it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
                     .anyRequest().authenticated()
-
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
 

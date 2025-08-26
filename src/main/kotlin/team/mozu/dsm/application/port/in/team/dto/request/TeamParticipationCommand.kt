@@ -2,7 +2,7 @@ package team.mozu.dsm.application.port.`in`.team.dto.request
 
 import jakarta.validation.constraints.NotBlank
 
-data class TeamParticipationCommand (
+data class TeamParticipationCommand(
     @field:NotBlank(message = "lessonNum은 필수입니다")
     val lessonNum: String,
     @field:NotBlank(message = "schoolName은 필수입니다")
