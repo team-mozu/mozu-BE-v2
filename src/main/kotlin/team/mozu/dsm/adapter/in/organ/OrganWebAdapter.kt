@@ -36,6 +36,7 @@ class OrganWebAdapter(
         request: ReissueOrganTokenRequest
     ): TokenResponse {
         return reissueOrganTokenUseCase.reissue(request)
+    }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
