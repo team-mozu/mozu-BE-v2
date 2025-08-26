@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.organ.dto.request.CreateOrganRequest
 import team.mozu.dsm.application.port.`in`.organ.CreateOrganUseCase
-import team.mozu.dsm.application.port.out.organ.SaveOrganPort
+import team.mozu.dsm.application.port.out.organ.CommandOrganPort
 import team.mozu.dsm.domain.organ.model.Organ
 
 @Service
 class CreateOrganService(
-    private val saveOrganPort: SaveOrganPort,
+    private val saveOrganPort: CommandOrganPort,
     private val passwordEncoder: PasswordEncoder
 ) : CreateOrganUseCase {
 
