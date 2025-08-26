@@ -11,7 +11,7 @@ data class Lesson(
     val lessonName: String,
     val maxInvRound: Int,
     val curInvRound: Int,
-    val baseMoney: Int,
+    val baseMoney: Long,
     val lessonNum: String,
     val isStarred: Boolean,
     val isDeleted: Boolean,
