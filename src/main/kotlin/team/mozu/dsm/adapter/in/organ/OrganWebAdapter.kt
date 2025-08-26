@@ -17,8 +17,8 @@ class OrganWebAdapter(
     @ResponseStatus(HttpStatus.CREATED)
     fun createOrgan(
         @RequestBody @Valid
-        command: CreateOrganRequest
+        request: CreateOrganRequest
     ): Organ {
-        return createOrganUseCase.create(command)
+        return createOrganUseCase.create(request)
     }
 }

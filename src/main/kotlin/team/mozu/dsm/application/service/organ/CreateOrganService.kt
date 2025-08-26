@@ -15,11 +15,11 @@ class CreateOrganService(
 ) : CreateOrganUseCase {
 
     @Transactional
-    override fun create(command: CreateOrganRequest): Organ {
+    override fun create(request: CreateOrganRequest): Organ {
         val organ = Organ(
-            organCode = command.organCode,
-            organName = command.organName,
-            password = passwordEncoder.encode(command.password)
+            organCode = request.organCode,
+            organName = request.organName,
+            password = passwordEncoder.encode(request.password)
         )
 
         return saveOrganPort.save(organ)

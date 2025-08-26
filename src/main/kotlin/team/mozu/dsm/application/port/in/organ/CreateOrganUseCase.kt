@@ -5,5 +5,5 @@ import team.mozu.dsm.domain.organ.model.Organ
 
 interface CreateOrganUseCase {
 
-    fun create(command: CreateOrganRequest): Organ
+    fun create(request: CreateOrganRequest): Organ
 }
