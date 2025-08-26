@@ -25,8 +25,8 @@ class TeamParticipationService(
 ) : TeamParticipationUseCase {
 
     @Transactional
-    override fun participate(request: TeamParticipationCommand): TeamToken {
-        val lesson = lessonQueryPort.findByLessonNum(request.lessonNum)
+    override fun participate(command: TeamParticipationCommand): TeamToken {
+        val lesson = lessonQueryPort.findByLessonNum(command.lessonNum)
             ?: throw LessonNumNotFoundException
 
         if (!lesson.isInProgress) {
@@ -40,12 +40,12 @@ class TeamParticipationService(
         val team = Team(
             id = null,
             lessonId = lesson.id ?: throw LessonIdNotFoundException,
-            teamName = request.teamName,
-            schoolName = request.schoolName,
+            teamName = command.teamName,
+            schoolName = command.schoolName,
             totalMoney = 0L,
             cashMoney = 0L,
             valuationMoney = 0L,
-            lessonNum = request.lessonNum,
+            lessonNum = command.lessonNum,
             isInvestmentInProgress = true, //투자 종료 시 false
             participationDate = LocalDateTime.now(),
             createdAt = LocalDateTime.now(),
