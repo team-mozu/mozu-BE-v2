@@ -42,11 +42,5 @@ class LessonItemJpaEntity(
 
     var round4Money: Int?,
 
-    var round5Money: Int?,
-
-    var round6Money: Int?,
-
-    var round7Money: Int?,
-
-    var round8Money: Int?
+    var round5Money: Int?
 )
