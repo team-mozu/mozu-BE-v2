@@ -11,7 +11,7 @@ import team.mozu.dsm.domain.team.model.OrderItem
 abstract class OrderItemMapper {
 
     @Mapping(target = "teamId", source = "team.id")
-    @Mapping(target = "lessonItemId", source = "item.id")
+    @Mapping(target = "itemId", source = "item.id")
     abstract fun toModel(entity: OrderItemJpaEntity): OrderItem
 
     fun toEntity(model: OrderItem, item: ItemJpaEntity, team: TeamJpaEntity): OrderItemJpaEntity {
