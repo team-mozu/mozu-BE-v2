@@ -13,6 +13,6 @@ data class CreateOrganRequest(
     val organCode: String,
 
     @field:NotBlank(message = "비밀번호를 입력하세요")
-    @field:Size(max = 300, message = "제목은 300자 이내로 작성해주세요")
+    @field:Size(max = 300, message = "비밀번호는 300자 이내로 작성해주세요")
     val password: String
 )
