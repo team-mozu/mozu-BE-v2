@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
-import team.mozu.dsm.application.port.`in`.team.dto.request.TeamParticipationCommand
 
 @RestController
 @RequestMapping("/team")
@@ -20,17 +19,6 @@ class TeamWebAdapter(
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
     fun participate(@Valid @RequestBody request: TeamParticipationRequest): TeamTokenResponse {
-        val command = TeamParticipationCommand(
-            lessonNum = request.lessonNum,
-            schoolName = request.schoolName,
-            teamName = request.teamName
-        )
-
-        val token = teamParticipationUseCase.participate(command)
-
-        return TeamTokenResponse(
-            accessToken = token.accessToken,
-            accessExpiredAt = token.accessExpiredAt
-        )
+        return teamParticipationUseCase.participate(request)
     }
 }

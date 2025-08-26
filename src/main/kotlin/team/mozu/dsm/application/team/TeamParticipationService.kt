@@ -5,14 +5,14 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronization
 import org.springframework.transaction.support.TransactionSynchronizationManager
 import team.mozu.dsm.adapter.`in`.team.dto.TeamParticipationEventDTO
+import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
+import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.application.exception.lesson.*
 import team.mozu.dsm.application.port.`in`.sse.PublishToAllSseUseCase
 import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.application.port.out.lesson.LessonQueryPort
 import team.mozu.dsm.application.port.out.team.TeamCommandPort
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
-import team.mozu.dsm.application.port.`in`.team.dto.request.TeamParticipationCommand
-import team.mozu.dsm.application.port.`in`.team.dto.response.TeamToken
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
 
@@ -25,8 +25,8 @@ class TeamParticipationService(
 ) : TeamParticipationUseCase {
 
     @Transactional
-    override fun participate(command: TeamParticipationCommand): TeamToken {
-        val lesson = lessonQueryPort.findByLessonNum(command.lessonNum)
+    override fun participate(request: TeamParticipationRequest): TeamTokenResponse {
+        val lesson = lessonQueryPort.findByLessonNum(request.lessonNum)
             ?: throw LessonNumNotFoundException
 
         if (!lesson.isInProgress) {
@@ -40,12 +40,12 @@ class TeamParticipationService(
         val team = Team(
             id = null,
             lessonId = lesson.id ?: throw LessonNotFoundException,
-            teamName = command.teamName,
-            schoolName = command.schoolName,
+            teamName = request.teamName,
+            schoolName = request.schoolName,
             totalMoney = 0L,
             cashMoney = 0L,
             valuationMoney = 0L,
-            lessonNum = command.lessonNum,
+            lessonNum = request.lessonNum,
             isInvestmentInProgress = true, //투자 종료 시 false
             participationDate = LocalDateTime.now(),
             createdAt = LocalDateTime.now(),

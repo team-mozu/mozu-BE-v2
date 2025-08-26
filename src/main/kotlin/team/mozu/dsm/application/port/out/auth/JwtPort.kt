@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.core.Authentication
 import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
-import team.mozu.dsm.application.port.`in`.team.dto.response.TeamToken
 
 interface JwtPort {
 
@@ -14,5 +13,5 @@ interface JwtPort {
 
     fun resolveToken(request: HttpServletRequest): String?
 
-    fun createStudentAccessToken(lessonNum: String): TeamToken
+    fun createStudentAccessToken(lessonNum: String): TeamTokenResponse
 }
