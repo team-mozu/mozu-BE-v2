@@ -9,7 +9,7 @@ import team.mozu.dsm.global.entity.BaseUUIDEntity
 @Table(name = "tbl_organ")
 class OrganJpaEntity(
 
-    @Column(columnDefinition = "VARCHAR(5)", nullable = false, unique = true)
+    @Column(columnDefinition = "VARCHAR(30)", nullable = false, unique = true)
     var organCode: String,
 
     @Column(columnDefinition = "VARCHAR(100)", nullable = false)
