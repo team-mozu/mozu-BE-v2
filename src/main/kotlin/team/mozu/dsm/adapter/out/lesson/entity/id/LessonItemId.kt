@@ -6,6 +6,6 @@ import java.util.UUID
 
 @Embeddable
 data class LessonItemId(
-    var lessonId: UUID,
-    var itemId: UUID
+    val lessonId: UUID,
+    val itemId: UUID
 ) : Serializable
