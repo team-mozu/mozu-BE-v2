@@ -1,7 +1,6 @@
 package team.mozu.dsm.adapter.out.lesson.persistence.mapper
 
 import org.mapstruct.Mapper
-import org.mapstruct.Mapping
 import team.mozu.dsm.adapter.out.item.entity.ItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.entity.LessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.entity.LessonJpaEntity
@@ -11,7 +10,6 @@ import team.mozu.dsm.domain.lesson.model.LessonItem
 @Mapper(componentModel = "spring")
 abstract class LessonItemMapper {
 
-    @Mapping(target = "lessonItemId", source = "lessonItemId")
     abstract fun toModel(entity: LessonItemJpaEntity): LessonItem
 
     fun toEntity(model: LessonItem, lesson: LessonJpaEntity, item: ItemJpaEntity): LessonItemJpaEntity {
