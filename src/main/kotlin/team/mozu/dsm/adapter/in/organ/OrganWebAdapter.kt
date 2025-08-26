@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.request.CreateOrganRequest
 import team.mozu.dsm.adapter.`in`.organ.dto.request.ReissueOrganTokenRequest
-import team.mozu.dsm.application.port.`in`.organ.CreateOrganUseCase
 import team.mozu.dsm.application.port.`in`.organ.ReissueOrganTokenUseCase
+import team.mozu.dsm.adapter.`in`.organ.dto.request.LoginOrganRequest
+import team.mozu.dsm.application.port.`in`.organ.CreateOrganUseCase
+import team.mozu.dsm.application.port.`in`.organ.LoginOrganUseCase
 import team.mozu.dsm.domain.organ.model.Organ
 
 @RestController
@@ -15,6 +17,7 @@ import team.mozu.dsm.domain.organ.model.Organ
 class OrganWebAdapter(
     private val createOrganUseCase: CreateOrganUseCase,
     private val reissueOrganTokenUseCase: ReissueOrganTokenUseCase
+    private val loginOrganUseCase: LoginOrganUseCase
 ) {
 
     @PostMapping("/create")
@@ -33,5 +36,13 @@ class OrganWebAdapter(
         request: ReissueOrganTokenRequest
     ): TokenResponse {
         return reissueOrganTokenUseCase.reissue(request)
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    fun login(
+        @RequestBody @Valid
+        request: LoginOrganRequest
+    ): TokenResponse {
+        return loginOrganUseCase.login(request)
     }
 }

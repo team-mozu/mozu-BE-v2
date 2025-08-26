@@ -12,6 +12,7 @@ enum class ErrorCode(
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Invalid Token"),
     UNAUTHORIZED_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "Unauthorized Token Type"),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "RefreshToken Not Found"),
+    PASSWORD_MISMATCH(HttpStatus.UNAUTHORIZED, "Password Mismatch"),
 
     // s3
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "Image Not Found"),
