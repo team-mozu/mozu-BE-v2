@@ -20,8 +20,8 @@ abstract class TeamMapper {
             totalMoney = model.totalMoney,
             cashMoney = model.cashMoney,
             valuationMoney = model.valuationMoney,
-            classNumber = model.classNumber,
-            isInvestmentCompleted = model.isInvestmentCompleted,
+            lessonNum = model.lessonNum,
+            isInvestmentInProgress = model.isInvestmentInProgress,
             participationDate = model.participationDate
         )
     }
