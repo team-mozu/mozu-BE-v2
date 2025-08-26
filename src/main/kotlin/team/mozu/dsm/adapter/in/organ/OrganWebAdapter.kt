@@ -16,7 +16,7 @@ import team.mozu.dsm.domain.organ.model.Organ
 @RequestMapping("/organ")
 class OrganWebAdapter(
     private val createOrganUseCase: CreateOrganUseCase,
-    private val reissueOrganTokenUseCase: ReissueOrganTokenUseCase
+    private val reissueOrganTokenUseCase: ReissueOrganTokenUseCase,
     private val loginOrganUseCase: LoginOrganUseCase
 ) {
 
