@@ -1,6 +1,7 @@
 package team.mozu.dsm.domain.lesson.model
 
 import team.mozu.dsm.domain.annotation.Aggregate
+import team.mozu.dsm.domain.lesson.model.id.LessonItemId
 
 @Aggregate
 data class LessonItem(

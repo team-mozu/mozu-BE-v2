@@ -1,7 +1,7 @@
 package team.mozu.dsm.domain.team.model
 
 import team.mozu.dsm.domain.annotation.Aggregate
-import team.mozu.dsm.domain.lesson.model.LessonItemId
+import team.mozu.dsm.domain.lesson.model.id.LessonItemId
 import java.time.LocalDateTime
 import java.util.UUID
 
