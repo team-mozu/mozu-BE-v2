@@ -1,9 +1,8 @@
 package team.mozu.dsm.domain.lesson.model
 
-import java.util.UUID
+import team.mozu.dsm.domain.lesson.model.id.LessonArticleId
 
 data class LessonArticle(
-    val lessonId: UUID,
-    val articleId: UUID,
+    val lessonArticleId: LessonArticleId,
     val investmentRound: Int
 )
