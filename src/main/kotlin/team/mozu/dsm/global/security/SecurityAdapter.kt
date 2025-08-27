@@ -2,24 +2,23 @@ package team.mozu.dsm.global.security
 
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
+import team.mozu.dsm.adapter.out.organ.persistence.mapper.OrganMapper
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.domain.organ.model.Organ
-import team.mozu.dsm.global.exception.UnauthenticatedException
-import team.mozu.dsm.global.security.auth.CustomUserDetails
 
 @Component
-class SecurityAdapter : SecurityPort {
+class SecurityAdapter(
+    private val organRepository: OrganRepository,
+    private val organMapper: OrganMapper
+) : SecurityPort {
 
     override fun getCurrentOrgan(): Organ {
-        val authentication = SecurityContextHolder.getContext().authentication
-            ?: throw UnauthenticatedException
+        val organCode = SecurityContextHolder.getContext().authentication.name
+        val entity =  organRepository.findByOrganCode(organCode)
+            ?: throw OrganNotFoundException
 
-        val principal = authentication.principal
-        if (principal is CustomUserDetails) {
-            return principal.organ // 로그인 시 넣어둔 Organ 꺼내기
-        } else {
-            throw OrganNotFoundException
-        }
+        return organMapper.toModel(entity)
     }
 }
