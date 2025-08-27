@@ -28,6 +28,7 @@ enum class ErrorCode(
 
     // organ
     ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
+    ORGAN_ACCESS_DENIED(HttpStatus.FORBIDDEN, "Organ Access Denied"),
 
     //lesson
     LESSON_NUM_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Num Not Found"),
