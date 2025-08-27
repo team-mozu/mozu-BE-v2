@@ -12,7 +12,7 @@ class QueryOrganDetailService(
     private val queryOrganPort: QueryOrganPort
 ) : QueryOrganDetailUseCase {
 
-    override fun queryOrganDetail(organId: UUID): OrganDetailResponse {
-        return queryOrganPort.findById(organId) ?: throw OrganNotFoundException
+    override fun queryOrganDetail(id: UUID): OrganDetailResponse {
+        return queryOrganPort.findById(id) ?: throw OrganNotFoundException
     }
 }

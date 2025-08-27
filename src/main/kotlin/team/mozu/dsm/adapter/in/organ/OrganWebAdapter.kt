@@ -51,9 +51,9 @@ class OrganWebAdapter(
         return loginOrganUseCase.login(request)
     }
 
-    @GetMapping("/{organId}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun queryOrganDetail(@PathVariable organId: UUID): OrganDetailResponse {
-        return queryOrganDetailUseCase.queryOrganDetail(organId)
+    fun queryOrganDetail(@PathVariable id: UUID): OrganDetailResponse {
+        return queryOrganDetailUseCase.queryOrganDetail(id)
     }
 }
