@@ -15,8 +15,8 @@ class QueryOrganDetailService(
 ) : QueryOrganDetailUseCase {
 
     override fun queryOrganDetail(id: UUID): OrganDetailResponse {
-        organFacade.currentOrgan()
+        val organ = organFacade.currentOrgan()
 
-        return queryOrganPort.findById(id) ?: throw OrganNotFoundException
+        return queryOrganPort.findById(organ.id!!) ?: throw OrganNotFoundException
     }
 }
