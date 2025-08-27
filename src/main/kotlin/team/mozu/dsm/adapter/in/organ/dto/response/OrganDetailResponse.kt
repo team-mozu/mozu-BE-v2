@@ -1,8 +1,9 @@
 package team.mozu.dsm.adapter.`in`.organ.dto.response
 
+import com.querydsl.core.annotations.QueryProjection
 import java.util.UUID
 
-data class OrganDetailResponse(
+data class OrganDetailResponse @QueryProjection constructor(
     val id: UUID,
     val organCode: String,
     val organName: String,
