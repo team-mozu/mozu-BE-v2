@@ -17,6 +17,7 @@ class SsePersistenceAdapter(
         private const val DEFAULT_TIMEOUT = 60L * 1000 * 60
     }
 
+    //--Subscribe--//
     override fun subscribe(clientId: String): SseEmitter {
         val emitter = SseEmitter(DEFAULT_TIMEOUT)
         sseEmitterRepository.save(clientId, emitter)
@@ -27,6 +28,7 @@ class SsePersistenceAdapter(
         return emitter
     }
 
+    //--Publish--//
     override fun publishTo(clientId: String, eventName: String, data: Any) {
         sseEmitterRepository.get(clientId)?.let { emitter ->
             try {

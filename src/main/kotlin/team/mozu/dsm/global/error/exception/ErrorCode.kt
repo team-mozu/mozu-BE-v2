@@ -37,6 +37,12 @@ enum class ErrorCode(
     LESSON_DELETED(HttpStatus.BAD_REQUEST, "Lesson Deleted"),
     TEAM_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "Team Name Required"),
 
+    // item
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "Item Not Found"),
+
+    // article
+    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "Article Not Found"),
+
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error") ;

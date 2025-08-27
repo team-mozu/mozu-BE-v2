@@ -23,10 +23,10 @@ class LessonJpaEntity(
     var curInvRound: Int,
 
     @Column(nullable = false)
-    var baseMoney: Int,
+    var baseMoney: Long,
 
-    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR(10)")
-    var lessonNum: String,
+    @Column(unique = true, columnDefinition = "VARCHAR(10)")
+    var lessonNum: String?,
 
     @Column(nullable = false)
     var isStarred: Boolean = false,

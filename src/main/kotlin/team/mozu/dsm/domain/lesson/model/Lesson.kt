@@ -6,16 +6,16 @@ import java.util.UUID
 
 @Aggregate
 data class Lesson(
-    val id: UUID?,
+    val id: UUID? = null,
     val organId: UUID,
     val lessonName: String,
     val maxInvRound: Int,
     val curInvRound: Int,
-    val baseMoney: Int,
-    val lessonNum: String,
+    val baseMoney: Long,
+    val lessonNum: String? = null,
     val isStarred: Boolean,
     val isDeleted: Boolean,
     val isInProgress: Boolean,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime?
+    val createdAt: LocalDateTime? = null,
+    val updatedAt: LocalDateTime? = null
 )

@@ -1,4 +1,4 @@
-package team.mozu.dsm.domain.lesson.model
+package team.mozu.dsm.domain.lesson.model.id
 
 import java.util.UUID
 

@@ -1,0 +1,50 @@
+package team.mozu.dsm.adapter.out.lesson.persistence
+
+import org.springframework.stereotype.Component
+import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
+import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
+import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonItemRepository
+import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
+import team.mozu.dsm.application.exception.item.ItemNotFoundException
+import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
+import team.mozu.dsm.application.port.out.lesson.CommandLessonItemPort
+import team.mozu.dsm.domain.lesson.model.LessonItem
+import java.util.UUID
+
+@Component
+class LessonItemPersistenceAdapter(
+    private val lessonRepository: LessonRepository,
+    private val lessonItemRepository: LessonItemRepository,
+    private val lessonItemMapper: LessonItemMapper,
+    private val itemRepository: ItemRepository
+) : CommandLessonItemPort {
+
+    //--Query--//
+
+    //--Command--//
+    override fun saveAll(id: UUID, lessonItems: List<LessonItem>): List<LessonItem> {
+        val lessonEntity = lessonRepository.findById(id)
+            .orElseThrow { LessonNotFoundException }
+
+        /**
+         * LessonItemList 저장 프로세스
+         * 1) lessonItems에서 모든 itemId 추출 후 DB에서 한 번에 조회 (DB 성능 최적화를 위해)
+         * 2) .associateBy를 사용하여 Map<UUID, ItemJpaEntity> 형식으로 변환
+         * 3) 각 LessonItem 도메인 모델을 Lesson, Item과 매핑하여 JPA 엔티티 생성
+         * 4) 생성된 엔티티를 saveAll로 저장 후 도메인 모델로 변환
+         **/
+        val lessonItemList = itemRepository.findAllById(lessonItems.map { it.lessonItemId.itemId })
+            .associateBy { it.id }
+            .let { itemMap ->
+                lessonItems.map { model ->
+                    val itemEntity = itemMap[model.lessonItemId.itemId]
+                        ?: throw ItemNotFoundException
+
+                    lessonItemMapper.toEntity(model, lessonEntity, itemEntity)
+                }
+            }
+        lessonItemRepository.saveAll(lessonItemList)
+
+        return lessonItemList.map { entity -> lessonItemMapper.toModel(entity) }
+    }
+}
