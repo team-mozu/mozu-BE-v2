@@ -37,13 +37,15 @@ class TeamParticipationService(
             throw LessonDeletedException
         }
 
+        val baseMoney = lesson.baseMoney ?: 0L
+
         val team = Team(
             id = null,
             lessonId = lesson.id ?: throw LessonNotFoundException,
             teamName = request.teamName,
             schoolName = request.schoolName,
-            totalMoney = 0L,
-            cashMoney = 0L,
+            totalMoney = baseMoney,
+            cashMoney = baseMoney,
             valuationMoney = 0L,
             lessonNum = request.lessonNum,
             isInvestmentInProgress = true, //투자 종료 시 false
