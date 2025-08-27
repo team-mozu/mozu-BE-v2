@@ -60,8 +60,6 @@ class CreateLessonService(
         }
 
         // Lesson 도메인 객체 생성 후 DB에 저장
-        // 해당 Lesson 객체를 생성할 때 createdAt은 JPA가 관리해주기 때문에
-        // nullable로 하고 생성시 넣지 않았는데, not null로 해야할 것 같으면 말씀해주세요!!
         val lesson = Lesson(
             organId = organ.id!!,
             lessonName = request.lessonName,
