@@ -1,5 +1,6 @@
 package team.mozu.dsm.adapter.`in`.lesson.dto.request
 
+import jakarta.validation.Valid
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
@@ -23,6 +24,7 @@ data class LessonRequest(
     @field:Size(min = 1, max = 20, message = "수업 종목은 1~20개 사이로 입력해야 합니다.")
     val lessonItems: List<LessonItemRequest>,
 
+    @field:Valid
     @field:Size(min = 1, message = "수업 기사는 최소 1개 이상 입력해야 합니다.")
     val lessonArticles: List<LessonArticleRequest>
 )
