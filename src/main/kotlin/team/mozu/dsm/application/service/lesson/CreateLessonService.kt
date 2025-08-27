@@ -112,7 +112,7 @@ class CreateLessonService(
             }
 
         // 저장된 종목 정보 조회 후 Map 생성 (ID → Item)
-        val itemIds = lessonItems.map { it.lessonItemId.lessonId }
+        val itemIds = lessonItems.map { it.lessonItemId.itemId }
         val itemMap = itemPort.findAllByIds(itemIds).associateBy { it.id!! }
 
         // DTO 변환: 금액 리스트 구성 (초기 금액 ~ 3차 + nullable 4 ~ 5차)
