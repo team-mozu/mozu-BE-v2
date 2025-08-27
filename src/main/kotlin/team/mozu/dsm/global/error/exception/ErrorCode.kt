@@ -12,9 +12,6 @@ enum class ErrorCode(
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Invalid Token"),
     UNAUTHORIZED_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "Unauthorized Token Type"),
 
-    // auth
-    UNAUTHENTICATED(HttpStatus.UNAUTHORIZED, "Authentication Required"),
-
     // s3
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "Image Not Found"),
     IMAGE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Image Upload Failed"),
