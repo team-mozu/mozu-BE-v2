@@ -37,16 +37,25 @@ class CreateLessonService(
         // 로그인한 기관 정보 조회
         val organ = securityPort.getCurrentOrgan()
 
-        // 요청된 lessonItems에 해당 종목이 DB에 존재하는지 확인
-        if (request.lessonItems.any { !itemPort.existsById(it.id) }) {
+        /**
+         *  요청된 lessonItems에 해당 종목이 DB에 존재하는지 확인
+         *  요청된 itemIds의 개수와 DB에서 조회한 itemIds의 개수를 비교하여 같지 않으면 예외 발생
+         */
+        val requestedItemIds = request.lessonItems.map { it.id }
+        val foundItemIds = itemPort.findAllByIds(requestedItemIds).map { it.id!! }
+
+        if (foundItemIds.size != requestedItemIds.size) {
             throw ItemNotFoundException
         }
 
-        // 요청된 lessonArticles에 해당 기사가 DB에 존재하는지 확인
-        if (request.lessonArticles.any { lessonArticle ->
-            lessonArticle.articles.any { !articlePort.existsById(it) }
-        }
-        ) {
+        /**
+         *  요청된 lessonArticles 해당 기사가 DB에 존재하는지 확인
+         *  요청된 articleIds 개수와 DB에서 조회한 articleIds 개수를 비교하여 같지 않으면 예외 발생
+         */
+        val requestedArticleIds = request.lessonArticles.flatMap { it.articles }
+        val foundArticleIds = articlePort.findAllByIds(requestedArticleIds).map { it.id!! }
+
+        if (foundArticleIds.size != requestedArticleIds.size) {
             throw ArticleNotFoundException
         }
 
