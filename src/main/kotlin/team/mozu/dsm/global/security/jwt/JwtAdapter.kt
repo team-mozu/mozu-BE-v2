@@ -25,6 +25,7 @@ import java.security.Key
 import java.time.LocalDateTime
 import java.util.Base64
 import java.util.Date
+import java.util.UUID
 import javax.crypto.SecretKey
 
 @Component
@@ -78,12 +79,13 @@ class JwtAdapter(
     }
 
     // 내부 학생용 accessToken 생성
-    fun generateStudentAccessToken(lessonNum: String): String {
+    fun generateStudentAccessToken(lessonNum: String, teamId: UUID): String {
         val now = Date()
 
         return Jwts.builder()
             .setSubject(lessonNum)
             .claim(TYPE_CLAIM, STUDENT_ACCESS_TYPE)
+            .claim("teamId", teamId.toString())
             .setIssuedAt(now)
             .setExpiration(Date(now.time + jwtProperties.studentAccessExp * MILLISECONDS))
             .signWith(secretKey)
@@ -103,11 +105,11 @@ class JwtAdapter(
     }
 
     //외부 호출
-    override fun createStudentAccessToken(lessonNum: String): TeamTokenResponse {
+    override fun createStudentAccessToken(lessonNum: String, teamId: UUID): TeamTokenResponse {
         val now = LocalDateTime.now()
 
         return TeamTokenResponse(
-            accessToken = generateStudentAccessToken(lessonNum),
+            accessToken = generateStudentAccessToken(lessonNum, teamId),
             accessExpiredAt = now.plusSeconds(jwtProperties.studentAccessExp)
         )
     }
@@ -119,9 +121,10 @@ class JwtAdapter(
         return when (tokenType) {
             STUDENT_ACCESS_TYPE -> {
                 val lessonNum = claims.subject
+                val teamId = claims.get("teamId", String::class.java)
                 UsernamePasswordAuthenticationToken(
                     lessonNum,
-                    null,
+                    teamId,
                     listOf(SimpleGrantedAuthority("ROLE_STUDENT"))
                 )
             }

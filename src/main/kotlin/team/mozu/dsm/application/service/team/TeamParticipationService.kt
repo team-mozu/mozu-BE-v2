@@ -72,6 +72,6 @@ class TeamParticipationService(
                 }
             }
         )
-        return jwtPort.createStudentAccessToken(lesson.lessonNum)
+        return jwtPort.createStudentAccessToken(lesson.lessonNum, savedTeam.id!!)
     }
 }
