@@ -10,6 +10,9 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.application.exception.lesson.*
 import team.mozu.dsm.application.port.`in`.sse.PublishToAllSseUseCase
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
+import team.mozu.dsm.application.port.out.auth.JwtPort
+import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
+import team.mozu.dsm.application.port.out.team.TeamCommandPort
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
 
@@ -23,7 +26,7 @@ class TeamParticipationService(
 
     @Transactional
     override fun participate(request: TeamParticipationRequest): TeamTokenResponse {
-        val lesson = lessonQueryPort.findByLessonNum(request.lessonNum)
+        val lesson = queryLessonPort.findByLessonNum(request.lessonNum)
             ?: throw LessonNumNotFoundException
 
         if (!lesson.isInProgress) {
