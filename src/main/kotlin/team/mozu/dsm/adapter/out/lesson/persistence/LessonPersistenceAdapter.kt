@@ -28,8 +28,8 @@ class LessonPersistenceAdapter(
             .orElseThrow { OrganNotFoundException }
 
         val entity = lessonMapper.toEntity(lesson, organ)
-        lessonRepository.save(entity)
+        val saved = lessonRepository.save(entity)
 
-        return lessonMapper.toModel(entity)
+        return lessonMapper.toModel(saved)
     }
 }
