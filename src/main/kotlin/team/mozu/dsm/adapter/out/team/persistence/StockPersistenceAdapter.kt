@@ -31,11 +31,6 @@ class StockPersistenceAdapter(
             .map { stockMapper.toModel(it) }
     }
 
-    override fun findByTeamId(teamId: UUID): Stock? {
-        return stockRepository.findByTeamId(teamId)
-            ?.let { stockMapper.toModel(it) }
-    }
-
     //--Command--//
     override fun save(stock: Stock): Stock {
 

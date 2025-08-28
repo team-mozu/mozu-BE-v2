@@ -8,6 +8,4 @@ interface StockQueryPort {
     fun findByTeamIdAndItemId(teamId: UUID, itemId: UUID): Stock?
 
     fun findAllByTeamId(teamId: UUID): List<Stock>
-
-    fun findByTeamId(teamId: UUID): Stock?
 }
