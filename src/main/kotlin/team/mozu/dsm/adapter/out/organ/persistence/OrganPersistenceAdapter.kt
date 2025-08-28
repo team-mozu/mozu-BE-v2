@@ -6,6 +6,7 @@ import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.application.port.out.organ.CommandOrganPort
 import team.mozu.dsm.domain.organ.model.Organ
+import java.util.*
 
 @Component
 class OrganPersistenceAdapter(
@@ -15,6 +16,12 @@ class OrganPersistenceAdapter(
 
     override fun findByOrganCode(organCode: String): Organ? {
         return organRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
+    }
+
+    override fun findById(organId: UUID): Organ? {
+        return organRepository.findById(organId)
+            .map { organMapper.toModel(it) }
+            .orElse(null)
     }
 
     override fun save(organ: Organ): Organ {

@@ -8,11 +8,13 @@ import team.mozu.dsm.adapter.`in`.team.dto.TeamParticipationEventDTO
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.application.exception.lesson.*
-import team.mozu.dsm.application.port.`in`.sse.PublishToAllSseUseCase
+import team.mozu.dsm.application.exception.organ.OrganNotFoundException
+import team.mozu.dsm.application.port.`in`.sse.PublishToSseUseCase
 import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.application.port.out.lesson.LessonQueryPort
 import team.mozu.dsm.application.port.out.team.TeamCommandPort
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
+import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
 
@@ -20,14 +22,18 @@ import java.time.LocalDateTime
 class TeamParticipationService(
     private val lessonQueryPort: LessonQueryPort,
     private val teamCommandPort: TeamCommandPort,
+    private val queryOrganPort: QueryOrganPort,
     private val jwtPort: JwtPort,
-    private val publishToAllSseUseCase: PublishToAllSseUseCase
+    private val publishToSseUseCase: PublishToSseUseCase,
 ) : TeamParticipationUseCase {
 
     @Transactional
     override fun participate(request: TeamParticipationRequest): TeamTokenResponse {
         val lesson = lessonQueryPort.findByLessonNum(request.lessonNum)
             ?: throw LessonNumNotFoundException
+
+        val organ = queryOrganPort.findById(lesson.organId)
+            ?: throw OrganNotFoundException
 
         if (!lesson.isInProgress) {
             throw LessonNotInProgressException
@@ -70,7 +76,7 @@ class TeamParticipationService(
                         schoolName = savedTeam.schoolName,
                         lessonNum = savedTeam.lessonNum
                     )
-                    publishToAllSseUseCase.publishToAll("EVENT_TEAM_PARTICIPATION", eventData)
+                    publishToSseUseCase.publishTo(organ.id.toString() , "TEAM_PART_IN", eventData)
                 }
             }
         )
