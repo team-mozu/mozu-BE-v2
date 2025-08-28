@@ -25,9 +25,6 @@ data class LessonItem(
             3 -> round3Money
             4 -> round4Money
             5 -> round5Money
-            6 -> round6Money
-            7 -> round7Money
-            8 -> round8Money
             else -> null
         }
     }
