@@ -3,7 +3,6 @@ package team.mozu.dsm.adapter.out.team.persistence
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.LockModeType
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.team.entity.QTeamJpaEntity
 import team.mozu.dsm.adapter.out.team.persistence.mapper.TeamMapper

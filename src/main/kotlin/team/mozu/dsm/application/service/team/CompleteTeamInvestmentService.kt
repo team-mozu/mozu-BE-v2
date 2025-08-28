@@ -336,7 +336,7 @@ class CompleteTeamInvestmentService(
         val cashChange = requests.sumOf { request ->
             when (request.orderType) {
                 OrderType.SELL -> request.totalAmount
-                OrderType.BUY -> - request.totalAmount
+                OrderType.BUY -> -request.totalAmount
             }
         }
         val currentCash = team.cashMoney + cashChange
