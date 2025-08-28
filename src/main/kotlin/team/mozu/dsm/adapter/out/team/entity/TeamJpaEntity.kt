@@ -11,7 +11,7 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "tbl_class_team")
+@Table(name = "tbl_lesson_team")
 class TeamJpaEntity(
 
     @Column(columnDefinition = "VARCHAR(100)")
