@@ -1,6 +1,5 @@
 package team.mozu.dsm.application.service.team
 
-import jakarta.persistence.EntityManager
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronization
@@ -21,7 +20,6 @@ import team.mozu.dsm.application.port.out.lesson.LessonItemQueryPort
 import team.mozu.dsm.application.port.out.lesson.LessonQueryPort
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.application.port.out.team.*
-import team.mozu.dsm.domain.lesson.model.Lesson
 import team.mozu.dsm.domain.team.model.OrderItem
 import team.mozu.dsm.domain.team.model.Stock
 import team.mozu.dsm.domain.team.type.OrderType
@@ -44,7 +42,6 @@ class CompleteTeamInvestmentService(
 
     @Transactional
     override fun completeInvestment(requests: List<CompleteInvestmentRequest>, lessonNum: String, teamId: UUID) {
-
         val lesson = lessonQueryPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 
@@ -86,7 +83,6 @@ class CompleteTeamInvestmentService(
         TransactionSynchronizationManager.registerSynchronization(
             object : TransactionSynchronization {
                 override fun afterCommit() {
-
                     val updatedTeam = teamQueryPort.findById(teamId)
                         ?: throw TeamNotFoundException
 
@@ -123,7 +119,7 @@ class CompleteTeamInvestmentService(
                         valuationMoney = updatedTeam.valuationMoney,
                         profitNum = profitNum
                     )
-                    publishToSseUseCase.publishTo(organ.id.toString() , "TEAM_INV_END", eventData)
+                    publishToSseUseCase.publishTo(organ.id.toString(), "TEAM_INV_END", eventData)
                 }
             }
         )
@@ -159,7 +155,6 @@ class CompleteTeamInvestmentService(
         requests: List<CompleteInvestmentRequest>,
         teamId: UUID
     ) {
-
         // ================================================
         // 데이터 조회 및 초기화
         // ================================================
@@ -203,7 +198,6 @@ class CompleteTeamInvestmentService(
 
             // === 신규 주식 처리 ===
             if (currentStock == null) {
-
                 if (totalSellCount > 0) {
                     throw StockNotOwnedException
                 }
@@ -248,9 +242,7 @@ class CompleteTeamInvestmentService(
 
                 when {
                     newQuantity > 0 -> {
-
                         val (newAvgPrice, newBuyMoney) = when {
-
                             // === 매수 주식 처리 ===
                             totalBuyCount > 0 && totalSellCount == 0 -> {
                                 val currentTotalValue = currentStock.avgPurchasePrice * currentStock.quantity

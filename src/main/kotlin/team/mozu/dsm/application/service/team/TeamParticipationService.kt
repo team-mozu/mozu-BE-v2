@@ -24,7 +24,7 @@ class TeamParticipationService(
     private val teamCommandPort: TeamCommandPort,
     private val queryOrganPort: QueryOrganPort,
     private val jwtPort: JwtPort,
-    private val publishToSseUseCase: PublishToSseUseCase,
+    private val publishToSseUseCase: PublishToSseUseCase
 ) : TeamParticipationUseCase {
 
     @Transactional
@@ -76,7 +76,7 @@ class TeamParticipationService(
                         schoolName = savedTeam.schoolName,
                         lessonNum = savedTeam.lessonNum
                     )
-                    publishToSseUseCase.publishTo(organ.id.toString() , "TEAM_PART_IN", eventData)
+                    publishToSseUseCase.publishTo(organ.id.toString(), "TEAM_PART_IN", eventData)
                 }
             }
         )

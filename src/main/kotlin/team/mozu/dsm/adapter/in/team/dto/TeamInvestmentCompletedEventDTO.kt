@@ -8,5 +8,5 @@ data class TeamInvestmentCompletedEventDTO(
     val curInvRound: Int,
     val totalMoney: Long,
     val valuationMoney: Long,
-    val profitNum: Double,
+    val profitNum: Double
 )
