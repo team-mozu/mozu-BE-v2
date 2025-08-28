@@ -26,6 +26,11 @@ class OrderItemPersistenceAdapter(
         team: Team,
         invCount: Int
     ): List<OrderItem> {
+        
+        if (requests.isEmpty()) {
+            return emptyList()
+        }
+
         val orders = requests.map { request ->
             OrderItem(
                 id = null,
@@ -42,13 +47,21 @@ class OrderItemPersistenceAdapter(
             )
         }
 
+        val teamEntity = teamRepository.findById(team.id!!)
+            .orElseThrow { TeamNotFoundException }
+
+        val itemIds = orders.map { it.itemId }.distinct()
+
+        val itemEntitiesById = itemRepository.findAllById(itemIds)
+            .associateBy { it.id }
+
+        val missingItemIds = itemIds.toSet() - itemEntitiesById.keys
+        if (missingItemIds.isNotEmpty()) {
+            throw ItemNotFoundException
+        }
+
         val entities = orders.map { order ->
-            val itemEntity = itemRepository.findById(order.itemId)
-                .orElseThrow { ItemNotFoundException }
-
-            val teamEntity = teamRepository.findById(order.teamId)
-                .orElseThrow { TeamNotFoundException }
-
+            val itemEntity = itemEntitiesById.getValue(order.itemId)
             orderItemMapper.toEntity(order, itemEntity, teamEntity)
         }
 
