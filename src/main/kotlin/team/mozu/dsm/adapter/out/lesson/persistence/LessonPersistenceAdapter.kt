@@ -5,7 +5,6 @@ import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.port.out.lesson.LessonQueryPort
 import team.mozu.dsm.domain.lesson.model.Lesson
-import java.util.*
 
 @Component
 class LessonPersistenceAdapter(
