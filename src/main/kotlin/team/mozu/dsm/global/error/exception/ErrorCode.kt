@@ -27,12 +27,22 @@ enum class ErrorCode(
     // organ
     ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
 
+    //item
+    INVALID_INVESTMENT_ITEM(HttpStatus.BAD_REQUEST, "Invalid Investment Item"),
+    ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "Item Not Found"),
+    ITEM_DELETED(HttpStatus.BAD_REQUEST, "Item Deleted"),
+
     //lesson
     LESSON_NUM_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Num Not Found"),
     LESSON_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Not Found"),
     LESSON_NOT_IN_PROGRESS(HttpStatus.UNPROCESSABLE_ENTITY, "Lesson Not In Progress"),
     LESSON_DELETED(HttpStatus.BAD_REQUEST, "Lesson Deleted"),
     TEAM_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "Team Name Required"),
+
+    //team
+    TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "Team Not Found"),
+    STOCK_QUANTITY_INSUFFICIENT(HttpStatus.CONFLICT, "Stock Quantity Insufficient"),
+    STOCK_NOT_OWNED(HttpStatus.CONFLICT, "Stock Not Owned"),
 
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
