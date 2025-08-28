@@ -19,6 +19,8 @@ class OrderItemPersistenceAdapter(
 ) : OrderItemCommandPort {
 
     override fun saveAll(orderItems: List<OrderItem>) {
+        if (orderItems.isEmpty()) return
+        
         val teamEntity = teamRepository.findById(orderItems.first().teamId)
             .orElseThrow { TeamNotFoundException }
 
