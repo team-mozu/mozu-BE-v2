@@ -5,9 +5,7 @@ import java.util.UUID
 
 interface StockCommandPort {
 
-    fun save(stock: Stock): Stock
-
-    fun saveAll(stocks: List<Stock>): List<Stock>
+    fun saveAll(stocks: List<Stock>)
 
     fun deleteById(id: UUID)
 }

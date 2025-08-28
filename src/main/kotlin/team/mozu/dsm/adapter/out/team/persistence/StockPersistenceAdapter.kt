@@ -32,31 +32,27 @@ class StockPersistenceAdapter(
     }
 
     //--Command--//
-    override fun save(stock: Stock): Stock {
+    override fun saveAll(stocks: List<Stock>) {
+        stocks.forEach { stock ->
+            val teamEntity = teamRepository.findById(stock.teamId)
+                .orElseThrow { TeamNotFoundException }
 
-        val teamEntity = teamRepository.findById(stock.teamId)
-            .orElseThrow { TeamNotFoundException }
+            val itemEntity = itemRepository.findById(stock.itemId)
+                .orElseThrow { ItemNotFoundException }
 
-        val itemEntity = itemRepository.findById(stock.itemId)
-            .orElseThrow { ItemNotFoundException }
+            val entity = stockRepository.findByTeam_IdAndItem_Id(stock.teamId, stock.itemId)?.apply {
+                quantity = stock.quantity
+                avgPurchasePrice = stock.avgPurchasePrice
+                buyMoney = stock.buyMoney
+                valProfit = stock.valProfit
+                profitNum = stock.profitNum
+                updatedAt = stock.updatedAt
+                team = teamEntity
+                item = itemEntity
+            } ?: stockMapper.toEntity(stock, teamEntity, itemEntity)
 
-        val entity = stockRepository.findByTeam_IdAndItem_Id(stock.teamId, stock.itemId)?.apply {
-            quantity = stock.quantity
-            avgPurchasePrice = stock.avgPurchasePrice
-            buyMoney = stock.buyMoney
-            valProfit = stock.valProfit
-            profitNum = stock.profitNum
-            updatedAt = stock.updatedAt
-            team = teamEntity
-            item = itemEntity
-        } ?: stockMapper.toEntity(stock, teamEntity, itemEntity)
-
-        val savedEntity = stockRepository.save(entity)
-        return stockMapper.toModel(savedEntity)
-    }
-
-    override fun saveAll(stocks: List<Stock>): List<Stock> {
-        return stocks.map { save(it) }
+            stockRepository.save(entity)
+        }
     }
 
     override fun deleteById(id: UUID) {
