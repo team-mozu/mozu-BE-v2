@@ -72,7 +72,7 @@ class TeamParticipationService(
                 override fun afterCommit() {
                     val eventData = TeamParticipationEventDTO(
                         teamId = savedTeam.id!!, //save한 직후여서 null일 가능성 없음
-                        teamName = savedTeam.teamName!!,
+                        teamName = savedTeam.teamName,
                         schoolName = savedTeam.schoolName,
                         lessonNum = savedTeam.lessonNum
                     )
