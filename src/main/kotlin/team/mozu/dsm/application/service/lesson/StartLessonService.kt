@@ -1,5 +1,6 @@
 package team.mozu.dsm.application.service.lesson
 
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
@@ -24,11 +25,16 @@ class StartLessonService(
         val lesson = queryLessonPort.findById(id)
         var lessonNum: String
 
-        // lessonNum 중복 방지
-        do lessonNum = createCode()
-        while (queryLessonPort.existsByLessonNum(lessonNum))
-
-        commandLessonPort.updateLessonNum(lesson.id!!, lessonNum)
+        // lessonNum 중복 방지 + 재시도
+        while (true) {
+            lessonNum = createCode()
+            try {
+                commandLessonPort.updateLessonNum(lesson.id!!, lessonNum)
+                break // 성공하면 루프 종료
+            } catch (e: DataIntegrityViolationException) {
+                // 유니크 충돌 시 재시도
+            }
+        }
 
         return StartLessonResponse(lessonNum)
     }
