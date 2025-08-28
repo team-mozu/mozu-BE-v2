@@ -2,17 +2,23 @@ package team.mozu.dsm.application.service.team
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionSynchronization
+import org.springframework.transaction.support.TransactionSynchronizationManager
+import team.mozu.dsm.adapter.`in`.team.dto.TeamInvestmentCompletedEventDTO
 import team.mozu.dsm.adapter.`in`.team.dto.request.CompleteInvestmentRequest
 import team.mozu.dsm.application.exception.item.InvalidItemException
 import team.mozu.dsm.application.exception.item.ItemDeletedException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
+import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.exception.team.InsufficientStockQuantityException
 import team.mozu.dsm.application.exception.team.StockNotOwnedException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
+import team.mozu.dsm.application.port.`in`.sse.PublishToSseUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
 import team.mozu.dsm.application.port.out.item.ItemQueryPort
 import team.mozu.dsm.application.port.out.lesson.LessonItemQueryPort
 import team.mozu.dsm.application.port.out.lesson.LessonQueryPort
+import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.application.port.out.team.*
 import team.mozu.dsm.domain.team.model.Stock
 import team.mozu.dsm.domain.team.type.OrderType
@@ -26,9 +32,11 @@ class CompleteTeamInvestmentService(
     private val lessonItemQueryPort: LessonItemQueryPort,
     private val orderItemCommandPort: OrderItemCommandPort,
     private val stockQueryPort: StockQueryPort,
+    private val queryOrganPort: QueryOrganPort,
     private val stockCommandPort: StockCommandPort,
     private val teamCommandPort: TeamCommandPort,
     private val itemQueryPort: ItemQueryPort,
+    private val publishToSseUseCase: PublishToSseUseCase
 ) : CompleteTeamInvestmentUseCase {
 
     @Transactional
@@ -40,6 +48,9 @@ class CompleteTeamInvestmentService(
         val team = teamQueryPort.findById(teamId)
             ?: throw TeamNotFoundException
 
+        val organ = queryOrganPort.findById(lesson.organId)
+            ?: throw OrganNotFoundException
+
         val currentInvCount = lesson.curInvRound
 
         val itemIds = requests.map { it.itemId }
@@ -49,6 +60,29 @@ class CompleteTeamInvestmentService(
         orderItemCommandPort.saveAll(requests, team, currentInvCount)
 
         updateStocksAndTeam(requests, teamId)
+
+        TransactionSynchronizationManager.registerSynchronization(
+            object : TransactionSynchronization {
+                override fun afterCommit() {
+
+                    val updatedTeam = teamQueryPort.findById(teamId)
+                        ?: throw TeamNotFoundException
+
+                    val stock = stockQueryPort.findByTeamId(teamId)
+                        ?: throw StockNotOwnedException
+
+                    val eventData = TeamInvestmentCompletedEventDTO(
+                        teamId = teamId,
+                        teamName = updatedTeam.teamName,
+                        curInvRound = currentInvCount,
+                        totalMoney = updatedTeam.totalMoney,
+                        valuationMoney = updatedTeam.valuationMoney,
+                        profitNum = stock.profitNum
+                    )
+                    publishToSseUseCase.publishTo(organ.id.toString() , "TEAM_INV_END", eventData)
+                }
+            }
+        )
     }
 
     /**
@@ -75,7 +109,8 @@ class CompleteTeamInvestmentService(
 
     /**
      * 주식 및 팀 정보 업데이트
-     * 중복 조회 방지 (team, lesson, lessonItem 등을 한 번만 조회) 위해 하나의 메서드에서 처리
+     * 중복 조회 방지 (team, lesson, lessonItem 등을 한 번만 조회)
+     * 주식 거래는 모든 계산이 정확한 순서와 일관성 유지가 중요하기에 하나의 메서드에서 처리
      * 가독성을 위해 주석으로 분리
      */
     private fun updateStocksAndTeam(
