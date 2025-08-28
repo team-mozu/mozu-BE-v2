@@ -32,7 +32,11 @@ class TeamWebAdapter(
 
     @PostMapping("/end")
     @ResponseStatus(HttpStatus.CREATED)
-    fun endInvestment(@Valid @RequestBody request: List<@Valid EndInvestmentRequest>, authentication: Authentication) {
+    fun endInvestment(
+        @Valid @RequestBody
+        request: List<@Valid EndInvestmentRequest>,
+        authentication: Authentication
+    ) {
         val lessonNum = authentication.name
         val teamId = UUID.fromString(authentication.credentials as String)
         teamInvestmentUseCase.completeInvestment(request, lessonNum, teamId)
