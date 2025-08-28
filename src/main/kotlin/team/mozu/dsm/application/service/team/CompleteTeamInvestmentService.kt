@@ -90,7 +90,7 @@ class CompleteTeamInvestmentService(
                         ?: throw LessonNotFoundException
 
                     val currentLessonId = currentLesson.id ?: throw LessonNotFoundException
-                    val currentRound = lesson.curInvRound
+                    val currentRound = currentLesson.curInvRound
 
                     val lessonItemMap = lessonItemQueryPort.findAllByLessonIdAndItemIds(
                         currentLessonId,
