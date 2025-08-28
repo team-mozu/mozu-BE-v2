@@ -12,5 +12,6 @@ interface LessonItemRepository : JpaRepository<LessonItemJpaEntity, LessonItemId
     @Query("SELECT li.lessonItemId.itemId FROM LessonItemJpaEntity li WHERE li.lessonItemId.lessonId = :lessonId")
     fun findItemIdsByLessonId(@Param("lessonId") lessonId: UUID): List<UUID>
 
-    fun findAllByLessonIdAndItemIdIn(lessonId: UUID, itemIds: List<UUID>): List<LessonItemJpaEntity>
+    @Query("SELECT li FROM LessonItemJpaEntity li WHERE li.lessonItemId.lessonId = :lessonId AND li.lessonItemId.itemId IN :itemIds")
+    fun findAllByLessonIdAndItemIdIn(@Param("lessonId") lessonId: UUID, @Param("itemIds") itemIds: List<UUID>): List<LessonItemJpaEntity>
 }
