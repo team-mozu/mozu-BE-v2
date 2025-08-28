@@ -16,10 +16,4 @@ class LessonPersistenceAdapter(
         return lessonRepository.findByLessonNum(lessonNum)
             ?.let { lessonMapper.toModel(it) }
     }
-
-    override fun findById(lessonId: UUID): Lesson? {
-        return lessonRepository.findById(lessonId)
-            .map { lessonMapper.toModel(it) }
-            .orElse(null)
-    }
 }
