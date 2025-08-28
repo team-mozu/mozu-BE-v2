@@ -47,6 +47,8 @@ class StockPersistenceAdapter(
             valProfit = stock.valProfit
             profitNum = stock.profitNum
             updatedAt = stock.updatedAt
+            team = teamEntity
+            item = itemEntity
         } ?: stockMapper.toEntity(stock, teamEntity, itemEntity)
 
         val savedEntity = stockRepository.save(entity)
