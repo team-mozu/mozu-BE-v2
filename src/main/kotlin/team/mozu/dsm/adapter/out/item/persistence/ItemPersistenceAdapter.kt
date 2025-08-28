@@ -14,12 +14,6 @@ class ItemPersistenceAdapter(
     private val itemMapper: ItemMapper
 ) : ItemQueryPort {
 
-    override fun findById(itemId: UUID): Item {
-        return itemRepository.findById(itemId)
-            .map { itemMapper.toModel(it) }
-            .orElseThrow { ItemNotFoundException }
-    }
-
     override fun findAllByIds(itemIds: List<UUID>): List<Item> {
         val items = itemRepository.findAllById(itemIds)
             .map { itemMapper.toModel(it) }

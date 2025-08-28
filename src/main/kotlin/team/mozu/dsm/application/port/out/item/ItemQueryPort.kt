@@ -5,7 +5,5 @@ import java.util.UUID
 
 interface ItemQueryPort {
 
-    fun findById(itemId: UUID): Item
-
     fun findAllByIds(itemIds: List<UUID>): List<Item>
 }
