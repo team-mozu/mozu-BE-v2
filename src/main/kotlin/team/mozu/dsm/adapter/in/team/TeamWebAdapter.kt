@@ -13,7 +13,7 @@ import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
-import java.util.UUID
+import team.mozu.dsm.global.security.auth.StudentPrincipal
 
 @RestController
 @RequestMapping("/team")
@@ -37,8 +37,7 @@ class TeamWebAdapter(
         request: List<@Valid CompleteInvestmentRequest>,
         authentication: Authentication
     ) {
-        val lessonNum = authentication.name
-        val teamId = authentication.credentials as UUID
-        teamInvestmentUseCase.completeInvestment(request, lessonNum, teamId)
+        val principal = authentication.principal as StudentPrincipal
+        teamInvestmentUseCase.completeInvestment(request, principal.lessonNum, principal.teamId)
     }
 }

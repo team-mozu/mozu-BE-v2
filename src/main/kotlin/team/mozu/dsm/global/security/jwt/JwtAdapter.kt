@@ -16,6 +16,7 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
 import team.mozu.dsm.application.port.out.auth.JwtPort
+import team.mozu.dsm.global.security.auth.StudentPrincipal
 import team.mozu.dsm.global.exception.ExpiredTokenException
 import team.mozu.dsm.global.exception.InvalidTokenException
 import team.mozu.dsm.global.exception.UnauthorizedTokenTypeException
@@ -123,8 +124,8 @@ class JwtAdapter(
                 val lessonNum = claims.subject
                 val teamId = UUID.fromString(claims.get("teamId", String::class.java))
                 UsernamePasswordAuthenticationToken(
-                    lessonNum,
-                    teamId,
+                    StudentPrincipal(lessonNum, teamId),
+                    null,
                     listOf(SimpleGrantedAuthority("ROLE_STUDENT"))
                 )
             }
