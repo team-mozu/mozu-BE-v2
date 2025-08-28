@@ -1,5 +1,6 @@
 package team.mozu.dsm.application.service.team
 
+import jakarta.persistence.EntityManager
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronization
@@ -50,8 +51,6 @@ class CompleteTeamInvestmentService(
         val team = teamQueryPort.findById(teamId)
             ?: throw TeamNotFoundException
 
-        val invCount = lesson.curInvRound
-
         val organ = queryOrganPort.findById(lesson.organId)
             ?: throw OrganNotFoundException
 
@@ -60,6 +59,9 @@ class CompleteTeamInvestmentService(
         val itemIds = requests.map { it.itemId }
         val lessonId = lesson.id ?: throw LessonNotFoundException
         validateItems(itemIds, lessonId)
+
+        val currentLesson = lessonQueryPort.findByLessonNum(lessonNum)
+            ?: throw LessonNotFoundException
 
         val orderItems = requests.map { req ->
             OrderItem(
@@ -71,7 +73,7 @@ class CompleteTeamInvestmentService(
                 orderCount = req.orderCount,
                 itemPrice = req.itemPrice,
                 totalAmount = req.totalAmount,
-                invCount = invCount,
+                invCount = currentLesson.curInvRound,
                 createdAt = LocalDateTime.now(),
                 updatedAt = null
             )
