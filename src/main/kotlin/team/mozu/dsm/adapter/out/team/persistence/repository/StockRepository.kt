@@ -9,4 +9,6 @@ interface StockRepository : CrudRepository<StockJpaEntity, UUID> {
     fun findByTeam_IdAndItem_Id(teamId: UUID, itemId: UUID): StockJpaEntity?
 
     fun findAllByTeam_Id(teamId: UUID): List<StockJpaEntity>
+
+    fun findByTeamId(teamId: UUID): StockJpaEntity?
 }
