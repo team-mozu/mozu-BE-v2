@@ -36,7 +36,7 @@ class OrderItemJpaEntity(
     var invCount: Int,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "item_id", nullable = false)
+    @JoinColumn(name = "item_id", nullable = false, updatable = false)
     var item: ItemJpaEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
