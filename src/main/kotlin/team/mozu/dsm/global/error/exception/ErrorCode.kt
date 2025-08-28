@@ -38,11 +38,13 @@ enum class ErrorCode(
     LESSON_NOT_IN_PROGRESS(HttpStatus.UNPROCESSABLE_ENTITY, "Lesson Not In Progress"),
     LESSON_DELETED(HttpStatus.BAD_REQUEST, "Lesson Deleted"),
     TEAM_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "Team Name Required"),
+    LESSON_ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "Lesson Item Not Found"),
 
     //team
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "Team Not Found"),
     STOCK_QUANTITY_INSUFFICIENT(HttpStatus.CONFLICT, "Stock Quantity Insufficient"),
     STOCK_NOT_OWNED(HttpStatus.CONFLICT, "Stock Not Owned"),
+    INSUFFICIENT_CASH(HttpStatus.BAD_REQUEST, "Insufficient Cash"),
 
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
