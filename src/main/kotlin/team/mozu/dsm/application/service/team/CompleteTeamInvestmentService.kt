@@ -182,7 +182,10 @@ class CompleteTeamInvestmentService(
         val totalBuyAmount = requests.filter { it.orderType == OrderType.BUY }
             .sumOf { it.totalAmount }
 
-        if (team.cashMoney < totalBuyAmount) {
+        val totalSellAmount = requests.filter { it.orderType == OrderType.SELL }
+            .sumOf { it.totalAmount }
+
+        if (team.cashMoney + totalSellAmount < totalBuyAmount) {
             throw InsufficientCashException
         }
 
@@ -246,7 +249,7 @@ class CompleteTeamInvestmentService(
                 }
             } else {
                 // === 기존 주식 업데이트 ===
-                if (totalSellCount > currentStock.quantity) {
+                if (totalSellCount > currentStock.quantity + totalBuyCount) {
                     throw InsufficientStockQuantityException
                 }
 

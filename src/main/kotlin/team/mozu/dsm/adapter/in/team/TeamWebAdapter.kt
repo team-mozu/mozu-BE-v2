@@ -3,6 +3,7 @@ package team.mozu.dsm.adapter.`in`.team
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -35,9 +36,8 @@ class TeamWebAdapter(
     fun endInvestment(
         @Valid @RequestBody
         request: List<@Valid CompleteInvestmentRequest>,
-        authentication: Authentication
+        @AuthenticationPrincipal principal: StudentPrincipal
     ) {
-        val principal = authentication.principal as StudentPrincipal
         teamInvestmentUseCase.completeInvestment(request, principal.lessonNum, principal.teamId)
     }
 }
