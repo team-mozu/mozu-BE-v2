@@ -121,7 +121,7 @@ class JwtAdapter(
         return when (tokenType) {
             STUDENT_ACCESS_TYPE -> {
                 val lessonNum = claims.subject
-                val teamId = claims.get("teamId", String::class.java)
+                val teamId = UUID.fromString(claims.get("teamId", String::class.java))
                 UsernamePasswordAuthenticationToken(
                     lessonNum,
                     teamId,

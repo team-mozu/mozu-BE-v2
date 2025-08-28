@@ -38,7 +38,7 @@ class TeamWebAdapter(
         authentication: Authentication
     ) {
         val lessonNum = authentication.name
-        val teamId = UUID.fromString(authentication.credentials as String)
+        val teamId = authentication.credentials as UUID
         teamInvestmentUseCase.completeInvestment(request, lessonNum, teamId)
     }
 }
