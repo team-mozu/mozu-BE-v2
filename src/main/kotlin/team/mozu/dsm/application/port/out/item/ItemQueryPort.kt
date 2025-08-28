@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface ItemQueryPort {
 
-    fun findById(itemId: UUID): Item?
+    fun findById(itemId: UUID): Item
 }
