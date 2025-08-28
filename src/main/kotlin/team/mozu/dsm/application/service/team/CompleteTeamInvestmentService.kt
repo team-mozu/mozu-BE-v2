@@ -68,8 +68,30 @@ class CompleteTeamInvestmentService(
                     val updatedTeam = teamQueryPort.findById(teamId)
                         ?: throw TeamNotFoundException
 
-                    val stock = stockQueryPort.findByTeamId(teamId)
-                        ?: throw StockNotOwnedException
+                    val stocks = stockQueryPort.findAllByTeamId(teamId)
+                    val currentLesson = lessonQueryPort.findByLessonNum(updatedTeam.lessonNum)
+                        ?: throw LessonNotFoundException
+
+                    val currentLessonId = currentLesson.id ?: throw LessonNotFoundException
+                    val currentRound = lesson.curInvRound
+
+                    val lessonItemMap = lessonItemQueryPort.findAllByLessonIdAndItemIds(
+                        currentLessonId,
+                        stocks.map { it.itemId }.distinct()
+                    ).associateBy { it.lessonItemId.itemId }
+
+                    val totalBuyMoney = stocks.sumOf { it.buyMoney }
+                    val totalValProfit = stocks.sumOf { stock ->
+                        val lessonItem = lessonItemMap[stock.itemId]
+                        val currentPrice = lessonItem?.getPriceByRound(currentRound) ?: lessonItem?.currentMoney ?: 0
+                        (currentPrice * stock.quantity.toLong()) - stock.buyMoney
+                    }
+
+                    val profitNum = if (totalBuyMoney > 0) {
+                        (totalValProfit.toDouble() / totalBuyMoney.toDouble()) * 100
+                    } else {
+                        0.0
+                    }
 
                     val eventData = TeamInvestmentCompletedEventDTO(
                         teamId = teamId,
@@ -77,7 +99,7 @@ class CompleteTeamInvestmentService(
                         curInvRound = currentInvCount,
                         totalMoney = updatedTeam.totalMoney,
                         valuationMoney = updatedTeam.valuationMoney,
-                        profitNum = stock.profitNum
+                        profitNum = profitNum
                     )
                     publishToSseUseCase.publishTo(organ.id.toString() , "TEAM_INV_END", eventData)
                 }
