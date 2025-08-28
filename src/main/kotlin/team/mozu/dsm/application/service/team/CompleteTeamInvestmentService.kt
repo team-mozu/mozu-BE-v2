@@ -20,6 +20,8 @@ import team.mozu.dsm.application.port.out.lesson.LessonItemQueryPort
 import team.mozu.dsm.application.port.out.lesson.LessonQueryPort
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.application.port.out.team.*
+import team.mozu.dsm.domain.lesson.model.Lesson
+import team.mozu.dsm.domain.team.model.OrderItem
 import team.mozu.dsm.domain.team.model.Stock
 import team.mozu.dsm.domain.team.type.OrderType
 import java.time.LocalDateTime
@@ -48,6 +50,8 @@ class CompleteTeamInvestmentService(
         val team = teamQueryPort.findById(teamId)
             ?: throw TeamNotFoundException
 
+        val invCount = lesson.curInvRound
+
         val organ = queryOrganPort.findById(lesson.organId)
             ?: throw OrganNotFoundException
 
@@ -57,7 +61,23 @@ class CompleteTeamInvestmentService(
         val lessonId = lesson.id ?: throw LessonNotFoundException
         validateItems(itemIds, lessonId)
 
-        orderItemCommandPort.saveAll(requests, team, currentInvCount)
+        val orderItems = requests.map { req ->
+            OrderItem(
+                id = null,
+                itemId = req.itemId,
+                teamId = team.id!!,
+                itemName = req.itemName,
+                orderType = req.orderType,
+                orderCount = req.orderCount,
+                itemPrice = req.itemPrice,
+                totalAmount = req.totalAmount,
+                invCount = invCount,
+                createdAt = LocalDateTime.now(),
+                updatedAt = null
+            )
+        }
+
+        orderItemCommandPort.saveAll(orderItems)
 
         updateStocksAndTeam(requests, teamId)
 
