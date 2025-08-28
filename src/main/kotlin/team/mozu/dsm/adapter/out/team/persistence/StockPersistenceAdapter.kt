@@ -22,12 +22,12 @@ class StockPersistenceAdapter(
 
     //--Query--//
     override fun findByTeamIdAndItemId(teamId: UUID, itemId: UUID): Stock? {
-        return stockRepository.findByTeam_IdAndItem_Id(teamId, itemId)
+        return stockRepository.findByTeamIdAndItemId(teamId, itemId)
             ?.let { stockMapper.toModel(it) }
     }
 
     override fun findAllByTeamId(teamId: UUID): List<Stock> {
-        return stockRepository.findAllByTeam_Id(teamId)
+        return stockRepository.findAllByTeamId(teamId)
             .map { stockMapper.toModel(it) }
     }
 
@@ -40,7 +40,7 @@ class StockPersistenceAdapter(
         val itemEntity = itemRepository.findById(stock.itemId)
             .orElseThrow { ItemNotFoundException }
 
-        val entity = stockRepository.findByTeam_IdAndItem_Id(stock.teamId, stock.itemId)?.apply {
+        val entity = stockRepository.findByTeamIdAndItemId(stock.teamId, stock.itemId)?.apply {
             quantity = stock.quantity
             avgPurchasePrice = stock.avgPurchasePrice
             buyMoney = stock.buyMoney
