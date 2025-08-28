@@ -1,7 +1,11 @@
 package team.mozu.dsm.adapter.out.team.persistence
 
+import com.querydsl.jpa.impl.JPAQueryFactory
+import jakarta.persistence.LockModeType
 import org.springframework.stereotype.Component
+import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
+import team.mozu.dsm.adapter.out.team.entity.QTeamJpaEntity
 import team.mozu.dsm.adapter.out.team.persistence.mapper.TeamMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
@@ -15,8 +19,11 @@ import java.util.*
 class TeamPersistenceAdapter(
     private val teamRepository: TeamRepository,
     private val lessonRepository: LessonRepository,
-    private val teamMapper: TeamMapper
+    private val teamMapper: TeamMapper,
+    private val queryFactory: JPAQueryFactory
 ) : TeamCommandPort, TeamQueryPort {
+
+    private val t = QTeamJpaEntity.teamJpaEntity
 
     //--Query--//
     override fun findById(teamId: UUID): Team {
@@ -24,6 +31,16 @@ class TeamPersistenceAdapter(
             .orElseThrow { TeamNotFoundException }
 
         return teamMapper.toModel(entity)
+    }
+
+    override fun findByIdWithLock(teamId: UUID): Team? {
+        val entity = queryFactory
+            .selectFrom(t)
+            .where(t.id.eq(teamId))
+            .setLockMode(LockModeType.PESSIMISTIC_WRITE)
+            .fetchOne()
+
+        return entity?.let { teamMapper.toModel(it) }
     }
 
     //--Command--//
