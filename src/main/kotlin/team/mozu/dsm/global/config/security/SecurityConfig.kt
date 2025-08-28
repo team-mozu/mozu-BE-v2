@@ -44,14 +44,14 @@ class SecurityConfig(
 
                 //user
                 it.requestMatchers("/user/**").permitAll()
-                
+
                 //organ
                 it.requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
-                
+
                 //team
                 it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
+                it.requestMatchers(HttpMethod.POST, "/team/end").hasAnyRole("STUDENT")
                     .anyRequest().authenticated()
-
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
 
