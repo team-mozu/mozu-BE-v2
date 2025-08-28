@@ -141,10 +141,8 @@ class CompleteTeamInvestmentService(
             throw InvalidItemException
         }
 
-        val deletedItems = itemIds.filter { itemId ->
-            val item = itemQueryPort.findById(itemId)
-            item?.isDeleted == true
-        }
+        val items = itemQueryPort.findAllByIds(itemIds)
+        val deletedItems = items.filter { it.isDeleted }.map { it.id }
 
         if (deletedItems.isNotEmpty()) {
             throw ItemDeletedException

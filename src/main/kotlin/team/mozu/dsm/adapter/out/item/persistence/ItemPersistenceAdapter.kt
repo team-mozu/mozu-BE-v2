@@ -19,4 +19,16 @@ class ItemPersistenceAdapter(
             .map { itemMapper.toModel(it) }
             .orElseThrow { ItemNotFoundException }
     }
+
+    override fun findAllByIds(itemIds: List<UUID>): List<Item> {
+        val items = itemRepository.findAllById(itemIds)
+            .map { itemMapper.toModel(it) }
+
+        val missingIds = itemIds - items.map { it.id }.toSet()
+        if (missingIds.isNotEmpty()) {
+            throw ItemNotFoundException
+        }
+
+        return items
+    }
 }
