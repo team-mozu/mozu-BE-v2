@@ -15,5 +15,5 @@ interface StockRepository : CrudRepository<StockJpaEntity, UUID> {
     fun findByTeamIdAndItemId(@Param("teamId") teamId: UUID, @Param("itemId") itemId: UUID): StockJpaEntity?
 
     @Query("SELECT s FROM StockJpaEntity s WHERE s.team.id = :teamId")
-    fun findAllByTeamId(teamId: UUID): List<StockJpaEntity>
+    fun findAllByTeamId(@Param("teamId") teamId: UUID): List<StockJpaEntity>
 }
