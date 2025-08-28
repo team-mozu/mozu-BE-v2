@@ -12,7 +12,7 @@ import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.domain.lesson.model.Lesson
 import java.util.UUID
 
-import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity;
+import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
 
 @Component
 class LessonPersistenceAdapter(
