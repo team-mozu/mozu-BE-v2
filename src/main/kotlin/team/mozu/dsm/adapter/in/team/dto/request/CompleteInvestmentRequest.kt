@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull
 import team.mozu.dsm.domain.team.type.OrderType
 import java.util.UUID
 
-data class EndInvestmentRequest(
+data class CompleteInvestmentRequest(
     @field:NotNull(message = "종목 ID는 필수입니다")
     val itemId: UUID,
 

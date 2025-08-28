@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import team.mozu.dsm.adapter.`in`.team.dto.request.EndInvestmentRequest
+import team.mozu.dsm.adapter.`in`.team.dto.request.CompleteInvestmentRequest
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
@@ -34,7 +34,7 @@ class TeamWebAdapter(
     @ResponseStatus(HttpStatus.CREATED)
     fun endInvestment(
         @Valid @RequestBody
-        request: List<@Valid EndInvestmentRequest>,
+        request: List<@Valid CompleteInvestmentRequest>,
         authentication: Authentication
     ) {
         val lessonNum = authentication.name
