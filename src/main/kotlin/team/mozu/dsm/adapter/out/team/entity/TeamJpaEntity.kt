@@ -39,6 +39,6 @@ class TeamJpaEntity(
     var participationDate: LocalDateTime,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "class_id", nullable = false)
+    @JoinColumn(name = "lesson_id", nullable = false)
     var lesson: LessonJpaEntity
 ) : BaseTimeEntity()
