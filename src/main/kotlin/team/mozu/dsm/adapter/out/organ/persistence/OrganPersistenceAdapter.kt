@@ -41,8 +41,8 @@ class OrganPersistenceAdapter(
 
     //--Command--//
     override fun save(organ: Organ): Organ {
-        val organ = organMapper.toEntity(organ)
-        val savedOrgan = organRepository.save(organ)
+        val entity = organMapper.toEntity(organ)
+        val savedOrgan = organRepository.save(entity)
         return organMapper.toModel(savedOrgan)
     }
 }
