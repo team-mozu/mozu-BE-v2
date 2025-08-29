@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.LockModeType
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
-import team.mozu.dsm.adapter.out.team.entity.QTeamJpaEntity
+import team.mozu.dsm.adapter.out.team.entity.QTeamJpaEntity.teamJpaEntity
 import team.mozu.dsm.adapter.out.team.persistence.mapper.TeamMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
@@ -22,7 +22,7 @@ class TeamPersistenceAdapter(
     private val queryFactory: JPAQueryFactory
 ) : TeamCommandPort, TeamQueryPort {
 
-    private val t = QTeamJpaEntity.teamJpaEntity
+    private val t = teamJpaEntity
 
     //--Query--//
     override fun findById(teamId: UUID): Team {

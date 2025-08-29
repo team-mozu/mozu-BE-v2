@@ -2,7 +2,7 @@ package team.mozu.dsm.adapter.out.lesson.persistence
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity
+import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity.lessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
 import team.mozu.dsm.application.port.out.lesson.LessonItemQueryPort
 import team.mozu.dsm.domain.lesson.model.LessonItem
@@ -14,7 +14,7 @@ class LessonItemPersistenceAdapter(
     private val queryFactory: JPAQueryFactory
 ) : LessonItemQueryPort {
 
-    private val li = QLessonItemJpaEntity.lessonItemJpaEntity
+    private val li = lessonItemJpaEntity
 
     override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
         return queryFactory
