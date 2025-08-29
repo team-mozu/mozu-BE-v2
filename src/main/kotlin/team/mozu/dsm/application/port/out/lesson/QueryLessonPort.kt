@@ -7,7 +7,7 @@ interface QueryLessonPort {
 
     fun findByLessonNum(lessonNum: String): Lesson?
 
-    fun findById(id: UUID): Lesson
+    fun findById(id: UUID): Lesson?
 
     fun existsByLessonNum(lessonNum: String): Boolean
 }

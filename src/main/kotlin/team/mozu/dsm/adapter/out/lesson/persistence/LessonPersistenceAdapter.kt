@@ -1,18 +1,17 @@
 package team.mozu.dsm.adapter.out.lesson.persistence
 
 import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
-import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.domain.lesson.model.Lesson
 import java.util.UUID
-
-import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
 
 @Component
 class LessonPersistenceAdapter(
@@ -28,11 +27,9 @@ class LessonPersistenceAdapter(
             ?.let { lessonMapper.toModel(it) }
     }
 
-    override fun findById(id: UUID): Lesson {
-        return lessonMapper.toModel(
-            lessonRepository.findById(id)
-                .orElseThrow{ LessonNotFoundException }
-        )
+    override fun findById(id: UUID): Lesson? {
+        return lessonRepository.findByIdOrNull(id)
+            ?.let { lessonMapper.toModel(it) }
     }
 
     override fun existsByLessonNum(lessonNum: String): Boolean {
