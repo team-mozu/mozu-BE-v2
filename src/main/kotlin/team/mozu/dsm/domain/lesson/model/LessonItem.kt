@@ -1,5 +1,6 @@
 package team.mozu.dsm.domain.lesson.model
 
+import team.mozu.dsm.application.exception.lesson.InvalidLessonRoundException
 import team.mozu.dsm.domain.annotation.Aggregate
 
 @Aggregate
@@ -25,7 +26,7 @@ data class LessonItem(
             3 -> round3Money
             4 -> round4Money
             5 -> round5Money
-            else -> null
+            else -> throw InvalidLessonRoundException
         }
     }
 }
