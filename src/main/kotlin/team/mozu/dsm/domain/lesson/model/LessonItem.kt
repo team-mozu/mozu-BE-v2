@@ -1,6 +1,6 @@
 package team.mozu.dsm.domain.lesson.model
 
-import team.mozu.dsm.application.exception.lesson.InvalidLessonRoundException
+import team.mozu.dsm.domain.exception.lesson.InvalidLessonRoundException
 import team.mozu.dsm.domain.annotation.Aggregate
 
 @Aggregate
