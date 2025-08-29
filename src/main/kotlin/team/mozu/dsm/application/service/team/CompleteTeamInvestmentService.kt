@@ -82,7 +82,6 @@ class CompleteTeamInvestmentService(
             object : TransactionSynchronization {
                 override fun afterCommit() {
                     val updatedTeam = teamQueryPort.findById(teamId)
-                        ?: throw TeamNotFoundException
 
                     val updatedStocks = stockQueryPort.findAllByTeamId(teamId)
 
