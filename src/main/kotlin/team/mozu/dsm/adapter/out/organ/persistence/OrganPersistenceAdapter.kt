@@ -1,5 +1,6 @@
 package team.mozu.dsm.adapter.out.organ.persistence
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.organ.persistence.mapper.OrganMapper
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
@@ -19,9 +20,8 @@ class OrganPersistenceAdapter(
     }
 
     override fun findById(organId: UUID): Organ? {
-        return organRepository.findById(organId)
-            .map { organMapper.toModel(it) }
-            .orElse(null)
+        return organRepository.findByIdOrNull(organId)
+            ?.let { organMapper.toModel(it) }
     }
 
     override fun save(organ: Organ): Organ {
