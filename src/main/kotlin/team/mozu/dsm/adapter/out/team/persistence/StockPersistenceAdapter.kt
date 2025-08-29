@@ -1,5 +1,6 @@
 package team.mozu.dsm.adapter.out.team.persistence
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
 import team.mozu.dsm.adapter.out.team.persistence.mapper.StockMapper
@@ -34,11 +35,11 @@ class StockPersistenceAdapter(
     //--Command--//
     override fun saveAll(stocks: List<Stock>) {
         stocks.forEach { stock ->
-            val teamEntity = teamRepository.findById(stock.teamId)
-                .orElseThrow { TeamNotFoundException }
+            val teamEntity = teamRepository.findByIdOrNull(stock.teamId)
+                ?: throw TeamNotFoundException
 
-            val itemEntity = itemRepository.findById(stock.itemId)
-                .orElseThrow { ItemNotFoundException }
+            val itemEntity = itemRepository.findByIdOrNull(stock.itemId)
+                ?: throw ItemNotFoundException
 
             val entity = stockRepository.findByTeam_IdAndItem_Id(stock.teamId, stock.itemId)?.apply {
                 quantity = stock.quantity

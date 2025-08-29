@@ -2,6 +2,7 @@ package team.mozu.dsm.adapter.out.team.persistence
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.LockModeType
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.team.entity.QTeamJpaEntity.teamJpaEntity
@@ -26,8 +27,8 @@ class TeamPersistenceAdapter(
 
     //--Query--//
     override fun findById(teamId: UUID): Team {
-        val entity = teamRepository.findById(teamId)
-            .orElseThrow { TeamNotFoundException }
+        val entity = teamRepository.findByIdOrNull(teamId)
+            ?: throw TeamNotFoundException
 
         return teamMapper.toModel(entity)
     }

@@ -1,5 +1,6 @@
 package team.mozu.dsm.adapter.out.team.persistence
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
 import team.mozu.dsm.adapter.out.team.persistence.mapper.OrderItemMapper
@@ -21,8 +22,8 @@ class OrderItemPersistenceAdapter(
     override fun saveAll(orderItems: List<OrderItem>) {
         if (orderItems.isEmpty()) return
         
-        val teamEntity = teamRepository.findById(orderItems.first().teamId)
-            .orElseThrow { TeamNotFoundException }
+        val teamEntity = teamRepository.findByIdOrNull(orderItems.first().teamId)
+            ?: throw TeamNotFoundException
 
         val itemIds = orderItems.map { it.itemId }.distinct()
 
