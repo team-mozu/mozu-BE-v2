@@ -18,7 +18,7 @@ class ArticlePersistenceAdapter(
         return articleRepository.existsById(id)
     }
 
-    override fun findAllByIds(ids: List<UUID>): List<Article> {
+    override fun findAllByIds(ids: Set<UUID>): List<Article> {
         return articleRepository.findAllById(ids)
             .map { articleMapper.toModel(it) }
     }
