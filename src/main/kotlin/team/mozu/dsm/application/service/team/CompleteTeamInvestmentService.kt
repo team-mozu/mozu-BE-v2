@@ -178,14 +178,24 @@ class CompleteTeamInvestmentService(
         val lessonItemMap = lessonItemQueryPort.findAllByLessonIdAndItemIds(lessonId, itemIds)
             .associateBy { it.lessonItemId.itemId }
 
+        val previousInv = lesson.curInvRound - 1
+
         val stocksToSave = mutableListOf<Stock>()
         val stockIdsToDelete = mutableListOf<UUID>()
 
         val totalBuyAmount = requests.filter { it.orderType == OrderType.BUY }
-            .sumOf { it.totalAmount }
+            .sumOf { r ->
+                val lessonItem = lessonItemMap[r.itemId] ?: throw LessonItemNotFoundException
+                val previousPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
+                previousPrice.toLong() * r.orderCount.toLong()
+            }
 
         val totalSellAmount = requests.filter { it.orderType == OrderType.SELL }
-            .sumOf { it.totalAmount }
+            .sumOf { r ->
+                val lessonItem = lessonItemMap[r.itemId] ?: throw LessonItemNotFoundException
+                val previousPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
+                previousPrice.toLong() * r.orderCount.toLong()
+            }
 
         if (team.cashMoney + totalSellAmount < totalBuyAmount) {
             throw InsufficientCashException
@@ -203,14 +213,15 @@ class CompleteTeamInvestmentService(
 
             val totalBuyCount = buyRequests.sumOf { it.orderCount }
             val totalSellCount = sellRequests.sumOf { it.orderCount }
-
-            val itemTotalBuyAmount = buyRequests.sumOf { it.totalAmount }
-
-            val netQuantityChange = totalBuyCount - totalSellCount
-
             val lessonItem = lessonItemMap[itemId] ?: throw LessonItemNotFoundException
             val currentRound = lesson.curInvRound
             val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+            val itemTotalBuyAmount = buyRequests
+                .sumOf { r ->
+                    val previousPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
+                    previousPrice.toLong() * r.orderCount.toLong()
+                }
+            val netQuantityChange = totalBuyCount - totalSellCount
 
             // === 신규 주식 처리 ===
             if (currentStock == null) {
@@ -335,12 +346,8 @@ class CompleteTeamInvestmentService(
         // 팀 정보 업데이트
         // ================================================
 
-        val cashChange = requests.sumOf { request ->
-            when (request.orderType) {
-                OrderType.SELL -> request.totalAmount
-                OrderType.BUY -> -request.totalAmount
-            }
-        }
+        val cashChange = totalSellAmount - totalBuyAmount
+
         val currentCash = team.cashMoney + cashChange
 
         val currentStocks = stockQueryPort.findAllByTeamId(teamId)
