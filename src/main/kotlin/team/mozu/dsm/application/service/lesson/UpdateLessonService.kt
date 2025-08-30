@@ -56,7 +56,7 @@ class UpdateLessonService(
 
         // 최종 LessonResponse 반환
         return LessonResponse(
-            id = lesson.id!!,
+            id = lesson.id,
             name = command.lessonName,
             maxInvRound = command.lessonRound,
             curInvRound = lesson.curInvRound,
