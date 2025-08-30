@@ -10,4 +10,6 @@ interface CommandLessonPort {
     fun updateLessonNumAndIsInProgress(id: UUID, lessonNum: String)
 
     fun updateIsStarred(id: UUID)
+
+    fun delete(id: UUID)
 }
