@@ -43,12 +43,16 @@ enum class ErrorCode(
     TEAM_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "Team Name Required"),
     LESSON_ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "Lesson Item Not Found"),
     INVALID_LESSON_ROUND(HttpStatus.BAD_REQUEST, "Invalid Lesson Round"),
+    CANNOT_UPDATE_LESSON(HttpStatus.FORBIDDEN, "Can't update Lesson"),
 
     //team
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "Team Not Found"),
     STOCK_QUANTITY_INSUFFICIENT(HttpStatus.CONFLICT, "Stock Quantity Insufficient"),
     STOCK_NOT_OWNED(HttpStatus.CONFLICT, "Stock Not Owned"),
     INSUFFICIENT_CASH(HttpStatus.BAD_REQUEST, "Insufficient Cash"),
+    // item
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "Item Not Found"),
+    INSUFFICIENT_LESSON_ITEM_MONEY(HttpStatus.BAD_REQUEST, "Insufficient Lesson Item Money"),
 
     // article
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "Article Not Found"),
