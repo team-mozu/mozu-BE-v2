@@ -14,23 +14,21 @@ class LessonItemPersistenceAdapter(
     private val queryFactory: JPAQueryFactory
 ) : LessonItemQueryPort {
 
-    private val li = lessonItemJpaEntity
-
     override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
         return queryFactory
-            .select(li.lessonItemId.itemId)
-            .from(li)
-            .where(li.lessonItemId.lessonId.eq(lessonId))
+            .select(lessonItemJpaEntity.lessonItemId.itemId)
+            .from(lessonItemJpaEntity)
+            .where(lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId))
             .fetch()
     }
 
     override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<UUID>): List<LessonItem> {
         if (itemIds.isEmpty()) return emptyList()
         val entities = queryFactory
-            .selectFrom(li)
+            .selectFrom(lessonItemJpaEntity)
             .where(
-                li.lessonItemId.lessonId.eq(lessonId)
-                    .and(li.lessonItemId.itemId.`in`(itemIds))
+                lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId)
+                    .and(lessonItemJpaEntity.lessonItemId.itemId.`in`(itemIds))
             )
             .fetch()
 
