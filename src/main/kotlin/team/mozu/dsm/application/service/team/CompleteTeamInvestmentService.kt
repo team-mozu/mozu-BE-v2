@@ -96,11 +96,9 @@ class CompleteTeamInvestmentService(
                         updatedStocks.map { it.itemId }.distinct()
                     ).associateBy { it.lessonItemId.itemId }
 
-                    val valuationMoney = updatedTeam.valuationMoney
-
                     val totalBuyMoney = updatedStocks.sumOf { it.buyMoney }
 
-                    val currentValProfit = updatedStocks.sumOf { stock ->
+                    val currentTotalValProfit = updatedStocks.sumOf { stock ->
                         val lessonItem = lessonItemMap[stock.itemId]
 
                         val currentPrice = lessonItem?.getPriceByRound(currentRound) ?: lessonItem?.currentMoney ?: 0
@@ -108,7 +106,7 @@ class CompleteTeamInvestmentService(
                     }
 
                     val profitNum = if (totalBuyMoney > 0) {
-                        (currentValProfit.toDouble() / totalBuyMoney.toDouble()) * 100
+                        (currentTotalValProfit.toDouble() / totalBuyMoney.toDouble()) * 100
                     } else {
                         0.0
                     }
@@ -117,8 +115,8 @@ class CompleteTeamInvestmentService(
                         teamId = teamId,
                         teamName = updatedTeam.teamName,
                         curInvRound = currentRound,
-                        totalMoney = valuationMoney,
-                        valuationMoney = updatedTeam.valuationMoney,
+                        totalMoney = updatedTeam.totalMoney,
+                        valuationMoney = currentTotalValProfit,
                         profitNum = profitNum
                     )
                     publishToSseUseCase.publishTo(organ.id.toString(), "TEAM_INV_END", eventData)
