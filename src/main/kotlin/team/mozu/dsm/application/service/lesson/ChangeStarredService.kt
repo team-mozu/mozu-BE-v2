@@ -12,7 +12,7 @@ import java.util.UUID
 class ChangeStarredService(
     private val queryLessonPort: QueryLessonPort,
     private val commandLessonPort: CommandLessonPort
-): ChangeStarredUseCase {
+) : ChangeStarredUseCase {
 
     @Transactional
     override fun change(id: UUID) {
