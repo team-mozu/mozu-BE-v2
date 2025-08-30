@@ -8,4 +8,6 @@ interface CommandLessonPort {
     fun save(lesson: Lesson): Lesson
 
     fun updateLessonNumAndIsInProgress(id: UUID, lessonNum: String)
+
+    fun updateIsStarred(id: UUID)
 }

@@ -55,4 +55,12 @@ class LessonPersistenceAdapter(
             .where(lessonJpaEntity.id.eq(id))
             .execute()
     }
+
+    override fun updateIsStarred(id: UUID) {
+        jpaQueryFactory
+            .update(lessonJpaEntity)
+            .set(lessonJpaEntity.isStarred, lessonJpaEntity.isStarred.not())
+            .where(lessonJpaEntity.id.eq(id))
+            .execute()
+    }
 }
