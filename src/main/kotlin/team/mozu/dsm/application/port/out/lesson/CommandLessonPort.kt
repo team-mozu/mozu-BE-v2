@@ -7,5 +7,5 @@ interface CommandLessonPort {
 
     fun save(lesson: Lesson): Lesson
 
-    fun updateLessonNum(id: UUID, lessonNum: String)
+    fun updateLessonNumAndIsInProgress(id: UUID, lessonNum: String)
 }

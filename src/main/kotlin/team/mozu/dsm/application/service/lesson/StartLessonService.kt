@@ -31,7 +31,7 @@ class StartLessonService(
         while (true) {
             lessonNum = createCode()
             try {
-                commandLessonPort.updateLessonNum(lesson.id!!, lessonNum)
+                commandLessonPort.updateLessonNumAndIsInProgress(lesson.id!!, lessonNum)
                 break // 성공하면 루프 종료
             } catch (e: DataIntegrityViolationException) {
                 // 유니크 충돌 시 재시도

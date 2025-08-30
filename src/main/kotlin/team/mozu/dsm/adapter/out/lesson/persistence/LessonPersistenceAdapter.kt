@@ -47,10 +47,11 @@ class LessonPersistenceAdapter(
         return lessonMapper.toModel(saved)
     }
 
-    override fun updateLessonNum(id: UUID, lessonNum: String) {
+    override fun updateLessonNumAndIsInProgress(id: UUID, lessonNum: String) {
         jpaQueryFactory
             .update(lessonJpaEntity)
             .set(lessonJpaEntity.lessonNum, lessonNum)
+            .set(lessonJpaEntity.isInProgress, true)
             .where(lessonJpaEntity.id.eq(id))
             .execute()
     }
