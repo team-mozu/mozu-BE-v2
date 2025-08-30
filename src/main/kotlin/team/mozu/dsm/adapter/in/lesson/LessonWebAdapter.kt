@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import team.mozu.dsm.adapter.`in`.lesson.dto.request.LessonRequest
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
-import team.mozu.dsm.application.port.`in`.lesson.CreateLessonUseCase
-import team.mozu.dsm.application.port.`in`.lesson.StartLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.ChangeStarredUseCase
+import team.mozu.dsm.application.port.`in`.lesson.CreateLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.DeleteLessonUseCase
+import team.mozu.dsm.application.port.`in`.lesson.StartLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.EndLessonUseCase
+import team.mozu.dsm.application.port.`in`.lesson.UpdateLessonUseCase
 import java.util.UUID
 
 @RestController
@@ -27,7 +28,8 @@ class LessonWebAdapter(
     private val startLessonUseCase: StartLessonUseCase,
     private val changeStarredUseCase: ChangeStarredUseCase,
     private val deleteLessonUseCase: DeleteLessonUseCase,
-    private val endLessonUseCase: EndLessonUseCase
+    private val endLessonUseCase: EndLessonUseCase,
+    private val updateLessonUseCase: UpdateLessonUseCase
 ) {
 
     @PostMapping
@@ -69,5 +71,15 @@ class LessonWebAdapter(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
         endLessonUseCase.end(lessonId)
+    }
+
+    @PatchMapping("/{lesson-id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun update(
+        @PathVariable("lesson-id") lessonId: UUID,
+        @RequestBody @Valid
+        request: LessonRequest
+    ): LessonResponse {
+        return updateLessonUseCase.update(lessonId, request)
     }
 }
