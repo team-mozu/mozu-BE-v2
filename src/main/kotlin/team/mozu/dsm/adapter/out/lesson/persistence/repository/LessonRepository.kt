@@ -7,4 +7,6 @@ import java.util.UUID
 interface LessonRepository : JpaRepository<LessonJpaEntity, UUID> {
 
     fun findByLessonNum(lessonNum: String): LessonJpaEntity?
+
+    fun existsByLessonNum(lessonNum: String): Boolean
 }

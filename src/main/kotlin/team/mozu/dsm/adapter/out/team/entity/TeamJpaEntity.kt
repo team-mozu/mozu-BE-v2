@@ -11,7 +11,7 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "tbl_class_team")
+@Table(name = "tbl_lesson_team")
 class TeamJpaEntity(
 
     @Column(columnDefinition = "VARCHAR(100)")
@@ -39,6 +39,6 @@ class TeamJpaEntity(
     var participationDate: LocalDateTime,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "class_id", nullable = false)
+    @JoinColumn(name = "lesson_id", nullable = false)
     var lesson: LessonJpaEntity
 ) : BaseTimeEntity()
