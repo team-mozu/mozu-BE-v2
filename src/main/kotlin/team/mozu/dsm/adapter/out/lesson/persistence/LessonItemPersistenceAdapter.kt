@@ -56,7 +56,7 @@ class LessonItemPersistenceAdapter(
          * 2) .associateBy를 사용하여 Map<UUID, ItemJpaEntity> 형식으로 변환
          * 3) 각 LessonItem 도메인 모델을 Lesson, Item과 매핑하여 JPA 엔티티 생성
          * 4) 생성된 엔티티를 saveAll로 저장 후 도메인 모델로 변환
-         **/
+         */
         val lessonItemList = itemRepository.findAllById(lessonItems.map { it.lessonItemId.itemId })
             .associateBy { it.id }
             .let { itemMap ->
@@ -70,5 +70,16 @@ class LessonItemPersistenceAdapter(
         lessonItemRepository.saveAll(lessonItemList)
 
         return lessonItemList.map { entity -> lessonItemMapper.toModel(entity) }
+    }
+
+    override fun deleteAll(lessonId: UUID) {
+        val lessonEntity = lessonRepository.findById(lessonId)
+            .orElseThrow { LessonNotFoundException }
+
+        // lessonId 기준으로 기존 LessonItem 전부 삭제
+        jpaQueryFactory
+            .delete(lessonItemJpaEntity)
+            .where(lessonItemJpaEntity.lesson.id.eq(lessonEntity.id))
+            .execute()
     }
 }

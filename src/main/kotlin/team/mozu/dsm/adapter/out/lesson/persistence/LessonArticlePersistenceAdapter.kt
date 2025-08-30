@@ -1,7 +1,9 @@
 package team.mozu.dsm.adapter.out.lesson.persistence
 
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.article.persistence.repository.ArticleRepository
+import team.mozu.dsm.adapter.out.lesson.entity.QLessonArticleJpaEntity.lessonArticleJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonArticleMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonArticleRepository
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
@@ -16,7 +18,8 @@ class LessonArticlePersistenceAdapter(
     private val lessonRepository: LessonRepository,
     private val articleRepository: ArticleRepository,
     private val lessonArticleMapper: LessonArticleMapper,
-    private val lessonArticleRepository: LessonArticleRepository
+    private val lessonArticleRepository: LessonArticleRepository,
+    private val jpaQueryFactory: JPAQueryFactory
 ) : CommandLessonArticlePort {
 
     //--Query--//
@@ -32,7 +35,7 @@ class LessonArticlePersistenceAdapter(
          * 2) .associateBy를 사용하여 Map<UUID, ArticleJpaEntity> 형식으로 변환
          * 3) 각 LessonArticle 도메인 모델을 Lesson, Article과 매핑하여 JPA 엔티티 생성
          * 4) 생성된 엔티티를 saveAll로 저장 후 도메인 모델로 변환
-         **/
+         */
         val lessonArticleList = articleRepository.findAllById(lessonArticles.map { it.lessonArticleId.articleId })
             .associateBy { it.id }
             .let { articleMap ->
@@ -46,5 +49,15 @@ class LessonArticlePersistenceAdapter(
         lessonArticleRepository.saveAll(lessonArticleList)
 
         return lessonArticleList.map { entity -> lessonArticleMapper.toModel(entity) }
+    }
+
+    override fun deleteAll(lessonId: UUID) {
+        val lessonEntity = lessonRepository.findById(lessonId)
+            .orElseThrow { LessonNotFoundException }
+
+        // lessonId 기준으로 기존 LessonArticle 전부 삭제
+        jpaQueryFactory.delete(lessonArticleJpaEntity)
+            .where(lessonArticleJpaEntity.lesson.id.eq(lessonEntity.id))
+            .execute()
     }
 }
