@@ -388,6 +388,6 @@ class CompleteTeamInvestmentService(
             isInvestmentInProgress = isInvestmentInProgress,
             updatedAt = LocalDateTime.now()
         )
-        commandTeamPort.save(updatedTeam)
+        commandTeamPort.update(updatedTeam)
     }
 }

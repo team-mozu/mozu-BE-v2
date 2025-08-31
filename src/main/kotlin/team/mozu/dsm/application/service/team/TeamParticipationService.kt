@@ -59,7 +59,7 @@ class TeamParticipationService(
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now()
         )
-        val savedTeam = commandTeamPort.save(team)
+        val savedTeam = commandTeamPort.create(team)
 
         /**
          * 트랜잭션 안에서 SSE 이벤트를 직접 발행하면
