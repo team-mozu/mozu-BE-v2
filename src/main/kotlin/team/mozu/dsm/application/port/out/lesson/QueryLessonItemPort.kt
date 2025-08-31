@@ -3,7 +3,7 @@ package team.mozu.dsm.application.port.out.lesson
 import team.mozu.dsm.domain.lesson.model.LessonItem
 import java.util.UUID
 
-interface LessonItemQueryPort {
+interface QueryLessonItemPort {
 
     fun findItemIdsByLessonId(lessonId: UUID): List<UUID>
 

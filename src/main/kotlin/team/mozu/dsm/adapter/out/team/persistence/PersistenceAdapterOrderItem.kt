@@ -8,16 +8,16 @@ import team.mozu.dsm.adapter.out.team.persistence.repository.OrderItemRepository
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
-import team.mozu.dsm.application.port.out.team.OrderItemCommandPort
+import team.mozu.dsm.application.port.out.team.CommandOrderItemPort
 import team.mozu.dsm.domain.team.model.OrderItem
 
 @Component
-class OrderItemPersistenceAdapter(
+class PersistenceAdapterOrderItem(
     private val orderItemRepository: OrderItemRepository,
     private val itemRepository: ItemRepository,
     private val teamRepository: TeamRepository,
     private val orderItemMapper: OrderItemMapper
-) : OrderItemCommandPort {
+) : CommandOrderItemPort {
 
     override fun saveAll(orderItems: List<OrderItem>) {
         if (orderItems.isEmpty()) return

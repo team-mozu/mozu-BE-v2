@@ -18,9 +18,9 @@ import team.mozu.dsm.application.exception.team.StockNotOwnedException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.`in`.sse.PublishToSseUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
-import team.mozu.dsm.application.port.out.item.ItemQueryPort
-import team.mozu.dsm.application.port.out.lesson.LessonItemQueryPort
-import team.mozu.dsm.application.port.out.lesson.LessonQueryPort
+import team.mozu.dsm.application.port.out.item.QueryItemPort
+import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
+import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.application.port.out.team.*
 import team.mozu.dsm.domain.team.model.OrderItem
@@ -32,24 +32,24 @@ import java.util.UUID
 
 @Service
 class CompleteTeamInvestmentService(
-    private val teamQueryPort: TeamQueryPort,
-    private val lessonQueryPort: LessonQueryPort,
-    private val lessonItemQueryPort: LessonItemQueryPort,
-    private val orderItemCommandPort: OrderItemCommandPort,
-    private val stockQueryPort: StockQueryPort,
+    private val queryTeamPort: QueryTeamPort,
+    private val queryLessonPort: QueryLessonPort,
+    private val queryLessonItemPort: QueryLessonItemPort,
+    private val commandOrderItemPort: CommandOrderItemPort,
+    private val queryStockPort: QueryStockPort,
     private val queryOrganPort: QueryOrganPort,
-    private val stockCommandPort: StockCommandPort,
-    private val teamCommandPort: TeamCommandPort,
-    private val itemQueryPort: ItemQueryPort,
+    private val commandStockPort: CommandStockPort,
+    private val commandTeamPort: CommandTeamPort,
+    private val queryItemPort: QueryItemPort,
     private val publishToSseUseCase: PublishToSseUseCase
 ) : CompleteTeamInvestmentUseCase {
 
     @Transactional
     override fun completeInvestment(requests: List<CompleteInvestmentRequest>, lessonNum: String, teamId: UUID) {
-        val lesson = lessonQueryPort.findByLessonNum(lessonNum)
+        val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 
-        val team = teamQueryPort.findByIdWithLock(teamId)
+        val team = queryTeamPort.findByIdWithLock(teamId)
             ?: throw TeamNotFoundException
 
         val organ = queryOrganPort.findById(lesson.organId)
@@ -74,7 +74,7 @@ class CompleteTeamInvestmentService(
                 updatedAt = null
             )
         }
-        orderItemCommandPort.saveAll(orderItems)
+        commandOrderItemPort.saveAll(orderItems)
 
         updateStocksAndTeam(requests, team)
 
@@ -83,13 +83,13 @@ class CompleteTeamInvestmentService(
                 override fun afterCommit() {
 
                     //트랜잭션 시작 시점의 오래된 값을 사용할 수 있어 재조회함
-                    val updatedTeam = teamQueryPort.findById(teamId)
+                    val updatedTeam = queryTeamPort.findById(teamId)
 
-                    val updatedStocks = stockQueryPort.findAllByTeamId(teamId)
+                    val updatedStocks = queryStockPort.findAllByTeamId(teamId)
 
                     val currentRound = lesson.curInvRound
 
-                    val lessonItemMap = lessonItemQueryPort.findAllByLessonIdAndItemIds(
+                    val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
                         lessonId,
                         updatedStocks.map { it.itemId }.distinct()
                     ).associateBy { it.lessonItemId.itemId }
@@ -134,7 +134,7 @@ class CompleteTeamInvestmentService(
      * 거래하려는 종목이 유효한지 검증
      */
     private fun validateItems(itemIds: List<UUID>, lessonId: UUID) {
-        val validItemIds = lessonItemQueryPort.findItemIdsByLessonId(lessonId)
+        val validItemIds = queryLessonItemPort.findItemIdsByLessonId(lessonId)
 
         val invalidItems = itemIds.filter { it !in validItemIds }
 
@@ -142,7 +142,7 @@ class CompleteTeamInvestmentService(
             throw InvalidItemException
         }
 
-        val items = itemQueryPort.findAllByIds(itemIds)
+        val items = queryItemPort.findAllByIds(itemIds)
         val existingItemIds = items.map { it.id }.toSet()
         val notFoundItemIds = itemIds.toSet() - existingItemIds
 
@@ -171,7 +171,7 @@ class CompleteTeamInvestmentService(
         // 데이터 조회 및 초기화
         // ================================================
 
-        val lesson = lessonQueryPort.findByLessonNum(team.lessonNum)
+        val lesson = queryLessonPort.findByLessonNum(team.lessonNum)
             ?: throw LessonNotFoundException
 
         val lessonId = lesson.id
@@ -183,7 +183,7 @@ class CompleteTeamInvestmentService(
 
         val itemIds = groupedRequests.keys.map { it.first }
 
-        val lessonItemMap = lessonItemQueryPort.findAllByLessonIdAndItemIds(lessonId, itemIds)
+        val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(lessonId, itemIds)
             .associateBy { it.lessonItemId.itemId }
 
         val previousInv = lesson.curInvRound - 1
@@ -214,7 +214,7 @@ class CompleteTeamInvestmentService(
         // ================================================
         groupedRequests.forEach { (itemKey, itemRequests) ->
             val (itemId, itemName) = itemKey
-            val currentStock = stockQueryPort.findByTeamIdAndItemId(teamId, itemId)
+            val currentStock = queryStockPort.findByTeamIdAndItemId(teamId, itemId)
 
             val buyRequests = itemRequests.filter { it.orderType == OrderType.BUY }
             val sellRequests = itemRequests.filter { it.orderType == OrderType.SELL }
@@ -343,11 +343,11 @@ class CompleteTeamInvestmentService(
         }
 
         if (stocksToSave.isNotEmpty()) {
-            stockCommandPort.saveAll(stocksToSave)
+            commandStockPort.saveAll(stocksToSave)
         }
 
         stockIdsToDelete.forEach { stockId ->
-            stockCommandPort.deleteById(stockId)
+            commandStockPort.deleteById(stockId)
         }
 
         // ================================================
@@ -358,14 +358,14 @@ class CompleteTeamInvestmentService(
 
         val currentCash = team.cashMoney + cashChange
 
-        val currentStocks = stockQueryPort.findAllByTeamId(teamId)
+        val currentStocks = queryStockPort.findAllByTeamId(teamId)
 
         val stockItemIds = currentStocks.map { it.itemId }.distinct()
 
         val curInvRound = lesson.curInvRound
 
         val stockLessonItemMap = if (stockItemIds.isNotEmpty()) {
-            lessonItemQueryPort.findAllByLessonIdAndItemIds(lessonId, stockItemIds)
+            queryLessonItemPort.findAllByLessonIdAndItemIds(lessonId, stockItemIds)
                 .associateBy { it.lessonItemId.itemId }
         } else {
             emptyMap()
@@ -388,6 +388,6 @@ class CompleteTeamInvestmentService(
             isInvestmentInProgress = isInvestmentInProgress,
             updatedAt = LocalDateTime.now()
         )
-        teamCommandPort.save(updatedTeam)
+        commandTeamPort.save(updatedTeam)
     }
 }

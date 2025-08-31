@@ -4,15 +4,15 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity.lessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
-import team.mozu.dsm.application.port.out.lesson.LessonItemQueryPort
+import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.domain.lesson.model.LessonItem
 import java.util.UUID
 
 @Component
-class LessonItemPersistenceAdapter(
+class PersistenceAdapterLessonItem(
     private val lessonItemMapper: LessonItemMapper,
     private val queryFactory: JPAQueryFactory
-) : LessonItemQueryPort {
+) : QueryLessonItemPort {
 
     override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
         return queryFactory

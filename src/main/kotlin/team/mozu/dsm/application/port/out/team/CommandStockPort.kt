@@ -3,7 +3,7 @@ package team.mozu.dsm.application.port.out.team
 import team.mozu.dsm.domain.team.model.Stock
 import java.util.UUID
 
-interface StockCommandPort {
+interface CommandStockPort {
 
     fun saveAll(stocks: List<Stock>)
 

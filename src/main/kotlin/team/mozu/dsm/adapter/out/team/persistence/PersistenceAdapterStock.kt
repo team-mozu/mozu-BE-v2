@@ -8,18 +8,18 @@ import team.mozu.dsm.adapter.out.team.persistence.repository.StockRepository
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
-import team.mozu.dsm.application.port.out.team.StockCommandPort
-import team.mozu.dsm.application.port.out.team.StockQueryPort
+import team.mozu.dsm.application.port.out.team.CommandStockPort
+import team.mozu.dsm.application.port.out.team.QueryStockPort
 import team.mozu.dsm.domain.team.model.Stock
 import java.util.*
 
 @Component
-class StockPersistenceAdapter(
+class PersistenceAdapterStock(
     private val stockRepository: StockRepository,
     private val teamRepository: TeamRepository,
     private val itemRepository: ItemRepository,
     private val stockMapper: StockMapper
-) : StockQueryPort, StockCommandPort {
+) : QueryStockPort, CommandStockPort {
 
     //--Query--//
     override fun findByTeamIdAndItemId(teamId: UUID, itemId: UUID): Stock? {

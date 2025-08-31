@@ -10,18 +10,18 @@ import team.mozu.dsm.adapter.out.team.persistence.mapper.TeamMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
-import team.mozu.dsm.application.port.out.team.TeamCommandPort
-import team.mozu.dsm.application.port.out.team.TeamQueryPort
+import team.mozu.dsm.application.port.out.team.CommandTeamPort
+import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import team.mozu.dsm.domain.team.model.Team
 import java.util.*
 
 @Component
-class TeamPersistenceAdapter(
+class PersistenceAdapterTeam(
     private val teamRepository: TeamRepository,
     private val lessonRepository: LessonRepository,
     private val teamMapper: TeamMapper,
     private val queryFactory: JPAQueryFactory
-) : TeamCommandPort, TeamQueryPort {
+) : CommandTeamPort, QueryTeamPort {
 
     //--Query--//
     override fun findById(teamId: UUID): Team {

@@ -11,8 +11,8 @@ import team.mozu.dsm.application.exception.lesson.*
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.`in`.sse.PublishToSseUseCase
 import team.mozu.dsm.application.port.out.auth.JwtPort
-import team.mozu.dsm.application.port.out.lesson.LessonQueryPort
-import team.mozu.dsm.application.port.out.team.TeamCommandPort
+import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
+import team.mozu.dsm.application.port.out.team.CommandTeamPort
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.domain.team.model.Team
@@ -20,8 +20,8 @@ import java.time.LocalDateTime
 
 @Service
 class TeamParticipationService(
-    private val lessonQueryPort: LessonQueryPort,
-    private val teamCommandPort: TeamCommandPort,
+    private val queryLessonPort: QueryLessonPort,
+    private val commandTeamPort: CommandTeamPort,
     private val queryOrganPort: QueryOrganPort,
     private val jwtPort: JwtPort,
     private val publishToSseUseCase: PublishToSseUseCase
@@ -29,7 +29,7 @@ class TeamParticipationService(
 
     @Transactional
     override fun participate(request: TeamParticipationRequest): TeamTokenResponse {
-        val lesson = lessonQueryPort.findByLessonNum(request.lessonNum)
+        val lesson = queryLessonPort.findByLessonNum(request.lessonNum)
             ?: throw LessonNumNotFoundException
 
         val organ = queryOrganPort.findById(lesson.organId)
@@ -59,7 +59,7 @@ class TeamParticipationService(
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now()
         )
-        val savedTeam = teamCommandPort.save(team)
+        val savedTeam = commandTeamPort.save(team)
 
         /**
          * 트랜잭션 안에서 SSE 이벤트를 직접 발행하면
