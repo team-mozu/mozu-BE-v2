@@ -43,23 +43,19 @@ class TeamPersistenceAdapter(
 
     //--Command--//
     override fun save(team: Team): Team {
-        val lessonEntity = lessonRepository.findById(team.lessonId)
-            .orElseThrow { LessonNotFoundException }
+        val lessonEntity = lessonRepository.findByIdOrNull(team.lessonId)
+            ?: throw LessonNotFoundException
 
-        val entity = if (team.id != null) {
-            val existingEntity = teamRepository.findById(team.id)
-                .orElseThrow { TeamNotFoundException }
-
-            existingEntity.apply {
-                cashMoney = team.cashMoney
-                valuationMoney = team.valuationMoney
-                totalMoney = team.totalMoney
-                isInvestmentInProgress = team.isInvestmentInProgress
-                updatedAt = team.updatedAt
-            }
-        } else {
-            teamMapper.toEntity(team, lessonEntity)
-        }
+        val entity = team.id?.let { id ->
+            teamRepository.findByIdOrNull(id)
+                ?: throw TeamNotFoundException
+        }?.apply {
+            cashMoney = team.cashMoney
+            valuationMoney = team.valuationMoney
+            totalMoney = team.totalMoney
+            isInvestmentInProgress = team.isInvestmentInProgress
+            updatedAt = team.updatedAt
+        } ?: teamMapper.toEntity(team, lessonEntity)
 
         val savedEntity = teamRepository.save(entity)
         return teamMapper.toModel(savedEntity)
