@@ -15,9 +15,9 @@ import java.util.UUID
 class StartLessonService(
     private val queryLessonPort: QueryLessonPort,
     private val commandLessonPort: CommandLessonPort
-): StartLessonUseCase {
+) : StartLessonUseCase {
 
-    companion object{
+    companion object {
         val random: SecureRandom = SecureRandom()
     }
 

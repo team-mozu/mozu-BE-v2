@@ -63,4 +63,12 @@ class LessonPersistenceAdapter(
             .where(lessonJpaEntity.id.eq(id))
             .execute()
     }
+
+    override fun delete(id: UUID) {
+        jpaQueryFactory
+            .update(lessonJpaEntity)
+            .set(lessonJpaEntity.isDeleted, true)
+            .where(lessonJpaEntity.id.eq(id))
+            .execute()
+    }
 }
