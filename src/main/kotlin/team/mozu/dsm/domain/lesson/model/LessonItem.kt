@@ -11,10 +11,7 @@ data class LessonItem(
     val round2Money: Int,
     val round3Money: Int,
     val round4Money: Int?,
-    val round5Money: Int?,
-    val round6Money: Int?,
-    val round7Money: Int?,
-    val round8Money: Int?
+    val round5Money: Int?
 ) {
     /**
      * 특정 차수의 가격 조회
