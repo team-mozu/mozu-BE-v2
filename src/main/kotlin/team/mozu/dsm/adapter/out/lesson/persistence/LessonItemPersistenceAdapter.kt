@@ -1,13 +1,16 @@
 package team.mozu.dsm.adapter.out.lesson.persistence
 
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
+import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity.lessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonItemRepository
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.port.out.lesson.CommandLessonItemPort
+import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.domain.lesson.model.LessonItem
 import java.util.UUID
 
@@ -16,10 +19,31 @@ class LessonItemPersistenceAdapter(
     private val lessonRepository: LessonRepository,
     private val lessonItemRepository: LessonItemRepository,
     private val lessonItemMapper: LessonItemMapper,
-    private val itemRepository: ItemRepository
-) : CommandLessonItemPort {
+    private val itemRepository: ItemRepository,
+    private val queryFactory: JPAQueryFactory
+) : CommandLessonItemPort, QueryLessonItemPort {
 
     //--Query--//
+    override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
+        return queryFactory
+            .select(lessonItemJpaEntity.lessonItemId.itemId)
+            .from(lessonItemJpaEntity)
+            .where(lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId))
+            .fetch()
+    }
+
+    override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<UUID>): List<LessonItem> {
+        if (itemIds.isEmpty()) return emptyList()
+        val entities = queryFactory
+            .selectFrom(lessonItemJpaEntity)
+            .where(
+                lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId)
+                    .and(lessonItemJpaEntity.lessonItemId.itemId.`in`(itemIds))
+            )
+            .fetch()
+
+        return entities.map { lessonItemMapper.toModel(it) }
+    }
 
     //--Command--//
     override fun saveAll(id: UUID, lessonItems: List<LessonItem>): List<LessonItem> {

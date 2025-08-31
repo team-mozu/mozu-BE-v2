@@ -12,7 +12,7 @@ import team.mozu.dsm.application.port.out.team.CommandOrderItemPort
 import team.mozu.dsm.domain.team.model.OrderItem
 
 @Component
-class PersistenceAdapterOrderItem(
+class OrderItemPersistenceAdapter(
     private val orderItemRepository: OrderItemRepository,
     private val itemRepository: ItemRepository,
     private val teamRepository: TeamRepository,

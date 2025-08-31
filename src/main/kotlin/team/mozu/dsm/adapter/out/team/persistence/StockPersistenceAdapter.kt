@@ -14,7 +14,7 @@ import team.mozu.dsm.domain.team.model.Stock
 import java.util.*
 
 @Component
-class PersistenceAdapterStock(
+class StockPersistenceAdapter(
     private val stockRepository: StockRepository,
     private val teamRepository: TeamRepository,
     private val itemRepository: ItemRepository,

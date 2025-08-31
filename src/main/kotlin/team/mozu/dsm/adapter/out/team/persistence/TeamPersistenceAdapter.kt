@@ -16,7 +16,7 @@ import team.mozu.dsm.domain.team.model.Team
 import java.util.*
 
 @Component
-class PersistenceAdapterTeam(
+class TeamPersistenceAdapter(
     private val teamRepository: TeamRepository,
     private val lessonRepository: LessonRepository,
     private val teamMapper: TeamMapper,
