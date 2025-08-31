@@ -23,8 +23,6 @@ class TeamPersistenceAdapter(
     private val queryFactory: JPAQueryFactory
 ) : TeamCommandPort, TeamQueryPort {
 
-    private val t = teamJpaEntity
-
     //--Query--//
     override fun findById(teamId: UUID): Team {
         val entity = teamRepository.findByIdOrNull(teamId)
@@ -35,8 +33,8 @@ class TeamPersistenceAdapter(
 
     override fun findByIdWithLock(teamId: UUID): Team? {
         val entity = queryFactory
-            .selectFrom(t)
-            .where(t.id.eq(teamId))
+            .selectFrom(teamJpaEntity)
+            .where(teamJpaEntity.id.eq(teamId))
             .setLockMode(LockModeType.PESSIMISTIC_WRITE)
             .fetchOne()
 
