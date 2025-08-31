@@ -1,6 +1,7 @@
 package team.mozu.dsm.adapter.out.organ.persistence
 
 import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganDetailResponse
@@ -22,6 +23,11 @@ class OrganPersistenceAdapter(
     //--Query--//
     override fun findByOrganCode(organCode: String): Organ? {
         return organRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
+    }
+
+    override fun findModelById(organId: UUID): Organ? {
+        return organRepository.findByIdOrNull(organId)
+            ?.let { organMapper.toModel(it) }
     }
 
     override fun findById(id: UUID): OrganDetailResponse? {

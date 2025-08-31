@@ -47,6 +47,7 @@ class SecurityConfig(
 
                 //team
                 it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
+                it.requestMatchers(HttpMethod.POST, "/team/end").hasAnyRole("STUDENT")
                     .anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())

@@ -9,4 +9,6 @@ interface QueryOrganPort {
     fun findByOrganCode(organCode: String): Organ?
 
     fun findById(id: UUID): OrganDetailResponse?
+
+    fun findModelById(organId: UUID): Organ?
 }
