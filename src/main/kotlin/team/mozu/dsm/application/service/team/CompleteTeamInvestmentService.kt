@@ -8,6 +8,7 @@ import team.mozu.dsm.adapter.`in`.team.dto.TeamInvestmentCompletedEventDTO
 import team.mozu.dsm.adapter.`in`.team.dto.request.CompleteInvestmentRequest
 import team.mozu.dsm.application.exception.item.InvalidItemException
 import team.mozu.dsm.application.exception.item.ItemDeletedException
+import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
@@ -142,6 +143,13 @@ class CompleteTeamInvestmentService(
         }
 
         val items = itemQueryPort.findAllByIds(itemIds)
+        val existingItemIds = items.map { it.id }.toSet()
+        val notFoundItemIds = itemIds.toSet() - existingItemIds
+
+        if (notFoundItemIds.isNotEmpty()) {
+            throw ItemNotFoundException
+        }
+
         val deletedItems = items.filter { it.isDeleted }.map { it.id }
 
         if (deletedItems.isNotEmpty()) {

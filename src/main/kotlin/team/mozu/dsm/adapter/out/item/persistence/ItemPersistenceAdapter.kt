@@ -3,7 +3,6 @@ package team.mozu.dsm.adapter.out.item.persistence
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
-import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.port.out.item.ItemQueryPort
 import team.mozu.dsm.domain.item.model.Item
 import java.util.*
@@ -15,14 +14,7 @@ class ItemPersistenceAdapter(
 ) : ItemQueryPort {
 
     override fun findAllByIds(itemIds: List<UUID>): List<Item> {
-        val items = itemRepository.findAllById(itemIds)
+        return itemRepository.findAllById(itemIds)
             .map { itemMapper.toModel(it) }
-
-        val missingIds = itemIds - items.map { it.id }.toSet()
-        if (missingIds.isNotEmpty()) {
-            throw ItemNotFoundException
-        }
-
-        return items
     }
 }
