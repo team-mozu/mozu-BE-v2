@@ -52,7 +52,7 @@ class CompleteTeamInvestmentService(
         val team = queryTeamPort.findByIdWithLock(teamId)
             ?: throw TeamNotFoundException
 
-        val organ = queryOrganPort.findById(lesson.organId)
+        val organ = queryOrganPort.findModelById(lesson.organId)
             ?: throw OrganNotFoundException
 
         val itemIds = requests.map { it.itemId }

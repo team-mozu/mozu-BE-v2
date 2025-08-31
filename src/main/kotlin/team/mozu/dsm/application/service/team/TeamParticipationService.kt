@@ -32,7 +32,7 @@ class TeamParticipationService(
         val lesson = queryLessonPort.findByLessonNum(request.lessonNum)
             ?: throw LessonNumNotFoundException
 
-        val organ = queryOrganPort.findById(lesson.organId)
+        val organ = queryOrganPort.findModelById(lesson.organId)
             ?: throw OrganNotFoundException
 
         if (!lesson.isInProgress) {

@@ -19,7 +19,7 @@ class OrganPersistenceAdapter(
         return organRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
     }
 
-    override fun findById(organId: UUID): Organ? {
+    override fun findModelById(organId: UUID): Organ? {
         return organRepository.findByIdOrNull(organId)
             ?.let { organMapper.toModel(it) }
     }

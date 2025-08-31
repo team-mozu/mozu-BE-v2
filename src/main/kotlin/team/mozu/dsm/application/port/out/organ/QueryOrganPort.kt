@@ -7,5 +7,5 @@ interface QueryOrganPort {
 
     fun findByOrganCode(organCode: String): Organ?
 
-    fun findById(organId: UUID): Organ?
+    fun findModelById(organId: UUID): Organ?
 }
