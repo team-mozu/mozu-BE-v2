@@ -50,9 +50,6 @@ enum class ErrorCode(
     STOCK_NOT_OWNED(HttpStatus.CONFLICT, "Stock Not Owned"),
     INSUFFICIENT_CASH(HttpStatus.BAD_REQUEST, "Insufficient Cash"),
 
-    // item
-    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "Item Not Found"),
-
     // article
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "Article Not Found"),
 
