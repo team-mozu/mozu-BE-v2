@@ -12,7 +12,7 @@ data class Lesson(
     val maxInvRound: Int,
     val curInvRound: Int,
     val baseMoney: Long,
-    val lessonNum: String,
+    val lessonNum: String? = null,
     val isStarred: Boolean,
     val isDeleted: Boolean,
     val isInProgress: Boolean,

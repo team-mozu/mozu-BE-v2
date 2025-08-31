@@ -80,6 +80,9 @@ class TeamParticipationService(
                 }
             }
         )
-        return jwtPort.createStudentAccessToken(lesson.lessonNum, savedTeam.id!!)
+        return jwtPort.createStudentAccessToken(
+            lesson.lessonNum ?: throw LessonNumNotFoundException,
+            savedTeam.id!!
+        )
     }
 }
