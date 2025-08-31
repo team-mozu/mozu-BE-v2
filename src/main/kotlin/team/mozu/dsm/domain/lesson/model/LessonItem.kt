@@ -19,6 +19,7 @@ data class LessonItem(
      */
     fun getPriceByRound(round: Int): Int? {
         return when (round) {
+            0 -> currentMoney
             1 -> round1Money
             2 -> round2Money
             3 -> round3Money

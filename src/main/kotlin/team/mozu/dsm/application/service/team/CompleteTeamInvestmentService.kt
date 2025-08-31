@@ -81,7 +81,6 @@ class CompleteTeamInvestmentService(
         TransactionSynchronizationManager.registerSynchronization(
             object : TransactionSynchronization {
                 override fun afterCommit() {
-
                     //트랜잭션 시작 시점의 오래된 값을 사용할 수 있어 재조회함
                     val updatedTeam = queryTeamPort.findById(teamId)
 
@@ -388,6 +387,6 @@ class CompleteTeamInvestmentService(
             isInvestmentInProgress = isInvestmentInProgress,
             updatedAt = LocalDateTime.now()
         )
-        commandTeamPort.save(updatedTeam)
+        commandTeamPort.update(updatedTeam)
     }
 }

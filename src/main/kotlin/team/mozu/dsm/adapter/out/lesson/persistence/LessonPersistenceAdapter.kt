@@ -14,7 +14,7 @@ import team.mozu.dsm.domain.lesson.model.Lesson
 import java.util.UUID
 
 @Component
-class PersistenceAdapterLesson(
+class LessonPersistenceAdapter(
     private val lessonRepository: LessonRepository,
     private val lessonMapper: LessonMapper,
     private val organRepository: OrganRepository,
