@@ -8,4 +8,6 @@ interface QueryItemPort {
     fun existsById(id: UUID): Boolean
 
     fun findAllByIds(ids: List<UUID>): List<Item>
+
+    fun findById(id: UUID): Item?
 }
