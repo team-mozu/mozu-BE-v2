@@ -16,30 +16,30 @@ data class ItemRequest(
 
     @field:Min(1, message = "자산은 최소 1원 이상이어야 합니다.")
     @field:Max(10_000_000_000, message = "자산은 100억 이하로 입력해야 합니다.")
-    val money: Int,
+    val money: Long,
 
     @field:Min(0, message = "부채는 0 이상이어야 합니다.")
     @field:Max(10_000_000_000, message = "부채는 100억 이하로 입력해야 합니다.")
-    val debt: Int,
+    val debt: Long,
 
     @field:Min(0, message = "자본금은 0 이상이어야 합니다.")
     @field:Max(10_000_000_000, message = "자본금은 100억 이하로 입력해야 합니다.")
-    val capital: Int,
+    val capital: Long,
 
     @field:Min(0, message = "매출액은 0 이상이어야 합니다.")
     @field:Max(10_000_000_000, message = "매출액은 100억 이하로 입력해야 합니다.")
-    val profit: Int,
+    val profit: Long,
 
     @field:Min(0, message = "매출원가는 0 이상이어야 합니다.")
     @field:Max(10_000_000_000, message = "매출원가는 100억 이하로 입력해야 합니다.")
-    val profitOg: Int,
+    val profitOg: Long,
 
     @field:Min(0, message = "매출이익은 0 이상이어야 합니다.")
     @field:Max(10_000_000_000, message = "매출이익은 100억 이하로 입력해야 합니다.")
-    val profitBenefit: Int,
+    val profitBenefit: Long,
 
     @field:Min(0, message = "당기순이익은 0 이상이어야 합니다.")
     @field:Max(10_000_000_000, message = "당기순이익은 100억 이하로 입력해야 합니다.")
-    val netProfit: Int
+    val netProfit: Long
 )
 
