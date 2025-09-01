@@ -1,4 +1,5 @@
 package team.mozu.dsm.global.error.exception
+
 import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.http.HttpStatus
 
@@ -34,6 +35,7 @@ enum class ErrorCode(
     INVALID_INVESTMENT_ITEM(HttpStatus.BAD_REQUEST, "Invalid Investment Item"),
     ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "Item Not Found"),
     ITEM_DELETED(HttpStatus.BAD_REQUEST, "Item Deleted"),
+    INSUFFICIENT_LESSON_ITEM_MONEY(HttpStatus.BAD_REQUEST, "Insufficient Lesson Item Money"),
 
     //lesson
     LESSON_NUM_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Num Not Found"),
@@ -50,14 +52,11 @@ enum class ErrorCode(
     STOCK_QUANTITY_INSUFFICIENT(HttpStatus.CONFLICT, "Stock Quantity Insufficient"),
     STOCK_NOT_OWNED(HttpStatus.CONFLICT, "Stock Not Owned"),
     INSUFFICIENT_CASH(HttpStatus.BAD_REQUEST, "Insufficient Cash"),
-    // item
-    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "Item Not Found"),
-    INSUFFICIENT_LESSON_ITEM_MONEY(HttpStatus.BAD_REQUEST, "Insufficient Lesson Item Money"),
 
     // article
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "Article Not Found"),
 
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error") ;
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
 }
