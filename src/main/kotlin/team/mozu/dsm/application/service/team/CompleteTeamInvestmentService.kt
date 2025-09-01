@@ -23,6 +23,7 @@ import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.application.port.out.team.*
+import team.mozu.dsm.domain.lesson.model.Lesson
 import team.mozu.dsm.domain.team.model.OrderItem
 import team.mozu.dsm.domain.team.model.Stock
 import team.mozu.dsm.domain.team.model.Team
@@ -78,12 +79,13 @@ class CompleteTeamInvestmentService(
 
         updateStocksAndTeam(requests, team)
 
+        updatePreviouslyTradedStocksProfit(teamId, lesson, requests.map { it.itemId })
+
         TransactionSynchronizationManager.registerSynchronization(
             object : TransactionSynchronization {
                 override fun afterCommit() {
                     //트랜잭션 시작 시점의 오래된 값을 사용할 수 있어 재조회함
                     val updatedTeam = queryTeamPort.findById(teamId)
-
                     val updatedStocks = queryStockPort.findAllByTeamId(teamId)
 
                     val currentRound = lesson.curInvRound
@@ -388,5 +390,41 @@ class CompleteTeamInvestmentService(
             updatedAt = LocalDateTime.now()
         )
         commandTeamPort.update(updatedTeam)
+    }
+
+    private fun updatePreviouslyTradedStocksProfit(teamId: UUID, lesson: Lesson, tradedItemIds: List<UUID>) {
+        val lessonId = lesson.id ?: throw LessonNotFoundException
+        val currentRound = lesson.curInvRound
+
+        val allStocks = queryStockPort.findAllByTeamId(teamId).filterNotNull()
+
+        val nonTradedStocks = allStocks.filter { stock ->
+            stock.itemId !in tradedItemIds
+        }
+
+        if (nonTradedStocks.isEmpty()) return
+
+        val itemIds = nonTradedStocks.map { it.itemId }.distinct()
+        val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(lessonId, itemIds)
+            .associateBy { it.lessonItemId.itemId }
+
+        val stocksToUpdate = nonTradedStocks.map { stock ->
+            val lessonItem = lessonItemMap[stock.itemId] ?: throw LessonItemNotFoundException
+            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney ?: 0
+
+            val currentValProfit = (currentPrice * stock.quantity.toLong()) - stock.buyMoney
+            val currentProfitNum = if (stock.buyMoney > 0) {
+                (currentValProfit.toDouble() / stock.buyMoney.toDouble()) * 100
+            } else {
+                0.0
+            }
+
+            stock.copy(
+                valProfit = currentValProfit,
+                profitNum = currentProfitNum,
+                updatedAt = LocalDateTime.now()
+            )
+        }
+        commandStockPort.saveAll(stocksToUpdate)
     }
 }
