@@ -29,7 +29,6 @@ class GetStocksService(
         val lessonId = lesson.id ?: throw LessonNotFoundException
 
         val validStocks = queryStockPort.findAllByTeamId(teamId)
-            .filterNotNull()
             .filter { it.id != null }
 
         if (validStocks.isEmpty()) {
