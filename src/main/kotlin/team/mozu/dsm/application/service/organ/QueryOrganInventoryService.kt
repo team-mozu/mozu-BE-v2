@@ -10,7 +10,7 @@ import team.mozu.dsm.application.service.organ.facade.OrganFacade
 class QueryOrganInventoryService(
     private val queryOrganPort: QueryOrganPort,
     private val organFacade: OrganFacade
-): QueryOrganInventoryUseCase {
+) : QueryOrganInventoryUseCase {
 
     override fun queryOrganInventory(): List<OrganListResponse> {
         organFacade.currentOrgan()

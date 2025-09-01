@@ -9,4 +9,3 @@ data class OrganListResponse @QueryProjection constructor(
     val organName: String,
     val password: String
 )
-

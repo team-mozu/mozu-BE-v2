@@ -16,7 +16,7 @@ class SecurityAdapter(
 
     override fun getCurrentOrgan(): Organ {
         val organCode = SecurityContextHolder.getContext().authentication.name
-        val entity =  organRepository.findByOrganCode(organCode)
+        val entity = organRepository.findByOrganCode(organCode)
             ?: throw OrganNotFoundException
 
         return organMapper.toModel(entity)

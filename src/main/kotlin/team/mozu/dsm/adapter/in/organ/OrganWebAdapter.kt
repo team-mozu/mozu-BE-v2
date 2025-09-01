@@ -62,7 +62,7 @@ class OrganWebAdapter(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun  queryOrganInventory(): List<OrganListResponse> {
+    fun queryOrganInventory(): List<OrganListResponse> {
         return queryOrganInventoryUseCase.queryOrganInventory()
     }
 }
