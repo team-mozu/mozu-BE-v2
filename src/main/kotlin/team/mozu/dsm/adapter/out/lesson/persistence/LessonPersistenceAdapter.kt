@@ -71,4 +71,12 @@ class LessonPersistenceAdapter(
             .where(lessonJpaEntity.id.eq(id))
             .execute()
     }
+
+    override fun updateIsInProgress(id: UUID) {
+        jpaQueryFactory
+            .update(lessonJpaEntity)
+            .set(lessonJpaEntity.isInProgress, false)
+            .where(lessonJpaEntity.id.eq(id))
+            .execute()
+    }
 }
