@@ -21,13 +21,13 @@ class TeamJpaEntity(
     var schoolName: String,
 
     @Column(nullable = false)
-    var totalMoney: Long,
+    var totalMoney: Int,
 
     @Column(nullable = false)
-    var cashMoney: Long,
+    var cashMoney: Int,
 
     @Column(nullable = false)
-    var valuationMoney: Long,
+    var valuationMoney: Int,
 
     @Column(nullable = false, columnDefinition = "VARCHAR(40)")
     var lessonNum: String,

@@ -7,7 +7,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import team.mozu.dsm.adapter.`in`.team.dto.TeamParticipationEventDTO
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
-import team.mozu.dsm.application.exception.lesson.*
+import team.mozu.dsm.application.exception.lesson.LessonDeletedException
+import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
+import team.mozu.dsm.application.exception.lesson.LessonNotInProgressException
+import team.mozu.dsm.application.exception.lesson.LessonNumNotFoundException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.`in`.sse.PublishToSseUseCase
 import team.mozu.dsm.application.port.out.auth.JwtPort
@@ -43,7 +46,7 @@ class TeamParticipationService(
             throw LessonDeletedException
         }
 
-        val baseMoney = lesson.baseMoney ?: 0L
+        val baseMoney = lesson.baseMoney
 
         val team = Team(
             id = null,
@@ -52,7 +55,7 @@ class TeamParticipationService(
             schoolName = request.schoolName,
             totalMoney = baseMoney,
             cashMoney = baseMoney,
-            valuationMoney = 0L,
+            valuationMoney = 0,
             lessonNum = request.lessonNum,
             isInvestmentInProgress = true, //투자 종료 시 false
             participationDate = LocalDateTime.now(),

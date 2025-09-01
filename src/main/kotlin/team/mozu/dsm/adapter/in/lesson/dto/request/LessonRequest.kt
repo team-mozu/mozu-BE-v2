@@ -14,8 +14,8 @@ data class LessonRequest(
     val lessonName: String,
 
     @field:Min(100_000, message = "기초 자산은 최소 100,000원 이상 입력해야 합니다.")
-    @field:Max(100_000_000_000_000, message = "기초 자산은 100,000,000,000,000원 이하로 입력해야 합니다.")
-    val baseMoney: Long,
+    @field:Max(2_147_483_647, message = "기초 자산은 2,147,483,647원 이하로 입력해야 합니다.")
+    val baseMoney: Int,
 
     @field:Min(3, message = "투자 차수는 최소 3차부터 가능합니다.")
     @field:Max(5, message = "투자 차수는 최대 5차까지 가능합니다.")

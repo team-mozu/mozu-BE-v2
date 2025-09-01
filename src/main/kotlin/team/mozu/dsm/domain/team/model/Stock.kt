@@ -10,10 +10,10 @@ data class Stock(
     val teamId: UUID,
     val itemId: UUID,
     val itemName: String,
-    val avgPurchasePrice: Long,
+    val avgPurchasePrice: Int,
     val quantity: Int,
-    val buyMoney: Long,
-    val valProfit: Long,
+    val buyMoney: Int,
+    val valProfit: Int,
     val profitNum: Double,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?
