@@ -44,6 +44,7 @@ class SecurityConfig(
                 it.requestMatchers(HttpMethod.PATCH, "/organ/token/reissue").permitAll()
                 it.requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
                 it.requestMatchers(HttpMethod.GET, "/organ/{id}").permitAll()
+                it.requestMatchers(HttpMethod.GET, "/organ").permitAll()
 
                 //team
                 it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
