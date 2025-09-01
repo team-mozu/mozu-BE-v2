@@ -21,8 +21,6 @@ class GetStocksService(
 
     override fun getStocks(lessonNum: String, teamId: UUID): List<StockResponse> {
 
-        val team = queryTeamPort.findById(teamId)
-
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 
