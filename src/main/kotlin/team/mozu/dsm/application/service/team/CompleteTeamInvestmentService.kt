@@ -60,7 +60,7 @@ class CompleteTeamInvestmentService(
         val organ = queryOrganPort.findModelById(lesson.organId)
             ?: throw OrganNotFoundException
 
-        val itemIds = requests.map { it.itemId }
+        val itemIds = requests.map { it.itemId }.toSet()
         val lessonId = lesson.id ?: throw LessonNotFoundException
         validateItems(itemIds, lessonId)
 
@@ -138,7 +138,7 @@ class CompleteTeamInvestmentService(
     /**
      * 거래하려는 종목이 유효한지 검증
      */
-    private fun validateItems(itemIds: List<UUID>, lessonId: UUID) {
+    private fun validateItems(itemIds: Set<UUID>, lessonId: UUID) {
         val validItemIds = queryLessonItemPort.findItemIdsByLessonId(lessonId)
 
         val invalidItems = itemIds.filter { it !in validItemIds }
