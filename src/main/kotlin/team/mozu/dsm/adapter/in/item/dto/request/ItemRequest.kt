@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size
 
 data class ItemRequest(
     @field:NotBlank(message = "종목 이름은 필수 입력입니다.")
-    @field:Size(min = 1, max = 30, message = "종목 이름은 1~50자 이내로 입력해주세요.")
+    @field:Size(min = 1, max = 30, message = "종목 이름은 1~30자 이내로 입력해주세요.")
     val itemName: String,
 
     @field:NotBlank(message = "종목 설명은 필수 입력입니다.")
