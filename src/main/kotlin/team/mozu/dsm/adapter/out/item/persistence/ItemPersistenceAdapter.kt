@@ -1,5 +1,6 @@
 package team.mozu.dsm.adapter.out.item.persistence
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
@@ -29,8 +30,8 @@ class ItemPersistenceAdapter(
 
     //--Command--//
     override fun save(item: Item): Item {
-        val organ = organRepository.findById(item.organId)
-            .orElseThrow { OrganNotFoundException }
+        val organ = organRepository.findByIdOrNull(item.organId)
+            ?: throw OrganNotFoundException
 
         val entity = itemMapper.toEntity(item, organ)
         val saved = itemRepository.save(entity)
