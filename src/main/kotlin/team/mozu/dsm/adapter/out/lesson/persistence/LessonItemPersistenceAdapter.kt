@@ -20,12 +20,12 @@ class LessonItemPersistenceAdapter(
     private val lessonItemRepository: LessonItemRepository,
     private val lessonItemMapper: LessonItemMapper,
     private val itemRepository: ItemRepository,
-    private val queryFactory: JPAQueryFactory
+    private val jpaQueryFactory: JPAQueryFactory
 ) : CommandLessonItemPort, QueryLessonItemPort {
 
     //--Query--//
     override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
-        return queryFactory
+        return jpaQueryFactory
             .select(lessonItemJpaEntity.lessonItemId.itemId)
             .from(lessonItemJpaEntity)
             .where(lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId))
@@ -34,7 +34,7 @@ class LessonItemPersistenceAdapter(
 
     override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<UUID>): List<LessonItem> {
         if (itemIds.isEmpty()) return emptyList()
-        val entities = queryFactory
+        val entities = jpaQueryFactory
             .selectFrom(lessonItemJpaEntity)
             .where(
                 lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId)
