@@ -7,5 +7,5 @@ interface QueryItemPort {
 
     fun existsById(id: UUID): Boolean
 
-    fun findAllByIds(ids: List<UUID>): List<Item>
+    fun findAllByIds(ids: Set<UUID>): List<Item>
 }

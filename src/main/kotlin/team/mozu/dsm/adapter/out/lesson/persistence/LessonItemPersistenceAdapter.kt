@@ -20,12 +20,12 @@ class LessonItemPersistenceAdapter(
     private val lessonItemRepository: LessonItemRepository,
     private val lessonItemMapper: LessonItemMapper,
     private val itemRepository: ItemRepository,
-    private val queryFactory: JPAQueryFactory
+    private val jpaQueryFactory: JPAQueryFactory
 ) : CommandLessonItemPort, QueryLessonItemPort {
 
     //--Query--//
     override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
-        return queryFactory
+        return jpaQueryFactory
             .select(lessonItemJpaEntity.lessonItemId.itemId)
             .from(lessonItemJpaEntity)
             .where(lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId))
@@ -34,7 +34,7 @@ class LessonItemPersistenceAdapter(
 
     override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<UUID>): List<LessonItem> {
         if (itemIds.isEmpty()) return emptyList()
-        val entities = queryFactory
+        val entities = jpaQueryFactory
             .selectFrom(lessonItemJpaEntity)
             .where(
                 lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId)
@@ -56,7 +56,7 @@ class LessonItemPersistenceAdapter(
          * 2) .associateBy를 사용하여 Map<UUID, ItemJpaEntity> 형식으로 변환
          * 3) 각 LessonItem 도메인 모델을 Lesson, Item과 매핑하여 JPA 엔티티 생성
          * 4) 생성된 엔티티를 saveAll로 저장 후 도메인 모델로 변환
-         **/
+         */
         val lessonItemList = itemRepository.findAllById(lessonItems.map { it.lessonItemId.itemId })
             .associateBy { it.id }
             .let { itemMap ->
@@ -70,5 +70,13 @@ class LessonItemPersistenceAdapter(
         lessonItemRepository.saveAll(lessonItemList)
 
         return lessonItemList.map { entity -> lessonItemMapper.toModel(entity) }
+    }
+
+    override fun deleteAll(lessonId: UUID) {
+        // lessonId 기준으로 기존 LessonItem 전부 삭제
+        jpaQueryFactory
+            .delete(lessonItemJpaEntity)
+            .where(lessonItemJpaEntity.lesson.id.eq(lessonId))
+            .execute()
     }
 }

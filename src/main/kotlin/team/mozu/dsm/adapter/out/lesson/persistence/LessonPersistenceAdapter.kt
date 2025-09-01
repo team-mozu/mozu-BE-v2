@@ -8,6 +8,7 @@ import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
+import team.mozu.dsm.application.port.`in`.lesson.command.UpdateLessonCommand
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.domain.lesson.model.Lesson
@@ -77,6 +78,16 @@ class LessonPersistenceAdapter(
             .update(lessonJpaEntity)
             .set(lessonJpaEntity.isInProgress, false)
             .where(lessonJpaEntity.id.eq(id))
+            .execute()
+    }
+
+    override fun update(lessonId: UUID, command: UpdateLessonCommand) {
+        jpaQueryFactory
+            .update(lessonJpaEntity)
+            .set(lessonJpaEntity.lessonName, command.lessonName)
+            .set(lessonJpaEntity.baseMoney, command.baseMoney)
+            .set(lessonJpaEntity.maxInvRound, command.lessonRound)
+            .where(lessonJpaEntity.id.eq(lessonId))
             .execute()
     }
 }

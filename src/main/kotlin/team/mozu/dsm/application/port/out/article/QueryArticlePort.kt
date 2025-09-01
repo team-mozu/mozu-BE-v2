@@ -7,5 +7,5 @@ interface QueryArticlePort {
 
     fun existsById(id: UUID): Boolean
 
-    fun findAllByIds(ids: List<UUID>): List<Article>
+    fun findAllByIds(ids: Set<UUID>): List<Article>
 }
