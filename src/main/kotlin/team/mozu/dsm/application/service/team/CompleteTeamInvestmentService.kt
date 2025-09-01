@@ -272,7 +272,7 @@ class CompleteTeamInvestmentService(
                 }
             } else {
                 // === 기존 주식 업데이트 ===
-                if (totalSellCount > currentStock.quantity + totalBuyCount) {
+                if (totalSellCount > currentStock.quantity) {
                     throw InsufficientStockQuantityException
                 }
 
