@@ -8,6 +8,8 @@ import team.mozu.dsm.application.exception.lesson.CannotUpdateLessonException
 import team.mozu.dsm.application.port.`in`.lesson.UpdateLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.command.UpdateLessonCommand
 import team.mozu.dsm.application.port.out.auth.SecurityPort
+import team.mozu.dsm.application.port.out.lesson.CommandLessonArticlePort
+import team.mozu.dsm.application.port.out.lesson.CommandLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
 import team.mozu.dsm.application.service.lesson.facade.LessonFacade
 import java.util.UUID
@@ -16,7 +18,9 @@ import java.util.UUID
 class UpdateLessonService(
     private val securityPort: SecurityPort,
     private val lessonFacade: LessonFacade,
-    private val lessonPort: CommandLessonPort
+    private val lessonPort: CommandLessonPort,
+    private val lessonItemPort: CommandLessonItemPort,
+    private val lessonArticlePort: CommandLessonArticlePort
 ) : UpdateLessonUseCase {
 
     @Transactional
@@ -41,6 +45,10 @@ class UpdateLessonService(
             lessonRound = request.lessonRound
         )
         lessonPort.update(lesson.id!!, command)
+
+        // 기존 lessonItem, lessonArticle 삭제
+        lessonItemPort.deleteAll(lesson.id)
+        lessonArticlePort.deleteAll(lesson.id)
 
         // LessonItemRequest를 LessonItem 도메인으로 변환하고 DB에 저장
         val lessonItems = lessonFacade.saveLessonItems(lesson, request.lessonRound, request.lessonItems)
