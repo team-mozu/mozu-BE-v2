@@ -17,7 +17,7 @@ class ItemWebAdapter (
     private val createItemUseCase: CreateItemUseCase
 ){
 
-    @PostMapping
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     fun create (
         @RequestBody @Valid
