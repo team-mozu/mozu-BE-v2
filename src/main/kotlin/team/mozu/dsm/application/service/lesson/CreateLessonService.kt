@@ -61,6 +61,7 @@ class CreateLessonService(
             curInvRound = saved.curInvRound,
             baseMoney = saved.baseMoney,
             lessonNum = saved.lessonNum,
+            isInProgress = saved.isInProgress,
             isStarred = saved.isStarred,
             isDeleted = saved.isDeleted,
             createdAt = saved.createdAt!!,

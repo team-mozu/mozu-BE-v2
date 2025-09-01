@@ -70,6 +70,7 @@ class UpdateLessonService(
             curInvRound = lesson.curInvRound,
             baseMoney = command.baseMoney,
             lessonNum = lesson.lessonNum,
+            isInProgress = lesson.isInProgress,
             isStarred = lesson.isStarred,
             isDeleted = lesson.isDeleted,
             createdAt = lesson.createdAt!!,
