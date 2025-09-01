@@ -59,7 +59,7 @@ class GetStocksService(
                 avgPurchasePrice = stock.avgPurchasePrice,
                 quantity = stock.quantity,
                 totalMoney = stock.buyMoney,
-                nowMoney = nowMoney.toLong(),
+                nowMoney = nowMoney,
                 valuationMoney = team.valuationMoney,
                 valProfit = stock.valProfit,
                 profitNum = stock.profitNum,

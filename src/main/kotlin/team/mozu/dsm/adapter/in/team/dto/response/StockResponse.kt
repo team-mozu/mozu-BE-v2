@@ -6,11 +6,11 @@ data class StockResponse(
     val id: UUID,
     val itemId: UUID,
     val itemName: String,
-    val avgPurchasePrice: Long,
+    val avgPurchasePrice: Int,
     val quantity: Int,
-    val totalMoney: Long,
-    val nowMoney: Long,
-    val valuationMoney: Long,
-    val valProfit: Long,
+    val totalMoney: Int,
+    val nowMoney: Int,
+    val valuationMoney: Int,
+    val valProfit: Int,
     val profitNum: Double
 )
