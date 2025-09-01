@@ -46,7 +46,7 @@ class TeamWebAdapter(
 
     @GetMapping("/stocks")
     @ResponseStatus(HttpStatus.OK)
-    fun stocks(
+    fun getStocks(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<StockResponse> {
         return getStocksUseCase.getStocks(principal.lessonNum, principal.teamId)
