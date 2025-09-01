@@ -3,6 +3,8 @@ package team.mozu.dsm.adapter.out.lesson.persistence
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonSummaryResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.QLessonSummaryResponse
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
@@ -35,6 +37,20 @@ class LessonPersistenceAdapter(
 
     override fun existsByLessonNum(lessonNum: String): Boolean {
         return lessonRepository.existsByLessonNum(lessonNum)
+    }
+
+    override fun findAllByOrganId(organId: UUID): List<LessonSummaryResponse> {
+        return jpaQueryFactory
+            .select(
+                QLessonSummaryResponse(
+                    lessonJpaEntity.id,
+                    lessonJpaEntity.lessonName,
+                    lessonJpaEntity.isStarred,
+                    lessonJpaEntity.createdAt
+                )
+            ).from(lessonJpaEntity)
+            .where(lessonJpaEntity.organ.id.eq(organId))
+            .fetch()
     }
 
     //--Command--//
