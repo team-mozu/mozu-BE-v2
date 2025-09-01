@@ -45,6 +45,11 @@ class LessonItemPersistenceAdapter(
         return entities.map { lessonItemMapper.toModel(it) }
     }
 
+    override fun findAllByLessonId(lessonId: UUID): List<LessonItem> {
+        return lessonItemRepository.findAllByLessonId(lessonId)
+            .map { lessonItemMapper.toModel(it) }
+    }
+
     //--Command--//
     override fun saveAll(id: UUID, lessonItems: List<LessonItem>): List<LessonItem> {
         val lessonEntity = lessonRepository.findById(id)

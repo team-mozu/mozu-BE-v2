@@ -8,4 +8,6 @@ interface QueryLessonItemPort {
     fun findItemIdsByLessonId(lessonId: UUID): List<UUID>
 
     fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<UUID>): List<LessonItem>
+
+    fun findAllByLessonId(lessonId: UUID): List<LessonItem>
 }
