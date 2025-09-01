@@ -48,7 +48,7 @@ class TeamWebAdapter(
     @ResponseStatus(HttpStatus.OK)
     fun stocks(
         @AuthenticationPrincipal principal: StudentPrincipal
-    ) : List<StockResponse> {
+    ): List<StockResponse> {
         return getStocksUseCase.getStocks(principal.lessonNum, principal.teamId)
     }
 }

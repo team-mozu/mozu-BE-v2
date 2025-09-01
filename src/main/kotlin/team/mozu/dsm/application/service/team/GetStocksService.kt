@@ -8,19 +8,16 @@ import team.mozu.dsm.application.port.`in`.team.GetStocksUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.application.port.out.team.QueryStockPort
-import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import java.util.UUID
 
 @Service
 class GetStocksService(
-    private val queryTeamPort: QueryTeamPort,
     private val queryStockPort: QueryStockPort,
     private val queryLessonPort: QueryLessonPort,
     private val queryLessonItemPort: QueryLessonItemPort
 ) : GetStocksUseCase {
 
     override fun getStocks(lessonNum: String, teamId: UUID): List<StockResponse> {
-
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 
@@ -59,7 +56,7 @@ class GetStocksService(
                 nowMoney = nowMoney,
                 valuationMoney = nowMoney * stock.quantity,
                 valProfit = stock.valProfit,
-                profitNum = stock.profitNum,
+                profitNum = stock.profitNum
             )
         }
     }
