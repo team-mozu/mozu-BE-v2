@@ -21,8 +21,6 @@ class GetStocksService(
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 
-        val lessonId = lesson.id ?: throw LessonNotFoundException
-
         val validStocks = queryStockPort.findAllByTeamId(teamId)
             .filter { it.id != null }
 
@@ -31,7 +29,7 @@ class GetStocksService(
         }
 
         val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
-            lessonId,
+            lesson.id!!,
             validStocks
                 .map { it.itemId }
                 .distinct()
