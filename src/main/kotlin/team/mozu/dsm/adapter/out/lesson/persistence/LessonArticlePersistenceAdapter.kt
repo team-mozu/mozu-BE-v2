@@ -52,12 +52,9 @@ class LessonArticlePersistenceAdapter(
     }
 
     override fun deleteAll(lessonId: UUID) {
-        val lessonEntity = lessonRepository.findById(lessonId)
-            .orElseThrow { LessonNotFoundException }
-
         // lessonId 기준으로 기존 LessonArticle 전부 삭제
         jpaQueryFactory.delete(lessonArticleJpaEntity)
-            .where(lessonArticleJpaEntity.lesson.id.eq(lessonEntity.id))
+            .where(lessonArticleJpaEntity.lesson.id.eq(lessonId))
             .execute()
     }
 }
