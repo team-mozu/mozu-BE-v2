@@ -73,7 +73,7 @@ class CompleteTeamInvestmentService(
                 orderType = req.orderType,
                 orderCount = req.orderCount,
                 itemPrice = req.itemPrice,
-                totalAmount = req.totalAmount,
+                totalMoney = req.totalMoney,
                 invCount = lesson.curInvRound,
                 createdAt = LocalDateTime.now(),
                 updatedAt = null
