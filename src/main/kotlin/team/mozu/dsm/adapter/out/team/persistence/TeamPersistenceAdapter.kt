@@ -13,14 +13,14 @@ import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.out.team.CommandTeamPort
 import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import team.mozu.dsm.domain.team.model.Team
-import java.util.*
+import java.util.UUID
 
 @Component
 class TeamPersistenceAdapter(
     private val teamRepository: TeamRepository,
     private val lessonRepository: LessonRepository,
     private val teamMapper: TeamMapper,
-    private val queryFactory: JPAQueryFactory
+    private val jpaQueryFactory: JPAQueryFactory
 ) : CommandTeamPort, QueryTeamPort {
 
     //--Query--//
@@ -32,7 +32,7 @@ class TeamPersistenceAdapter(
     }
 
     override fun findByIdWithLock(teamId: UUID): Team? {
-        val entity = queryFactory
+        val entity = jpaQueryFactory
             .selectFrom(teamJpaEntity)
             .where(teamJpaEntity.id.eq(teamId))
             .setLockMode(LockModeType.PESSIMISTIC_WRITE)
