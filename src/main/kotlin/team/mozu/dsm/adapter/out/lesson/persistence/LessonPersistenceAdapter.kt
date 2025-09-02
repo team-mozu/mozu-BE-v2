@@ -34,6 +34,7 @@ class LessonPersistenceAdapter(
 
     override fun findById(id: UUID): Lesson? {
         return lessonRepository.findByIdOrNull(id)
+            ?.takeIf { !it.isDeleted }
             ?.let { lessonMapper.toModel(it) }
     }
 
