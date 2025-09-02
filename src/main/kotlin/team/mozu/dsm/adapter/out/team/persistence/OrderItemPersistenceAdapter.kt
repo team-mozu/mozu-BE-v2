@@ -19,7 +19,7 @@ class OrderItemPersistenceAdapter(
     private val itemRepository: ItemRepository,
     private val teamRepository: TeamRepository,
     private val orderItemMapper: OrderItemMapper
-) : QueryOrderItemPort, CommandOrderItemPort {
+) : CommandOrderItemPort, QueryOrderItemPort {
 
     //--Query--//
     override fun findAllByTeamId(teamId: UUID): List<OrderItem> {
