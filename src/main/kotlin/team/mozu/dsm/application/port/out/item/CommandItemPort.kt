@@ -5,5 +5,5 @@ import team.mozu.dsm.domain.item.model.Item
 interface CommandItemPort {
     fun save (item: Item) : Item
 
-    fun delete(item : Item)
+    fun delete(item: Item)
 }
