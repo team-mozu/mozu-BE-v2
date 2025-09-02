@@ -1,6 +1,7 @@
 package team.mozu.dsm.application.service
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
@@ -12,6 +13,7 @@ class GetLessonsService(
     private val lessonPort: QueryLessonPort
 ): GetLessonsUseCase {
 
+    @Transactional(readOnly = true)
     override fun get(): LessonListResponse {
         val organ = securityPort.getCurrentOrgan()
         val lessonList = lessonPort.findAllByOrganId(organ.id!!)
