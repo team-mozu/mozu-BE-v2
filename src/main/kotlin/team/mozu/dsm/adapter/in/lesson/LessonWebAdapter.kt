@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
 import team.mozu.dsm.adapter.`in`.lesson.dto.request.LessonRequest
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
@@ -22,6 +21,8 @@ import team.mozu.dsm.application.port.`in`.lesson.DeleteLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.StartLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.EndLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.UpdateLessonUseCase
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonDetailUseCase
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
 import java.util.UUID
 
 @RestController
