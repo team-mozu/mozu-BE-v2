@@ -51,6 +51,7 @@ class SecurityConfig(
                 it.requestMatchers(HttpMethod.POST, "/team/end").hasAnyRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/team/stocks").hasAnyRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/team/detail").hasAnyRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/team/orders").hasAnyRole("STUDENT")
                     .anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
