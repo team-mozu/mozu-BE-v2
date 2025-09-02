@@ -10,15 +10,18 @@ import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemDetailUseCase
 import team.mozu.dsm.application.service.item.QueryItemDetailService
+import team.mozu.dsm.application.port.`in`.item.DeleteItemUseCase
 import java.util.*
 
 @RestController
 @RequestMapping("item")
 class ItemWebAdapter (
     private val createItemUseCase: CreateItemUseCase,
+
     private val queryItemDetailUseCase: QueryItemDetailUseCase,
     private val queryItemAllUseCase: QueryItemAllUseCase,
-    private val itemMapper: ItemMapper
+    private val itemMapper: ItemMapper,
+    private val deleteItemUseCase: DeleteItemUseCase
 ){
 
     @PostMapping("/create")
@@ -43,5 +46,12 @@ class ItemWebAdapter (
     @ResponseStatus(HttpStatus.OK)
     fun queryAll(): List<ItemResponse> {
         return queryItemAllUseCase.queryAll()
+        
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(
+        @PathVariable id: UUID
+    ) {
+        deleteItemUseCase.delete(id)
     }
 }

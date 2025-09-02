@@ -22,7 +22,7 @@ abstract class OrderItemMapper {
             orderType = model.orderType,
             orderCount = model.orderCount,
             itemPrice = model.itemPrice,
-            totalAmount = model.totalAmount,
+            totalMoney = model.totalMoney,
             invCount = model.invCount
         )
     }

@@ -20,7 +20,7 @@ data class CompleteInvestmentRequest(
     val orderCount: Int,
 
     @field:Min(value = 1, message = "총 금액은 1원 이상이어야 합니다")
-    val totalAmount: Int,
+    val totalMoney: Int,
 
     @field:NotNull(message = "주문 타입은 필수입니다")
     val orderType: OrderType
