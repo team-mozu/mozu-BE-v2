@@ -48,7 +48,7 @@ class SecurityConfig(
                 //team
                 it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
                 it.requestMatchers(HttpMethod.POST, "/team/end").hasAnyRole("STUDENT")
-                it.requestMatchers(HttpMethod.POST, "/team/stocks").hasAnyRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/team/stocks").hasAnyRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/team/detail").hasAnyRole("STUDENT")
                     .anyRequest().authenticated()
             }
