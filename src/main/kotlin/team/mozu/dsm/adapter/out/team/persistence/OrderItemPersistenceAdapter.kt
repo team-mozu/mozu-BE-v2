@@ -1,8 +1,10 @@
 package team.mozu.dsm.adapter.out.team.persistence
 
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
+import team.mozu.dsm.adapter.out.team.entity.QOrderItemJpaEntity.orderItemJpaEntity
 import team.mozu.dsm.adapter.out.team.persistence.mapper.OrderItemMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.OrderItemRepository
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
@@ -18,7 +20,8 @@ class OrderItemPersistenceAdapter(
     private val orderItemRepository: OrderItemRepository,
     private val itemRepository: ItemRepository,
     private val teamRepository: TeamRepository,
-    private val orderItemMapper: OrderItemMapper
+    private val orderItemMapper: OrderItemMapper,
+    private val jpaQueryFactory: JPAQueryFactory
 ) : CommandOrderItemPort, QueryOrderItemPort {
 
     //--Query--//
@@ -49,5 +52,13 @@ class OrderItemPersistenceAdapter(
         }
 
         orderItemRepository.saveAll(entities)
+    }
+
+    override fun countOrderItemsByTeamId(teamId: UUID): Int {
+        return jpaQueryFactory
+            .select(orderItemJpaEntity.count())
+            .from(orderItemJpaEntity)
+            .where(orderItemJpaEntity.team.id.eq(teamId))
+            .fetchOne()?.toInt() ?: 0
     }
 }
