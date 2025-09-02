@@ -2,6 +2,7 @@ package team.mozu.dsm.adapter.out.item.persistence.mapper
 
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.entity.ItemJpaEntity
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import team.mozu.dsm.domain.item.model.Item
@@ -11,6 +12,8 @@ abstract class ItemMapper {
 
     @Mapping(target = "organId", source = "organ.id")
     abstract fun toModel(entity: ItemJpaEntity): Item
+
+    abstract fun toResponse(model: Item) : ItemResponse
 
     fun toEntity(model: Item, organ: OrganJpaEntity): ItemJpaEntity {
         return ItemJpaEntity(
