@@ -16,7 +16,7 @@ class GetTeamDetailService(
     private val queryTeamPort: QueryTeamPort,
     private val queryLessonItemPort: QueryLessonItemPort,
     private val queryStockPort: QueryStockPort
-): GetTeamDetailUseCase {
+) : GetTeamDetailUseCase {
 
     override fun getTeamDetail(lessonNum: String, teamId: UUID): TeamDetailResponse {
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
