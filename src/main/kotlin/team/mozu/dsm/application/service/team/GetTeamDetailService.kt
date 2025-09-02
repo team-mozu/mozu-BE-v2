@@ -3,6 +3,7 @@ package team.mozu.dsm.application.service.team
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamDetailResponse
+import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
@@ -39,6 +40,7 @@ class GetTeamDetailService(
 
         val currentTotalValProfit = stocks.sumOf { stock ->
             val lessonItem = lessonItemMap[stock.itemId]
+                ?: throw LessonItemNotFoundException
 
             val currentPrice = lessonItem?.getPriceByRound(currentRound) ?: lessonItem?.currentMoney ?: 0
             (currentPrice * stock.quantity) - stock.buyMoney
