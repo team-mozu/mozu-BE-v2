@@ -6,4 +6,6 @@ import java.util.UUID
 interface CommandLessonArticlePort {
 
     fun saveAll(id: UUID, lessonArticles: List<LessonArticle>): List<LessonArticle>
+
+    fun deleteAll(lessonId: UUID)
 }

@@ -1,13 +1,16 @@
 package team.mozu.dsm.adapter.out.lesson.persistence
 
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
+import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity.lessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonItemRepository
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.port.out.lesson.CommandLessonItemPort
+import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.domain.lesson.model.LessonItem
 import java.util.UUID
 
@@ -16,10 +19,31 @@ class LessonItemPersistenceAdapter(
     private val lessonRepository: LessonRepository,
     private val lessonItemRepository: LessonItemRepository,
     private val lessonItemMapper: LessonItemMapper,
-    private val itemRepository: ItemRepository
-) : CommandLessonItemPort {
+    private val itemRepository: ItemRepository,
+    private val jpaQueryFactory: JPAQueryFactory
+) : CommandLessonItemPort, QueryLessonItemPort {
 
     //--Query--//
+    override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
+        return jpaQueryFactory
+            .select(lessonItemJpaEntity.lessonItemId.itemId)
+            .from(lessonItemJpaEntity)
+            .where(lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId))
+            .fetch()
+    }
+
+    override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<UUID>): List<LessonItem> {
+        if (itemIds.isEmpty()) return emptyList()
+        val entities = jpaQueryFactory
+            .selectFrom(lessonItemJpaEntity)
+            .where(
+                lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId)
+                    .and(lessonItemJpaEntity.lessonItemId.itemId.`in`(itemIds))
+            )
+            .fetch()
+
+        return entities.map { lessonItemMapper.toModel(it) }
+    }
 
     //--Command--//
     override fun saveAll(id: UUID, lessonItems: List<LessonItem>): List<LessonItem> {
@@ -32,7 +56,7 @@ class LessonItemPersistenceAdapter(
          * 2) .associateBy를 사용하여 Map<UUID, ItemJpaEntity> 형식으로 변환
          * 3) 각 LessonItem 도메인 모델을 Lesson, Item과 매핑하여 JPA 엔티티 생성
          * 4) 생성된 엔티티를 saveAll로 저장 후 도메인 모델로 변환
-         **/
+         */
         val lessonItemList = itemRepository.findAllById(lessonItems.map { it.lessonItemId.itemId })
             .associateBy { it.id }
             .let { itemMap ->
@@ -46,5 +70,13 @@ class LessonItemPersistenceAdapter(
         lessonItemRepository.saveAll(lessonItemList)
 
         return lessonItemList.map { entity -> lessonItemMapper.toModel(entity) }
+    }
+
+    override fun deleteAll(lessonId: UUID) {
+        // lessonId 기준으로 기존 LessonItem 전부 삭제
+        jpaQueryFactory
+            .delete(lessonItemJpaEntity)
+            .where(lessonItemJpaEntity.lesson.id.eq(lessonId))
+            .execute()
     }
 }

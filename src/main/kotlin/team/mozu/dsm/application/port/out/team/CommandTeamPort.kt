@@ -2,7 +2,9 @@ package team.mozu.dsm.application.port.out.team
 
 import team.mozu.dsm.domain.team.model.Team
 
-interface TeamCommandPort {
+interface CommandTeamPort {
 
-    fun save(team: Team): Team
+    fun create(team: Team): Team
+
+    fun update(team: Team): Team
 }

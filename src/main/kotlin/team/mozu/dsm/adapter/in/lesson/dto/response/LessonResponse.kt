@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 import java.util.UUID
 
-// 수업 생성, 수정 API에서 공통 사용
 data class LessonResponse(
     val id: UUID,
     val name: String,
     val maxInvRound: Int,
     val curInvRound: Int? = null,
-    val baseMoney: Long,
+    val baseMoney: Int,
     val lessonNum: String? = null,
+    val isInProgress: Boolean,
     val isStarred: Boolean,
     val isDeleted: Boolean,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

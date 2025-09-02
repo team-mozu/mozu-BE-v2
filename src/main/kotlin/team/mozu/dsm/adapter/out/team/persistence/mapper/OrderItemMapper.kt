@@ -2,28 +2,21 @@ package team.mozu.dsm.adapter.out.team.persistence.mapper
 
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
-import team.mozu.dsm.adapter.out.lesson.entity.LessonItemJpaEntity
-import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
+import team.mozu.dsm.adapter.out.item.entity.ItemJpaEntity
 import team.mozu.dsm.adapter.out.team.entity.OrderItemJpaEntity
 import team.mozu.dsm.adapter.out.team.entity.TeamJpaEntity
 import team.mozu.dsm.domain.team.model.OrderItem
 
-@Mapper(
-    componentModel = "spring",
-    /**
-     * 중첩된 객체 매핑을 위해 다른 매퍼를 참조
-     */
-    uses = [LessonItemMapper::class]
-)
+@Mapper(componentModel = "spring")
 abstract class OrderItemMapper {
 
     @Mapping(target = "teamId", source = "team.id")
-    @Mapping(target = "lessonItemId", source = "lessonItem.lessonItemId")
+    @Mapping(target = "itemId", source = "item.id")
     abstract fun toModel(entity: OrderItemJpaEntity): OrderItem
 
-    fun toEntity(model: OrderItem, lessonItem: LessonItemJpaEntity, team: TeamJpaEntity): OrderItemJpaEntity {
+    fun toEntity(model: OrderItem, item: ItemJpaEntity, team: TeamJpaEntity): OrderItemJpaEntity {
         return OrderItemJpaEntity(
-            lessonItem = lessonItem,
+            item = item,
             team = team,
             itemName = model.itemName,
             orderType = model.orderType,

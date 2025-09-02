@@ -2,16 +2,12 @@ package team.mozu.dsm.adapter.out.team.persistence.mapper
 
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
-import team.mozu.dsm.adapter.out.lesson.entity.LessonItemJpaEntity
-import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
+import team.mozu.dsm.adapter.out.item.entity.ItemJpaEntity
 import team.mozu.dsm.adapter.out.team.entity.StockJpaEntity
 import team.mozu.dsm.adapter.out.team.entity.TeamJpaEntity
 import team.mozu.dsm.domain.team.model.Stock
 
-@Mapper(
-    componentModel = "spring",
-    uses = [LessonItemMapper::class]
-)
+@Mapper(componentModel = "spring")
 abstract class StockMapper {
 
     /**
@@ -19,17 +15,17 @@ abstract class StockMapper {
      * PK(team.id)를 target(teamId)과 매핑하기 위해 명시적으로 지정
      */
     @Mapping(target = "teamId", source = "team.id")
-    @Mapping(target = "lessonItemId", source = "lessonItem.lessonItemId")
+    @Mapping(target = "itemId", source = "item.id")
     abstract fun toModel(entity: StockJpaEntity): Stock
 
     /**
      * MapStruct는 DB 조회를 지원하지 않으므로 toEntity 메서드는 수동 구현 방식을 사용함
      * (StockJpaEntity에는 TeamJpaEntity 객체 필드만 존재 -> teamId를 엔티티에서 찾으려면 DB 조회가 필요)
      */
-    fun toEntity(model: Stock, team: TeamJpaEntity, lessonItem: LessonItemJpaEntity): StockJpaEntity {
+    fun toEntity(model: Stock, team: TeamJpaEntity, item: ItemJpaEntity): StockJpaEntity {
         return StockJpaEntity(
             team = team,
-            lessonItem = lessonItem,
+            item = item,
             itemName = model.itemName,
             avgPurchasePrice = model.avgPurchasePrice,
             quantity = model.quantity,

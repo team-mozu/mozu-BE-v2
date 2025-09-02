@@ -7,27 +7,36 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import team.mozu.dsm.adapter.`in`.team.dto.TeamParticipationEventDTO
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
-import team.mozu.dsm.application.exception.lesson.*
-import team.mozu.dsm.application.port.`in`.sse.PublishToAllSseUseCase
-import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
+import team.mozu.dsm.application.exception.lesson.LessonDeletedException
+import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
+import team.mozu.dsm.application.exception.lesson.LessonNotInProgressException
+import team.mozu.dsm.application.exception.lesson.LessonNumNotFoundException
+import team.mozu.dsm.application.exception.organ.OrganNotFoundException
+import team.mozu.dsm.application.port.`in`.sse.PublishToSseUseCase
 import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
-import team.mozu.dsm.application.port.out.team.TeamCommandPort
+import team.mozu.dsm.application.port.out.team.CommandTeamPort
+import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
+import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
 
 @Service
 class TeamParticipationService(
     private val queryLessonPort: QueryLessonPort,
-    private val teamCommandPort: TeamCommandPort,
+    private val commandTeamPort: CommandTeamPort,
+    private val queryOrganPort: QueryOrganPort,
     private val jwtPort: JwtPort,
-    private val publishToAllSseUseCase: PublishToAllSseUseCase
+    private val publishToSseUseCase: PublishToSseUseCase
 ) : TeamParticipationUseCase {
 
     @Transactional
     override fun participate(request: TeamParticipationRequest): TeamTokenResponse {
         val lesson = queryLessonPort.findByLessonNum(request.lessonNum)
             ?: throw LessonNumNotFoundException
+
+        val organ = queryOrganPort.findModelById(lesson.organId)
+            ?: throw OrganNotFoundException
 
         if (!lesson.isInProgress) {
             throw LessonNotInProgressException
@@ -37,21 +46,23 @@ class TeamParticipationService(
             throw LessonDeletedException
         }
 
+        val baseMoney = lesson.baseMoney
+
         val team = Team(
             id = null,
             lessonId = lesson.id ?: throw LessonNotFoundException,
             teamName = request.teamName,
             schoolName = request.schoolName,
-            totalMoney = 0L,
-            cashMoney = 0L,
-            valuationMoney = 0L,
+            totalMoney = baseMoney,
+            cashMoney = baseMoney,
+            valuationMoney = 0,
             lessonNum = request.lessonNum,
             isInvestmentInProgress = true, //투자 종료 시 false
             participationDate = LocalDateTime.now(),
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now()
         )
-        val savedTeam = teamCommandPort.save(team)
+        val savedTeam = commandTeamPort.create(team)
 
         /**
          * 트랜잭션 안에서 SSE 이벤트를 직접 발행하면
@@ -64,14 +75,17 @@ class TeamParticipationService(
                 override fun afterCommit() {
                     val eventData = TeamParticipationEventDTO(
                         teamId = savedTeam.id!!, //save한 직후여서 null일 가능성 없음
-                        teamName = savedTeam.teamName!!,
+                        teamName = savedTeam.teamName,
                         schoolName = savedTeam.schoolName,
                         lessonNum = savedTeam.lessonNum
                     )
-                    publishToAllSseUseCase.publishToAll("EVENT_TEAM_PARTICIPATION", eventData)
+                    publishToSseUseCase.publishTo(organ.id.toString(), "TEAM_PART_IN", eventData)
                 }
             }
         )
-        return jwtPort.createStudentAccessToken(lesson.lessonNum!!)
+        return jwtPort.createStudentAccessToken(
+            lesson.lessonNum ?: throw LessonNumNotFoundException,
+            savedTeam.id!!
+        )
     }
 }

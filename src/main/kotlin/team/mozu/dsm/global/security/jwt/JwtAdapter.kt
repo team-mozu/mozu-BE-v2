@@ -16,6 +16,7 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
 import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
 import team.mozu.dsm.application.port.out.auth.JwtPort
+import team.mozu.dsm.global.security.auth.StudentPrincipal
 import team.mozu.dsm.global.exception.ExpiredTokenException
 import team.mozu.dsm.global.exception.InvalidTokenException
 import team.mozu.dsm.global.exception.UnauthorizedTokenTypeException
@@ -25,6 +26,7 @@ import java.security.Key
 import java.time.LocalDateTime
 import java.util.Base64
 import java.util.Date
+import java.util.UUID
 import javax.crypto.SecretKey
 
 @Component
@@ -78,12 +80,13 @@ class JwtAdapter(
     }
 
     // 내부 학생용 accessToken 생성
-    fun generateStudentAccessToken(lessonNum: String): String {
+    fun generateStudentAccessToken(lessonNum: String, teamId: UUID): String {
         val now = Date()
 
         return Jwts.builder()
             .setSubject(lessonNum)
             .claim(TYPE_CLAIM, STUDENT_ACCESS_TYPE)
+            .claim("teamId", teamId.toString())
             .setIssuedAt(now)
             .setExpiration(Date(now.time + jwtProperties.studentAccessExp * MILLISECONDS))
             .signWith(secretKey)
@@ -103,11 +106,11 @@ class JwtAdapter(
     }
 
     //외부 호출
-    override fun createStudentAccessToken(lessonNum: String): TeamTokenResponse {
+    override fun createStudentAccessToken(lessonNum: String, teamId: UUID): TeamTokenResponse {
         val now = LocalDateTime.now()
 
         return TeamTokenResponse(
-            accessToken = generateStudentAccessToken(lessonNum),
+            accessToken = generateStudentAccessToken(lessonNum, teamId),
             accessExpiredAt = now.plusSeconds(jwtProperties.studentAccessExp)
         )
     }
@@ -119,8 +122,9 @@ class JwtAdapter(
         return when (tokenType) {
             STUDENT_ACCESS_TYPE -> {
                 val lessonNum = claims.subject
+                val teamId = UUID.fromString(claims.get("teamId", String::class.java))
                 UsernamePasswordAuthenticationToken(
-                    lessonNum,
+                    StudentPrincipal(lessonNum, teamId),
                     null,
                     listOf(SimpleGrantedAuthority("ROLE_STUDENT"))
                 )
