@@ -13,7 +13,7 @@ import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.port.out.organ.CommandOrganPort
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.domain.organ.model.Organ
-import java.util.UUID
+import java.util.*
 
 @Component
 class OrganPersistenceAdapter(
