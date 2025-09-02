@@ -28,6 +28,11 @@ class ItemPersistenceAdapter(
             .map { itemMapper.toModel(it) }
     }
 
+    override fun findById(id: UUID): Item? {
+        return itemRepository.findByIdOrNull(id)
+            ?.let { itemMapper.toModel(it) }
+    }
+
     //--Command--//
     override fun save(item: Item): Item {
         val organ = organRepository.findByIdOrNull(item.organId)
