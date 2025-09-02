@@ -7,7 +7,6 @@ import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganListResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganListResponse
-import team.mozu.dsm.adapter.out.organ.entity.QOrganJpaEntity
 import team.mozu.dsm.adapter.out.organ.entity.QOrganJpaEntity.organJpaEntity
 import team.mozu.dsm.adapter.out.organ.persistence.mapper.OrganMapper
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
@@ -52,14 +51,15 @@ class OrganPersistenceAdapter(
         return jpaQueryFactory
             .select(
                 QOrganListResponse(
-                    organ.id,
-                    organ.organCode,
-                    organ.organName,
-                    organ.password
+                    organJpaEntity.id,
+                    organJpaEntity.organCode,
+                    organJpaEntity.organName,
+                    organJpaEntity.password
                 )
             )
-            .from(organ)
+            .from(organJpaEntity)
             .fetch()
+    }
 
     //--Command--//
     override fun save(organ: Organ): Organ {
