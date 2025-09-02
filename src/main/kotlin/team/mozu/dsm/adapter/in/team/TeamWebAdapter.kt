@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController
 import team.mozu.dsm.adapter.`in`.team.dto.request.CompleteInvestmentRequest
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.StockResponse
+import team.mozu.dsm.adapter.`in`.team.dto.response.TeamDetailResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.team.GetStocksUseCase
+import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.global.security.auth.StudentPrincipal
 
@@ -23,7 +25,8 @@ import team.mozu.dsm.global.security.auth.StudentPrincipal
 class TeamWebAdapter(
     private val teamParticipationUseCase: TeamParticipationUseCase,
     private val teamInvestmentUseCase: CompleteTeamInvestmentUseCase,
-    private val getStocksUseCase: GetStocksUseCase
+    private val getStocksUseCase: GetStocksUseCase,
+    private val getTeamDetailUseCase: GetTeamDetailUseCase
 ) {
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
@@ -50,5 +53,13 @@ class TeamWebAdapter(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<StockResponse> {
         return getStocksUseCase.getStocks(principal.lessonNum, principal.teamId)
+    }
+
+    @GetMapping("/detail")
+    @ResponseStatus(HttpStatus.OK)
+    fun getTeamDetail(
+        @AuthenticationPrincipal principal: StudentPrincipal
+    ): TeamDetailResponse {
+        return getTeamDetailUseCase.getTeamDetail(principal.lessonNum, principal.teamId)
     }
 }

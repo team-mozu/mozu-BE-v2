@@ -1,6 +1,7 @@
 package team.mozu.dsm.application.service.team
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.team.dto.response.StockResponse
 import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
@@ -17,6 +18,7 @@ class GetStocksService(
     private val queryLessonItemPort: QueryLessonItemPort
 ) : GetStocksUseCase {
 
+    @Transactional(readOnly = true)
     override fun getStocks(lessonNum: String, teamId: UUID): List<StockResponse> {
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
