@@ -43,9 +43,9 @@ class CreateItemService (
 
         return ItemResponse(
             id = saved.id!!,
-            name = saved.itemName,
-            logo = saved.itemLogo,
-            info = saved.itemInfo,
+            itemName = saved.itemName,
+            itemLogo = saved.itemLogo,
+            itemInfo = saved.itemInfo,
             money = saved.money,
             debt = saved.debt,
             capital = saved.capital,
