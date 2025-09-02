@@ -13,8 +13,8 @@ data class OrderItem(
     val itemName: String,
     val orderType: OrderType,
     val orderCount: Int,
-    val itemPrice: Long,
-    val totalAmount: Long,
+    val itemPrice: Int,
+    val totalMoney: Int,
     val invCount: Int,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?

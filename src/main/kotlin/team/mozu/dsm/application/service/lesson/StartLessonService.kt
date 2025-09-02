@@ -4,16 +4,15 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
-import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.port.`in`.lesson.StartLessonUseCase
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
-import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
+import team.mozu.dsm.application.service.lesson.facade.LessonFacade
 import java.security.SecureRandom
 import java.util.UUID
 
 @Service
 class StartLessonService(
-    private val queryLessonPort: QueryLessonPort,
+    private val lessonFacade: LessonFacade,
     private val commandLessonPort: CommandLessonPort
 ) : StartLessonUseCase {
 
@@ -23,8 +22,7 @@ class StartLessonService(
 
     @Transactional
     override fun start(id: UUID): StartLessonResponse {
-        val lesson = queryLessonPort.findById(id)
-            ?: throw LessonNotFoundException
+        val lesson = lessonFacade.findByLessonId(id)
         var lessonNum: String
 
         // lessonNum 중복 방지 + 재시도

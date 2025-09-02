@@ -27,10 +27,10 @@ class OrderItemJpaEntity(
     var orderCount: Int,
 
     @Column(nullable = false)
-    var itemPrice: Long,
+    var itemPrice: Int,
 
     @Column(nullable = false)
-    var totalAmount: Long,
+    var totalMoney: Int,
 
     @Column(nullable = false)
     var invCount: Int,

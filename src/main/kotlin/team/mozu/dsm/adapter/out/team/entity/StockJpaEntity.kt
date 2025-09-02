@@ -17,16 +17,16 @@ class StockJpaEntity(
     var itemName: String,
 
     @Column(nullable = false)
-    var avgPurchasePrice: Long,
+    var avgPurchasePrice: Int,
 
     @Column(nullable = false)
     var quantity: Int,
 
     @Column(nullable = false)
-    var buyMoney: Long,
+    var buyMoney: Int,
 
     @Column(nullable = false)
-    var valProfit: Long,
+    var valProfit: Int,
 
     @Column(nullable = false)
     var profitNum: Double,
