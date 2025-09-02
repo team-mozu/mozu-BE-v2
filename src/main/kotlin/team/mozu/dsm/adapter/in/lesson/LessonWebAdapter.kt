@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.DeleteMapping
 import team.mozu.dsm.adapter.`in`.lesson.dto.request.LessonRequest
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
 import team.mozu.dsm.application.port.`in`.lesson.ChangeStarredUseCase
@@ -21,7 +22,7 @@ import team.mozu.dsm.application.port.`in`.lesson.StartLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.EndLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.UpdateLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonDetailUseCase
-
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
 import java.util.UUID
 
 @RestController
@@ -34,6 +35,7 @@ class LessonWebAdapter(
     private val endLessonUseCase: EndLessonUseCase,
     private val updateLessonUseCase: UpdateLessonUseCase,
     private val getLessonDetailUseCase: GetLessonDetailUseCase,
+    private val getLessonsUseCase: GetLessonsUseCase
 ) {
 
     @PostMapping
@@ -93,5 +95,11 @@ class LessonWebAdapter(
         @PathVariable("lesson-id") lessonId: UUID
     ): LessonResponse {
         return getLessonDetailUseCase.get(lessonId)
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    fun get(): LessonListResponse {
+        return getLessonsUseCase.get()
     }
 }
