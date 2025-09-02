@@ -13,7 +13,7 @@ class QueryItemAllService (
     private val itemMapper: ItemMapper
 ) : QueryItemAllUseCase{
 
-    @Transactional
+    @Transactional(readOnly = true)
     override fun queryAll(): List<ItemResponse> {
         return queryItemPort.findAll().map {itemMapper.toResponse(it)}
     }

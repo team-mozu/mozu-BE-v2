@@ -13,7 +13,7 @@ class QueryItemDetailService (
     private val queryItemPort: QueryItemPort,
 ) : QueryItemDetailUseCase {
 
-    @Transactional
+    @Transactional(readOnly = true)
     override fun queryDetail(id: UUID): Item {
         return queryItemPort.findById(id)
             ?: throw ItemNotFoundException
