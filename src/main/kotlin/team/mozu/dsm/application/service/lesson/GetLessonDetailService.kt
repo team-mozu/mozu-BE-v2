@@ -1,12 +1,13 @@
 package team.mozu.dsm.application.service.lesson
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonDetailUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonArticlePort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.service.lesson.facade.LessonFacade
-import java.util.*
+import java.util.UUID
 
 @Service
 class GetLessonDetailService(
@@ -15,6 +16,7 @@ class GetLessonDetailService(
     private val lessonArticlePort: QueryLessonArticlePort
 ): GetLessonDetailUseCase {
 
+    @Transactional(readOnly = true)
     override fun get(id: UUID): LessonResponse {
         val lesson = lessonFacade.findByLessonId(id)
 
