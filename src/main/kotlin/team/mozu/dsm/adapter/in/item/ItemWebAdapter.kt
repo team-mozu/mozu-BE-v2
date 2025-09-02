@@ -18,10 +18,10 @@ class ItemWebAdapter (
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    fun create (
+    fun create(
         @RequestBody @Valid
         request: ItemRequest
-    ) : ItemResponse {
+    ): ItemResponse {
         return createItemUseCase.create(request)
     }
 
