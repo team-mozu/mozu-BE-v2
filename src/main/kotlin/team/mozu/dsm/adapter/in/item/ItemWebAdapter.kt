@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
+import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemDetailUseCase
@@ -16,7 +17,8 @@ import java.util.*
 class ItemWebAdapter (
     private val createItemUseCase: CreateItemUseCase,
     private val queryItemDetailUseCase: QueryItemDetailUseCase,
-    private val queryItemAllUseCase: QueryItemAllUseCase
+    private val queryItemAllUseCase: QueryItemAllUseCase,
+    private val itemMapper: ItemMapper
 ){
 
     @PostMapping("/create")
@@ -32,7 +34,8 @@ class ItemWebAdapter (
     fun queryDetail(
         @PathVariable id: UUID
     ): ItemResponse {
-        return queryItemDetailUseCase.queryDetail(id)
+        val item = queryItemDetailUseCase.queryDetail(id)
+        return itemMapper.toResponse(item)
     }
 
     @GetMapping
