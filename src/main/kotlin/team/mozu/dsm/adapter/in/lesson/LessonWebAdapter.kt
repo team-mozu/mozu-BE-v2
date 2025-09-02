@@ -27,6 +27,7 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonDetailUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
+import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
 import java.util.UUID
 
 @RestController
@@ -41,7 +42,8 @@ class LessonWebAdapter(
     private val getLessonDetailUseCase: GetLessonDetailUseCase,
     private val getLessonsUseCase: GetLessonsUseCase,
     private val getLessonItemsUseCase: GetLessonItemsUseCase,
-    private val getLessonArticlesUseCase: GetLessonArticlesUseCase
+    private val getLessonArticlesUseCase: GetLessonArticlesUseCase,
+    private val nextLessonUseCase: NextLessonUseCase
 ) {
 
     @PostMapping
@@ -123,5 +125,13 @@ class LessonWebAdapter(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<LessonArticleResponse> {
         return getLessonArticlesUseCase.get(lessonId)
+    }
+
+    @PatchMapping("/next/{lesson-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun next(
+        @PathVariable("lesson-id") lessonId: UUID
+    ) {
+        nextLessonUseCase.next(lessonId)
     }
 }
