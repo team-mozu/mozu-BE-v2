@@ -19,7 +19,7 @@ class StockPersistenceAdapter(
     private val teamRepository: TeamRepository,
     private val itemRepository: ItemRepository,
     private val stockMapper: StockMapper
-) : QueryStockPort, CommandStockPort {
+) : CommandStockPort, QueryStockPort {
 
     //--Query--//
     override fun findByTeamIdAndItemId(teamId: UUID, itemId: UUID): Stock? {

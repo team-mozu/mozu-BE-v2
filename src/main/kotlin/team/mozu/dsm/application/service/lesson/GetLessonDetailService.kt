@@ -14,7 +14,7 @@ class GetLessonDetailService(
     private val lessonFacade: LessonFacade,
     private val lessonItemPort: QueryLessonItemPort,
     private val lessonArticlePort: QueryLessonArticlePort
-): GetLessonDetailUseCase {
+) : GetLessonDetailUseCase {
 
     @Transactional(readOnly = true)
     override fun get(id: UUID): LessonResponse {
