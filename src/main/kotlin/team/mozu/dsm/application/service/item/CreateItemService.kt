@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
+import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.item.CommandItemPort
@@ -14,7 +15,8 @@ import java.util.*
 @Service
 class CreateItemService (
     private val securityPort: SecurityPort,
-    private val itemPort: CommandItemPort
+    private val itemPort: CommandItemPort,
+    private val itemMapper: ItemMapper
 ) : CreateItemUseCase {
 
     @Transactional
@@ -41,20 +43,6 @@ class CreateItemService (
 
         val saved = itemPort.save(item)
 
-        return ItemResponse(
-            id = saved.id!!,
-            itemName = saved.itemName,
-            itemLogo = saved.itemLogo,
-            itemInfo = saved.itemInfo,
-            money = saved.money,
-            debt = saved.debt,
-            capital = saved.capital,
-            profit = saved.profit,
-            profitOg = saved.profitOg,
-            profitBenefit = saved.profitBenefit,
-            netProfit = saved.netProfit,
-            isDeleted = saved.isDeleted,
-            createdAt = saved.createdAt
-        )
+        return itemMapper.toResponse(saved)
     }
 }
