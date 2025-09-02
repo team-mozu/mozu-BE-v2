@@ -31,6 +31,7 @@ class ItemWebAdapter (
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     fun queryDetail(
         @PathVariable id: UUID
     ): ItemResponse {
@@ -39,6 +40,7 @@ class ItemWebAdapter (
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     fun queryAll(): List<ItemResponse> {
         return queryItemAllUseCase.queryAll()
     }
