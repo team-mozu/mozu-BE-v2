@@ -92,9 +92,8 @@ class TeamWebAdapter(
     @GetMapping("/{team-id}/holdItems")
     @ResponseStatus(HttpStatus.OK)
     fun getHoldStock(
-        @PathVariable("team-id") teamId: UUID,
-        @AuthenticationPrincipal principal: StudentPrincipal
+        @PathVariable("team-id") teamId: UUID
     ): List<StockResponse> {
-        return getHoldStockUseCase.getHoldStock(principal.lessonNum, teamId)
+        return getHoldStockUseCase.getHoldStock(teamId)
     }
 }
