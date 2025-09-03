@@ -6,11 +6,13 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
+import org.hibernate.annotations.Where
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
 @Table(name = "tbl_item")
+@Where(clause = "is_deleted = false")
 class ItemJpaEntity(
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var itemName: String,

@@ -7,6 +7,7 @@ import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
+import team.mozu.dsm.application.port.`in`.item.DeleteItemUseCase
 import java.util.*
 
 @RestController
@@ -14,6 +15,7 @@ import java.util.*
 class ItemWebAdapter (
     private val createItemUseCase: CreateItemUseCase,
     private val updateItemUseCase: UpdateItemUseCase
+    private val deleteItemUseCase: DeleteItemUseCase
 ){
 
     @PostMapping("/create")
@@ -24,7 +26,7 @@ class ItemWebAdapter (
     ) : ItemResponse {
         return createItemUseCase.create(request)
     }
-
+    
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun update(
@@ -32,5 +34,12 @@ class ItemWebAdapter (
         @RequestBody @Valid request: ItemRequest
     ): ItemResponse {
         return updateItemUseCase.update(id, request)
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(
+        @PathVariable id: UUID
+    ) {
+        deleteItemUseCase.delete(id)
     }
 }

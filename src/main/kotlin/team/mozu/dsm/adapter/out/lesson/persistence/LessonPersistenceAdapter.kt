@@ -3,11 +3,14 @@ package team.mozu.dsm.adapter.out.lesson.persistence
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonSummaryResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.QLessonSummaryResponse
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
+import team.mozu.dsm.application.port.`in`.lesson.command.UpdateLessonCommand
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.domain.lesson.model.Lesson
@@ -34,6 +37,20 @@ class LessonPersistenceAdapter(
 
     override fun existsByLessonNum(lessonNum: String): Boolean {
         return lessonRepository.existsByLessonNum(lessonNum)
+    }
+
+    override fun findAllByOrganId(organId: UUID): List<LessonSummaryResponse> {
+        return jpaQueryFactory
+            .select(
+                QLessonSummaryResponse(
+                    lessonJpaEntity.id,
+                    lessonJpaEntity.lessonName,
+                    lessonJpaEntity.isStarred,
+                    lessonJpaEntity.createdAt
+                )
+            ).from(lessonJpaEntity)
+            .where(lessonJpaEntity.organ.id.eq(organId))
+            .fetch()
     }
 
     //--Command--//
@@ -77,6 +94,16 @@ class LessonPersistenceAdapter(
             .update(lessonJpaEntity)
             .set(lessonJpaEntity.isInProgress, false)
             .where(lessonJpaEntity.id.eq(id))
+            .execute()
+    }
+
+    override fun update(lessonId: UUID, command: UpdateLessonCommand) {
+        jpaQueryFactory
+            .update(lessonJpaEntity)
+            .set(lessonJpaEntity.lessonName, command.lessonName)
+            .set(lessonJpaEntity.baseMoney, command.baseMoney)
+            .set(lessonJpaEntity.maxInvRound, command.lessonRound)
+            .where(lessonJpaEntity.id.eq(lessonId))
             .execute()
     }
 }

@@ -4,14 +4,16 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganDetailResponse
+import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganListResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganDetailResponse
+import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganListResponse
 import team.mozu.dsm.adapter.out.organ.entity.QOrganJpaEntity.organJpaEntity
 import team.mozu.dsm.adapter.out.organ.persistence.mapper.OrganMapper
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.port.out.organ.CommandOrganPort
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
 import team.mozu.dsm.domain.organ.model.Organ
-import java.util.UUID
+import java.util.*
 
 @Component
 class OrganPersistenceAdapter(
@@ -43,6 +45,20 @@ class OrganPersistenceAdapter(
             .from(organJpaEntity)
             .where(organJpaEntity.id.eq(id))
             .fetchOne()
+    }
+
+    override fun findOrganInventory(): List<OrganListResponse> {
+        return jpaQueryFactory
+            .select(
+                QOrganListResponse(
+                    organJpaEntity.id,
+                    organJpaEntity.organCode,
+                    organJpaEntity.organName,
+                    organJpaEntity.password
+                )
+            )
+            .from(organJpaEntity)
+            .fetch()
     }
 
     //--Command--//

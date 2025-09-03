@@ -14,7 +14,7 @@ data class OrderItem(
     val orderType: OrderType,
     val orderCount: Int,
     val itemPrice: Int,
-    val totalAmount: Int,
+    val totalMoney: Int,
     val invCount: Int,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?
