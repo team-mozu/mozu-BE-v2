@@ -33,25 +33,6 @@ class OrderItemPersistenceAdapter(
         return entities.map { orderItemMapper.toModel(it) }
     }
 
-    override fun findByTeamId(teamId: UUID): List<OrderItemResponse> {
-        return jpaQueryFactory
-            .select(
-                QOrderItemResponse(
-                    orderItemJpaEntity.id,
-                    orderItemJpaEntity.item.id,
-                    orderItemJpaEntity.itemName,
-                    orderItemJpaEntity.itemPrice,
-                    orderItemJpaEntity.orderCount,
-                    orderItemJpaEntity.totalMoney,
-                    orderItemJpaEntity.orderType,
-                    orderItemJpaEntity.invCount
-                )
-            )
-            .from(orderItemJpaEntity)
-            .where(orderItemJpaEntity.team.id.eq(teamId))
-            .fetch()
-    }
-
     //--Command--//
     override fun saveAll(orderItems: List<OrderItem>) {
         if (orderItems.isEmpty()) return

@@ -9,6 +9,4 @@ interface OrderItemRepository : JpaRepository<OrderItemJpaEntity, UUID> {
 
     @EntityGraph(attributePaths = ["item", "team"])
     fun findAllByTeamId(teamId: UUID): List<OrderItemJpaEntity>
-
-    fun findByTeamId(teamId: UUID): OrderItemJpaEntity?
 }

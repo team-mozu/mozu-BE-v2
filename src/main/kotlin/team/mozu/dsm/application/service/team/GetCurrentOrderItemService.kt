@@ -15,6 +15,20 @@ class GetCurrentOrderItemService(
 
     @Transactional(readOnly = true)
     override fun getCurrentOrderItem(teamId: UUID): List<OrderItemResponse> {
-        return queryOrderItemPort.findByTeamId(teamId) ?: throw TeamNotFoundException
+        val orderItems = queryOrderItemPort.findAllByTeamId(teamId)
+            ?: throw TeamNotFoundException
+
+        return orderItems.map { orderItem ->
+            OrderItemResponse(
+                id = orderItem.id!!,
+                itemId = orderItem.itemId,
+                itemName = orderItem.itemName,
+                itemPrice = orderItem.itemPrice,
+                orderCount = orderItem.orderCount,
+                totalMoney = orderItem.totalMoney,
+                orderType = orderItem.orderType,
+                invCount = orderItem.invCount
+            )
+        }
     }
 }
