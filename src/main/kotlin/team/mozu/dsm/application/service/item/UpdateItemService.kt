@@ -5,29 +5,26 @@ import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
-import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
-import team.mozu.dsm.application.port.out.auth.SecurityPort
+import team.mozu.dsm.application.exception.item.ItemNotFoundException
+import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
 import team.mozu.dsm.application.port.out.item.CommandItemPort
-import team.mozu.dsm.domain.item.model.Item
+import team.mozu.dsm.application.port.out.item.QueryItemPort
 import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class CreateItemService(
-    private val securityPort: SecurityPort,
-    private val itemPort: CommandItemPort,
+class UpdateItemService (
+    private val commandItemPort: CommandItemPort,
+    private val queryItemPort: QueryItemPort,
     private val itemMapper: ItemMapper
-) : CreateItemUseCase {
+) : UpdateItemUseCase{
 
     @Transactional
-    override fun create(request: ItemRequest): ItemResponse {
-        val organ = securityPort.getCurrentOrgan()
+    override fun update(id: UUID, request: ItemRequest): ItemResponse {
+        val item = queryItemPort.findById(id) ?: throw ItemNotFoundException
 
-        val item = Item(
-            id = UUID.randomUUID(),
-            organId = organ.id!!,
+        val updated = item.copy(
             itemName = request.itemName,
-            itemLogo = null,
             itemInfo = request.itemInfo,
             money = request.money,
             debt = request.debt,
@@ -36,13 +33,10 @@ class CreateItemService(
             profitOg = request.profitOg,
             profitBenefit = request.profitBenefit,
             netProfit = request.netProfit,
-            isDeleted = false,
-            createdAt = LocalDateTime.now(),
-            updatedAt = null
+            updatedAt = LocalDateTime.now()
         )
 
-        val saved = itemPort.save(item)
-
+        val saved = commandItemPort.save(updated)
         return itemMapper.toResponse(saved)
     }
 }

@@ -52,8 +52,8 @@ class LessonItemPersistenceAdapter(
 
     //--Command--//
     override fun saveAll(id: UUID, lessonItems: List<LessonItem>): List<LessonItem> {
-        val lessonEntity = lessonRepository.findById(id)
-            .orElseThrow { LessonNotFoundException }
+        val lessonEntity = lessonRepository.findById(id).orElse(null)
+            ?: throw LessonNotFoundException
 
         /**
          * LessonItemList 저장 프로세스

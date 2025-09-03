@@ -42,4 +42,3 @@ data class ItemRequest(
     @field:Max(10_000_000_000, message = "당기순이익은 100억 이하로 입력해야 합니다.")
     val netProfit: Int
 )
-
