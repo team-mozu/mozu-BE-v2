@@ -15,9 +15,9 @@ class LessonOrganSSEService(
     private val subscribeSsePort: SubscribeSsePort,
     private val lessonFacade: LessonFacade,
     private val securityPort: SecurityPort
-): LessonOrganSSEUseCase {
+) : LessonOrganSSEUseCase {
 
-    companion object{
+    companion object {
         private const val CONNECTED_EVENT = "LESSON_SSE_CONNECTED"
     }
 

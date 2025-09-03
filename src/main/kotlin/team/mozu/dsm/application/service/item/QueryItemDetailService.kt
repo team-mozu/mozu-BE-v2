@@ -9,8 +9,8 @@ import team.mozu.dsm.domain.item.model.Item
 import java.util.*
 
 @Service
-class QueryItemDetailService (
-    private val queryItemPort: QueryItemPort,
+class QueryItemDetailService(
+    private val queryItemPort: QueryItemPort
 ) : QueryItemDetailUseCase {
 
     @Transactional(readOnly = true)

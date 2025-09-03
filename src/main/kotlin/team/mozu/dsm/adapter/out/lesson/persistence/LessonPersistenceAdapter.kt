@@ -121,7 +121,7 @@ class LessonPersistenceAdapter(
                 .where(lessonJpaEntity.id.eq(id))
                 .execute()
 
-            val updatedEntity =  lessonRepository.findById(id).orElse(null)
+            val updatedEntity = lessonRepository.findById(id).orElse(null)
                 ?: throw LessonNotFoundException
 
             return lessonMapper.toModel(updatedEntity)
