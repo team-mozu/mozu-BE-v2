@@ -28,7 +28,7 @@ class CreateArticleService(
             organId = organ.id!!,
             articleName = request.articleName,
             articleImage = null,
-            articleDescription = request.articleDesc,
+            articleDesc = request.articleDesc,
             isDeleted = false,
             createdAt = LocalDateTime.now(),
             updatedAt = null
