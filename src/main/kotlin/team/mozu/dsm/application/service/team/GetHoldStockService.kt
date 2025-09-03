@@ -10,18 +10,23 @@ import team.mozu.dsm.application.port.`in`.team.GetHoldStockUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.application.port.out.team.QueryStockPort
+import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import java.util.*
 
 @Service
 class GetHoldStockService(
     private val queryStockPort: QueryStockPort,
     private val queryLessonPort: QueryLessonPort,
-    private val queryLessonItemPort: QueryLessonItemPort
+    private val queryLessonItemPort: QueryLessonItemPort,
+    private val queryTeamPort: QueryTeamPort
 ) : GetHoldStockUseCase {
 
     @Transactional(readOnly = true)
-    override fun getHoldStock(lessonNum: String, teamId: UUID): List<StockResponse> {
-        val lesson = queryLessonPort.findByLessonNum(lessonNum)
+    override fun getHoldStock(teamId: UUID): List<StockResponse> {
+
+        val team = queryTeamPort.findById(teamId) ?: throw TeamNotFoundException
+
+        val lesson = queryLessonPort.findByLessonNum(team.lessonNum)
             ?: throw LessonNotFoundException
 
         val stocks = queryStockPort.findAllByTeamId(teamId).filter { it.id != null }
