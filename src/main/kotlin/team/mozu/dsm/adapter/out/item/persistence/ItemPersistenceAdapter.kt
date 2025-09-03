@@ -40,7 +40,7 @@ class ItemPersistenceAdapter(
         return itemRepository.findAll()
             .map { itemMapper.toModel(it) }
     }
-    
+
     //--Command--//
     override fun save(item: Item): Item {
         val organ = organRepository.findByIdOrNull(item.organId)

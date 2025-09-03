@@ -82,6 +82,6 @@ class TeamWebAdapter(
     fun getResult(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamResultResponse {
-        return getTeamResultUseCase.get(principal.lessonNum ,principal.teamId)
+        return getTeamResultUseCase.get(principal.lessonNum, principal.teamId)
     }
 }

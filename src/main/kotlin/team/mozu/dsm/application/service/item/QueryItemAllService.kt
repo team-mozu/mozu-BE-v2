@@ -8,13 +8,13 @@ import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
 import team.mozu.dsm.application.port.out.item.QueryItemPort
 
 @Service
-class QueryItemAllService (
+class QueryItemAllService(
     private val queryItemPort: QueryItemPort,
     private val itemMapper: ItemMapper
-) : QueryItemAllUseCase{
+) : QueryItemAllUseCase {
 
     @Transactional(readOnly = true)
     override fun queryAll(): List<ItemResponse> {
-        return queryItemPort.findAll().map {itemMapper.toResponse(it)}
+        return queryItemPort.findAll().map { itemMapper.toResponse(it) }
     }
 }

@@ -22,7 +22,6 @@ class GetTeamResultService(
 ) : GetTeamResultUseCase {
 
     override fun get(lessonNum: String, teamId: UUID): TeamResultResponse {
-
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 

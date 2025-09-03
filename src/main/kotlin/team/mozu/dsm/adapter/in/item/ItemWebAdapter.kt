@@ -10,20 +10,19 @@ import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemDetailUseCase
-import team.mozu.dsm.application.service.item.QueryItemDetailService
 import team.mozu.dsm.application.port.`in`.item.DeleteItemUseCase
 import java.util.*
 
 @RestController
 @RequestMapping("item")
-class ItemWebAdapter (
+class ItemWebAdapter(
     private val createItemUseCase: CreateItemUseCase,
     private val updateItemUseCase: UpdateItemUseCase,
     private val queryItemDetailUseCase: QueryItemDetailUseCase,
     private val queryItemAllUseCase: QueryItemAllUseCase,
     private val itemMapper: ItemMapper,
     private val deleteItemUseCase: DeleteItemUseCase
-){
+) {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,12 +32,13 @@ class ItemWebAdapter (
     ): ItemResponse {
         return createItemUseCase.create(request)
     }
-    
+
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun update(
         @PathVariable id: UUID,
-        @RequestBody @Valid request: ItemRequest
+        @RequestBody @Valid
+        request: ItemRequest
     ): ItemResponse {
         return updateItemUseCase.update(id, request)
     }
@@ -56,7 +56,8 @@ class ItemWebAdapter (
     @ResponseStatus(HttpStatus.OK)
     fun queryAll(): List<ItemResponse> {
         return queryItemAllUseCase.queryAll()
-        
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(
