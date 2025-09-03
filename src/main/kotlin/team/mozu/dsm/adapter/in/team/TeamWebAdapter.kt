@@ -4,6 +4,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,10 +18,12 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.TeamDetailResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
+import team.mozu.dsm.application.port.`in`.team.GetCurrentOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetStocksUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
 import team.mozu.dsm.application.port.`in`.team.GetOrderItemUseCase
 import team.mozu.dsm.global.security.auth.StudentPrincipal
+import java.util.UUID
 
 @RestController
 @RequestMapping("/team")
@@ -29,7 +32,8 @@ class TeamWebAdapter(
     private val teamInvestmentUseCase: CompleteTeamInvestmentUseCase,
     private val getStocksUseCase: GetStocksUseCase,
     private val getTeamDetailUseCase: GetTeamDetailUseCase,
-    private val getOrderItemUseCase: GetOrderItemUseCase
+    private val getOrderItemUseCase: GetOrderItemUseCase,
+    private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase
 ) {
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
@@ -72,5 +76,13 @@ class TeamWebAdapter(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<OrderItemResponse> {
         return getOrderItemUseCase.getOrderItems(principal.teamId)
+    }
+
+    @GetMapping("/{team-id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getCurrentOrderItem(
+        @PathVariable("team-id") teamId: UUID
+    ): OrderItemResponse {
+        return getCurrentOrderItemUseCase.getCurrentOrderItem(teamId)
     }
 }
