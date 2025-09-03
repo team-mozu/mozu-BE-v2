@@ -14,7 +14,7 @@ abstract class ArticleMapper {
     @Mapping(target = "articleDesc", source = "articleDescription")
     abstract fun toModel(entity: ArticleJpaEntity): Article
     @Mapping(target = "articleDesc", source = "articleDescription")
-    @Mapping(target = "articleImg",  source = "articleImage", defaultValue = "")
+    @Mapping(target = "articleImg",  source = "articleImage")
 
     abstract fun toResponse(model: Article): ArticleResponse
 
@@ -22,7 +22,7 @@ abstract class ArticleMapper {
         return ArticleJpaEntity(
             organ = organ,
             articleName = model.articleName,
-            articleDescription = model.articleDescription,
+            articleDescription = model.articleDesc,
             articleImage = model.articleImage,
             isDeleted = model.isDeleted
         )
