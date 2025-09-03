@@ -1,8 +1,12 @@
 package team.mozu.dsm.adapter.out.team.persistence
 
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import team.mozu.dsm.adapter.`in`.team.dto.response.OrderItemResponse
+import team.mozu.dsm.adapter.`in`.team.dto.response.QOrderItemResponse
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
+import team.mozu.dsm.adapter.out.team.entity.QOrderItemJpaEntity.orderItemJpaEntity
 import team.mozu.dsm.adapter.out.team.persistence.mapper.OrderItemMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.OrderItemRepository
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
@@ -18,7 +22,8 @@ class OrderItemPersistenceAdapter(
     private val orderItemRepository: OrderItemRepository,
     private val itemRepository: ItemRepository,
     private val teamRepository: TeamRepository,
-    private val orderItemMapper: OrderItemMapper
+    private val orderItemMapper: OrderItemMapper,
+    private val jpaQueryFactory: JPAQueryFactory
 ) : CommandOrderItemPort, QueryOrderItemPort {
 
     //--Query--//
@@ -26,6 +31,25 @@ class OrderItemPersistenceAdapter(
         val entities = orderItemRepository.findAllByTeamId(teamId)
 
         return entities.map { orderItemMapper.toModel(it) }
+    }
+
+    override fun findByTeamId(teamId: UUID): OrderItemResponse? {
+        return jpaQueryFactory
+            .select(
+                QOrderItemResponse(
+                    orderItemJpaEntity.id,
+                    orderItemJpaEntity.item.id,
+                    orderItemJpaEntity.itemName,
+                    orderItemJpaEntity.itemPrice,
+                    orderItemJpaEntity.orderCount,
+                    orderItemJpaEntity.totalMoney,
+                    orderItemJpaEntity.orderType,
+                    orderItemJpaEntity.invCount
+                )
+            )
+            .from(orderItemJpaEntity)
+            .where(orderItemJpaEntity.id.eq(teamId))
+            .fetchOne()
     }
 
     //--Command--//
