@@ -17,6 +17,7 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonArticleResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
 import team.mozu.dsm.application.port.`in`.lesson.ChangeStarredUseCase
 import team.mozu.dsm.application.port.`in`.lesson.CreateLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.DeleteLessonUseCase
@@ -28,6 +29,7 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
 import java.util.UUID
 
 @RestController
@@ -43,7 +45,8 @@ class LessonWebAdapter(
     private val getLessonsUseCase: GetLessonsUseCase,
     private val getLessonItemsUseCase: GetLessonItemsUseCase,
     private val getLessonArticlesUseCase: GetLessonArticlesUseCase,
-    private val nextLessonUseCase: NextLessonUseCase
+    private val nextLessonUseCase: NextLessonUseCase,
+    private val getLessonRoundItemsUseCase: GetLessonRoundItemsUseCase
 ) {
 
     @PostMapping
@@ -133,5 +136,13 @@ class LessonWebAdapter(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
         nextLessonUseCase.next(lessonId)
+    }
+
+    @GetMapping("/team/items/{lesson-id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getLessonRoundItems(
+        @PathVariable("lesson-id") lessonId: UUID
+    ): List<LessonRoundItemResponse> {
+        return getLessonRoundItemsUseCase.get(lessonId)
     }
 }
