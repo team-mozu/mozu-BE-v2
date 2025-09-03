@@ -46,6 +46,7 @@ class ItemWebAdapter (
     @ResponseStatus(HttpStatus.OK)
     fun queryAll(): List<ItemResponse> {
         return queryItemAllUseCase.queryAll()
+    }
         
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
