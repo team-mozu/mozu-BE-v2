@@ -35,7 +35,7 @@ class ItemWebAdapter (
     ): ItemResponse {
         return updateItemUseCase.update(id, request)
     }
-    
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(
