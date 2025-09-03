@@ -29,6 +29,7 @@ class LessonPersistenceAdapter(
     //--Query--//
     override fun findByLessonNum(lessonNum: String): Lesson? {
         return lessonRepository.findByLessonNum(lessonNum)
+            ?.takeIf { !it.isDeleted }
             ?.let { lessonMapper.toModel(it) }
     }
 
