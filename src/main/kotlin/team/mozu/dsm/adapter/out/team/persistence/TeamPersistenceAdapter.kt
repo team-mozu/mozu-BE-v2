@@ -42,7 +42,7 @@ class TeamPersistenceAdapter(
     }
 
     override fun findAllByLessonId(lessonId: UUID): List<Team> {
-        val teams = queryFactory
+        val teams = jpaQueryFactory
             .selectFrom(teamJpaEntity)
             .where(
                 teamJpaEntity.lesson.id.eq(lessonId)
