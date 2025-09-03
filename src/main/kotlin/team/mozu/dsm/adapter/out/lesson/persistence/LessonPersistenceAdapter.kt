@@ -58,8 +58,8 @@ class LessonPersistenceAdapter(
 
     //--Command--//
     override fun save(lesson: Lesson): Lesson {
-        val organ = organRepository.findById(lesson.organId)
-            .orElseThrow { OrganNotFoundException }
+        val organ = organRepository.findById(lesson.organId).orElse(null)
+            ?: throw OrganNotFoundException
 
         val entity = lessonMapper.toEntity(lesson, organ)
         val saved = lessonRepository.save(entity)
@@ -111,8 +111,8 @@ class LessonPersistenceAdapter(
     }
 
     override fun updateCurInvRound(id: UUID): Lesson {
-        val lessonEntity = lessonRepository.findById(id)
-            .orElseThrow { LessonNotFoundException }
+        val lessonEntity = lessonRepository.findById(id).orElse(null)
+            ?: throw LessonNotFoundException
 
         if (lessonEntity.curInvRound < lessonEntity.maxInvRound) {
             jpaQueryFactory
@@ -121,9 +121,10 @@ class LessonPersistenceAdapter(
                 .where(lessonJpaEntity.id.eq(id))
                 .execute()
 
-            return lessonRepository.findById(id)
-                .orElseThrow { LessonNotFoundException }
-                .let { lessonMapper.toModel(it) }
+            val updatedEntity =  lessonRepository.findById(id).orElse(null)
+                ?: throw LessonNotFoundException
+
+            return lessonMapper.toModel(updatedEntity)
         } else {
             throw MaxInvestmentRoundReachedException
         }
