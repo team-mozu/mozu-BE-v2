@@ -48,7 +48,7 @@ class OrderItemPersistenceAdapter(
                 )
             )
             .from(orderItemJpaEntity)
-            .where(orderItemJpaEntity.id.eq(teamId))
+            .where(orderItemJpaEntity.team.id.eq(teamId))
             .fetchOne()
     }
 
