@@ -9,6 +9,7 @@ interface QueryItemPort {
 
     fun findAllByIds(ids: List<UUID>): List<Item>
 
-    fun findById(id: UUID): Item?
+    fun findById(id : UUID): Item?
 
+    fun findAll(): List<Item>
 }
