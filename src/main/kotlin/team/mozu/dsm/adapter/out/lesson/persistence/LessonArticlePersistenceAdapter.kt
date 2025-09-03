@@ -31,8 +31,8 @@ class LessonArticlePersistenceAdapter(
 
     //--Command--//
     override fun saveAll(id: UUID, lessonArticles: List<LessonArticle>): List<LessonArticle> {
-        val lessonEntity = lessonRepository.findById(id)
-            .orElseThrow { LessonNotFoundException }
+        val lessonEntity = lessonRepository.findById(id).orElse(null)
+            ?: throw LessonNotFoundException
 
         /**
          * LessonArticleList 저장 프로세스

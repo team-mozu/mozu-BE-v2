@@ -11,7 +11,7 @@ import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 class GetLessonsService(
     private val securityPort: SecurityPort,
     private val lessonPort: QueryLessonPort
-): GetLessonsUseCase {
+) : GetLessonsUseCase {
 
     @Transactional(readOnly = true)
     override fun get(): LessonListResponse {
