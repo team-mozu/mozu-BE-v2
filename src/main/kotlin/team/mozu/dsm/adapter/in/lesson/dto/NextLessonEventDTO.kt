@@ -1,4 +1,4 @@
-package team.mozu.dsm.adapter.`in`.lesson
+package team.mozu.dsm.adapter.`in`.lesson.dto
 
 import java.util.UUID
 

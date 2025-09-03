@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronization
 import org.springframework.transaction.support.TransactionSynchronizationManager
-import team.mozu.dsm.adapter.`in`.lesson.NextLessonEventDTO
+import team.mozu.dsm.adapter.`in`.lesson.dto.NextLessonEventDTO
 import team.mozu.dsm.application.exception.lesson.UnauthorizedLessonAccessException
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
