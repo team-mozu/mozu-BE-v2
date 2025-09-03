@@ -1,8 +1,12 @@
 package team.mozu.dsm.adapter.out.article.persistence
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
 import team.mozu.dsm.adapter.out.article.persistence.repository.ArticleRepository
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
+import team.mozu.dsm.application.exception.organ.OrganNotFoundException
+import team.mozu.dsm.application.port.out.article.CommandArticlePort
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import team.mozu.dsm.domain.article.model.Article
 import java.util.*
@@ -10,8 +14,9 @@ import java.util.*
 @Component
 class ArticlePersistenceAdapter(
     private val articleRepository: ArticleRepository,
-    private val articleMapper: ArticleMapper
-) : QueryArticlePort {
+    private val articleMapper: ArticleMapper,
+    private val organRepository: OrganRepository
+) : QueryArticlePort, CommandArticlePort {
 
     //--Query--//
     override fun existsById(id: UUID): Boolean {
@@ -24,4 +29,13 @@ class ArticlePersistenceAdapter(
     }
 
     //--Command--//
+    override fun save(article: Article): Article {
+        val organ = organRepository.findByIdOrNull(article.organId)
+            ?: throw OrganNotFoundException
+
+        val entity = articleMapper.toEntity(article, organ)
+        val saved = articleRepository.save(entity)
+
+        return articleMapper.toModel(saved)
+    }
 }
