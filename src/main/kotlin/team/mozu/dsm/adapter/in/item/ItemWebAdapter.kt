@@ -14,7 +14,7 @@ import java.util.*
 @RequestMapping("item")
 class ItemWebAdapter (
     private val createItemUseCase: CreateItemUseCase,
-    private val updateItemUseCase: UpdateItemUseCase
+    private val updateItemUseCase: UpdateItemUseCase,
     private val deleteItemUseCase: DeleteItemUseCase
 ){
 
@@ -34,7 +34,8 @@ class ItemWebAdapter (
         @RequestBody @Valid request: ItemRequest
     ): ItemResponse {
         return updateItemUseCase.update(id, request)
-
+    }
+    
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(
