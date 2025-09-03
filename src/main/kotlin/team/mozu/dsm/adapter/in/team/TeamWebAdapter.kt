@@ -88,7 +88,7 @@ class TeamWebAdapter(
         return getTeamResultUseCase.get(principal.lessonNum ,principal.teamId)
     }
 
-    @GetMapping("/rank")
+    @GetMapping("/ranks")
     @ResponseStatus(HttpStatus.OK)
     fun getRank(
         @AuthenticationPrincipal principal: StudentPrincipal
