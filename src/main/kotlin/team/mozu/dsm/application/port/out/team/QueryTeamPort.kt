@@ -8,4 +8,6 @@ interface QueryTeamPort {
     fun findById(teamId: UUID): Team
 
     fun findByIdWithLock(teamId: UUID): Team?
+
+    fun findAllByLessonNumOrderByTotalMoneyDesc(lessonNum: String): List<Team>
 }
