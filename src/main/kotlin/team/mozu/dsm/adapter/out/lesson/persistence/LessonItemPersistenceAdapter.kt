@@ -85,7 +85,10 @@ class LessonItemPersistenceAdapter(
             .from(lessonItemJpaEntity)
             .join(lessonItemJpaEntity.lesson, lessonJpaEntity)
             .join(lessonItemJpaEntity.item, itemJpaEntity)
-            .where(lessonItemJpaEntity.lesson.id.eq(lessonId))
+            .where(
+                lessonItemJpaEntity.lesson.id.eq(lessonId)
+                    .and(lessonItemJpaEntity.lesson.isInProgress.isTrue)
+            )
             .fetch()
     }
 
