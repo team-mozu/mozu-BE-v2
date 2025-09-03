@@ -8,5 +8,5 @@ interface QueryOrderItemPort {
 
     fun findAllByTeamId(teamId: UUID): List<OrderItem>
 
-    fun findByTeamId(teamId: UUID): OrderItemResponse?
+    fun findByTeamId(teamId: UUID): List<OrderItemResponse>
 }

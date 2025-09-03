@@ -82,7 +82,7 @@ class TeamWebAdapter(
     @ResponseStatus(HttpStatus.OK)
     fun getCurrentOrderItem(
         @PathVariable("team-id") teamId: UUID
-    ): OrderItemResponse {
+    ): List<OrderItemResponse> {
         return getCurrentOrderItemUseCase.getCurrentOrderItem(teamId)
     }
 }

@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface GetCurrentOrderItemUseCase {
 
-    fun getCurrentOrderItem(teamId: UUID): OrderItemResponse
+    fun getCurrentOrderItem(teamId: UUID): List<OrderItemResponse>
 }

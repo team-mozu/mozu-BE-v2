@@ -33,7 +33,7 @@ class OrderItemPersistenceAdapter(
         return entities.map { orderItemMapper.toModel(it) }
     }
 
-    override fun findByTeamId(teamId: UUID): OrderItemResponse? {
+    override fun findByTeamId(teamId: UUID): List<OrderItemResponse> {
         return jpaQueryFactory
             .select(
                 QOrderItemResponse(
@@ -49,7 +49,7 @@ class OrderItemPersistenceAdapter(
             )
             .from(orderItemJpaEntity)
             .where(orderItemJpaEntity.team.id.eq(teamId))
-            .fetchOne()
+            .fetch()
     }
 
     //--Command--//
