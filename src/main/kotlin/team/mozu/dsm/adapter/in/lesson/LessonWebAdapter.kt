@@ -2,6 +2,7 @@ package team.mozu.dsm.adapter.`in`.lesson
 
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestBody
@@ -30,6 +31,7 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
+import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.UUID
 
 @RestController
@@ -138,11 +140,11 @@ class LessonWebAdapter(
         nextLessonUseCase.next(lessonId)
     }
 
-    @GetMapping("/team/items/{lesson-id}")
+    @GetMapping("/team/items")
     @ResponseStatus(HttpStatus.OK)
     fun getLessonRoundItems(
-        @PathVariable("lesson-id") lessonId: UUID
+        @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundItemResponse> {
-        return getLessonRoundItemsUseCase.get(lessonId)
+        return getLessonRoundItemsUseCase.get(studentPrincipal.lessonNum)
     }
 }

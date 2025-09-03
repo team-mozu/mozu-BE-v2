@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface GetLessonRoundItemsUseCase {
 
-    fun get(lessonId: UUID): List<LessonRoundItemResponse>
+    fun get(lessonNum: String): List<LessonRoundItemResponse>
 }

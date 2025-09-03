@@ -3,21 +3,22 @@ package team.mozu.dsm.application.service.lesson
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
+import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
-import team.mozu.dsm.application.service.lesson.facade.LessonFacade
-import java.util.UUID
+import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import kotlin.math.roundToInt
 
 @Service
 class GetLessonRoundItemsService(
-    private val lessonFacade: LessonFacade,
+    private val lessonPort: QueryLessonPort,
     private val lessonItemPort: QueryLessonItemPort
 ) : GetLessonRoundItemsUseCase {
 
     @Transactional(readOnly = true)
-    override fun get(lessonId: UUID): List<LessonRoundItemResponse> {
-        val lesson = lessonFacade.findByLessonId(lessonId)
+    override fun get(lessonNum: String): List<LessonRoundItemResponse> {
+        val lesson = lessonPort.findByLessonNum(lessonNum)
+            ?: throw LessonNotFoundException
         val lessonItems = lessonItemPort.findAllRoundItemsByLessonId(lesson.id!!)
 
         return lessonItems.map { item ->
