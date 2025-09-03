@@ -11,7 +11,6 @@ class QueryOrganInventoryService(
 ) : QueryOrganInventoryUseCase {
 
     override fun queryOrganInventory(): List<OrganListResponse> {
-
         return queryOrganPort.findOrganInventory()
     }
 }

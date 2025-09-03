@@ -7,6 +7,7 @@ import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
+import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemDetailUseCase
 import team.mozu.dsm.application.service.item.QueryItemDetailService
@@ -17,7 +18,7 @@ import java.util.*
 @RequestMapping("item")
 class ItemWebAdapter (
     private val createItemUseCase: CreateItemUseCase,
-
+    private val updateItemUseCase: UpdateItemUseCase,
     private val queryItemDetailUseCase: QueryItemDetailUseCase,
     private val queryItemAllUseCase: QueryItemAllUseCase,
     private val itemMapper: ItemMapper,
@@ -26,11 +27,20 @@ class ItemWebAdapter (
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    fun create (
+    fun create(
         @RequestBody @Valid
         request: ItemRequest
-    ) : ItemResponse {
+    ): ItemResponse {
         return createItemUseCase.create(request)
+    }
+    
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun update(
+        @PathVariable id: UUID,
+        @RequestBody @Valid request: ItemRequest
+    ): ItemResponse {
+        return updateItemUseCase.update(id, request)
     }
 
     @GetMapping("/{id}")

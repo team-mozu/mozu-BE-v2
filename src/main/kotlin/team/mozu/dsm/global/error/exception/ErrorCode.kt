@@ -46,6 +46,8 @@ enum class ErrorCode(
     LESSON_ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "Lesson Item Not Found"),
     INVALID_LESSON_ROUND(HttpStatus.BAD_REQUEST, "Invalid Lesson Round"),
     CANNOT_UPDATE_LESSON(HttpStatus.FORBIDDEN, "Can't update Lesson"),
+    MAX_INVESTMENT_ROUND_REACHED(HttpStatus.CONFLICT, "Max Investment Round Reached"),
+    UNAUTHORIZED_LESSON_ACCESS(HttpStatus.FORBIDDEN, "Unauthorized"),
 
     //team
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "Team Not Found"),
