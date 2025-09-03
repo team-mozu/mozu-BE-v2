@@ -4,6 +4,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,11 +19,13 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.OrderItemResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamResultResponse
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
+import team.mozu.dsm.application.port.`in`.team.GetHoldStockUseCase
 import team.mozu.dsm.application.port.`in`.team.GetStocksUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
 import team.mozu.dsm.application.port.`in`.team.GetOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamResultUseCase
 import team.mozu.dsm.global.security.auth.StudentPrincipal
+import java.util.UUID
 
 @RestController
 @RequestMapping("/team")
@@ -32,7 +35,8 @@ class TeamWebAdapter(
     private val getStocksUseCase: GetStocksUseCase,
     private val getTeamDetailUseCase: GetTeamDetailUseCase,
     private val getOrderItemUseCase: GetOrderItemUseCase,
-    private val getTeamResultUseCase: GetTeamResultUseCase
+    private val getTeamResultUseCase: GetTeamResultUseCase,
+    private val getHoldStockUseCase: GetHoldStockUseCase
 ) {
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
@@ -82,6 +86,15 @@ class TeamWebAdapter(
     fun getResult(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamResultResponse {
-        return getTeamResultUseCase.get(principal.lessonNum ,principal.teamId)
+        return getTeamResultUseCase.get(principal.lessonNum, principal.teamId)
+    }
+
+    @GetMapping("/{team-id}/holdItems")
+    @ResponseStatus(HttpStatus.OK)
+    fun getHoldStock(
+        @PathVariable("team-id") teamId: UUID,
+        @AuthenticationPrincipal principal: StudentPrincipal
+    ): List<StockResponse> {
+        return getHoldStockUseCase.getHoldStock(principal.lessonNum, teamId)
     }
 }
