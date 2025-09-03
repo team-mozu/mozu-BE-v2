@@ -13,7 +13,7 @@ import kotlin.math.roundToInt
 class GetLessonRoundItemsService(
     private val lessonFacade: LessonFacade,
     private val lessonItemPort: QueryLessonItemPort
-): GetLessonRoundItemsUseCase {
+) : GetLessonRoundItemsUseCase {
 
     @Transactional(readOnly = true)
     override fun get(lessonId: UUID): List<LessonRoundItemResponse> {
@@ -24,10 +24,14 @@ class GetLessonRoundItemsService(
             val nowMoney = item.curMoney
             val profitMoney = if (item.preMoney != 0) {
                 item.curMoney - item.preMoney
-            } else 0
+            } else {
+                0
+            }
             val profitNum = if (item.preMoney != 0) {
                 ((profitMoney.toDouble() * 100 / item.preMoney) * 100).roundToInt() / 100.0
-            } else 0.0
+            } else {
+                0.0
+            }
 
             LessonRoundItemResponse(
                 itemId = item.itemId,
