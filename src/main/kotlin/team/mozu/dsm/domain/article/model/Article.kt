@@ -9,8 +9,8 @@ data class Article(
     val id: UUID?,
     val organId: UUID,
     val articleName: String,
-    val articleDescription: String,
     val articleImage: String?,
+    val articleDescription: String,
     val isDeleted: Boolean,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime?
