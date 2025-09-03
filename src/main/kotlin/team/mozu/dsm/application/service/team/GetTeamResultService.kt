@@ -1,35 +1,34 @@
 package team.mozu.dsm.application.service.team
 
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
-import team.mozu.dsm.adapter.`in`.team.dto.response.TeamDetailResponse
+import team.mozu.dsm.adapter.`in`.team.dto.response.TeamResultResponse
 import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
-import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
+import team.mozu.dsm.application.port.`in`.team.GetTeamResultUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
+import team.mozu.dsm.application.port.out.team.QueryOrderItemPort
 import team.mozu.dsm.application.port.out.team.QueryStockPort
 import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import java.util.UUID
 
 @Service
-class GetTeamDetailService(
+class GetTeamResultService(
     private val queryLessonPort: QueryLessonPort,
     private val queryTeamPort: QueryTeamPort,
+    private val queryStockPort: QueryStockPort,
     private val queryLessonItemPort: QueryLessonItemPort,
-    private val queryStockPort: QueryStockPort
-) : GetTeamDetailUseCase {
+    private val queryOrderItemPort: QueryOrderItemPort
+) : GetTeamResultUseCase {
 
-    @Transactional(readOnly = true)
-    override fun getTeamDetail(lessonNum: String, teamId: UUID): TeamDetailResponse {
+    override fun get(lessonNum: String, teamId: UUID): TeamResultResponse {
+
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 
         val team = queryTeamPort.findById(teamId)
 
         val stocks = queryStockPort.findAllByTeamId(teamId)
-
-        val currentRound = lesson.curInvRound
 
         val previousInv = lesson.curInvRound - 1
 
@@ -40,7 +39,7 @@ class GetTeamDetailService(
 
         val totalBuyMoney = stocks.sumOf { it.buyMoney }
 
-        val currentTotalValProfit = stocks.sumOf { stock ->
+        val valProfit = stocks.sumOf { stock ->
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
@@ -49,21 +48,20 @@ class GetTeamDetailService(
         }
 
         val profitNum = if (totalBuyMoney > 0) {
-            (currentTotalValProfit.toDouble() / totalBuyMoney.toDouble()) * 100
+            (valProfit.toDouble() / totalBuyMoney.toDouble()) * 100
         } else {
             0.0
         }
 
-        return TeamDetailResponse(
-            id = teamId,
+        return TeamResultResponse(
+            id = team.id!!,
             teamName = team.teamName,
             baseMoney = lesson.baseMoney,
             totalMoney = team.totalMoney,
-            cashMoney = team.cashMoney,
-            valuationMoney = team.valuationMoney,
-            curInvRound = currentRound,
-            valProfit = currentTotalValProfit,
-            profitNum = profitNum
+            invRound = lesson.curInvRound,
+            valProfit = valProfit,
+            profitNum = profitNum,
+            orderCount = queryOrderItemPort.countOrderItemsByTeamId(teamId)
         )
     }
 }
