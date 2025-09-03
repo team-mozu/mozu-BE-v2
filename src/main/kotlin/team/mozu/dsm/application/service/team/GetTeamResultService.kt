@@ -30,7 +30,7 @@ class GetTeamResultService(
 
         val stocks = queryStockPort.findAllByTeamId(teamId)
 
-        val currentRound = lesson.curInvRound
+        val previousInv = lesson.curInvRound - 1
 
         val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
             lesson.id!!,
@@ -43,7 +43,7 @@ class GetTeamResultService(
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
-            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+            val currentPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
             (currentPrice * stock.quantity) - stock.buyMoney
         }
 
