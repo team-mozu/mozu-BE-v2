@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class CreateItemService (
+class CreateItemService(
     private val securityPort: SecurityPort,
     private val itemPort: CommandItemPort
 ) : CreateItemUseCase {
@@ -31,8 +31,8 @@ class CreateItemService (
             debt = request.debt,
             capital = request.capital,
             profit = request.profit,
-            profitOg  = request.profitOg ,
-            profitBenefit  = request.profitBenefit ,
+            profitOg = request.profitOg,
+            profitBenefit = request.profitBenefit,
             netProfit = request.netProfit,
             isDeleted = false,
             createdAt = LocalDateTime.now(),

@@ -11,17 +11,17 @@ import java.util.*
 
 @RestController
 @RequestMapping("item")
-class ItemWebAdapter (
+class ItemWebAdapter(
     private val createItemUseCase: CreateItemUseCase,
     private val deleteItemUseCase: DeleteItemUseCase
-){
+) {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    fun create (
+    fun create(
         @RequestBody @Valid
         request: ItemRequest
-    ) : ItemResponse {
+    ): ItemResponse {
         return createItemUseCase.create(request)
     }
 

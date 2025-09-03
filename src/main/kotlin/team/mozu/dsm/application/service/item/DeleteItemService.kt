@@ -9,7 +9,7 @@ import team.mozu.dsm.application.port.out.item.QueryItemPort
 import java.util.*
 
 @Service
-class DeleteItemService (
+class DeleteItemService(
     private val queryItemPort: QueryItemPort,
     private val commandItemPort: CommandItemPort
 ) : DeleteItemUseCase {

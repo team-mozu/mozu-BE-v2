@@ -5,7 +5,7 @@ import com.querydsl.core.annotations.QueryProjection
 import java.time.LocalDateTime
 import java.util.*
 
-data class LessonListResponse (
+data class LessonListResponse(
     val lessons: List<LessonSummaryResponse>
 )
 

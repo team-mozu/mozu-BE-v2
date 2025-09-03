@@ -11,7 +11,7 @@ import java.util.UUID
 class GetLessonItemsService(
     private val lessonItemPort: QueryLessonItemPort,
     private val lessonFacade: LessonFacade
-): GetLessonItemsUseCase {
+) : GetLessonItemsUseCase {
 
     override fun get(lessonId: UUID): List<LessonItemResponse> {
         val lessonItems = lessonItemPort.findAllByLessonId(lessonId)
