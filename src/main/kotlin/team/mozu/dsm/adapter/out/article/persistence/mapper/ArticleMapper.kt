@@ -11,6 +11,7 @@ import team.mozu.dsm.domain.article.model.Article
 abstract class ArticleMapper {
 
     @Mapping(target = "organId", source = "organ.id")
+    @Mapping(target = "articleDesc", source = "articleDescription")
     abstract fun toModel(entity: ArticleJpaEntity): Article
     @Mapping(target = "articleDesc", source = "articleDescription")
     @Mapping(target = "articleImg",  source = "articleImage", defaultValue = "")
