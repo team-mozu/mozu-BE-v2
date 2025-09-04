@@ -20,6 +20,7 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonArticleResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundArticleResponse
 import team.mozu.dsm.application.port.`in`.lesson.ChangeStarredUseCase
 import team.mozu.dsm.application.port.`in`.lesson.CreateLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.DeleteLessonUseCase
@@ -31,9 +32,10 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
-import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
-import team.mozu.dsm.global.security.auth.StudentPrincipal
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundArticlesUseCase
+import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.UUID
 
 @RestController
@@ -51,7 +53,8 @@ class LessonWebAdapter(
     private val getLessonArticlesUseCase: GetLessonArticlesUseCase,
     private val nextLessonUseCase: NextLessonUseCase,
     private val lessonOrganSSEUseCase: LessonOrganSSEUseCase,
-    private val getLessonRoundItemsUseCase: GetLessonRoundItemsUseCase
+    private val getLessonRoundItemsUseCase: GetLessonRoundItemsUseCase,
+    private val getLessonRoundArticlesUseCase: GetLessonRoundArticlesUseCase
 ) {
 
     @PostMapping
@@ -157,5 +160,13 @@ class LessonWebAdapter(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundItemResponse> {
         return getLessonRoundItemsUseCase.get(studentPrincipal.lessonNum)
+    }
+
+    @GetMapping("/team/articles")
+    @ResponseStatus(HttpStatus.OK)
+    fun getLessonRoundArticles(
+        @AuthenticationPrincipal studentPrincipal: StudentPrincipal
+    ): List<LessonRoundArticleResponse> {
+        return getLessonRoundArticlesUseCase.get(studentPrincipal.lessonNum)
     }
 }
