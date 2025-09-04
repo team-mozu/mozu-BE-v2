@@ -5,12 +5,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
-import team.mozu.dsm.application.port.`in`.article.CreateArticleUseCase
-import team.mozu.dsm.application.port.`in`.article.DeleteArticleUseCase
-import team.mozu.dsm.application.port.`in`.article.QueryArticleAllUseCase
-import team.mozu.dsm.application.port.`in`.article.QueryArticleDetailUseCase
+import team.mozu.dsm.application.port.`in`.article.*
 import java.util.*
 
 @RestController
@@ -20,6 +16,7 @@ class ArticleWebAdapter(
     private val queryArticleDetailUseCase: QueryArticleDetailUseCase,
     private val queryArticleAllUseCase: QueryArticleAllUseCase,
     private val deleteArticleUseCase: DeleteArticleUseCase,
+    private val updateArticleUseCase: UpdateArticleUseCase,
     private val articleMapper: ArticleMapper
 ) {
 
@@ -51,7 +48,17 @@ class ArticleWebAdapter(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(
         @PathVariable id: UUID
-    ){
+    ) {
         deleteArticleUseCase.delete(id)
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun update(
+        @PathVariable id: UUID,
+        @RequestBody @Valid
+        request: ArticleRequest
+    ): ArticleResponse {
+        return updateArticleUseCase.update(id, request)
     }
 }

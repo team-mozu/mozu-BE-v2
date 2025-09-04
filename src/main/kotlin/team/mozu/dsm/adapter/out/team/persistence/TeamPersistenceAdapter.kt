@@ -50,7 +50,7 @@ class TeamPersistenceAdapter(
 
         return entities.map { teamMapper.toModel(it) }
     }
-    
+
     override fun findAllByLessonId(lessonId: UUID): List<Team> {
         val teams = jpaQueryFactory
             .selectFrom(teamJpaEntity)
