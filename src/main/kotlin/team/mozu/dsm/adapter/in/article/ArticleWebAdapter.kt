@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
-import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
 import team.mozu.dsm.application.port.`in`.article.*
 import java.util.*
@@ -50,7 +48,7 @@ class ArticleWebAdapter(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(
         @PathVariable id: UUID
-    ){
+    ) {
         deleteArticleUseCase.delete(id)
     }
 

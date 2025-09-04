@@ -93,6 +93,6 @@ class TeamWebAdapter(
     fun getRank(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TeamRankResponse> {
-        return getTeamRanksUseCase.get(principal.lessonNum ,principal.teamId)
+        return getTeamRanksUseCase.get(principal.lessonNum, principal.teamId)
     }
 }
