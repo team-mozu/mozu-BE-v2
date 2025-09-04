@@ -22,7 +22,7 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonArticleResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundArticleResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonItemDetailResponse
-import team.mozu.dsm.application.port.`in`.lesson.ChangeStarredUseCase
+import team.mozu.dsm.application.port.`in`.lesson.ChangeStarUseCase
 import team.mozu.dsm.application.port.`in`.lesson.CreateLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.DeleteLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.StartLessonUseCase
@@ -45,7 +45,7 @@ import java.util.UUID
 class LessonWebAdapter(
     private val createLessonUseCase: CreateLessonUseCase,
     private val startLessonUseCase: StartLessonUseCase,
-    private val changeStarredUseCase: ChangeStarredUseCase,
+    private val changeStarUseCase: ChangeStarUseCase,
     private val deleteLessonUseCase: DeleteLessonUseCase,
     private val endLessonUseCase: EndLessonUseCase,
     private val updateLessonUseCase: UpdateLessonUseCase,
@@ -82,7 +82,7 @@ class LessonWebAdapter(
     fun star(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
-        changeStarredUseCase.change(lessonId)
+        changeStarUseCase.change(lessonId)
     }
 
     @DeleteMapping("/{lesson-id}")
