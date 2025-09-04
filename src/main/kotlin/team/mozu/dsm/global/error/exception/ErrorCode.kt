@@ -50,6 +50,7 @@ enum class ErrorCode(
     MAX_INVESTMENT_ROUND_REACHED(HttpStatus.CONFLICT, "Max Investment Round Reached"),
     UNAUTHORIZED_LESSON_ACCESS(HttpStatus.FORBIDDEN, "Unauthorized"),
     CANNOT_STAR_LESSON(HttpStatus.FORBIDDEN, "Can't star Lesson"),
+    CANNOT_END_LESSON(HttpStatus.FORBIDDEN, "Can't end Lesson"),
 
     //team
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "Team Not Found"),
