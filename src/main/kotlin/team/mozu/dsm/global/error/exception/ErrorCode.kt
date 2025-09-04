@@ -51,6 +51,7 @@ enum class ErrorCode(
     UNAUTHORIZED_LESSON_ACCESS(HttpStatus.FORBIDDEN, "Unauthorized"),
     CANNOT_STAR_LESSON(HttpStatus.FORBIDDEN, "Can't star Lesson"),
     CANNOT_END_LESSON(HttpStatus.FORBIDDEN, "Can't end Lesson"),
+    CANNOT_NEXT_LESSON(HttpStatus.FORBIDDEN, "Can't next Lesson"),
 
     //team
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "Team Not Found"),
