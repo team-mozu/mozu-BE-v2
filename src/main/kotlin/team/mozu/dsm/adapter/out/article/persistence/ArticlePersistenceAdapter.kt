@@ -9,6 +9,7 @@ import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.out.article.CommandArticlePort
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import team.mozu.dsm.domain.article.model.Article
+import team.mozu.dsm.domain.item.model.Item
 import java.util.*
 
 @Component
@@ -27,7 +28,15 @@ class ArticlePersistenceAdapter(
         return articleRepository.findAllById(ids)
             .map { articleMapper.toModel(it) }
     }
+    override fun findById(id: UUID): Article? {
+        return articleRepository.findByIdOrNull(id)
+            ?.let { articleMapper.toModel(it) }
+    }
 
+    override fun findAll(): List<Article> {
+        return articleRepository.findAll()
+            .map { articleMapper.toModel(it) }
+    }
     //--Command--//
     override fun save(article: Article): Article {
         val organ = organRepository.findByIdOrNull(article.organId)
