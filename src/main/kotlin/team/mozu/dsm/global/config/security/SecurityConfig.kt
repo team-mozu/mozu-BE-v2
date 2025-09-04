@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import team.mozu.dsm.application.service.lesson.facade.LessonFacade
 import team.mozu.dsm.global.security.jwt.JwtAdapter
 
 @Configuration
@@ -29,7 +30,7 @@ class SecurityConfig(
     fun passwordEncorder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
-    fun configure(http: HttpSecurity): SecurityFilterChain {
+    fun configure(http: HttpSecurity, lessonFacade: LessonFacade): SecurityFilterChain {
         http.csrf(AbstractHttpConfigurer<*, *>::disable)
             .cors { it.configurationSource(corsConfigurationSource()) }
             .headers { headers: HeadersConfigurer<HttpSecurity> ->
@@ -39,14 +40,14 @@ class SecurityConfig(
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authorizeHttpRequests {
-                //organ
+                // organ
                 it.requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
                 it.requestMatchers(HttpMethod.PATCH, "/organ/token/reissue").permitAll()
                 it.requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
                 it.requestMatchers(HttpMethod.GET, "/organ/{id}").permitAll()
                 it.requestMatchers(HttpMethod.GET, "/organ").permitAll()
 
-                //team
+                // team
                 it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
                 it.requestMatchers(HttpMethod.POST, "/team/end").hasAnyRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/team/stocks").hasAnyRole("STUDENT")
@@ -54,7 +55,12 @@ class SecurityConfig(
                 it.requestMatchers(HttpMethod.GET, "/team/orders").hasAnyRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/team/result").hasAnyRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/team/rank").hasAnyRole("STUDENT")
-                    .anyRequest().authenticated()
+
+                // lesson
+                it.requestMatchers(HttpMethod.GET, "/lesson/team/items").hasAnyRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/lesson/team/articles").hasAnyRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/lesson/team/item/**").hasAnyRole("STUDENT")
+                .anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
 
