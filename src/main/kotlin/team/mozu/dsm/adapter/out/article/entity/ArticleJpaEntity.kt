@@ -12,7 +12,7 @@ class ArticleJpaEntity(
     var articleName: String,
 
     @Column(nullable = false, columnDefinition = "VARCHAR(10000)")
-    var articleDescription: String,
+    var articleDesc: String,
 
     @Column(nullable = true, columnDefinition = "TEXT")
     var articleImage: String?,
