@@ -11,9 +11,9 @@ import team.mozu.dsm.domain.article.model.Article
 abstract class ArticleMapper {
 
     @Mapping(target = "organId", source = "organ.id")
-    @Mapping(target = "articleDesc", source = "articleDescription")
+    @Mapping(target = "articleDesc", source = "articleDesc")
     abstract fun toModel(entity: ArticleJpaEntity): Article
-    @Mapping(target = "articleDesc", source = "articleDescription")
+    @Mapping(target = "articleDesc", source = "articleDesc")
     @Mapping(target = "articleImg",  source = "articleImage")
 
     abstract fun toResponse(model: Article): ArticleResponse
@@ -22,7 +22,7 @@ abstract class ArticleMapper {
         return ArticleJpaEntity(
             organ = organ,
             articleName = model.articleName,
-            articleDescription = model.articleDesc,
+            articleDesc = model.articleDesc,
             articleImage = model.articleImage,
             isDeleted = model.isDeleted
         )
