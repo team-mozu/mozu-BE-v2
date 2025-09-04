@@ -14,7 +14,7 @@ import team.mozu.dsm.application.port.`in`.item.DeleteItemUseCase
 import java.util.*
 
 @RestController
-@RequestMapping("item")
+@RequestMapping("/item")
 class ItemWebAdapter(
     private val createItemUseCase: CreateItemUseCase,
     private val updateItemUseCase: UpdateItemUseCase,
@@ -24,7 +24,7 @@ class ItemWebAdapter(
     private val deleteItemUseCase: DeleteItemUseCase
 ) {
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
         @RequestBody @Valid
