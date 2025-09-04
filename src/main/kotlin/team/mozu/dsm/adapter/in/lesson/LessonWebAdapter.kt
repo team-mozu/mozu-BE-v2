@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.lesson.dto.request.LessonRequest
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonItemResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
@@ -32,6 +33,7 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
 import team.mozu.dsm.global.security.auth.StudentPrincipal
+import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
 import java.util.UUID
 
 @RestController
@@ -48,6 +50,7 @@ class LessonWebAdapter(
     private val getLessonItemsUseCase: GetLessonItemsUseCase,
     private val getLessonArticlesUseCase: GetLessonArticlesUseCase,
     private val nextLessonUseCase: NextLessonUseCase,
+    private val lessonOrganSSEUseCase: LessonOrganSSEUseCase,
     private val getLessonRoundItemsUseCase: GetLessonRoundItemsUseCase
 ) {
 
@@ -138,6 +141,14 @@ class LessonWebAdapter(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
         nextLessonUseCase.next(lessonId)
+    }
+    
+    @GetMapping("/sse/{lesson-id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun sse(
+        @PathVariable("lesson-id") lessonId: UUID
+    ): SseEmitter {
+        return lessonOrganSSEUseCase.connect(lessonId)
     }
 
     @GetMapping("/team/items")
