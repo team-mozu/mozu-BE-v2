@@ -35,9 +35,6 @@ class TeamJpaEntity(
     @Column(nullable = false)
     var isInvestmentInProgress: Boolean = false,
 
-    @Column(nullable = false)
-    var participationDate: LocalDateTime,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lesson_id", nullable = false)
     var lesson: LessonJpaEntity

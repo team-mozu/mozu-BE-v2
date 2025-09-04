@@ -21,8 +21,7 @@ abstract class TeamMapper {
             cashMoney = model.cashMoney,
             valuationMoney = model.valuationMoney,
             lessonNum = model.lessonNum,
-            isInvestmentInProgress = model.isInvestmentInProgress,
-            participationDate = model.participationDate
+            isInvestmentInProgress = model.isInvestmentInProgress
         )
     }
 }
