@@ -9,9 +9,9 @@ import team.mozu.dsm.domain.article.model.Article
 import java.util.*
 
 @Service
-class QueryArticleDetailService (
+class QueryArticleDetailService(
     private val queryArticlePort: QueryArticlePort
-) : QueryArticleDetailUseCase{
+) : QueryArticleDetailUseCase {
 
     @Transactional(readOnly = true)
     override fun queryDetail(id: UUID): Article {

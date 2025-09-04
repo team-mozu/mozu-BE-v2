@@ -3,8 +3,6 @@ package team.mozu.dsm.adapter.out.team.persistence
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.`in`.team.dto.response.OrderItemResponse
-import team.mozu.dsm.adapter.`in`.team.dto.response.QOrderItemResponse
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
 import team.mozu.dsm.adapter.out.team.entity.QOrderItemJpaEntity.orderItemJpaEntity
 import team.mozu.dsm.adapter.out.team.persistence.mapper.OrderItemMapper

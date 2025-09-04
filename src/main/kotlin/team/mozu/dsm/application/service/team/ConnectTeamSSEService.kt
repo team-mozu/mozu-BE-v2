@@ -13,7 +13,7 @@ import java.util.*
 class ConnectTeamSSEService(
     private val subscribeSsePort: SubscribeSsePort,
     private val queryTeamPort: QueryTeamPort
-): ConnectTeamSSEUseCase {
+) : ConnectTeamSSEUseCase {
 
     companion object {
         private const val CONNECTED_EVENT = "TEAM_SSE_CONNECTED"

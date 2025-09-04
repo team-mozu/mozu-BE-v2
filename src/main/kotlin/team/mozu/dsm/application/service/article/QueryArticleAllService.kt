@@ -8,10 +8,10 @@ import team.mozu.dsm.application.port.`in`.article.QueryArticleAllUseCase
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
 
 @Service
-class QueryArticleAllService (
+class QueryArticleAllService(
     private val queryArticlePort: QueryArticlePort,
     private val articleMapper: ArticleMapper
-) : QueryArticleAllUseCase{
+) : QueryArticleAllUseCase {
 
     @Transactional(readOnly = true)
     override fun queryAll(): List<ArticleResponse> {

@@ -94,7 +94,7 @@ class TeamWebAdapter(
     ): List<OrderItemResponse> {
         return getCurrentOrderItemUseCase.getCurrentOrderItem(teamId)
     }
-        
+
     @GetMapping("/result")
     @ResponseStatus(HttpStatus.OK)
     fun getResult(
@@ -108,7 +108,7 @@ class TeamWebAdapter(
     fun getRank(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TeamRankResponse> {
-        return getTeamRanksUseCase.get(principal.lessonNum ,principal.teamId)
+        return getTeamRanksUseCase.get(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/sse")

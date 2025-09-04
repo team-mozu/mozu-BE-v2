@@ -9,11 +9,10 @@ import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import java.util.*
 
 @Service
-class DeleteArticleService (
+class DeleteArticleService(
     private val commandArticlePort: CommandArticlePort,
     private val queryArticlePort: QueryArticlePort
-) : DeleteArticleUseCase{
-
+) : DeleteArticleUseCase {
 
     @Transactional
     override fun delete(id: UUID) {
