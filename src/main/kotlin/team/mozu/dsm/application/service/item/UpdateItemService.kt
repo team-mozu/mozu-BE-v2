@@ -13,11 +13,11 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class UpdateItemService (
+class UpdateItemService(
     private val commandItemPort: CommandItemPort,
     private val queryItemPort: QueryItemPort,
     private val itemMapper: ItemMapper
-) : UpdateItemUseCase{
+) : UpdateItemUseCase {
 
     @Transactional
     override fun update(id: UUID, request: ItemRequest): ItemResponse {

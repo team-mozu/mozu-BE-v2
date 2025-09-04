@@ -11,10 +11,10 @@ class ArticleJpaEntity(
     @Column(nullable = false, columnDefinition = "VARCHAR(300)")
     var articleName: String,
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(10000)")
-    var articleDescription: String,
+    @Column(name = "article_description", nullable = false, columnDefinition = "VARCHAR(10000)")
+    var articleDesc: String,
 
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Column(columnDefinition = "TEXT")
     var articleImage: String?,
 
     @Column(nullable = false)
