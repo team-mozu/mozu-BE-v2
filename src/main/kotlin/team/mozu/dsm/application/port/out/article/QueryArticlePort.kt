@@ -8,4 +8,8 @@ interface QueryArticlePort {
     fun existsById(id: UUID): Boolean
 
     fun findAllByIds(ids: Set<UUID>): List<Article>
+
+    fun findById(id: UUID): Article?
+
+    fun findAll(): List<Article>
 }

@@ -38,7 +38,7 @@ class LessonFacade(
 
     fun validateItemsExists(lessonItems: List<LessonItemRequest>) {
         // 요청된 LessonItemRequest에서 itemId만 추출하고, 중복이 있을 경우 제거
-        val itemIds = lessonItems.map { it.id }.toSet()
+        val itemIds = lessonItems.map { it.id }.toSet().toList()
         // DB에서 itemId에 해당하는 Item 엔티티들을 조회하고, ID만 뽑아 유일한 UUID 집합(Set)으로 변환
         val foundItemIds = itemPort.findAllByIds(itemIds).map { it.id!! }.toSet()
 
@@ -103,7 +103,7 @@ class LessonFacade(
 
     fun toLessonItemResponses(lessonItems: List<LessonItem>): List<LessonItemResponse> {
         // lessonItems에서 itemId만 추출하고 중복 제거
-        val itemIds = lessonItems.map { it.lessonItemId.itemId }.toSet()
+        val itemIds = lessonItems.map { it.lessonItemId.itemId }.toSet().toList()
         // DB에서 해당 itemId에 맞는 Item 엔티티를 조회 후, ID를 key로 매핑
         val itemMap = itemPort.findAllByIds(itemIds).associateBy { it.id!! }
 

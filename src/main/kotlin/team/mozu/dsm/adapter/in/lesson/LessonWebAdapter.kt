@@ -2,6 +2,7 @@ package team.mozu.dsm.adapter.`in`.lesson
 
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestBody
@@ -18,6 +19,9 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonArticleResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundArticleResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonItemDetailResponse
 import team.mozu.dsm.application.port.`in`.lesson.ChangeStarredUseCase
 import team.mozu.dsm.application.port.`in`.lesson.CreateLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.DeleteLessonUseCase
@@ -30,6 +34,10 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundArticlesUseCase
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemDetailUseCase
+import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.UUID
 
 @RestController
@@ -46,7 +54,10 @@ class LessonWebAdapter(
     private val getLessonItemsUseCase: GetLessonItemsUseCase,
     private val getLessonArticlesUseCase: GetLessonArticlesUseCase,
     private val nextLessonUseCase: NextLessonUseCase,
-    private val lessonOrganSSEUseCase: LessonOrganSSEUseCase
+    private val lessonOrganSSEUseCase: LessonOrganSSEUseCase,
+    private val getLessonRoundItemsUseCase: GetLessonRoundItemsUseCase,
+    private val getLessonRoundArticlesUseCase: GetLessonRoundArticlesUseCase,
+    private val getLessonItemDetailUseCase: GetLessonItemDetailUseCase
 ) {
 
     @PostMapping
@@ -144,5 +155,30 @@ class LessonWebAdapter(
         @PathVariable("lesson-id") lessonId: UUID
     ): SseEmitter {
         return lessonOrganSSEUseCase.connect(lessonId)
+    }
+
+    @GetMapping("/team/items")
+    @ResponseStatus(HttpStatus.OK)
+    fun getLessonRoundItems(
+        @AuthenticationPrincipal studentPrincipal: StudentPrincipal
+    ): List<LessonRoundItemResponse> {
+        return getLessonRoundItemsUseCase.get(studentPrincipal.lessonNum)
+    }
+
+    @GetMapping("/team/articles")
+    @ResponseStatus(HttpStatus.OK)
+    fun getLessonRoundArticles(
+        @AuthenticationPrincipal studentPrincipal: StudentPrincipal
+    ): List<LessonRoundArticleResponse> {
+        return getLessonRoundArticlesUseCase.get(studentPrincipal.lessonNum)
+    }
+
+    @GetMapping("/team/item/{item-id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getLessonItemDetail(
+        @AuthenticationPrincipal studentPrincipal: StudentPrincipal,
+        @PathVariable("item-id") lessonId: UUID
+    ): LessonItemDetailResponse {
+        return getLessonItemDetailUseCase.get(studentPrincipal.lessonNum, lessonId)
     }
 }

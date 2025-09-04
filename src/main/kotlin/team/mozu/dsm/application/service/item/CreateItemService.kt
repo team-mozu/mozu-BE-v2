@@ -23,11 +23,15 @@ class CreateItemService(
     override fun create(request: ItemRequest): ItemResponse {
         val organ = securityPort.getCurrentOrgan()
 
+        val logoUrl: String? = request.itemLogo
+            ?.trim()
+            ?.takeUnless { it.isBlank() }
+
         val item = Item(
             id = UUID.randomUUID(),
             organId = organ.id!!,
             itemName = request.itemName,
-            itemLogo = null,
+            itemLogo = logoUrl,
             itemInfo = request.itemInfo,
             money = request.money,
             debt = request.debt,

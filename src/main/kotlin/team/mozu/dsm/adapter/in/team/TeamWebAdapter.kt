@@ -12,18 +12,21 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.mozu.dsm.adapter.`in`.team.dto.request.CompleteInvestmentRequest
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
+import team.mozu.dsm.adapter.`in`.team.dto.response.TeamRankResponse
+import team.mozu.dsm.adapter.`in`.team.dto.response.TeamResultResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.StockResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamDetailResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.OrderItemResponse
-import team.mozu.dsm.adapter.`in`.team.dto.response.TeamResultResponse
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.team.GetHoldStockUseCase
+import team.mozu.dsm.application.port.`in`.team.GetCurrentOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetStocksUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
 import team.mozu.dsm.application.port.`in`.team.GetOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamResultUseCase
+import team.mozu.dsm.application.port.`in`.team.GetTeamRanksUseCase
 import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.UUID
 
@@ -37,6 +40,9 @@ class TeamWebAdapter(
     private val getOrderItemUseCase: GetOrderItemUseCase,
     private val getTeamResultUseCase: GetTeamResultUseCase,
     private val getHoldStockUseCase: GetHoldStockUseCase
+    private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase
+    private val getTeamResultUseCase: GetTeamResultUseCase,
+    private val getTeamRanksUseCase: GetTeamRanksUseCase
 ) {
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
@@ -81,6 +87,13 @@ class TeamWebAdapter(
         return getOrderItemUseCase.getOrderItems(principal.teamId)
     }
 
+    @GetMapping("/{team-id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getCurrentOrderItem(
+        @PathVariable("team-id") teamId: UUID
+    ): List<OrderItemResponse> {
+        return getCurrentOrderItemUseCase.getCurrentOrderItem(teamId)
+        
     @GetMapping("/result")
     @ResponseStatus(HttpStatus.OK)
     fun getResult(
@@ -95,5 +108,12 @@ class TeamWebAdapter(
         @PathVariable("team-id") teamId: UUID
     ): List<StockResponse> {
         return getHoldStockUseCase.getHoldStock(teamId)
+
+    @GetMapping("/ranks")
+    @ResponseStatus(HttpStatus.OK)
+    fun getRank(
+        @AuthenticationPrincipal principal: StudentPrincipal
+    ): List<TeamRankResponse> {
+        return getTeamRanksUseCase.get(principal.lessonNum, principal.teamId)
     }
 }

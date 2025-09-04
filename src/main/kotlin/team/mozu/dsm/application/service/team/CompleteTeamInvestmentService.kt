@@ -60,7 +60,7 @@ class CompleteTeamInvestmentService(
         val organ = queryOrganPort.findModelById(lesson.organId)
             ?: throw OrganNotFoundException
 
-        val itemIds = requests.map { it.itemId }.toSet()
+        val itemIds = requests.map { it.itemId }.toSet().toList()
         val lessonId = lesson.id ?: throw LessonNotFoundException
         validateItems(itemIds, lessonId)
 
@@ -81,9 +81,9 @@ class CompleteTeamInvestmentService(
         }
         commandOrderItemPort.saveAll(orderItems)
 
-        updateStocksAndTeam(requests, team)
-
         updatePreviouslyTradedStocksProfit(teamId, lesson, requests.map { it.itemId })
+
+        updateStocksAndTeam(requests, team)
 
         TransactionSynchronizationManager.registerSynchronization(
             object : TransactionSynchronization {
@@ -138,7 +138,7 @@ class CompleteTeamInvestmentService(
     /**
      * 거래하려는 종목이 유효한지 검증
      */
-    private fun validateItems(itemIds: Set<UUID>, lessonId: UUID) {
+    private fun validateItems(itemIds: List<UUID>, lessonId: UUID) {
         val validItemIds = queryLessonItemPort.findItemIdsByLessonId(lessonId)
 
         val invalidItems = itemIds.filter { it !in validItemIds }
@@ -379,7 +379,7 @@ class CompleteTeamInvestmentService(
         // 평가액 = 보유 수량 * 주식의 현재가
         val valuationMoney = currentStocks.sumOf { stock ->
             val lessonItem = stockLessonItemMap[stock.itemId] ?: throw LessonItemNotFoundException
-            val currentPrice = lessonItem.getPriceByRound(curInvRound) ?: lessonItem.currentMoney ?: 0
+            val currentPrice = lessonItem.getPriceByRound(curInvRound) ?: lessonItem.currentMoney
             currentPrice * stock.quantity
         }
 
@@ -400,7 +400,7 @@ class CompleteTeamInvestmentService(
         val lessonId = lesson.id ?: throw LessonNotFoundException
         val currentRound = lesson.curInvRound
 
-        val allStocks = queryStockPort.findAllByTeamId(teamId).filterNotNull()
+        val allStocks = queryStockPort.findAllByTeamId(teamId)
 
         val nonTradedStocks = allStocks.filter { stock ->
             stock.itemId !in tradedItemIds
@@ -414,7 +414,7 @@ class CompleteTeamInvestmentService(
 
         val stocksToUpdate = nonTradedStocks.map { stock ->
             val lessonItem = lessonItemMap[stock.itemId] ?: throw LessonItemNotFoundException
-            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney ?: 0
+            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
 
             val currentValProfit = (currentPrice * stock.quantity) - stock.buyMoney
             val currentProfitNum = if (stock.buyMoney > 0) {
