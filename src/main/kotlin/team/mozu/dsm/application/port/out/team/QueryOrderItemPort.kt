@@ -6,4 +6,6 @@ import java.util.*
 interface QueryOrderItemPort {
 
     fun findAllByTeamId(teamId: UUID): List<OrderItem>
+
+    fun countOrderItemsByTeamId(teamId: UUID): Int
 }

@@ -2,8 +2,11 @@ package team.mozu.dsm.adapter.out.lesson.persistence
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundArticleResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.QLessonRoundArticleResponse
 import team.mozu.dsm.adapter.out.article.persistence.repository.ArticleRepository
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonArticleJpaEntity.lessonArticleJpaEntity
+import team.mozu.dsm.adapter.out.article.entity.QArticleJpaEntity.articleJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonArticleMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonArticleRepository
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
@@ -29,10 +32,29 @@ class LessonArticlePersistenceAdapter(
             .map { lessonArticleMapper.toModel(it) }
     }
 
+    override fun findAllRoundArticlesByLessonId(lessonId: UUID, nowInvRound: Int): List<LessonRoundArticleResponse> {
+        return jpaQueryFactory
+            .select(
+                QLessonRoundArticleResponse(
+                    articleJpaEntity.id,
+                    articleJpaEntity.articleName,
+                    articleJpaEntity.articleDescription,
+                    articleJpaEntity.articleImage
+                )
+            )
+            .from(lessonArticleJpaEntity)
+            .join(lessonArticleJpaEntity.article, articleJpaEntity)
+            .where(
+                lessonArticleJpaEntity.lesson.id.eq(lessonId)
+                    .and(lessonArticleJpaEntity.investmentRound.eq(nowInvRound))
+            )
+            .fetch()
+    }
+
     //--Command--//
     override fun saveAll(id: UUID, lessonArticles: List<LessonArticle>): List<LessonArticle> {
-        val lessonEntity = lessonRepository.findById(id)
-            .orElseThrow { LessonNotFoundException }
+        val lessonEntity = lessonRepository.findById(id).orElse(null)
+            ?: throw LessonNotFoundException
 
         /**
          * LessonArticleList 저장 프로세스

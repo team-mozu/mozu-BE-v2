@@ -58,7 +58,6 @@ class TeamParticipationService(
             valuationMoney = 0,
             lessonNum = request.lessonNum,
             isInvestmentInProgress = true, //투자 종료 시 false
-            participationDate = LocalDateTime.now(),
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now()
         )

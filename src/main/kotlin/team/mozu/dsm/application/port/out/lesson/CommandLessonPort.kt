@@ -17,4 +17,6 @@ interface CommandLessonPort {
     fun updateIsInProgress(id: UUID)
 
     fun update(lessonId: UUID, command: UpdateLessonCommand)
+
+    fun updateCurInvRound(id: UUID): Lesson
 }

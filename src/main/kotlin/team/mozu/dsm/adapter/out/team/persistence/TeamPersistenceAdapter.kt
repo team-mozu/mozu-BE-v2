@@ -13,14 +13,14 @@ import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.out.team.CommandTeamPort
 import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import team.mozu.dsm.domain.team.model.Team
-import java.util.*
+import java.util.UUID
 
 @Component
 class TeamPersistenceAdapter(
     private val teamRepository: TeamRepository,
     private val lessonRepository: LessonRepository,
     private val teamMapper: TeamMapper,
-    private val queryFactory: JPAQueryFactory
+    private val jpaQueryFactory: JPAQueryFactory
 ) : CommandTeamPort, QueryTeamPort {
 
     //--Query--//
@@ -32,13 +32,35 @@ class TeamPersistenceAdapter(
     }
 
     override fun findByIdWithLock(teamId: UUID): Team? {
-        val entity = queryFactory
+        val entity = jpaQueryFactory
             .selectFrom(teamJpaEntity)
             .where(teamJpaEntity.id.eq(teamId))
             .setLockMode(LockModeType.PESSIMISTIC_WRITE)
             .fetchOne()
 
         return entity?.let { teamMapper.toModel(it) }
+    }
+
+    override fun findAllByLessonNumOrderByTotalMoneyDesc(lessonNum: String): List<Team> {
+        val entities = jpaQueryFactory
+            .selectFrom(teamJpaEntity)
+            .where(teamJpaEntity.lessonNum.eq(lessonNum))
+            .orderBy(teamJpaEntity.totalMoney.desc())
+            .fetch()
+
+        return entities.map { teamMapper.toModel(it) }
+    }
+    
+    override fun findAllByLessonId(lessonId: UUID): List<Team> {
+        val teams = jpaQueryFactory
+            .selectFrom(teamJpaEntity)
+            .where(
+                teamJpaEntity.lesson.id.eq(lessonId)
+                    .and(teamJpaEntity.isInvestmentInProgress.isTrue)
+            )
+            .fetch()
+
+        return teams.map { teamMapper.toModel(it) }
     }
 
     //--Command--//

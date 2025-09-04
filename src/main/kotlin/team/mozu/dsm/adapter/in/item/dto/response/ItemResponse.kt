@@ -6,9 +6,9 @@ import java.util.*
 
 data class ItemResponse(
     val id: UUID,
-    val name: String,
-    val logo: String? = null,
-    val info: String,
+    val itemName: String,
+    val itemLogo: String? = null,
+    val itemInfo: String,
     val money: Int,
     val debt: Int,
     val capital: Int,

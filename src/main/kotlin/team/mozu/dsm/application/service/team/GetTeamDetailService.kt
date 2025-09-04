@@ -31,6 +31,8 @@ class GetTeamDetailService(
 
         val currentRound = lesson.curInvRound
 
+        val previousInv = lesson.curInvRound - 1
+
         val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
             lesson.id!!,
             stocks.map { it.itemId }.distinct()
@@ -42,7 +44,7 @@ class GetTeamDetailService(
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
-            val currentPrice = lessonItem?.getPriceByRound(currentRound) ?: lessonItem?.currentMoney ?: 0
+            val currentPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
             (currentPrice * stock.quantity) - stock.buyMoney
         }
 

@@ -55,4 +55,12 @@ class OrderItemPersistenceAdapter(
 
         orderItemRepository.saveAll(entities)
     }
+
+    override fun countOrderItemsByTeamId(teamId: UUID): Int {
+        return jpaQueryFactory
+            .select(orderItemJpaEntity.count())
+            .from(orderItemJpaEntity)
+            .where(orderItemJpaEntity.team.id.eq(teamId))
+            .fetchOne()?.toInt() ?: 0
+    }
 }

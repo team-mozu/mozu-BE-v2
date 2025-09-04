@@ -9,6 +9,8 @@ import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
+import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
+import team.mozu.dsm.application.exception.lesson.MaxInvestmentRoundReachedException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.`in`.lesson.command.UpdateLessonCommand
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
@@ -27,11 +29,13 @@ class LessonPersistenceAdapter(
     //--Query--//
     override fun findByLessonNum(lessonNum: String): Lesson? {
         return lessonRepository.findByLessonNum(lessonNum)
+            ?.takeIf { !it.isDeleted }
             ?.let { lessonMapper.toModel(it) }
     }
 
     override fun findById(id: UUID): Lesson? {
         return lessonRepository.findByIdOrNull(id)
+            ?.takeIf { !it.isDeleted }
             ?.let { lessonMapper.toModel(it) }
     }
 
@@ -55,8 +59,8 @@ class LessonPersistenceAdapter(
 
     //--Command--//
     override fun save(lesson: Lesson): Lesson {
-        val organ = organRepository.findById(lesson.organId)
-            .orElseThrow { OrganNotFoundException }
+        val organ = organRepository.findById(lesson.organId).orElse(null)
+            ?: throw OrganNotFoundException
 
         val entity = lessonMapper.toEntity(lesson, organ)
         val saved = lessonRepository.save(entity)
@@ -105,5 +109,25 @@ class LessonPersistenceAdapter(
             .set(lessonJpaEntity.maxInvRound, command.lessonRound)
             .where(lessonJpaEntity.id.eq(lessonId))
             .execute()
+    }
+
+    override fun updateCurInvRound(id: UUID): Lesson {
+        val lessonEntity = lessonRepository.findById(id).orElse(null)
+            ?: throw LessonNotFoundException
+
+        if (lessonEntity.curInvRound < lessonEntity.maxInvRound) {
+            jpaQueryFactory
+                .update(lessonJpaEntity)
+                .set(lessonJpaEntity.curInvRound, lessonJpaEntity.curInvRound.add(1))
+                .where(lessonJpaEntity.id.eq(id))
+                .execute()
+
+            val updatedEntity = lessonRepository.findById(id).orElse(null)
+                ?: throw LessonNotFoundException
+
+            return lessonMapper.toModel(updatedEntity)
+        } else {
+            throw MaxInvestmentRoundReachedException
+        }
     }
 }
