@@ -73,6 +73,7 @@ class LessonPersistenceAdapter(
             .update(lessonJpaEntity)
             .set(lessonJpaEntity.lessonNum, lessonNum)
             .set(lessonJpaEntity.isInProgress, true)
+            .set(lessonJpaEntity.curInvRound, 1)
             .where(lessonJpaEntity.id.eq(id))
             .execute()
     }

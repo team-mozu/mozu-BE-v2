@@ -12,7 +12,7 @@ import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 class GetLessonRoundArticlesService(
     private val lessonPort: QueryLessonPort,
     private val lessonArticlePort: QueryLessonArticlePort
-): GetLessonRoundArticlesUseCase {
+) : GetLessonRoundArticlesUseCase {
 
     @Transactional(readOnly = true)
     override fun get(lessonNum: String): List<LessonRoundArticleResponse> {

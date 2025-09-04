@@ -7,5 +7,5 @@ data class LessonRoundArticleResponse @QueryProjection constructor(
     val articleId: UUID,
     val title: String,
     val description: String,
-    val image: String?,
+    val image: String?
 )
