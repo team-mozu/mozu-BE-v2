@@ -148,7 +148,7 @@ class LessonWebAdapter(
     ) {
         nextLessonUseCase.next(lessonId)
     }
-    
+
     @GetMapping("/sse/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
     fun sse(

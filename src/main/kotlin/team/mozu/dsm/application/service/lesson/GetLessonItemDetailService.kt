@@ -17,7 +17,7 @@ class GetLessonItemDetailService(
     private val lessonPort: QueryLessonPort,
     private val itemPort: QueryItemPort,
     private val lessonItemPort: QueryLessonItemPort
-): GetLessonItemDetailUseCase {
+) : GetLessonItemDetailUseCase {
 
     @Transactional(readOnly = true)
     override fun get(lessonNum: String, itemId: UUID): LessonItemDetailResponse {
@@ -33,7 +33,7 @@ class GetLessonItemDetailService(
             lessonItem.itemRound2Money,
             lessonItem.itemRound3Money,
             lessonItem.itemRound4Money ?: 0,
-            lessonItem.itemRound5Money ?: 0,
+            lessonItem.itemRound5Money ?: 0
         )
         val moneyList = itemMoneyList.take(lesson.curInvRound)
 
