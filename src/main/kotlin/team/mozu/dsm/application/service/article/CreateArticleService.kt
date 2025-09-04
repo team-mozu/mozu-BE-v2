@@ -23,11 +23,15 @@ class CreateArticleService(
     override fun create(request: ArticleRequest): ArticleResponse {
         val organ = securityPort.getCurrentOrgan()
 
+        val imageUrl: String? = request.articleImage
+            ?.trim()
+            ?.takeUnless { it.isBlank() }
+
         val article = Article(
             id = UUID.randomUUID(),
             organId = organ.id!!,
             articleName = request.articleName,
-            articleImage = null,
+            articleImage = imageUrl,
             articleDesc = request.articleDesc,
             isDeleted = false,
             createdAt = LocalDateTime.now(),
