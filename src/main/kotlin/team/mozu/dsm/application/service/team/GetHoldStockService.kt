@@ -30,7 +30,7 @@ class GetHoldStockService(
             ?: throw LessonNotFoundException
 
         val stocks = queryStockPort.findAllByTeamId(teamId).filter { it.id != null }
-        if (stocks.isEmpty()) throw TeamNotFoundException
+        if (stocks.isEmpty()) return emptyList()
 
         val lessonItemMap = queryLessonItemPort
             .findAllByLessonIdAndItemIds(lesson.id!!, stocks.map { it.itemId }.distinct())
