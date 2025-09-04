@@ -12,6 +12,7 @@ import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonItemRepository
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
+import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.port.out.lesson.dto.LessonItemDetailProjection
 import team.mozu.dsm.application.port.out.lesson.CommandLessonItemPort
@@ -100,7 +101,7 @@ class LessonItemPersistenceAdapter(
                     .and(lessonItemJpaEntity.item.id.eq(itemId))
                     .and(lessonJpaEntity.isInProgress.isTrue)
             )
-            .fetchOne() ?: throw ItemNotFoundException
+            .fetchOne() ?: throw LessonItemNotFoundException
     }
 
     //--Command--//
