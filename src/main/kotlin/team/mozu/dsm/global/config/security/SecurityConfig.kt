@@ -60,7 +60,7 @@ class SecurityConfig(
                 it.requestMatchers(HttpMethod.GET, "/lesson/team/items").hasRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/lesson/team/articles").hasRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/lesson/team/item/**").hasRole("STUDENT")
-                .anyRequest().authenticated()
+                    .anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
 
