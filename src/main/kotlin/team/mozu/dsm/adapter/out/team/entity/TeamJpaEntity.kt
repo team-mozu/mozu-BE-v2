@@ -8,7 +8,6 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
 import team.mozu.dsm.adapter.out.lesson.entity.LessonJpaEntity
 import team.mozu.dsm.global.entity.BaseTimeEntity
-import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tbl_lesson_team")
