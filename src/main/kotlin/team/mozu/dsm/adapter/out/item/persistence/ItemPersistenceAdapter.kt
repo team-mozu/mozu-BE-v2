@@ -26,7 +26,7 @@ class ItemPersistenceAdapter(
         return itemRepository.existsById(id)
     }
 
-    override fun findAllByIds(ids: Set<UUID>): List<Item> {
+    override fun findAllByIds(ids: List<UUID>): List<Item> {
         return itemRepository.findAllById(ids)
             .map { itemMapper.toModel(it) }
     }
