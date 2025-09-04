@@ -12,12 +12,12 @@ import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.application.port.`in`.article.CreateArticleUseCase
 
 @RestController
-@RequestMapping("article")
+@RequestMapping("/article")
 class ArticleWebAdapter(
     private val createArticleUseCase: CreateArticleUseCase
 ) {
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
         @RequestBody @Valid
