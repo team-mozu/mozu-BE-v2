@@ -29,6 +29,7 @@ class LessonPersistenceAdapter(
     //--Query--//
     override fun findByLessonNum(lessonNum: String): Lesson? {
         return lessonRepository.findByLessonNum(lessonNum)
+            ?.takeIf { !it.isDeleted }
             ?.let { lessonMapper.toModel(it) }
     }
 
@@ -121,7 +122,7 @@ class LessonPersistenceAdapter(
                 .where(lessonJpaEntity.id.eq(id))
                 .execute()
 
-            val updatedEntity =  lessonRepository.findById(id).orElse(null)
+            val updatedEntity = lessonRepository.findById(id).orElse(null)
                 ?: throw LessonNotFoundException
 
             return lessonMapper.toModel(updatedEntity)

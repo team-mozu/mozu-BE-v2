@@ -1,18 +1,23 @@
 package team.mozu.dsm.adapter.out.lesson.persistence
 
+import com.querydsl.core.types.dsl.CaseBuilder
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
+import team.mozu.dsm.adapter.out.item.entity.QItemJpaEntity.itemJpaEntity
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity.lessonItemJpaEntity
+import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
 import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonItemRepository
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
+import team.mozu.dsm.application.port.`in`.lesson.command.LessonRoundItemCommand
+import team.mozu.dsm.application.port.`in`.lesson.command.QLessonRoundItemCommand
 import team.mozu.dsm.application.port.out.lesson.CommandLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.domain.lesson.model.LessonItem
-import java.util.UUID
+import java.util.*
 
 @Component
 class LessonItemPersistenceAdapter(
@@ -48,6 +53,43 @@ class LessonItemPersistenceAdapter(
     override fun findAllByLessonId(lessonId: UUID): List<LessonItem> {
         return lessonItemRepository.findAllByLessonId(lessonId)
             .map { lessonItemMapper.toModel(it) }
+    }
+
+    override fun findAllRoundItemsByLessonId(lessonId: UUID): List<LessonRoundItemCommand> {
+        return jpaQueryFactory
+            .select(
+                QLessonRoundItemCommand(
+                    itemJpaEntity.id,
+                    itemJpaEntity.itemName,
+                    itemJpaEntity.itemLogo,
+                    // 이전 차수 금액 조회
+                    CaseBuilder()
+                        .`when`(lessonJpaEntity.curInvRound.eq(0)).then(0)
+                        .`when`(lessonJpaEntity.curInvRound.eq(1)).then(lessonItemJpaEntity.currentMoney)
+                        .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.round1Money)
+                        .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round2Money)
+                        .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round3Money)
+                        .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round4Money.coalesce(0))
+                        .otherwise(0),
+                    // 현재 차수 값 조회
+                    CaseBuilder()
+                        .`when`(lessonJpaEntity.curInvRound.eq(0)).then(lessonItemJpaEntity.currentMoney)
+                        .`when`(lessonJpaEntity.curInvRound.eq(1)).then(lessonItemJpaEntity.round1Money)
+                        .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.round2Money)
+                        .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round3Money)
+                        .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round4Money)
+                        .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round5Money.coalesce(0))
+                        .otherwise(0)
+                )
+            )
+            .from(lessonItemJpaEntity)
+            .join(lessonItemJpaEntity.lesson, lessonJpaEntity)
+            .join(lessonItemJpaEntity.item, itemJpaEntity)
+            .where(
+                lessonItemJpaEntity.lesson.id.eq(lessonId)
+                    .and(lessonItemJpaEntity.lesson.isInProgress.isTrue)
+            )
+            .fetch()
     }
 
     //--Command--//

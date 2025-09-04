@@ -2,6 +2,7 @@ package team.mozu.dsm.adapter.`in`.lesson
 
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestBody
@@ -18,6 +19,7 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonArticleResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
 import team.mozu.dsm.application.port.`in`.lesson.ChangeStarredUseCase
 import team.mozu.dsm.application.port.`in`.lesson.CreateLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.DeleteLessonUseCase
@@ -29,6 +31,8 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
+import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
+import team.mozu.dsm.global.security.auth.StudentPrincipal
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
 import java.util.UUID
 
@@ -46,7 +50,8 @@ class LessonWebAdapter(
     private val getLessonItemsUseCase: GetLessonItemsUseCase,
     private val getLessonArticlesUseCase: GetLessonArticlesUseCase,
     private val nextLessonUseCase: NextLessonUseCase,
-    private val lessonOrganSSEUseCase: LessonOrganSSEUseCase
+    private val lessonOrganSSEUseCase: LessonOrganSSEUseCase,
+    private val getLessonRoundItemsUseCase: GetLessonRoundItemsUseCase
 ) {
 
     @PostMapping
@@ -137,12 +142,20 @@ class LessonWebAdapter(
     ) {
         nextLessonUseCase.next(lessonId)
     }
-
+    
     @GetMapping("/sse/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
     fun sse(
         @PathVariable("lesson-id") lessonId: UUID
     ): SseEmitter {
         return lessonOrganSSEUseCase.connect(lessonId)
+    }
+
+    @GetMapping("/team/items")
+    @ResponseStatus(HttpStatus.OK)
+    fun getLessonRoundItems(
+        @AuthenticationPrincipal studentPrincipal: StudentPrincipal
+    ): List<LessonRoundItemResponse> {
+        return getLessonRoundItemsUseCase.get(studentPrincipal.lessonNum)
     }
 }
