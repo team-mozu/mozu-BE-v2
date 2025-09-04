@@ -37,7 +37,7 @@ class TeamWebAdapter(
     private val getStocksUseCase: GetStocksUseCase,
     private val getTeamDetailUseCase: GetTeamDetailUseCase,
     private val getOrderItemUseCase: GetOrderItemUseCase,
-    private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase
+    private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase,
     private val getTeamResultUseCase: GetTeamResultUseCase,
     private val getTeamRanksUseCase: GetTeamRanksUseCase
 ) {
@@ -90,7 +90,8 @@ class TeamWebAdapter(
         @PathVariable("team-id") teamId: UUID
     ): List<OrderItemResponse> {
         return getCurrentOrderItemUseCase.getCurrentOrderItem(teamId)
-        
+    }
+
     @GetMapping("/result")
     @ResponseStatus(HttpStatus.OK)
     fun getResult(
