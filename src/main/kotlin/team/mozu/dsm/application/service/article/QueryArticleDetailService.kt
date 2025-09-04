@@ -2,7 +2,7 @@ package team.mozu.dsm.application.service.article
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import team.mozu.dsm.application.exception.item.ItemNotFoundException
+import team.mozu.dsm.application.exception.article.ArticleNotFoundException
 import team.mozu.dsm.application.port.`in`.article.QueryArticleDetailUseCase
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import team.mozu.dsm.domain.article.model.Article
@@ -16,6 +16,6 @@ class QueryArticleDetailService (
     @Transactional(readOnly = true)
     override fun queryDetail(id: UUID): Article {
         return queryArticlePort.findById(id)
-            ?: throw ItemNotFoundException
+            ?: throw ArticleNotFoundException
     }
 }
