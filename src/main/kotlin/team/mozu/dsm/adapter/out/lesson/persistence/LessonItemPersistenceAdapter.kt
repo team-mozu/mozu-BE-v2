@@ -1,6 +1,7 @@
 package team.mozu.dsm.adapter.out.lesson.persistence
 
 import com.querydsl.core.types.dsl.CaseBuilder
+import com.querydsl.core.types.dsl.NumberExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.entity.QItemJpaEntity.itemJpaEntity
@@ -12,12 +13,14 @@ import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonItemReposit
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
-import team.mozu.dsm.application.port.`in`.lesson.command.LessonRoundItemCommand
-import team.mozu.dsm.application.port.`in`.lesson.command.QLessonRoundItemCommand
+import team.mozu.dsm.application.port.out.lesson.dto.LessonItemDetailProjection
 import team.mozu.dsm.application.port.out.lesson.CommandLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
+import team.mozu.dsm.application.port.out.lesson.dto.LessonRoundItemProjection
+import team.mozu.dsm.application.port.out.lesson.dto.QLessonItemDetailProjection
+import team.mozu.dsm.application.port.out.lesson.dto.QLessonRoundItemProjection
 import team.mozu.dsm.domain.lesson.model.LessonItem
-import java.util.*
+import java.util.UUID
 
 @Component
 class LessonItemPersistenceAdapter(
@@ -26,7 +29,7 @@ class LessonItemPersistenceAdapter(
     private val lessonItemMapper: LessonItemMapper,
     private val itemRepository: ItemRepository,
     private val jpaQueryFactory: JPAQueryFactory
-) : CommandLessonItemPort, QueryLessonItemPort {
+) : QueryLessonItemPort, CommandLessonItemPort {
 
     //--Query--//
     override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
@@ -55,31 +58,15 @@ class LessonItemPersistenceAdapter(
             .map { lessonItemMapper.toModel(it) }
     }
 
-    override fun findAllRoundItemsByLessonId(lessonId: UUID): List<LessonRoundItemCommand> {
+    override fun findAllRoundItemsByLessonId(lessonId: UUID): List<LessonRoundItemProjection> {
         return jpaQueryFactory
             .select(
-                QLessonRoundItemCommand(
+                QLessonRoundItemProjection(
                     itemJpaEntity.id,
                     itemJpaEntity.itemName,
                     itemJpaEntity.itemLogo,
-                    // 이전 차수 금액 조회
-                    CaseBuilder()
-                        .`when`(lessonJpaEntity.curInvRound.eq(0)).then(0)
-                        .`when`(lessonJpaEntity.curInvRound.eq(1)).then(lessonItemJpaEntity.currentMoney)
-                        .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.round1Money)
-                        .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round2Money)
-                        .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round3Money)
-                        .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round4Money.coalesce(0))
-                        .otherwise(0),
-                    // 현재 차수 값 조회
-                    CaseBuilder()
-                        .`when`(lessonJpaEntity.curInvRound.eq(0)).then(lessonItemJpaEntity.currentMoney)
-                        .`when`(lessonJpaEntity.curInvRound.eq(1)).then(lessonItemJpaEntity.round1Money)
-                        .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.round2Money)
-                        .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round3Money)
-                        .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round4Money)
-                        .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round5Money.coalesce(0))
-                        .otherwise(0)
+                    getPreMoneyCase(),
+                    getCurMoneyCase()
                 )
             )
             .from(lessonItemJpaEntity)
@@ -90,6 +77,30 @@ class LessonItemPersistenceAdapter(
                     .and(lessonItemJpaEntity.lesson.isInProgress.isTrue)
             )
             .fetch()
+    }
+
+    override fun findItemDetailByLessonIdAndItemId(lessonId: UUID, itemId: UUID): LessonItemDetailProjection {
+        return jpaQueryFactory
+            .select(
+                QLessonItemDetailProjection(
+                    getPreMoneyCase(),
+                    getCurMoneyCase(),
+                    lessonItemJpaEntity.currentMoney,
+                    lessonItemJpaEntity.round1Money,
+                    lessonItemJpaEntity.round2Money,
+                    lessonItemJpaEntity.round3Money,
+                    lessonItemJpaEntity.round4Money,
+                    lessonItemJpaEntity.round5Money
+                )
+            )
+            .from(lessonItemJpaEntity)
+            .join(lessonItemJpaEntity.lesson, lessonJpaEntity)
+            .where(
+                lessonItemJpaEntity.lesson.id.eq(lessonId)
+                    .and(lessonItemJpaEntity.item.id.eq(itemId))
+                    .and(lessonJpaEntity.isInProgress.isTrue)
+            )
+            .fetchOne() ?: throw ItemNotFoundException
     }
 
     //--Command--//
@@ -125,5 +136,26 @@ class LessonItemPersistenceAdapter(
             .delete(lessonItemJpaEntity)
             .where(lessonItemJpaEntity.lesson.id.eq(lessonId))
             .execute()
+    }
+
+    //--CaseBuilder--//
+    private fun getPreMoneyCase(): NumberExpression<Int> {
+        return CaseBuilder()
+            .`when`(lessonJpaEntity.curInvRound.eq(1)).then(0)
+            .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.currentMoney)
+            .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round1Money)
+            .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round2Money)
+            .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round3Money)
+            .otherwise(0)
+    }
+
+    private fun getCurMoneyCase(): NumberExpression<Int> {
+        return CaseBuilder()
+            .`when`(lessonJpaEntity.curInvRound.eq(1)).then(lessonItemJpaEntity.currentMoney)
+            .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.round1Money)
+            .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round2Money)
+            .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round3Money)
+            .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round4Money.coalesce(0))
+            .otherwise(0)
     }
 }
