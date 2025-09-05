@@ -14,6 +14,7 @@ class GetLessonItemsService(
 ) : GetLessonItemsUseCase {
 
     override fun get(lessonId: UUID): List<LessonItemResponse> {
+        lessonFacade.findByLessonId(lessonId)
         val lessonItems = lessonItemPort.findAllByLessonId(lessonId)
 
         return lessonFacade.toLessonItemResponses(lessonItems)
