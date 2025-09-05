@@ -1,0 +1,167 @@
+package team.mozu.dsm.global.security.jwt
+
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.security.Keys
+import jakarta.servlet.http.HttpServletRequest
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.stereotype.Component
+import org.springframework.util.StringUtils
+import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
+import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
+import team.mozu.dsm.adapter.out.auth.entity.RefreshTokenRedisEntity
+import team.mozu.dsm.adapter.out.auth.persistence.repository.RefreshTokenRepository
+import team.mozu.dsm.application.port.out.auth.JwtPort
+import team.mozu.dsm.global.security.auth.StudentPrincipal
+import team.mozu.dsm.global.exception.ExpiredTokenException
+import team.mozu.dsm.global.exception.InvalidTokenException
+import team.mozu.dsm.global.exception.UnauthorizedTokenTypeException
+import team.mozu.dsm.global.security.auth.CustomUserDetailsService
+import java.nio.charset.StandardCharsets
+import java.security.Key
+import java.time.LocalDateTime
+import java.util.Base64
+import java.util.Date
+import java.util.UUID
+import javax.crypto.SecretKey
+
+@Component
+class JwtAdapter(
+    private val jwtProperties: JwtProperties,
+    private val customUserDetailsService: CustomUserDetailsService,
+    private val refreshTokenRepository: RefreshTokenRepository
+) : JwtPort {
+    companion object {
+        private const val TYPE_CLAIM = "type"
+        private const val ACCESS_TYPE = "access"
+        private const val REFRESH_TYPE = "refresh"
+        private const val STUDENT_ACCESS_TYPE = "student_access"
+        private const val MILLISECONDS = 1000
+    }
+
+    private val secretKey: Key = try {
+        Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtProperties.secretKey))
+    } catch (e: IllegalArgumentException) {
+        Keys.hmacShaKeyFor(jwtProperties.secretKey.toByteArray(StandardCharsets.UTF_8))
+    }
+
+    private fun generateToken(organCode: String, type: String, expirationSeconds: Long): String {
+        val now = Date()
+
+        return Jwts.builder()
+            .setSubject(organCode)
+            .claim(TYPE_CLAIM, type)
+            .setIssuedAt(now)
+            .setExpiration(Date(now.time + expirationSeconds * MILLISECONDS))
+            .signWith(secretKey)
+            .compact()
+    }
+
+    // 내부에서만 사용
+    private fun generateAccessToken(organCode: String): String =
+        generateToken(organCode, ACCESS_TYPE, jwtProperties.accessExp)
+
+    // 내부에서만 사용
+    private fun generateRefreshToken(organCode: String): String {
+        val refreshToken = generateToken(organCode, REFRESH_TYPE, jwtProperties.refreshExp)
+
+        refreshTokenRepository.save(
+            RefreshTokenRedisEntity(
+                organCode = organCode,
+                refreshToken = refreshToken,
+                timeToLive = jwtProperties.refreshExp
+            )
+        )
+        return refreshToken
+    }
+
+    // 내부 학생용 accessToken 생성
+    fun generateStudentAccessToken(lessonNum: String, teamId: UUID): String {
+        val now = Date()
+
+        return Jwts.builder()
+            .setSubject(lessonNum)
+            .claim(TYPE_CLAIM, STUDENT_ACCESS_TYPE)
+            .claim("teamId", teamId.toString())
+            .setIssuedAt(now)
+            .setExpiration(Date(now.time + jwtProperties.studentAccessExp * MILLISECONDS))
+            .signWith(secretKey)
+            .compact()
+    }
+
+    // 외부 호출용 메서드
+    override fun createToken(organCode: String): TokenResponse {
+        val now = LocalDateTime.now()
+
+        return TokenResponse(
+            accessToken = generateAccessToken(organCode),
+            refreshToken = generateRefreshToken(organCode),
+            accessExpiredAt = now.plusSeconds(jwtProperties.accessExp),
+            refreshExpiredAt = now.plusSeconds(jwtProperties.refreshExp)
+        )
+    }
+
+    //외부 호출
+    override fun createStudentAccessToken(lessonNum: String, teamId: UUID): TeamTokenResponse {
+        val now = LocalDateTime.now()
+
+        return TeamTokenResponse(
+            accessToken = generateStudentAccessToken(lessonNum, teamId),
+            accessExpiredAt = now.plusSeconds(jwtProperties.studentAccessExp)
+        )
+    }
+
+    override fun getAuthentication(token: String): Authentication {
+        val claims = getClaims(token)
+        val tokenType = claims.get(TYPE_CLAIM, String::class.java)
+
+        return when (tokenType) {
+            STUDENT_ACCESS_TYPE -> {
+                val lessonNum = claims.subject
+                val teamId = UUID.fromString(claims.get("teamId", String::class.java))
+                UsernamePasswordAuthenticationToken(
+                    StudentPrincipal(lessonNum, teamId),
+                    null,
+                    listOf(SimpleGrantedAuthority("ROLE_STUDENT"))
+                )
+            }
+            ACCESS_TYPE -> {
+                val userDetails: UserDetails =
+                    customUserDetailsService.loadUserByUsername(claims.subject)
+                UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
+            }
+            else -> {
+                throw UnauthorizedTokenTypeException
+            }
+        }
+    }
+
+    fun getClaims(token: String): Claims {
+        return try {
+            val parser = Jwts.parser()
+                .verifyWith(secretKey as SecretKey)
+                .build()
+
+            parser.parseSignedClaims(token).payload
+        } catch (e: ExpiredJwtException) {
+            throw ExpiredTokenException
+        } catch (e: Exception) {
+            throw InvalidTokenException
+        }
+    }
+
+    override fun resolveToken(request: HttpServletRequest): String? {
+        val bearerToken = request.getHeader(jwtProperties.header) ?: return null
+        val prefix = jwtProperties.prefix
+
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(prefix)) {
+            val token = bearerToken.substring(prefix.length).trim()
+            if (token.isNotEmpty()) return token
+        }
+        return null
+    }
+}
