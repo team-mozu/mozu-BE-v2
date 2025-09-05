@@ -21,7 +21,11 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.TeamDetailResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.OrderItemResponse
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
+<<<<<<< HEAD
 import team.mozu.dsm.application.port.`in`.team.ConnectTeamSSEUseCase
+=======
+import team.mozu.dsm.application.port.`in`.team.GetHoldStockUseCase
+>>>>>>> origin/feature/MZBE-162-query-stock
 import team.mozu.dsm.application.port.`in`.team.GetCurrentOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetStocksUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
@@ -39,7 +43,13 @@ class TeamWebAdapter(
     private val getStocksUseCase: GetStocksUseCase,
     private val getTeamDetailUseCase: GetTeamDetailUseCase,
     private val getOrderItemUseCase: GetOrderItemUseCase,
+<<<<<<< HEAD
     private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase,
+=======
+    private val getTeamResultUseCase: GetTeamResultUseCase,
+    private val getHoldStockUseCase: GetHoldStockUseCase
+    private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase
+>>>>>>> origin/feature/MZBE-162-query-stock
     private val getTeamResultUseCase: GetTeamResultUseCase,
     private val getTeamRanksUseCase: GetTeamRanksUseCase,
     private val connectTeamSSEUseCase: ConnectTeamSSEUseCase
@@ -102,6 +112,13 @@ class TeamWebAdapter(
     ): TeamResultResponse {
         return getTeamResultUseCase.get(principal.lessonNum, principal.teamId)
     }
+
+    @GetMapping("/{team-id}/holdItems")
+    @ResponseStatus(HttpStatus.OK)
+    fun getHoldStock(
+        @PathVariable("team-id") teamId: UUID
+    ): List<StockResponse> {
+        return getHoldStockUseCase.getHoldStock(teamId)
 
     @GetMapping("/ranks")
     @ResponseStatus(HttpStatus.OK)
