@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.team.dto.request.CompleteInvestmentRequest
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamRankResponse
@@ -21,6 +22,7 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.OrderItemResponse
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.team.GetHoldStockUseCase
+import team.mozu.dsm.application.port.`in`.team.ConnectTeamSSEUseCase
 import team.mozu.dsm.application.port.`in`.team.GetCurrentOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetStocksUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
@@ -42,7 +44,8 @@ class TeamWebAdapter(
     private val getHoldStockUseCase: GetHoldStockUseCase
     private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase
     private val getTeamResultUseCase: GetTeamResultUseCase,
-    private val getTeamRanksUseCase: GetTeamRanksUseCase
+    private val getTeamRanksUseCase: GetTeamRanksUseCase,
+    private val connectTeamSSEUseCase: ConnectTeamSSEUseCase
 ) {
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
@@ -93,7 +96,8 @@ class TeamWebAdapter(
         @PathVariable("team-id") teamId: UUID
     ): List<OrderItemResponse> {
         return getCurrentOrderItemUseCase.getCurrentOrderItem(teamId)
-        
+    }
+
     @GetMapping("/result")
     @ResponseStatus(HttpStatus.OK)
     fun getResult(
@@ -115,5 +119,13 @@ class TeamWebAdapter(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TeamRankResponse> {
         return getTeamRanksUseCase.get(principal.lessonNum, principal.teamId)
+    }
+
+    @GetMapping("/sse")
+    @ResponseStatus(HttpStatus.OK)
+    fun connectTeamSSE(
+        @AuthenticationPrincipal principal: StudentPrincipal
+    ): SseEmitter {
+        return connectTeamSSEUseCase.connectTeamSSE(principal.teamId)
     }
 }

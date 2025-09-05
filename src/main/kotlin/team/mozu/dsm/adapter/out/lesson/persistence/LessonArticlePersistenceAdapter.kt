@@ -38,7 +38,7 @@ class LessonArticlePersistenceAdapter(
                 QLessonRoundArticleResponse(
                     articleJpaEntity.id,
                     articleJpaEntity.articleName,
-                    articleJpaEntity.articleDescription,
+                    articleJpaEntity.articleDesc,
                     articleJpaEntity.articleImage
                 )
             )
