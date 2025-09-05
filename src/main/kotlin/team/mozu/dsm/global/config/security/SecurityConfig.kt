@@ -54,6 +54,7 @@ class SecurityConfig(
                 it.requestMatchers(HttpMethod.GET, "/team/orders").hasRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/team/result").hasRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/team/ranks").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/team/sse").hasRole("STUDENT")
 
                 // lesson
                 it.requestMatchers(HttpMethod.GET, "/lesson/team/items").hasRole("STUDENT")
