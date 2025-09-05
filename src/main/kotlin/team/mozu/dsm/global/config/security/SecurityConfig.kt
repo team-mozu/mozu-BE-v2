@@ -39,22 +39,27 @@ class SecurityConfig(
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authorizeHttpRequests {
-                //organ
+                // organ
                 it.requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
                 it.requestMatchers(HttpMethod.PATCH, "/organ/token/reissue").permitAll()
                 it.requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
-                it.requestMatchers(HttpMethod.GET, "/organ/{id}").permitAll()
+                it.requestMatchers(HttpMethod.GET, "/organ/*").permitAll()
                 it.requestMatchers(HttpMethod.GET, "/organ").permitAll()
 
-                //team
+                // team
                 it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
-                it.requestMatchers(HttpMethod.POST, "/team/end").hasAnyRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/stocks").hasAnyRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/detail").hasAnyRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/orders").hasAnyRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/result").hasAnyRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/rank").hasAnyRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/sse").hasAnyRole("STUDENT")
+                it.requestMatchers(HttpMethod.POST, "/team/end").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/team/stocks").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/team/detail").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/team/orders").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/team/result").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/team/ranks").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/team/sse").hasRole("STUDENT")
+
+                // lesson
+                it.requestMatchers(HttpMethod.GET, "/lesson/team/items").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/lesson/team/articles").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/lesson/team/item/*").hasRole("STUDENT")
                     .anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())

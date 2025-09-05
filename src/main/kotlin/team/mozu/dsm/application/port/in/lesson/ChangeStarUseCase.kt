@@ -2,7 +2,7 @@ package team.mozu.dsm.application.port.`in`.lesson
 
 import java.util.UUID
 
-interface ChangeStarredUseCase {
+interface ChangeStarUseCase {
 
     fun change(id: UUID)
 }

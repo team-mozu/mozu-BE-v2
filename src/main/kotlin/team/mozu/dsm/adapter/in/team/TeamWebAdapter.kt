@@ -41,6 +41,7 @@ class TeamWebAdapter(
     private val getStocksUseCase: GetStocksUseCase,
     private val getTeamDetailUseCase: GetTeamDetailUseCase,
     private val getOrderItemUseCase: GetOrderItemUseCase,
+    private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase,
     private val getTeamResultUseCase: GetTeamResultUseCase,
     private val getHoldStockUseCase: GetHoldStockUseCase,
     private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase

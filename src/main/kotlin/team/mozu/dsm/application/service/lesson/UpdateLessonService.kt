@@ -56,11 +56,11 @@ class UpdateLessonService(
         // LessonArticleRequest를 LessonArticle 도메인으로 변환하고 DB에 저장
         val lessonArticles = lessonFacade.saveLessonArticles(lesson, request.lessonArticles)
 
-        // LessonArticles DTO 변환
-        val lessonArticleResponses = lessonFacade.toLessonArticleResponses(lessonArticles)
-
         // LessonItems DTO 변환
         val lessonItemResponses = lessonFacade.toLessonItemResponses(lessonItems)
+
+        // LessonArticles DTO 변환
+        val lessonArticleResponses = lessonFacade.toLessonArticleResponses(lessonArticles)
 
         // 최종 LessonResponse 반환
         return LessonResponse(
@@ -74,8 +74,8 @@ class UpdateLessonService(
             isStarred = lesson.isStarred,
             isDeleted = lesson.isDeleted,
             createdAt = lesson.createdAt!!,
-            lessonArticles = lessonArticleResponses,
-            lessonItems = lessonItemResponses
+            lessonItems = lessonItemResponses,
+            lessonArticles = lessonArticleResponses
         )
     }
 }

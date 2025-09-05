@@ -45,9 +45,14 @@ enum class ErrorCode(
     TEAM_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "Team Name Required"),
     LESSON_ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "Lesson Item Not Found"),
     INVALID_LESSON_ROUND(HttpStatus.BAD_REQUEST, "Invalid Lesson Round"),
-    CANNOT_UPDATE_LESSON(HttpStatus.FORBIDDEN, "Can't update Lesson"),
+    CANNOT_UPDATE_LESSON(HttpStatus.FORBIDDEN, "Can't Update Lesson"),
+    CANNOT_DELETE_LESSON(HttpStatus.FORBIDDEN, "Can't Delete Lesson"),
     MAX_INVESTMENT_ROUND_REACHED(HttpStatus.CONFLICT, "Max Investment Round Reached"),
-    UNAUTHORIZED_LESSON_ACCESS(HttpStatus.FORBIDDEN, "Unauthorized"),
+    CANNOT_STAR_LESSON(HttpStatus.FORBIDDEN, "Can't Star Lesson"),
+    CANNOT_END_LESSON(HttpStatus.FORBIDDEN, "Can't End Lesson"),
+    CANNOT_NEXT_LESSON(HttpStatus.FORBIDDEN, "Can't Next Lesson"),
+    CANNOT_START_LESSON(HttpStatus.FORBIDDEN, "Can't Start Lesson"),
+    CANNOT_LESSON_SSE_CONNECT(HttpStatus.FORBIDDEN, "Can't Lesson SSE Connect"),
 
     //team
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "Team Not Found"),

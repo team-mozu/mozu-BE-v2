@@ -16,8 +16,14 @@ data class LessonResponse(
     val isDeleted: Boolean,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     val createdAt: LocalDateTime,
-    val lessonArticles: List<LessonArticleResponse>,
-    val lessonItems: List<LessonItemResponse>
+    val lessonItems: List<LessonItemResponse>,
+    val lessonArticles: List<LessonArticleResponse>
+)
+
+data class LessonItemResponse(
+    val itemId: UUID,
+    val itemName: String,
+    val money: List<Int>
 )
 
 data class LessonArticleResponse(
@@ -28,10 +34,4 @@ data class LessonArticleResponse(
 data class ArticleResponse(
     val articleId: UUID,
     val title: String
-)
-
-data class LessonItemResponse(
-    val itemId: UUID,
-    val itemName: String,
-    val money: List<Int>
 )
