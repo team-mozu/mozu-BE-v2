@@ -43,7 +43,7 @@ class SecurityConfig(
                 it.requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
                 it.requestMatchers(HttpMethod.PATCH, "/organ/token/reissue").permitAll()
                 it.requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
-                it.requestMatchers(HttpMethod.GET, "/organ/**").permitAll()
+                it.requestMatchers(HttpMethod.GET, "/organ/*").permitAll()
                 it.requestMatchers(HttpMethod.GET, "/organ").permitAll()
 
                 // team
@@ -58,7 +58,7 @@ class SecurityConfig(
                 // lesson
                 it.requestMatchers(HttpMethod.GET, "/lesson/team/items").hasRole("STUDENT")
                 it.requestMatchers(HttpMethod.GET, "/lesson/team/articles").hasRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/lesson/team/item/**").hasRole("STUDENT")
+                it.requestMatchers(HttpMethod.GET, "/lesson/team/item/*").hasRole("STUDENT")
                     .anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
