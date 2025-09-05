@@ -23,7 +23,6 @@ class GetHoldStockService(
 
     @Transactional(readOnly = true)
     override fun getHoldStock(teamId: UUID): List<StockResponse> {
-
         val team = queryTeamPort.findById(teamId) ?: throw TeamNotFoundException
 
         val lesson = queryLessonPort.findByLessonNum(team.lessonNum)
