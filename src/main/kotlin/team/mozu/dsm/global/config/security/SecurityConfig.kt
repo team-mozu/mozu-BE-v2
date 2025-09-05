@@ -16,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import team.mozu.dsm.application.service.lesson.facade.LessonFacade
 import team.mozu.dsm.global.security.jwt.JwtAdapter
 
 @Configuration
@@ -30,7 +29,7 @@ class SecurityConfig(
     fun passwordEncorder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
-    fun configure(http: HttpSecurity, lessonFacade: LessonFacade): SecurityFilterChain {
+    fun configure(http: HttpSecurity): SecurityFilterChain {
         http.csrf(AbstractHttpConfigurer<*, *>::disable)
             .cors { it.configurationSource(corsConfigurationSource()) }
             .headers { headers: HeadersConfigurer<HttpSecurity> ->
