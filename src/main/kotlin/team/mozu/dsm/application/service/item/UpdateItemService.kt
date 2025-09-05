@@ -26,6 +26,7 @@ class UpdateItemService(
         val updated = item.copy(
             itemName = request.itemName,
             itemInfo = request.itemInfo,
+            itemLogo = request.itemLogo,
             money = request.money,
             debt = request.debt,
             capital = request.capital,

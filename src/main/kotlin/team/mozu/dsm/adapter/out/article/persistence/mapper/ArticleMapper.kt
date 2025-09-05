@@ -16,7 +16,6 @@ abstract class ArticleMapper {
 
     @Mapping(target = "articleDesc", source = "articleDesc")
     @Mapping(target = "articleImg", source = "articleImage")
-
     abstract fun toResponse(model: Article): ArticleResponse
 
     fun toEntity(model: Article, organ: OrganJpaEntity): ArticleJpaEntity {
