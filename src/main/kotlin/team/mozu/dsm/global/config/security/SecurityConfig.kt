@@ -70,7 +70,11 @@ class SecurityConfig(
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:3000")
+        configuration.allowedOrigins = listOf(
+            "http://localhost:3000",
+            "https://mozu-v2-prod.dsmhs.kr",
+            "https://mozu-v2-stag.dsmhs.kr"
+        )
         configuration.allowedMethods = listOf(
             HttpMethod.GET.name(),
             HttpMethod.POST.name(),
