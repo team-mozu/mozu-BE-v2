@@ -3,13 +3,8 @@ package team.mozu.dsm.global.config.security
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
-import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
@@ -29,27 +24,34 @@ class SecurityConfig(
     fun passwordEncorder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
+    @Throws(Exception::class)
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+        http
+            .cors { it.configurationSource(corsConfigurationSource()) }
+            .csrf { it.disable() }
+        return http.build()
+    }
+
+    @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf(
-            "http://localhost:3000",
-            "https://mozu-v2-prod.dsmhs.kr",
-            "https://mozu-v2-stag.dsmhs.kr"
+
+        configuration.setAllowedOrigins(
+            mutableListOf<String?>(
+                "http://localhost:3000",
+                "https://mozu-v2-prod.dsmhs.kr",
+                "https://mozu-v2-stag.dsmhs.kr"
+            )
         )
-        configuration.allowedMethods = listOf(
-            HttpMethod.GET.name(),
-            HttpMethod.POST.name(),
-            HttpMethod.PUT.name(),
-            HttpMethod.PATCH.name(),
-            HttpMethod.DELETE.name()
-        )
-        configuration.allowedHeaders = listOf("Content-Type", "Authorization")
-        configuration.allowCredentials = true
+        configuration.setAllowedMethods(mutableListOf<String?>("GET", "POST", "PUT", "DELETE", "OPTIONS"))
+        configuration.setAllowedHeaders(mutableListOf<String?>("Authorization", "Content-Type"))
+        configuration.setAllowCredentials(true)
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
     }
+
 
 //
 //    @Bean
