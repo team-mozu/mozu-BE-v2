@@ -42,20 +42,16 @@ class SecurityConfig(
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
 
-        configuration.allowedOrigins = mutableListOf(
-            "http://student.localhost:3001",
-            "http://admin.localhost:3002",
-            "https://mozu-v2-prod.dsmhs.kr",
-            "https://mozu-v2-stag.dsmhs.kr"
-        )
-        configuration.allowedMethods = mutableListOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        configuration.allowedHeaders = mutableListOf("Authorization", "Content-Type")
-        configuration.allowCredentials = true
+        configuration.allowedOriginPatterns = listOf("*") // 모든 Origin 허용
+        configuration.allowedMethods = listOf("*")       // 모든 메서드 허용
+        configuration.allowedHeaders = listOf("*")       // 모든 헤더 허용
+        configuration.allowCredentials = true            // 쿠키/Authorization 같이 보내기 허용
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
     }
+
 
 
 
