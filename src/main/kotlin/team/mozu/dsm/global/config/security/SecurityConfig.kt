@@ -30,37 +30,33 @@ class SecurityConfig(
         http
             .cors { it.configurationSource(corsConfigurationSource()) }
             .csrf { it.disable() }
-
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
             }
 
         return http.build()
     }
 
-
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
 
-        configuration.setAllowedOrigins(
-            mutableListOf<String?>(
-                "http://student.localhost:3001",
-                "http://admin.localhost:3002",
-                "https://mozu-v2-prod.dsmhs.kr",
-                "https://mozu-v2-stag.dsmhs.kr"
-            )
+        configuration.allowedOrigins = mutableListOf(
+            "http://student.localhost:3001",
+            "http://admin.localhost:3002",
+            "https://mozu-v2-prod.dsmhs.kr",
+            "https://mozu-v2-stag.dsmhs.kr"
         )
-        configuration.setAllowedMethods(mutableListOf<String?>("GET", "POST", "PUT", "DELETE", "OPTIONS"))
-        configuration.setAllowedHeaders(mutableListOf<String?>("Authorization", "Content-Type"))
-        configuration.setAllowCredentials(true)
+        configuration.allowedMethods = mutableListOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        configuration.allowedHeaders = mutableListOf("Authorization", "Content-Type")
+        configuration.allowCredentials = true
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
     }
+
 
 
 //
