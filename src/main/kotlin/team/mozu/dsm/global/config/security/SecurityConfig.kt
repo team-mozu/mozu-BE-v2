@@ -47,7 +47,8 @@ class SecurityConfig(
 
         configuration.setAllowedOrigins(
             mutableListOf<String?>(
-                "http://localhost:3000",
+                "http://student.localhost:3001",
+                "http://admin.localhost:3002",
                 "https://mozu-v2-prod.dsmhs.kr",
                 "https://mozu-v2-stag.dsmhs.kr"
             )
