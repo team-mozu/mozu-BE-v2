@@ -43,9 +43,10 @@ interface ArticleApiDocument {
         )
     )
     fun create(
-        @RequestBody @Valid request: ArticleRequest
+        @RequestBody @Valid
+        request: ArticleRequest
     ): ArticleResponse
-    
+
     @Operation(
         summary = "기사 상세 조회",
         description = "지정된 ID의 기사 상세 정보를 조회합니다."
@@ -73,7 +74,7 @@ interface ArticleApiDocument {
     fun queryDetail(
         @PathVariable id: UUID
     ): ArticleResponse
-    
+
     @Operation(
         summary = "전체 기사 목록 조회",
         description = "등록된 모든 기사의 목록을 조회합니다."
@@ -95,7 +96,7 @@ interface ArticleApiDocument {
         )
     )
     fun queryAll(): List<ArticleResponse>
-    
+
     @Operation(
         summary = "기사 삭제",
         description = "지정된 ID의 기사를 삭제합니다."
@@ -117,7 +118,7 @@ interface ArticleApiDocument {
     fun delete(
         @PathVariable id: UUID
     )
-    
+
     @Operation(
         summary = "기사 수정",
         description = "지정된 ID의 기사 정보를 수정합니다."
@@ -148,6 +149,7 @@ interface ArticleApiDocument {
     )
     fun update(
         @PathVariable id: UUID,
-        @RequestBody @Valid request: ArticleRequest
+        @RequestBody @Valid
+        request: ArticleRequest
     ): ArticleResponse
 }

@@ -43,7 +43,8 @@ interface ItemApiDocument {
         )
     )
     fun create(
-        @RequestBody @Valid request: ItemRequest
+        @RequestBody @Valid
+        request: ItemRequest
     ): ItemResponse
 
     @Operation(
@@ -76,7 +77,8 @@ interface ItemApiDocument {
     )
     fun update(
         @PathVariable id: UUID,
-        @RequestBody @Valid request: ItemRequest
+        @RequestBody @Valid
+        request: ItemRequest
     ): ItemResponse
 
     @Operation(

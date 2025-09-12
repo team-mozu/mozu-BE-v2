@@ -26,7 +26,7 @@ class OrganWebAdapter(
     private val loginOrganUseCase: LoginOrganUseCase,
     private val queryOrganDetailUseCase: QueryOrganDetailUseCase,
     private val queryOrganInventoryUseCase: QueryOrganInventoryUseCase
-) : OrganApiDocument{
+) : OrganApiDocument {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
