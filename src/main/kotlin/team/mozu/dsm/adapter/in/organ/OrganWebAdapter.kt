@@ -15,6 +15,7 @@ import team.mozu.dsm.application.port.`in`.organ.LoginOrganUseCase
 import team.mozu.dsm.application.port.`in`.organ.QueryOrganDetailUseCase
 import team.mozu.dsm.application.port.`in`.organ.QueryOrganInventoryUseCase
 import team.mozu.dsm.domain.organ.model.Organ
+import team.mozu.dsm.global.document.organ.OrganApiDocument
 import java.util.UUID
 
 @RestController
@@ -25,11 +26,11 @@ class OrganWebAdapter(
     private val loginOrganUseCase: LoginOrganUseCase,
     private val queryOrganDetailUseCase: QueryOrganDetailUseCase,
     private val queryOrganInventoryUseCase: QueryOrganInventoryUseCase
-) {
+) : OrganApiDocument{
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    fun createOrgan(
+    override fun createOrgan(
         @RequestBody @Valid
         request: CreateOrganRequest
     ): Organ {
@@ -38,7 +39,7 @@ class OrganWebAdapter(
 
     @PatchMapping("/token/reissue")
     @ResponseStatus(HttpStatus.OK)
-    fun reissueOrganToken(
+    override fun reissueOrganToken(
         @RequestBody @Valid
         request: ReissueOrganTokenRequest
     ): TokenResponse {
@@ -47,7 +48,7 @@ class OrganWebAdapter(
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    fun login(
+    override fun login(
         @RequestBody @Valid
         request: LoginOrganRequest
     ): TokenResponse {
@@ -56,13 +57,13 @@ class OrganWebAdapter(
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun queryOrganDetail(@PathVariable id: UUID): OrganDetailResponse {
+    override fun queryOrganDetail(@PathVariable id: UUID): OrganDetailResponse {
         return queryOrganDetailUseCase.queryOrganDetail(id)
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun queryOrganInventory(): List<OrganListResponse> {
+    override fun queryOrganInventory(): List<OrganListResponse> {
         return queryOrganInventoryUseCase.queryOrganInventory()
     }
 }
