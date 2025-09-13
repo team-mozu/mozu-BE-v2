@@ -5,5 +5,5 @@ object DependencyVersions {
     const val QUERYDSL = "5.0.0"
     const val JAKARTA_PERSISTENCE = "3.1.0"
     const val JAKARTA_ANNOTATION = "2.1.1"
-    const val SWAGGER = "2.5.0"
+    const val SWAGGER = "2.0.2"
 }
