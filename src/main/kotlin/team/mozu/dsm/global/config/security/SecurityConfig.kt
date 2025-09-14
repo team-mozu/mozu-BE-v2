@@ -3,7 +3,6 @@ package team.mozu.dsm.global.config.security
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -43,17 +42,14 @@ class SecurityConfig(
         val configuration = CorsConfiguration()
 
         configuration.allowedOriginPatterns = listOf("*") // 모든 Origin 허용
-        configuration.allowedMethods = listOf("*")       // 모든 메서드 허용
-        configuration.allowedHeaders = listOf("*")       // 모든 헤더 허용
-        configuration.allowCredentials = true            // 쿠키/Authorization 같이 보내기 허용
+        configuration.allowedMethods = listOf("*") // 모든 메서드 허용
+        configuration.allowedHeaders = listOf("*") // 모든 헤더 허용
+        configuration.allowCredentials = true // 쿠키/Authorization 같이 보내기 허용
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
     }
-
-
-
 
 //
 //    @Bean

@@ -51,7 +51,8 @@ interface OrganApiDocument {
         )
     )
     fun createOrgan(
-        @RequestBody @Valid request: CreateOrganRequest
+        @RequestBody @Valid
+        request: CreateOrganRequest
     ): Organ
 
     @Operation(
@@ -83,7 +84,8 @@ interface OrganApiDocument {
         )
     )
     fun reissueOrganToken(
-        @RequestBody @Valid request: ReissueOrganTokenRequest
+        @RequestBody @Valid
+        request: ReissueOrganTokenRequest
     ): TokenResponse
 
     @Operation(
@@ -119,7 +121,8 @@ interface OrganApiDocument {
         )
     )
     fun login(
-        @RequestBody @Valid request: LoginOrganRequest
+        @RequestBody @Valid
+        request: LoginOrganRequest
     ): TokenResponse
 
     @Operation(

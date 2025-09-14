@@ -53,7 +53,8 @@ interface LessonApiDocument {
         )
     )
     fun create(
-        @RequestBody @Valid request: LessonRequest
+        @RequestBody @Valid
+        request: LessonRequest
     ): LessonResponse
 
     @Operation(
@@ -180,7 +181,8 @@ interface LessonApiDocument {
     )
     fun update(
         @PathVariable("lesson-id") lessonId: UUID,
-        @RequestBody @Valid request: LessonRequest
+        @RequestBody @Valid
+        request: LessonRequest
     ): LessonResponse
 
     @Operation(
