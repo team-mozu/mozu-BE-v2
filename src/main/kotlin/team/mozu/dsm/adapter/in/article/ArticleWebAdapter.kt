@@ -7,7 +7,6 @@ import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
 import team.mozu.dsm.application.port.`in`.article.*
-import team.mozu.dsm.global.document.article.ArticleApiDocument
 import java.util.*
 
 @RestController
@@ -19,11 +18,11 @@ class ArticleWebAdapter(
     private val deleteArticleUseCase: DeleteArticleUseCase,
     private val updateArticleUseCase: UpdateArticleUseCase,
     private val articleMapper: ArticleMapper
-) : ArticleApiDocument {
+) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    override fun create(
+    fun create(
         @RequestBody @Valid
         request: ArticleRequest
     ): ArticleResponse {
@@ -32,7 +31,7 @@ class ArticleWebAdapter(
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    override fun queryDetail(
+    fun queryDetail(
         @PathVariable id: UUID
     ): ArticleResponse {
         val article = queryArticleDetailUseCase.queryDetail(id)
@@ -41,13 +40,13 @@ class ArticleWebAdapter(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryAll(): List<ArticleResponse> {
+    fun queryAll(): List<ArticleResponse> {
         return queryArticleAllUseCase.queryAll()
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    override fun delete(
+    fun delete(
         @PathVariable id: UUID
     ) {
         deleteArticleUseCase.delete(id)
@@ -55,7 +54,7 @@ class ArticleWebAdapter(
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    override fun update(
+    fun update(
         @PathVariable id: UUID,
         @RequestBody @Valid
         request: ArticleRequest

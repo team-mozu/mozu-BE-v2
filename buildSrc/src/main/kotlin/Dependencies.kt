@@ -42,7 +42,4 @@ object Dependencies {
         "jakarta.persistence:jakarta.persistence-api:${DependencyVersions.JAKARTA_PERSISTENCE}"
     const val JAKARTA_ANNOTATION_API =
         "jakarta.annotation:jakarta.annotation-api:${DependencyVersions.JAKARTA_ANNOTATION}"
-
-    // SWAGGER
-    const val SWAGGER = "org.springdoc:springdoc-openapi-starter-webmvc-ui:${DependencyVersions.SWAGGER}"
 }
