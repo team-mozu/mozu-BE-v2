@@ -71,6 +71,9 @@ dependencies {
     kapt(Dependencies.QUERYDSL_APT)
     kapt(Dependencies.JAKARTA_PERSISTENCE_API)
     kapt(Dependencies.JAKARTA_ANNOTATION_API)
+
+    // Swagger
+    implementation(Dependencies.SWAGGER)
 }
 
 kotlin {
