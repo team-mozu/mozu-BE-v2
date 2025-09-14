@@ -95,3 +95,9 @@ sourceSets {
         java.srcDirs("build/generated/source/kapt/main")
     }
 }
+
+plugins.withId("org.jlleitschuh.gradle.ktlint") {
+    tasks.named("runKtlintCheckOverMainSourceSet") {
+        dependsOn("kaptKotlin")
+    }
+}
