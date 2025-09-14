@@ -71,6 +71,9 @@ dependencies {
     kapt(Dependencies.QUERYDSL_APT)
     kapt(Dependencies.JAKARTA_PERSISTENCE_API)
     kapt(Dependencies.JAKARTA_ANNOTATION_API)
+
+    // Swagger
+    implementation(Dependencies.SWAGGER)
 }
 
 kotlin {
@@ -90,5 +93,11 @@ kapt {
 sourceSets {
     named("main") {
         java.srcDirs("build/generated/source/kapt/main")
+    }
+}
+
+plugins.withId("org.jlleitschuh.gradle.ktlint") {
+    tasks.named("runKtlintCheckOverMainSourceSet") {
+        dependsOn("kaptKotlin")
     }
 }
