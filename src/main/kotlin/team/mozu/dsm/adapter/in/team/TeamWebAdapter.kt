@@ -29,6 +29,7 @@ import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
 import team.mozu.dsm.application.port.`in`.team.GetOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamResultUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamRanksUseCase
+import team.mozu.dsm.global.document.team.TeamApiDocument
 import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.UUID
 
@@ -45,10 +46,10 @@ class TeamWebAdapter(
     private val getHoldStockUseCase: GetHoldStockUseCase,
     private val getTeamRanksUseCase: GetTeamRanksUseCase,
     private val connectTeamSSEUseCase: ConnectTeamSSEUseCase
-) {
+) : TeamApiDocument {
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
-    fun participate(
+    override fun participate(
         @Valid @RequestBody
         request: TeamParticipationRequest
     ): TeamTokenResponse {
@@ -57,7 +58,7 @@ class TeamWebAdapter(
 
     @PostMapping("/end")
     @ResponseStatus(HttpStatus.CREATED)
-    fun endInvestment(
+    override fun endInvestment(
         @Valid @RequestBody
         request: List<@Valid CompleteInvestmentRequest>,
         @AuthenticationPrincipal principal: StudentPrincipal
@@ -67,7 +68,7 @@ class TeamWebAdapter(
 
     @GetMapping("/stocks")
     @ResponseStatus(HttpStatus.OK)
-    fun getStocks(
+    override fun getStocks(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<StockResponse> {
         return getStocksUseCase.getStocks(principal.lessonNum, principal.teamId)
@@ -75,7 +76,7 @@ class TeamWebAdapter(
 
     @GetMapping("/detail")
     @ResponseStatus(HttpStatus.OK)
-    fun getTeamDetail(
+    override fun getTeamDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamDetailResponse {
         return getTeamDetailUseCase.getTeamDetail(principal.lessonNum, principal.teamId)
@@ -83,7 +84,7 @@ class TeamWebAdapter(
 
     @GetMapping("/orders")
     @ResponseStatus(HttpStatus.OK)
-    fun getOrderItems(
+    override fun getOrderItems(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<OrderItemResponse> {
         return getOrderItemUseCase.getOrderItems(principal.teamId)
@@ -91,7 +92,7 @@ class TeamWebAdapter(
 
     @GetMapping("/{team-id}")
     @ResponseStatus(HttpStatus.OK)
-    fun getCurrentOrderItem(
+    override fun getCurrentOrderItem(
         @PathVariable("team-id") teamId: UUID
     ): List<OrderItemResponse> {
         return getCurrentOrderItemUseCase.getCurrentOrderItem(teamId)
@@ -99,7 +100,7 @@ class TeamWebAdapter(
 
     @GetMapping("/result")
     @ResponseStatus(HttpStatus.OK)
-    fun getResult(
+    override fun getResult(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamResultResponse {
         return getTeamResultUseCase.get(principal.lessonNum, principal.teamId)
@@ -107,7 +108,7 @@ class TeamWebAdapter(
 
     @GetMapping("/{team-id}/holdItems")
     @ResponseStatus(HttpStatus.OK)
-    fun getHoldStock(
+    override fun getHoldStock(
         @PathVariable("team-id") teamId: UUID
     ): List<StockResponse> {
         return getHoldStockUseCase.getHoldStock(teamId)
@@ -115,7 +116,7 @@ class TeamWebAdapter(
 
     @GetMapping("/ranks")
     @ResponseStatus(HttpStatus.OK)
-    fun getRank(
+    override fun getRank(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TeamRankResponse> {
         return getTeamRanksUseCase.get(principal.lessonNum, principal.teamId)
@@ -123,7 +124,7 @@ class TeamWebAdapter(
 
     @GetMapping("/sse")
     @ResponseStatus(HttpStatus.OK)
-    fun connectTeamSSE(
+    override fun connectTeamSSE(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): SseEmitter {
         return connectTeamSSEUseCase.connectTeamSSE(principal.teamId)
