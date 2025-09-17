@@ -19,7 +19,7 @@ import java.util.*
 interface ArticleApiDocument {
 
     @Operation(
-        summary = "새로운 기사 생성",
+        summary = "기사 생성",
         description = "새로운 기사를 생성합니다."
     )
     @ApiResponses(
@@ -76,7 +76,7 @@ interface ArticleApiDocument {
     ): ArticleResponse
 
     @Operation(
-        summary = "전체 기사 목록 조회",
+        summary = "기사 목록 조회",
         description = "등록된 모든 기사의 목록을 조회합니다."
     )
     @ApiResponses(
