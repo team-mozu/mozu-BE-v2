@@ -19,7 +19,7 @@ import java.util.*
 interface ItemApiDocument {
 
     @Operation(
-        summary = "새로운 종목 생성",
+        summary = "새종목 생성",
         description = "새로운 종목을 생성합니다."
     )
     @ApiResponses(
@@ -110,7 +110,7 @@ interface ItemApiDocument {
     ): ItemResponse
 
     @Operation(
-        summary = "전체 종목 목록 조회",
+        summary = "종목 목록 조회",
         description = "등록된 모든 종목의 목록을 조회합니다."
     )
     @ApiResponses(
