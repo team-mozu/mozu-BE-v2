@@ -23,7 +23,7 @@ import java.util.*
 interface OrganApiDocument {
 
     @Operation(
-        summary = "기관 생성",
+        summary = "[내부] 기관 생성",
         description = "새로운 기관을 생성합니다."
     )
     @ApiResponses(
@@ -56,13 +56,13 @@ interface OrganApiDocument {
     ): Organ
 
     @Operation(
-        summary = "토큰 재발급",
+        summary = "기관 토큰 재발급",
         description = "리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급받습니다."
     )
     @ApiResponses(
         ApiResponse(
             responseCode = "200",
-            description = "토큰 재발급 성공",
+            description = "기관 토큰 재발급 성공",
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,

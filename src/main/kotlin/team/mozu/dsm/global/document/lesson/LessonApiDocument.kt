@@ -29,7 +29,7 @@ import java.util.*
 interface LessonApiDocument {
 
     @Operation(
-        summary = "새로운 수업 생성",
+        summary = "수업 생성",
         description = "새로운 수업을 생성합니다."
     )
     @ApiResponses(
@@ -86,7 +86,7 @@ interface LessonApiDocument {
     ): StartLessonResponse
 
     @Operation(
-        summary = "수업 즐겨찾기 토글",
+        summary = "수업 즐겨찾기 변경",
         description = "지정된 수업의 즐겨찾기 상태를 변경합니다."
     )
     @ApiResponses(
@@ -236,7 +236,7 @@ interface LessonApiDocument {
     fun get(): LessonListResponse
 
     @Operation(
-        summary = "수업의 종목 목록 조회",
+        summary = "수업 종목 목록 조회",
         description = "지정된 수업에 속한 모든 종목을 조회합니다."
     )
     @ApiResponses(
@@ -264,7 +264,7 @@ interface LessonApiDocument {
     ): List<LessonItemResponse>
 
     @Operation(
-        summary = "수업의 기사 목록 조회",
+        summary = "수업 기사 목록 조회",
         description = "지정된 수업에 속한 모든 기사를 조회합니다."
     )
     @ApiResponses(
@@ -292,13 +292,13 @@ interface LessonApiDocument {
     ): List<LessonArticleResponse>
 
     @Operation(
-        summary = "다음 단계로 진행",
-        description = "수업의 다음 단계로 진행합니다."
+        summary = "수업 다음 차수 진행",
+        description = "수업의 다음 차수를 진행합니다."
     )
     @ApiResponses(
         ApiResponse(
             responseCode = "204",
-            description = "다음 단계로 진행 성공"
+            description = "다음 차수로 진행 성공"
         ),
         ApiResponse(
             responseCode = "404",
@@ -336,7 +336,7 @@ interface LessonApiDocument {
     ): SseEmitter
 
     @Operation(
-        summary = "팀별 종목 라운드 조회",
+        summary = "[학생] 수업 차수 종목 목록 조회",
         description = "현재 사용자의 팀에 해당하는 종목 라운드 정보를 조회합니다."
     )
     @ApiResponses(
@@ -364,13 +364,13 @@ interface LessonApiDocument {
     ): List<LessonRoundItemResponse>
 
     @Operation(
-        summary = "팀별 기사 라운드 조회",
-        description = "현재 사용자의 팀에 해당하는 기사 라운드 정보를 조회합니다."
+        summary = "[학생] 수업 차수 기사 목록 조회",
+        description = "현재 학생의 팀에 해당하는 차수 기사 목록을 조회합니다."
     )
     @ApiResponses(
         ApiResponse(
             responseCode = "200",
-            description = "팀별 기사 라운드 조회 성공",
+            description = "팀별 차수 기사 조회 성공",
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -392,8 +392,8 @@ interface LessonApiDocument {
     ): List<LessonRoundArticleResponse>
 
     @Operation(
-        summary = "팀별 종목 상세 조회",
-        description = "현재 사용자의 팀에 해당하는 특정 종목의 상세 정보를 조회합니다."
+        summary = "[학생] 수업 종목 상세 조회",
+        description = "현재 학생의 팀에 해당하는 특정 종목의 상세 정보를 조회합니다."
     )
     @ApiResponses(
         ApiResponse(

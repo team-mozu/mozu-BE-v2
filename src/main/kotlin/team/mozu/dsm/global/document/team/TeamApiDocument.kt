@@ -23,13 +23,13 @@ import java.util.*
 interface TeamApiDocument {
 
     @Operation(
-        summary = "팀 참여",
+        summary = "참여 팀 수업 참여",
         description = "새로운 팀에 참여하거나 기존 팀에 합류합니다."
     )
     @ApiResponses(
         ApiResponse(
             responseCode = "201",
-            description = "팀 참여 성공",
+            description = "참여 팀 수업 참여 성공",
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -61,13 +61,13 @@ interface TeamApiDocument {
     ): TeamTokenResponse
 
     @Operation(
-        summary = "투자 종료",
-        description = "팀의 투자 활동을 종료하고 결과를 저장합니다."
+        summary = "참여 팀 투자 완료",
+        description = "팀의 투자를 완료하고 결과를 저장합니다."
     )
     @ApiResponses(
         ApiResponse(
             responseCode = "201",
-            description = "투자 종료 처리 성공"
+            description = "투자 완료 처리 성공"
         ),
         ApiResponse(
             responseCode = "400",
@@ -94,8 +94,8 @@ interface TeamApiDocument {
     )
 
     @Operation(
-        summary = "보유 주식 조회",
-        description = "팀이 보유한 주식 목록을 조회합니다."
+        summary = "참여 팀 보유 주식 조회",
+        description = "참여 팀이 보유한 주식 목록을 조회합니다."
     )
     @ApiResponses(
         ApiResponse(
@@ -126,7 +126,7 @@ interface TeamApiDocument {
     ): List<StockResponse>
 
     @Operation(
-        summary = "팀 상세 정보 조회",
+        summary = "참여 팀 상세 정보 조회",
         description = "현재 로그인한 사용자의 팀 상세 정보를 조회합니다."
     )
     @ApiResponses(
@@ -158,13 +158,13 @@ interface TeamApiDocument {
     ): TeamDetailResponse
 
     @Operation(
-        summary = "주문 내역 조회",
-        description = "팀의 모든 주문 내역을 조회합니다."
+        summary = "참여 팀 거래 내역 조회",
+        description = "팀의 모든 거래 내역을 조회합니다."
     )
     @ApiResponses(
         ApiResponse(
             responseCode = "200",
-            description = "주문 내역 조회 성공",
+            description = "거래 내역 조회 성공",
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -186,13 +186,13 @@ interface TeamApiDocument {
     ): List<OrderItemResponse>
 
     @Operation(
-        summary = "특정 팀의 현재 주문 내역 조회",
-        description = "지정된 팀의 현재 주문 내역을 조회합니다."
+        summary = "[기관] 참여 팀 거래 현황 조회",
+        description = "참여 팀의 현재 거래 현황을 조회합니다."
     )
     @ApiResponses(
         ApiResponse(
             responseCode = "200",
-            description = "주문 내역 조회 성공",
+            description = "거래 현황 조회 성공",
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -214,7 +214,7 @@ interface TeamApiDocument {
     ): List<OrderItemResponse>
 
     @Operation(
-        summary = "팀 결과 조회",
+        summary = "참여 팀 결과 요약 조회",
         description = "팀의 투자 결과를 조회합니다."
     )
     @ApiResponses(
@@ -246,8 +246,8 @@ interface TeamApiDocument {
     ): TeamResultResponse
 
     @Operation(
-        summary = "특정 팀의 보유 주식 조회",
-        description = "지정된 팀이 보유한 주식 목록을 조회합니다."
+        summary = "[기관] 학생 보유 주식 조회",
+        description = "학생이 보유한 주식 목록을 조회합니다."
     )
     @ApiResponses(
         ApiResponse(
@@ -274,7 +274,7 @@ interface TeamApiDocument {
     ): List<StockResponse>
 
     @Operation(
-        summary = "팀 순위 조회",
+        summary = "참여 팀 수업 랭킹 조회",
         description = "현재 수업의 팀 순위를 조회합니다."
     )
     @ApiResponses(
