@@ -35,11 +35,13 @@ interface ItemApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun create(
@@ -64,15 +66,18 @@ interface ItemApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 아이템"
+            description = "존재하지 않는 아이템",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun update(
@@ -98,11 +103,14 @@ interface ItemApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 아이템"
+            description = "존재하지 않는 아이템",
+            content = arrayOf(Content())
+
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun queryDetail(
@@ -126,7 +134,8 @@ interface ItemApiDocument {
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun queryAll(): List<ItemResponse>
@@ -138,15 +147,18 @@ interface ItemApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "204",
-            description = "종목 삭제 성공"
+            description = "종목 삭제 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 아이템"
+            description = "존재하지 않는 아이템",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun delete(

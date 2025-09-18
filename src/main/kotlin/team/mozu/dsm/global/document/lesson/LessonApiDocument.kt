@@ -45,11 +45,13 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun create(
@@ -74,11 +76,13 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun start(
@@ -92,15 +96,18 @@ interface LessonApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "204",
-            description = "즐겨찾기 상태 변경 성공"
+            description = "즐겨찾기 상태 변경 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun star(
@@ -114,15 +121,18 @@ interface LessonApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "204",
-            description = "수업 삭제 성공"
+            description = "수업 삭제 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun delete(
@@ -136,15 +146,18 @@ interface LessonApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "204",
-            description = "수업 종료 성공"
+            description = "수업 종료 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun end(
@@ -168,15 +181,18 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun update(
@@ -202,11 +218,13 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun getDetail(
@@ -230,7 +248,8 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun get(): LessonListResponse
@@ -252,11 +271,13 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun getLessonItems(
@@ -280,11 +301,13 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun getLessonArticles(
@@ -298,15 +321,18 @@ interface LessonApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "204",
-            description = "다음 차수로 진행 성공"
+            description = "다음 차수로 진행 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun next(
@@ -320,15 +346,18 @@ interface LessonApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "200",
-            description = "SSE 연결 성공"
+            description = "SSE 연결 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 수업"
+            description = "존재하지 않는 수업",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun sse(
@@ -352,11 +381,13 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun getLessonRoundItems(
@@ -380,11 +411,13 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun getLessonRoundArticles(
@@ -408,15 +441,18 @@ interface LessonApiDocument {
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 종목"
+            description = "존재하지 않는 종목",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun getLessonItemDetail(

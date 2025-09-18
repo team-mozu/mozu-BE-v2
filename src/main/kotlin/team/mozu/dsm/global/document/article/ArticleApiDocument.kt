@@ -35,11 +35,13 @@ interface ArticleApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun create(
@@ -64,11 +66,13 @@ interface ArticleApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기사"
+            description = "존재하지 않는 기사",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun queryDetail(
@@ -92,7 +96,8 @@ interface ArticleApiDocument {
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun queryAll(): List<ArticleResponse>
@@ -104,15 +109,18 @@ interface ArticleApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "204",
-            description = "기사 삭제 성공"
+            description = "기사 삭제 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기사"
+            description = "존재하지 않는 기사",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun delete(
@@ -136,15 +144,18 @@ interface ArticleApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기사"
+            description = "존재하지 않는 기사",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun update(

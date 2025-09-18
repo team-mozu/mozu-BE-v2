@@ -39,15 +39,18 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "409",
-            description = "이미 존재하는 기관"
+            description = "이미 존재하는 기관",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun createOrgan(
@@ -72,15 +75,18 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun reissueOrganToken(
@@ -105,19 +111,23 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기관"
+            description = "존재하지 않는 기관",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun login(
@@ -142,11 +152,13 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기관"
+            description = "존재하지 않는 기관",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun queryOrganDetail(
@@ -170,7 +182,8 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = arrayOf(Content())
         )
     )
     fun queryOrganInventory(): List<OrganListResponse>
