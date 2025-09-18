@@ -4,6 +4,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
@@ -55,7 +56,7 @@ class ItemWebAdapter(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryAll(): List<ItemResponse> {
+    override fun queryAll(): List<ItemQueryResponse> {
         return queryItemAllUseCase.queryAll()
     }
 
