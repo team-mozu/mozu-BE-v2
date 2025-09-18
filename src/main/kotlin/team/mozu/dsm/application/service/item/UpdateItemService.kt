@@ -6,7 +6,9 @@ import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
+import team.mozu.dsm.application.exception.lesson.CannotDeleteLessonException
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
+import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.item.CommandItemPort
 import team.mozu.dsm.application.port.out.item.QueryItemPort
 import java.time.LocalDateTime
@@ -16,12 +18,18 @@ import java.util.*
 class UpdateItemService(
     private val commandItemPort: CommandItemPort,
     private val queryItemPort: QueryItemPort,
-    private val itemMapper: ItemMapper
+    private val itemMapper: ItemMapper,
+    private val securityPort: SecurityPort
 ) : UpdateItemUseCase {
 
     @Transactional
     override fun update(id: UUID, request: ItemRequest): ItemResponse {
+        val organ = securityPort.getCurrentOrgan()
         val item = queryItemPort.findById(id) ?: throw ItemNotFoundException
+
+        if (item.organId != organ.id) {
+            throw CannotDeleteLessonException
+        }
 
         val updated = item.copy(
             itemName = request.itemName,

@@ -12,6 +12,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import java.util.*
 
@@ -129,7 +130,7 @@ interface ItemApiDocument {
             description = "서버 내부 오류"
         )
     )
-    fun queryAll(): List<ItemResponse>
+    fun queryAll(): List<ItemQueryResponse>
 
     @Operation(
         summary = "종목 삭제",
