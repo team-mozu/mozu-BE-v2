@@ -22,6 +22,7 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundArticleResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
+import team.mozu.dsm.global.error.ErrorResponse
 import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.*
 
@@ -46,12 +47,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "400",
             description = "잘못된 요청 파라미터",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun create(
@@ -77,12 +88,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun start(
@@ -102,12 +123,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun star(
@@ -127,12 +158,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun delete(
@@ -152,12 +193,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun end(
@@ -182,17 +233,32 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "400",
             description = "잘못된 요청 파라미터",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun update(
@@ -219,12 +285,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getDetail(
@@ -249,7 +325,12 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun get(): LessonListResponse
@@ -272,12 +353,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getLessonItems(
@@ -302,12 +393,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getLessonArticles(
@@ -327,12 +428,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun next(
@@ -352,12 +463,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 수업",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun sse(
@@ -382,12 +503,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "401",
             description = "인증 실패",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getLessonRoundItems(
@@ -412,12 +543,22 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "401",
             description = "인증 실패",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getLessonRoundArticles(
@@ -442,17 +583,32 @@ interface LessonApiDocument {
         ApiResponse(
             responseCode = "401",
             description = "인증 실패",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "404",
             description = "존재하지 않는 종목",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
             description = "서버 내부 오류",
-            content = arrayOf(Content())
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getLessonItemDetail(
