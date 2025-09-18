@@ -164,7 +164,7 @@ interface ItemApiDocument {
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    array = ArraySchema(schema = Schema(implementation = ItemResponse::class))
+                    array = ArraySchema(schema = Schema(implementation = ItemQueryResponse::class))
                 )
             ]
         ),
