@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
+import team.mozu.dsm.global.error.ErrorResponse
 import java.util.*
 
 @Tag(name = "Article", description = "기사 관련 API")
@@ -35,11 +36,23 @@ interface ArticleApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun create(
@@ -64,11 +77,23 @@ interface ArticleApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기사"
+            description = "존재하지 않는 기사",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun queryDetail(
@@ -92,7 +117,13 @@ interface ArticleApiDocument {
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun queryAll(): List<ArticleResponse>
@@ -104,15 +135,28 @@ interface ArticleApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "204",
-            description = "기사 삭제 성공"
+            description = "기사 삭제 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기사"
+            description = "존재하지 않는 기사",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun delete(
@@ -136,15 +180,33 @@ interface ArticleApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기사"
+            description = "존재하지 않는 기사",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun update(

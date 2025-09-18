@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.team.dto.request.CompleteInvestmentRequest
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.*
+import team.mozu.dsm.global.error.ErrorResponse
 import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.*
 
@@ -39,19 +40,43 @@ interface TeamApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 팀 또는 수업"
+            description = "존재하지 않는 팀 또는 수업",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "409",
-            description = "이미 참여한 팀이 있음"
+            description = "이미 참여한 팀이 있음",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     @ResponseStatus(HttpStatus.CREATED)
@@ -67,23 +92,48 @@ interface TeamApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "201",
-            description = "투자 완료 처리 성공"
+            description = "투자 완료 처리 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "403",
-            description = "권한 없음"
+            description = "권한 없음",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     @ResponseStatus(HttpStatus.CREATED)
@@ -110,15 +160,33 @@ interface TeamApiDocument {
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 팀 또는 수업"
+            description = "존재하지 않는 팀 또는 수업",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getStocks(
@@ -142,15 +210,33 @@ interface TeamApiDocument {
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 팀 또는 수업"
+            description = "존재하지 않는 팀 또는 수업",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getTeamDetail(
@@ -174,11 +260,23 @@ interface TeamApiDocument {
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getOrderItems(
@@ -202,11 +300,23 @@ interface TeamApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 팀"
+            description = "존재하지 않는 팀",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getCurrentOrderItem(
@@ -230,15 +340,33 @@ interface TeamApiDocument {
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 팀 또는 수업"
+            description = "존재하지 않는 팀 또는 수업",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getResult(
@@ -262,11 +390,23 @@ interface TeamApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 팀"
+            description = "존재하지 않는 팀",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getHoldStock(
@@ -290,11 +430,23 @@ interface TeamApiDocument {
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun getRank(
@@ -308,15 +460,28 @@ interface TeamApiDocument {
     @ApiResponses(
         ApiResponse(
             responseCode = "200",
-            description = "SSE 연결 성공"
+            description = "SSE 연결 성공",
+            content = arrayOf(Content())
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     @GetMapping(

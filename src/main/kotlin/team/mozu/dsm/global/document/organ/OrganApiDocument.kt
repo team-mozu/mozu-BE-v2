@@ -17,6 +17,7 @@ import team.mozu.dsm.adapter.`in`.organ.dto.request.ReissueOrganTokenRequest
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganListResponse
 import team.mozu.dsm.domain.organ.model.Organ
+import team.mozu.dsm.global.error.ErrorResponse
 import java.util.*
 
 @Tag(name = "Organ", description = "기관 관련 API")
@@ -39,15 +40,33 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "409",
-            description = "이미 존재하는 기관"
+            description = "이미 존재하는 기관",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun createOrgan(
@@ -72,15 +91,33 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun reissueOrganToken(
@@ -105,19 +142,43 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "400",
-            description = "잘못된 요청 파라미터"
+            description = "잘못된 요청 파라미터",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패"
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기관"
+            description = "존재하지 않는 기관",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun login(
@@ -142,11 +203,23 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "404",
-            description = "존재하지 않는 기관"
+            description = "존재하지 않는 기관",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun queryOrganDetail(
@@ -170,7 +243,13 @@ interface OrganApiDocument {
         ),
         ApiResponse(
             responseCode = "500",
-            description = "서버 내부 오류"
+            description = "서버 내부 오류",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
         )
     )
     fun queryOrganInventory(): List<OrganListResponse>
