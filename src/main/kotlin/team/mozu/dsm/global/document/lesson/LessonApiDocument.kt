@@ -613,6 +613,6 @@ interface LessonApiDocument {
     )
     fun getLessonItemDetail(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal,
-        @PathVariable("item-id") itemId: UUID
+        @PathVariable("item-id") itemId: Int
     ): LessonItemDetailResponse
 }

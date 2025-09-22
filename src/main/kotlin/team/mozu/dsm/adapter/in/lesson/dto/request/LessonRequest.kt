@@ -30,7 +30,7 @@ data class LessonRequest(
 )
 
 data class LessonItemRequest(
-    val id: UUID,
+    val id: Int,
     val money: List<Int>
 )
 

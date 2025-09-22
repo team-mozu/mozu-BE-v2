@@ -15,7 +15,7 @@ abstract class StockMapper {
      * PK(team.id)를 target(teamId)과 매핑하기 위해 명시적으로 지정
      */
     @Mapping(target = "teamId", source = "team.id")
-    @Mapping(target = "itemId", source = "item.id")
+    @Mapping(target = "itemId", source = "item.itemId")
     abstract fun toModel(entity: StockJpaEntity): Stock
 
     /**

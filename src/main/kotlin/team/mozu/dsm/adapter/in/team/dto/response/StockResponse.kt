@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class StockResponse(
     val id: UUID,
-    val itemId: UUID,
+    val itemId: Int,
     val itemName: String,
     val avgPurchasePrice: Int,
     val quantity: Int,

@@ -41,7 +41,7 @@ class OrderItemPersistenceAdapter(
         val itemIds = orderItems.map { it.itemId }.distinct()
 
         val itemEntitiesById = itemRepository.findAllById(itemIds)
-            .associateBy { it.id ?: throw ItemNotFoundException }
+            .associateBy { it.itemId ?: throw ItemNotFoundException }
 
         val missingItemIds = itemIds.toSet() - itemEntitiesById.keys
         if (missingItemIds.isNotEmpty()) throw ItemNotFoundException

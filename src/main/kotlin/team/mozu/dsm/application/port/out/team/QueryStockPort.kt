@@ -5,7 +5,7 @@ import java.util.UUID
 
 interface QueryStockPort {
 
-    fun findByTeamIdAndItemId(teamId: UUID, itemId: UUID): Stock?
+    fun findByTeamIdAndItemId(teamId: UUID, itemId: Int): Stock?
 
     fun findAllByTeamId(teamId: UUID): List<Stock>
 }

@@ -33,15 +33,18 @@ class LessonItemPersistenceAdapter(
 ) : QueryLessonItemPort, CommandLessonItemPort {
 
     //--Query--//
-    override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
+    override fun findItemIdsByLessonId(lessonId: UUID): List<Int> {
         return jpaQueryFactory
-            .select(lessonItemJpaEntity.lessonItemId.itemId)
+            .select(
+                lessonItemJpaEntity.lessonItemId
+                    .itemId
+            )
             .from(lessonItemJpaEntity)
             .where(lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId))
             .fetch()
     }
 
-    override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<UUID>): List<LessonItem> {
+    override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<Int>): List<LessonItem> {
         if (itemIds.isEmpty()) return emptyList()
         val entities = jpaQueryFactory
             .selectFrom(lessonItemJpaEntity)
@@ -63,7 +66,7 @@ class LessonItemPersistenceAdapter(
         return jpaQueryFactory
             .select(
                 QLessonRoundItemProjection(
-                    itemJpaEntity.id,
+                    itemJpaEntity.itemId,
                     itemJpaEntity.itemName,
                     itemJpaEntity.itemLogo,
                     getPreMoneyCase(),
@@ -80,7 +83,7 @@ class LessonItemPersistenceAdapter(
             .fetch()
     }
 
-    override fun findItemDetailByLessonIdAndItemId(lessonId: UUID, itemId: UUID): LessonItemDetailProjection {
+    override fun findItemDetailByLessonIdAndItemId(lessonId: UUID, itemId: Int): LessonItemDetailProjection {
         return jpaQueryFactory
             .select(
                 QLessonItemDetailProjection(
@@ -98,7 +101,7 @@ class LessonItemPersistenceAdapter(
             .join(lessonItemJpaEntity.lesson, lessonJpaEntity)
             .where(
                 lessonItemJpaEntity.lesson.id.eq(lessonId)
-                    .and(lessonItemJpaEntity.item.id.eq(itemId))
+                    .and(lessonItemJpaEntity.item.itemId.eq(itemId))
                     .and(lessonJpaEntity.isInProgress.isTrue)
             )
             .fetchOne() ?: throw LessonItemNotFoundException
@@ -117,7 +120,7 @@ class LessonItemPersistenceAdapter(
          * 4) 생성된 엔티티를 saveAll로 저장 후 도메인 모델로 변환
          */
         val lessonItemList = itemRepository.findAllById(lessonItems.map { it.lessonItemId.itemId })
-            .associateBy { it.id }
+            .associateBy { it.itemId }
             .let { itemMap ->
                 lessonItems.map { model ->
                     val itemEntity = itemMap[model.lessonItemId.itemId]

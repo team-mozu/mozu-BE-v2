@@ -36,7 +36,7 @@ class StockJpaEntity(
     var team: TeamJpaEntity,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "item_id", nullable = false)
+    @JoinColumn(name = "item_id", referencedColumnName = "itemId", nullable = false)
     var item: ItemJpaEntity
 
 ) : BaseTimeEntity()

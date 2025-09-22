@@ -178,8 +178,8 @@ class LessonWebAdapter(
     @ResponseStatus(HttpStatus.OK)
     override fun getLessonItemDetail(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal,
-        @PathVariable("item-id") lessonId: UUID
+        @PathVariable("item-id") itemId: Int
     ): LessonItemDetailResponse {
-        return getLessonItemDetailUseCase.get(studentPrincipal.lessonNum, lessonId)
+        return getLessonItemDetailUseCase.get(studentPrincipal.lessonNum, itemId)
     }
 }

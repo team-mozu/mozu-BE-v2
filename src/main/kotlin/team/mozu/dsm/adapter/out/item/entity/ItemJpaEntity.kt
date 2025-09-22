@@ -20,7 +20,7 @@ class ItemJpaEntity(
     @Column(nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var itemId : Int?,
+    var itemId: Int?,
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var itemName: String,

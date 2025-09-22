@@ -9,7 +9,6 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemDetailUseCase
 import team.mozu.dsm.application.port.out.item.QueryItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
-import java.util.UUID
 import kotlin.math.roundToInt
 
 @Service
@@ -20,12 +19,12 @@ class GetLessonItemDetailService(
 ) : GetLessonItemDetailUseCase {
 
     @Transactional(readOnly = true)
-    override fun get(lessonNum: String, itemId: UUID): LessonItemDetailResponse {
+    override fun get(lessonNum: String, itemId: Int): LessonItemDetailResponse {
         val lesson = lessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
         val item = itemPort.findById(itemId)
             ?: throw ItemNotFoundException
-        val lessonItem = lessonItemPort.findItemDetailByLessonIdAndItemId(lesson.id!!, item.id!!)
+        val lessonItem = lessonItemPort.findItemDetailByLessonIdAndItemId(lesson.id!!, item.itemId!!)
 
         val itemMoneyList = listOf(
             lessonItem.itemCurrentMoney,
@@ -49,7 +48,7 @@ class GetLessonItemDetailService(
         }
 
         return LessonItemDetailResponse(
-            itemId = item.id,
+            itemId = item.itemId,
             itemName = item.itemName,
             itemLogo = item.itemLogo,
             nowMoney = lessonItem.curMoney,

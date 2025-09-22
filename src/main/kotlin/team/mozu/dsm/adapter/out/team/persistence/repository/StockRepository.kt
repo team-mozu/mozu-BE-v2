@@ -6,7 +6,7 @@ import java.util.UUID
 
 interface StockRepository : CrudRepository<StockJpaEntity, UUID> {
 
-    fun findByTeam_IdAndItem_Id(teamId: UUID, itemId: UUID): StockJpaEntity?
+    fun findByTeam_IdAndItem_Id(teamId: UUID, itemId: Int): StockJpaEntity?
 
     fun findAllByTeam_Id(teamId: UUID): List<StockJpaEntity>
 }
