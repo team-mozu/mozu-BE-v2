@@ -55,7 +55,7 @@ class ItemPersistenceAdapter(
         jpaQueryFactory
             .update(itemJpaEntity)
             .set(itemJpaEntity.isDeleted, true)
-            .where(itemJpaEntity.itemId.eq(item.itemId))
+            .where(itemJpaEntity.id.eq(item.id))
             .execute()
     }
 }

@@ -40,7 +40,7 @@ class LessonFacade(
         // 요청된 LessonItemRequest에서 itemId만 추출하고, 중복이 있을 경우 제거
         val itemIds = lessonItems.map { it.id }.toSet()
         // DB에서 itemId에 해당하는 Item 엔티티들을 조회하고, ID만 뽑아 유일한 UUID 집합(Set)으로 변환
-        val foundItemIds = itemPort.findAllByIds(itemIds).map { it.itemId!! }.toSet()
+        val foundItemIds = itemPort.findAllByIds(itemIds).map { it.id!! }.toSet()
 
         // 요청된 itemIds의 개수와 DB에서 조회한 itemIds의 개수를 비교하여 같지 않으면 예외 발생
         if (foundItemIds.size != itemIds.size) {
@@ -105,7 +105,7 @@ class LessonFacade(
         // lessonItems에서 itemId만 추출하고 중복 제거
         val itemIds = lessonItems.map { it.lessonItemId.itemId }.toSet()
         // DB에서 해당 itemId에 맞는 Item 엔티티를 조회 후, ID를 key로 매핑
-        val itemMap = itemPort.findAllByIds(itemIds).associateBy { it.itemId!! }
+        val itemMap = itemPort.findAllByIds(itemIds).associateBy { it.id!! }
 
         // LessonItem 도메인을 LessonItemResponse DTO로 변환
         // money 리스트는 1~3차 + nullable 4~5차 구성
@@ -113,7 +113,7 @@ class LessonFacade(
             val item = itemMap[lessonItem.lessonItemId.itemId]
                 ?: throw ItemNotFoundException
             LessonItemResponse(
-                itemId = item.itemId!!,
+                itemId = item.id!!,
                 itemName = item.itemName,
                 money = listOf(
                     lessonItem.currentMoney,

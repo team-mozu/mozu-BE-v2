@@ -25,7 +25,7 @@ class LessonItemJpaEntity(
 
     @MapsId("itemId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id", referencedColumnName = "itemId", nullable = false)
+    @JoinColumn(name = "item_id", nullable = false)
     var item: ItemJpaEntity,
 
     @Column(nullable = false)

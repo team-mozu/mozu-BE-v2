@@ -10,7 +10,6 @@ import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.item.CommandItemPort
 import team.mozu.dsm.domain.item.model.Item
 import java.time.LocalDateTime
-import java.util.*
 
 @Service
 class CreateItemService(
@@ -28,7 +27,7 @@ class CreateItemService(
             ?.takeUnless { it.isBlank() }
 
         val item = Item(
-            itemId = null,
+            id = null,
             organId = organ.id!!,
             itemName = request.itemName,
             itemLogo = logoUrl,

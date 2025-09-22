@@ -66,7 +66,7 @@ class LessonItemPersistenceAdapter(
         return jpaQueryFactory
             .select(
                 QLessonRoundItemProjection(
-                    itemJpaEntity.itemId,
+                    itemJpaEntity.id,
                     itemJpaEntity.itemName,
                     itemJpaEntity.itemLogo,
                     getPreMoneyCase(),
@@ -101,7 +101,7 @@ class LessonItemPersistenceAdapter(
             .join(lessonItemJpaEntity.lesson, lessonJpaEntity)
             .where(
                 lessonItemJpaEntity.lesson.id.eq(lessonId)
-                    .and(lessonItemJpaEntity.item.itemId.eq(itemId))
+                    .and(lessonItemJpaEntity.item.id.eq(itemId))
                     .and(lessonJpaEntity.isInProgress.isTrue)
             )
             .fetchOne() ?: throw LessonItemNotFoundException
@@ -120,7 +120,7 @@ class LessonItemPersistenceAdapter(
          * 4) 생성된 엔티티를 saveAll로 저장 후 도메인 모델로 변환
          */
         val lessonItemList = itemRepository.findAllById(lessonItems.map { it.lessonItemId.itemId })
-            .associateBy { it.itemId }
+            .associateBy { it.id }
             .let { itemMap ->
                 lessonItems.map { model ->
                     val itemEntity = itemMap[model.lessonItemId.itemId]

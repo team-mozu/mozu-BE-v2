@@ -148,14 +148,14 @@ class CompleteTeamInvestmentService(
         }
 
         val items = queryItemPort.findAllByIds(itemIds)
-        val existingItemIds = items.map { it.itemId }.toSet()
+        val existingItemIds = items.map { it.id }.toSet()
         val notFoundItemIds = itemIds.toSet() - existingItemIds
 
         if (notFoundItemIds.isNotEmpty()) {
             throw ItemNotFoundException
         }
 
-        val deletedItems = items.filter { it.isDeleted }.map { it.itemId }
+        val deletedItems = items.filter { it.isDeleted }.map { it.id }
 
         if (deletedItems.isNotEmpty()) {
             throw ItemDeletedException

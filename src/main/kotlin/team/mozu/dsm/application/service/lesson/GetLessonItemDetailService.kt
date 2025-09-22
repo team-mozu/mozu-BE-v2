@@ -24,7 +24,7 @@ class GetLessonItemDetailService(
             ?: throw LessonNotFoundException
         val item = itemPort.findById(itemId)
             ?: throw ItemNotFoundException
-        val lessonItem = lessonItemPort.findItemDetailByLessonIdAndItemId(lesson.id!!, item.itemId!!)
+        val lessonItem = lessonItemPort.findItemDetailByLessonIdAndItemId(lesson.id!!, item.id!!)
 
         val itemMoneyList = listOf(
             lessonItem.itemCurrentMoney,
@@ -48,7 +48,7 @@ class GetLessonItemDetailService(
         }
 
         return LessonItemDetailResponse(
-            itemId = item.itemId,
+            itemId = item.id,
             itemName = item.itemName,
             itemLogo = item.itemLogo,
             nowMoney = lessonItem.curMoney,

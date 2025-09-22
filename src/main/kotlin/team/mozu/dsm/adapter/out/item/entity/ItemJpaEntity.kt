@@ -10,8 +10,10 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.Where
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
-import team.mozu.dsm.global.entity.BaseTimeEntity
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tbl_item")
@@ -20,7 +22,7 @@ class ItemJpaEntity(
     @Column(nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var itemId: Int?,
+    var id: Int?,
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var itemName: String,
@@ -52,10 +54,18 @@ class ItemJpaEntity(
     @Column(nullable = false)
     var netProfit: Int,
 
+    @CreatedDate
+    @Column(updatable = false, nullable = false)
+    var createdAt: LocalDateTime? = null,
+
+    @LastModifiedDate
+    @Column(nullable = false)
+    var updatedAt: LocalDateTime? = null,
+
     @Column(nullable = false)
     var isDeleted: Boolean = false,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organ_id", nullable = false)
     var organ: OrganJpaEntity
-) : BaseTimeEntity()
+)
