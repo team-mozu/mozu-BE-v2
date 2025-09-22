@@ -28,7 +28,7 @@ class CreateItemService(
             ?.takeUnless { it.isBlank() }
 
         val item = Item(
-            id = UUID.randomUUID(),
+            itemId = null,
             organId = organ.id!!,
             itemName = request.itemName,
             itemLogo = logoUrl,

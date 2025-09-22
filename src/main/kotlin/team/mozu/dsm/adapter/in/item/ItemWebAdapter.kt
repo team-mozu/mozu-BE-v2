@@ -38,7 +38,7 @@ class ItemWebAdapter(
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun update(
-        @PathVariable id: UUID,
+        @PathVariable id: Int,
         @RequestBody @Valid
         request: ItemRequest
     ): ItemResponse {
@@ -48,7 +48,7 @@ class ItemWebAdapter(
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
-        @PathVariable id: UUID
+        @PathVariable id: Int
     ): ItemResponse {
         val item = queryItemDetailUseCase.queryDetail(id)
         return itemMapper.toResponse(item)
@@ -63,7 +63,7 @@ class ItemWebAdapter(
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun delete(
-        @PathVariable id: UUID
+        @PathVariable id: Int
     ) {
         deleteItemUseCase.delete(id)
     }

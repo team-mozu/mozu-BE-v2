@@ -21,6 +21,7 @@ abstract class ItemMapper {
 
     fun toEntity(model: Item, organ: OrganJpaEntity): ItemJpaEntity {
         return ItemJpaEntity(
+            itemId = null,
             organ = organ,
             itemName = model.itemName,
             itemLogo = model.itemLogo,

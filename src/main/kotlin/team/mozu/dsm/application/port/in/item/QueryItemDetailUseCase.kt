@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface QueryItemDetailUseCase {
 
-    fun queryDetail(id: UUID): Item
+    fun queryDetail(id: Int): Item
 }

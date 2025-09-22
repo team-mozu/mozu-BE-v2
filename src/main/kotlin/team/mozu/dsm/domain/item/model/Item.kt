@@ -6,7 +6,7 @@ import java.util.UUID
 
 @Aggregate
 data class Item(
-    val id: UUID?,
+    val itemId: Int?,
     val organId: UUID,
     val itemName: String,
     val itemLogo: String?,

@@ -22,16 +22,16 @@ class ItemPersistenceAdapter(
 ) : QueryItemPort, CommandItemPort {
 
     //--Query--//
-    override fun existsById(id: UUID): Boolean {
+    override fun existsById(id: Int): Boolean {
         return itemRepository.existsById(id)
     }
 
-    override fun findAllByIds(ids: Set<UUID>): List<Item> {
+    override fun findAllByIds(ids: Set<Int>): List<Item> {
         return itemRepository.findAllById(ids)
             .map { itemMapper.toModel(it) }
     }
 
-    override fun findById(id: UUID): Item? {
+    override fun findById(id: Int): Item? {
         return itemRepository.findByIdOrNull(id)
             ?.let { itemMapper.toModel(it) }
     }
@@ -56,7 +56,7 @@ class ItemPersistenceAdapter(
         jpaQueryFactory
             .update(itemJpaEntity)
             .set(itemJpaEntity.isDeleted, true)
-            .where(itemJpaEntity.id.eq(item.id))
+            .where(itemJpaEntity.itemId.eq(item.itemId))
             .execute()
     }
 }

@@ -23,7 +23,7 @@ class UpdateItemService(
 ) : UpdateItemUseCase {
 
     @Transactional
-    override fun update(id: UUID, request: ItemRequest): ItemResponse {
+    override fun update(id: Int, request: ItemRequest): ItemResponse {
         val organ = securityPort.getCurrentOrgan()
         val item = queryItemPort.findById(id) ?: throw ItemNotFoundException
 
