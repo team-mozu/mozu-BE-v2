@@ -9,13 +9,15 @@ import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.item.CommandItemPort
 import team.mozu.dsm.domain.item.model.Item
+import team.mozu.dsm.application.port.out.s3.S3Port
 import java.time.LocalDateTime
 
 @Service
 class CreateItemService(
     private val securityPort: SecurityPort,
     private val itemPort: CommandItemPort,
-    private val itemMapper: ItemMapper
+    private val itemMapper: ItemMapper,
+    private val s3Port: S3Port
 ) : CreateItemUseCase {
 
     @Transactional
@@ -23,8 +25,8 @@ class CreateItemService(
         val organ = securityPort.getCurrentOrgan()
 
         val logoUrl: String? = request.itemLogo
-            ?.trim()
-            ?.takeUnless { it.isBlank() }
+            ?.takeIf { !it.isEmpty }
+            ?.let { s3Port.upload(it) }
 
         val item = Item(
             id = null,

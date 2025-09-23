@@ -11,6 +11,7 @@ import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.item.CommandItemPort
 import team.mozu.dsm.application.port.out.item.QueryItemPort
+import team.mozu.dsm.application.port.out.s3.S3Port
 import java.time.LocalDateTime
 import java.util.*
 
@@ -19,7 +20,8 @@ class UpdateItemService(
     private val commandItemPort: CommandItemPort,
     private val queryItemPort: QueryItemPort,
     private val itemMapper: ItemMapper,
-    private val securityPort: SecurityPort
+    private val securityPort: SecurityPort,
+    private val s3Port: S3Port
 ) : UpdateItemUseCase {
 
     @Transactional
@@ -31,10 +33,14 @@ class UpdateItemService(
             throw CannotDeleteLessonException
         }
 
+        val newLogoUrl: String? = request.itemLogo
+            ?.takeIf { !it.isEmpty }      // 파일이 있을 때만
+            ?.let { s3Port.upload(it) }    // S3에 업로드하고 URL 반환
+
         val updated = item.copy(
             itemName = request.itemName,
             itemInfo = request.itemInfo,
-            itemLogo = request.itemLogo,
+            itemLogo = newLogoUrl ?: item.itemLogo,
             money = request.money,
             debt = request.debt,
             capital = request.capital,

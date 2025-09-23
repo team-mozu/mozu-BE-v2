@@ -2,6 +2,7 @@ package team.mozu.dsm.adapter.`in`.article
 
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
@@ -24,13 +25,13 @@ class ArticleWebAdapter(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     override fun create(
-        @RequestBody @Valid
+        @ModelAttribute @Valid
         request: ArticleRequest
     ): ArticleResponse {
         return createArticleUseCase.create(request)
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @PathVariable id: UUID
