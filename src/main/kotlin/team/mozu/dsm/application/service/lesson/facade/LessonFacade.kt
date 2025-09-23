@@ -38,7 +38,7 @@ class LessonFacade(
 
     fun validateItemsExists(lessonItems: List<LessonItemRequest>) {
         // 요청된 LessonItemRequest에서 itemId만 추출하고, 중복이 있을 경우 제거
-        val itemIds = lessonItems.map { it.id }.toSet()
+        val itemIds = lessonItems.map { it.itemId }.toSet()
         // DB에서 itemId에 해당하는 Item 엔티티들을 조회하고, ID만 뽑아 유일한 UUID 집합(Set)으로 변환
         val foundItemIds = itemPort.findAllByIds(itemIds).map { it.id!! }.toSet()
 
@@ -72,7 +72,7 @@ class LessonFacade(
         // List<LessonItemRequest> -> LessonItem 도메인으로 변환 후 saveAll로 한 번에 저장
         val lessonItemsToSave = lessonItems.map { req ->
             LessonItem(
-                lessonItemId = LessonItemId(lesson.id!!, req.id),
+                lessonItemId = LessonItemId(lesson.id!!, req.itemId),
                 currentMoney = req.money.get(0),
                 round1Money = req.money.get(1),
                 round2Money = req.money.get(2),
