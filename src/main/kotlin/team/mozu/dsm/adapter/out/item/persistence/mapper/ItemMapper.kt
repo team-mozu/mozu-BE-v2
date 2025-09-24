@@ -14,8 +14,10 @@ abstract class ItemMapper {
     @Mapping(target = "organId", source = "organ.id")
     abstract fun toModel(entity: ItemJpaEntity): Item
 
+    @Mapping(target = "itemId", source = "id")
     abstract fun toResponse(model: Item): ItemResponse
 
+    @Mapping(target = "itemId", source = "id")
     abstract fun toQueryResponse(model: Item): ItemQueryResponse
 
     fun toEntity(model: Item, organ: OrganJpaEntity): ItemJpaEntity {
