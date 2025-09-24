@@ -112,7 +112,7 @@ interface ArticleApiDocument {
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    array = ArraySchema(schema = Schema(implementation = ArticleResponse::class))
+                    array = ArraySchema(schema = Schema(implementation = ArticleQueryResponse::class))
                 )
             ]
         ),
