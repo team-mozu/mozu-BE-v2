@@ -6,7 +6,6 @@ import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.entity.ItemJpaEntity
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
-import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
 import team.mozu.dsm.domain.item.model.Item
 
 @Mapper(componentModel = "spring")
@@ -15,12 +14,15 @@ abstract class ItemMapper {
     @Mapping(target = "organId", source = "organ.id")
     abstract fun toModel(entity: ItemJpaEntity): Item
 
+    @Mapping(target = "itemId", source = "id")
     abstract fun toResponse(model: Item): ItemResponse
 
+    @Mapping(target = "itemId", source = "id")
     abstract fun toQueryResponse(model: Item): ItemQueryResponse
 
     fun toEntity(model: Item, organ: OrganJpaEntity): ItemJpaEntity {
         return ItemJpaEntity(
+            id = null,
             organ = organ,
             itemName = model.itemName,
             itemLogo = model.itemLogo,

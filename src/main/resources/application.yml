@@ -14,12 +14,15 @@ spring:
         format_sql: ${JPA_FORMAT_SQL}
         dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
+    defer-datasource-initialization: true
 
   data:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
-
+  sql:
+    init:
+      mode: always
 jwt:
   header: ${HEADER}
   prefix: ${PREFIX}

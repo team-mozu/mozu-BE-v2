@@ -1,9 +1,7 @@
 package team.mozu.dsm.adapter.`in`.lesson.dto.response
 
-import java.util.UUID
-
 data class LessonItemDetailResponse(
-    val itemId: UUID,
+    val itemId: Int,
     val itemName: String,
     val itemLogo: String?,
     val nowMoney: Int,

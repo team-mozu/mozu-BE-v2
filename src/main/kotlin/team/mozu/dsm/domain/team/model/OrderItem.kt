@@ -8,7 +8,7 @@ import java.util.UUID
 @Aggregate
 data class OrderItem(
     val id: UUID?,
-    val itemId: UUID,
+    val itemId: Int,
     val teamId: UUID,
     val itemName: String,
     val orderType: OrderType,

@@ -4,5 +4,5 @@ import java.util.*
 
 interface DeleteItemUseCase {
 
-    fun delete(id: UUID)
+    fun delete(id: Int)
 }

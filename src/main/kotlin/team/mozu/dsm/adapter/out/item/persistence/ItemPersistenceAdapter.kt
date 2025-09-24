@@ -11,7 +11,6 @@ import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.out.item.CommandItemPort
 import team.mozu.dsm.application.port.out.item.QueryItemPort
 import team.mozu.dsm.domain.item.model.Item
-import java.util.UUID
 
 @Component
 class ItemPersistenceAdapter(
@@ -22,16 +21,16 @@ class ItemPersistenceAdapter(
 ) : QueryItemPort, CommandItemPort {
 
     //--Query--//
-    override fun existsById(id: UUID): Boolean {
+    override fun existsById(id: Int): Boolean {
         return itemRepository.existsById(id)
     }
 
-    override fun findAllByIds(ids: Set<UUID>): List<Item> {
+    override fun findAllByIds(ids: Set<Int>): List<Item> {
         return itemRepository.findAllById(ids)
             .map { itemMapper.toModel(it) }
     }
 
-    override fun findById(id: UUID): Item? {
+    override fun findById(id: Int): Item? {
         return itemRepository.findByIdOrNull(id)
             ?.let { itemMapper.toModel(it) }
     }

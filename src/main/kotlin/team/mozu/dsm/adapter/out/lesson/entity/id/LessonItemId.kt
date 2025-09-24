@@ -7,5 +7,5 @@ import java.util.UUID
 @Embeddable
 data class LessonItemId(
     val lessonId: UUID,
-    val itemId: UUID
+    val itemId: Int
 ) : Serializable

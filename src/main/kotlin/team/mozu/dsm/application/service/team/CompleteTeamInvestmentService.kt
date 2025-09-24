@@ -138,7 +138,7 @@ class CompleteTeamInvestmentService(
     /**
      * 거래하려는 종목이 유효한지 검증
      */
-    private fun validateItems(itemIds: Set<UUID>, lessonId: UUID) {
+    private fun validateItems(itemIds: Set<Int>, lessonId: UUID) {
         val validItemIds = queryLessonItemPort.findItemIdsByLessonId(lessonId)
 
         val invalidItems = itemIds.filter { it !in validItemIds }
@@ -396,7 +396,7 @@ class CompleteTeamInvestmentService(
         commandTeamPort.update(updatedTeam)
     }
 
-    private fun updatePreviouslyTradedStocksProfit(teamId: UUID, lesson: Lesson, tradedItemIds: List<UUID>) {
+    private fun updatePreviouslyTradedStocksProfit(teamId: UUID, lesson: Lesson, tradedItemIds: List<Int>) {
         val lessonId = lesson.id ?: throw LessonNotFoundException
         val currentRound = lesson.curInvRound
 

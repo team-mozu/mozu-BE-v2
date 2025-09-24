@@ -6,7 +6,7 @@ import java.util.UUID
 
 data class OrderItemResponse @QueryProjection constructor(
     val id: UUID,
-    val itemId: UUID,
+    val itemId: Int,
     val itemName: String,
     val itemPrice: Int,
     val orderCount: Int,

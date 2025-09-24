@@ -11,6 +11,7 @@ import team.mozu.dsm.application.port.`in`.article.UpdateArticleUseCase
 import team.mozu.dsm.application.port.out.article.CommandArticlePort
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import team.mozu.dsm.application.port.out.auth.SecurityPort
+import team.mozu.dsm.application.port.out.s3.S3Port
 import java.time.LocalDateTime
 import java.util.*
 
@@ -19,7 +20,8 @@ class UpdateArticleService(
     private val commandArticlePort: CommandArticlePort,
     private val queryArticlePort: QueryArticlePort,
     private val articleMapper: ArticleMapper,
-    private val securityPort: SecurityPort
+    private val securityPort: SecurityPort,
+    private val s3Port: S3Port
 ) : UpdateArticleUseCase {
 
     @Transactional
@@ -31,10 +33,14 @@ class UpdateArticleService(
             throw CannotDeleteLessonException
         }
 
+        val newImageUrl: String? = request.articleImage
+            ?.takeIf { !it.isEmpty }
+            ?.let { s3Port.upload(it) }
+
         val updated = article.copy(
             articleName = request.articleName,
             articleDesc = request.articleDesc,
-            articleImage = request.articleImage,
+            articleImage = newImageUrl ?: article.articleImage,
             updatedAt = LocalDateTime.now()
         )
 

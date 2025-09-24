@@ -4,7 +4,7 @@ import com.querydsl.core.annotations.QueryProjection
 import java.util.*
 
 data class LessonRoundItemProjection @QueryProjection constructor(
-    val itemId: UUID,
+    val itemId: Int,
     val itemName: String,
     val itemLogo: String?,
     val preMoney: Int,
