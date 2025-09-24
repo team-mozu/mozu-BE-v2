@@ -67,28 +67,37 @@ class SecurityConfig(
             .sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
-            .authorizeHttpRequests {
-                // organ
-                it.requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
-                it.requestMatchers(HttpMethod.PATCH, "/organ/token/reissue").permitAll()
-                it.requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
-                it.requestMatchers(HttpMethod.GET, "/organ/*").permitAll()
-                it.requestMatchers(HttpMethod.GET, "/organ").permitAll()
+            .authorizeHttpRequests { auth ->
+                auth
+                    // organ
+                    .requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
+                    .requestMatchers(HttpMethod.PATCH, "/organ/token/reissue").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/organ/*").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/organ").permitAll()
 
-                // team
-                it.requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
-                it.requestMatchers(HttpMethod.POST, "/team/end").hasRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/stocks").hasRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/detail").hasRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/orders").hasRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/result").hasRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/ranks").hasRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/team/sse").hasRole("STUDENT")
+                    // team
+                    .requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/team/end").hasRole("STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/team/stocks").hasRole("STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/team/detail").hasRole("STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/team/orders").hasRole("STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/team/result").hasRole("STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/team/ranks").hasRole("STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/team/sse").hasRole("STUDENT")
 
-                // lesson
-                it.requestMatchers(HttpMethod.GET, "/lesson/team/items").hasRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/lesson/team/articles").hasRole("STUDENT")
-                it.requestMatchers(HttpMethod.GET, "/lesson/team/item/*").hasRole("STUDENT")
+                    // lesson
+                    .requestMatchers(HttpMethod.GET, "/lesson/team/items").hasRole("STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/lesson/team/articles").hasRole("STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/lesson/team/item/*").hasRole("STUDENT")
+
+                    // swagger
+                    .requestMatchers("/swagger-ui/**").permitAll()
+                    .requestMatchers("/v3/api-docs/**").permitAll()
+                    .requestMatchers("/swagger-resources/**").permitAll()
+                    .requestMatchers("/webjars/**").permitAll()
+
+                    // 나머지
                     .anyRequest().authenticated()
             }
             .with(FilterConfig(jwtTokenProvider, objectMapper), Customizer.withDefaults())
