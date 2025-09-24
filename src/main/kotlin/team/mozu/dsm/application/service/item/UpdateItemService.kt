@@ -34,8 +34,8 @@ class UpdateItemService(
         }
 
         val newLogoUrl: String? = request.itemLogo
-            ?.takeIf { !it.isEmpty }      // 파일이 있을 때만
-            ?.let { s3Port.upload(it) }    // S3에 업로드하고 URL 반환
+            ?.takeIf { !it.isEmpty }
+            ?.let { s3Port.upload(it) }   
 
         val updated = item.copy(
             itemName = request.itemName,
