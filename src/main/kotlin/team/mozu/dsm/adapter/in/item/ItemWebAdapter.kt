@@ -26,7 +26,7 @@ class ItemWebAdapter(
     private val deleteItemUseCase: DeleteItemUseCase
 ) : ItemApiDocument {
 
-    @PostMapping
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.CREATED)
     override fun create(
         @ModelAttribute @Valid
