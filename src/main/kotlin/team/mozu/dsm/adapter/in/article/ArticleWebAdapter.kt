@@ -23,7 +23,7 @@ class ArticleWebAdapter(
     private val articleMapper: ArticleMapper
 ) : ArticleApiDocument {
 
-    @PostMapping
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.CREATED)
     override fun create(
         @ModelAttribute @Valid
@@ -55,7 +55,7 @@ class ArticleWebAdapter(
         deleteArticleUseCase.delete(id)
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.OK)
     override fun update(
         @PathVariable id: UUID,
