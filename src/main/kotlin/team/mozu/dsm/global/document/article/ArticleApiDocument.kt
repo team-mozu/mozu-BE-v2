@@ -12,6 +12,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.global.error.ErrorResponse
 import java.util.*
@@ -126,7 +127,7 @@ interface ArticleApiDocument {
             ]
         )
     )
-    fun queryAll(): List<ArticleResponse>
+    fun queryAll(): List<ArticleQueryResponse>
 
     @Operation(
         summary = "기사 삭제",

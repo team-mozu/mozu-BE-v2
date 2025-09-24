@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
 import team.mozu.dsm.application.port.`in`.article.*
@@ -42,7 +43,7 @@ class ArticleWebAdapter(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryAll(): List<ArticleResponse> {
+    override fun queryAll(): List<ArticleQueryResponse> {
         return queryArticleAllUseCase.queryAll()
     }
 
