@@ -9,6 +9,7 @@ import team.mozu.dsm.application.port.`in`.article.CreateArticleUseCase
 import team.mozu.dsm.application.port.out.article.CommandArticlePort
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.domain.article.model.Article
+import team.mozu.dsm.application.port.out.s3.S3Port
 import java.time.LocalDateTime
 import java.util.*
 
@@ -16,7 +17,8 @@ import java.util.*
 class CreateArticleService(
     private val securityPort: SecurityPort,
     private val articlePort: CommandArticlePort,
-    private val articleMapper: ArticleMapper
+    private val articleMapper: ArticleMapper,
+    private val s3Port: S3Port
 ) : CreateArticleUseCase {
 
     @Transactional
@@ -24,8 +26,8 @@ class CreateArticleService(
         val organ = securityPort.getCurrentOrgan()
 
         val imageUrl: String? = request.articleImage
-            ?.trim()
-            ?.takeUnless { it.isBlank() }
+            ?.takeIf { !it.isEmpty }
+            ?.let { s3Port.upload(it) }
 
         val article = Article(
             id = UUID.randomUUID(),

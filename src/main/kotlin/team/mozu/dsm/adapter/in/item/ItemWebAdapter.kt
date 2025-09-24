@@ -2,6 +2,7 @@ package team.mozu.dsm.adapter.`in`.item
 
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
@@ -13,7 +14,6 @@ import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemDetailUseCase
 import team.mozu.dsm.application.port.`in`.item.DeleteItemUseCase
 import team.mozu.dsm.global.document.item.ItemApiDocument
-import java.util.*
 
 @RestController
 @RequestMapping("/item")
@@ -26,19 +26,19 @@ class ItemWebAdapter(
     private val deleteItemUseCase: DeleteItemUseCase
 ) : ItemApiDocument {
 
-    @PostMapping
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.CREATED)
     override fun create(
-        @RequestBody @Valid
+        @ModelAttribute @Valid
         request: ItemRequest
     ): ItemResponse {
         return createItemUseCase.create(request)
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.OK)
     override fun update(
-        @PathVariable id: UUID,
+        @PathVariable id: Int,
         @RequestBody @Valid
         request: ItemRequest
     ): ItemResponse {
@@ -48,7 +48,7 @@ class ItemWebAdapter(
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
-        @PathVariable id: UUID
+        @PathVariable id: Int
     ): ItemResponse {
         val item = queryItemDetailUseCase.queryDetail(id)
         return itemMapper.toResponse(item)
@@ -63,7 +63,7 @@ class ItemWebAdapter(
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun delete(
-        @PathVariable id: UUID
+        @PathVariable id: Int
     ) {
         deleteItemUseCase.delete(id)
     }

@@ -33,15 +33,18 @@ class LessonItemPersistenceAdapter(
 ) : QueryLessonItemPort, CommandLessonItemPort {
 
     //--Query--//
-    override fun findItemIdsByLessonId(lessonId: UUID): List<UUID> {
+    override fun findItemIdsByLessonId(lessonId: UUID): List<Int> {
         return jpaQueryFactory
-            .select(lessonItemJpaEntity.lessonItemId.itemId)
+            .select(
+                lessonItemJpaEntity.lessonItemId
+                    .itemId
+            )
             .from(lessonItemJpaEntity)
             .where(lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId))
             .fetch()
     }
 
-    override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<UUID>): List<LessonItem> {
+    override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<Int>): List<LessonItem> {
         if (itemIds.isEmpty()) return emptyList()
         val entities = jpaQueryFactory
             .selectFrom(lessonItemJpaEntity)
@@ -80,7 +83,7 @@ class LessonItemPersistenceAdapter(
             .fetch()
     }
 
-    override fun findItemDetailByLessonIdAndItemId(lessonId: UUID, itemId: UUID): LessonItemDetailProjection {
+    override fun findItemDetailByLessonIdAndItemId(lessonId: UUID, itemId: Int): LessonItemDetailProjection {
         return jpaQueryFactory
             .select(
                 QLessonItemDetailProjection(

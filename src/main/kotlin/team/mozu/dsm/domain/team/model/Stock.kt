@@ -8,7 +8,7 @@ import java.util.UUID
 data class Stock(
     val id: UUID?,
     val teamId: UUID,
-    val itemId: UUID,
+    val itemId: Int,
     val itemName: String,
     val avgPurchasePrice: Int,
     val quantity: Int,

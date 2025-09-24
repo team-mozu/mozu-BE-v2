@@ -108,7 +108,7 @@ interface ItemApiDocument {
         )
     )
     fun update(
-        @PathVariable id: UUID,
+        @PathVariable id: Int,
         @RequestBody @Valid
         request: ItemRequest
     ): ItemResponse
@@ -150,7 +150,7 @@ interface ItemApiDocument {
         )
     )
     fun queryDetail(
-        @PathVariable id: UUID
+        @PathVariable id: Int
     ): ItemResponse
 
     @Operation(
@@ -213,6 +213,6 @@ interface ItemApiDocument {
         )
     )
     fun delete(
-        @PathVariable id: UUID
+        @PathVariable id: Int
     )
 }

@@ -21,7 +21,7 @@ data class LessonResponse(
 )
 
 data class LessonItemResponse(
-    val itemId: UUID,
+    val itemId: Int,
     val itemName: String,
     val money: List<Int>
 )

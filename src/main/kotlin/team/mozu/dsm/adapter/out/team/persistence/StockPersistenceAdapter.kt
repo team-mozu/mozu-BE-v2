@@ -22,7 +22,7 @@ class StockPersistenceAdapter(
 ) : CommandStockPort, QueryStockPort {
 
     //--Query--//
-    override fun findByTeamIdAndItemId(teamId: UUID, itemId: UUID): Stock? {
+    override fun findByTeamIdAndItemId(teamId: UUID, itemId: Int): Stock? {
         return stockRepository.findByTeam_IdAndItem_Id(teamId, itemId)
             ?.let { stockMapper.toModel(it) }
     }

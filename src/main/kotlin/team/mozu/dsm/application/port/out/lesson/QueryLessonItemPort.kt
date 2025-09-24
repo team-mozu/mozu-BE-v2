@@ -7,13 +7,13 @@ import java.util.*
 
 interface QueryLessonItemPort {
 
-    fun findItemIdsByLessonId(lessonId: UUID): List<UUID>
+    fun findItemIdsByLessonId(lessonId: UUID): List<Int>
 
-    fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<UUID>): List<LessonItem>
+    fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<Int>): List<LessonItem>
 
     fun findAllByLessonId(lessonId: UUID): List<LessonItem>
 
     fun findAllRoundItemsByLessonId(lessonId: UUID): List<LessonRoundItemProjection>
 
-    fun findItemDetailByLessonIdAndItemId(lessonId: UUID, itemId: UUID): LessonItemDetailProjection
+    fun findItemDetailByLessonIdAndItemId(lessonId: UUID, itemId: Int): LessonItemDetailProjection
 }

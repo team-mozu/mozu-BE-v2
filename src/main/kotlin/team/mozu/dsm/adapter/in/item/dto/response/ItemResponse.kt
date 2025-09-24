@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 data class ItemResponse(
-    val id: UUID,
+    val itemId: Int,
     val itemName: String,
     val itemLogo: String? = null,
     val itemInfo: String,
