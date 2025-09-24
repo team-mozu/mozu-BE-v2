@@ -56,10 +56,9 @@ class ItemJpaEntity(
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
-    var createdAt: LocalDateTime? = null,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedDate
-    @Column(nullable = false)
     var updatedAt: LocalDateTime? = null,
 
     @Column(nullable = false)
