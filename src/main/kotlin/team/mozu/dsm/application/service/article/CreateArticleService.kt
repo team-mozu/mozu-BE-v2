@@ -2,7 +2,6 @@ package team.mozu.dsm.application.service.article
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
@@ -23,10 +22,10 @@ class CreateArticleService(
 ) : CreateArticleUseCase {
 
     @Transactional
-    override fun create(request: ArticleRequest, image: MultipartFile): ArticleResponse {
+    override fun create(request: ArticleRequest): ArticleResponse {
         val organ = securityPort.getCurrentOrgan()
 
-        val imageUrl: String? = image
+        val imageUrl: String? = request.articleImage
             ?.takeIf { !it.isEmpty }
             ?.let { s3Port.upload(it) }
 
