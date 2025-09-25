@@ -8,9 +8,9 @@ data class OrderItemResponse @QueryProjection constructor(
     val id: UUID,
     val itemId: Int,
     val itemName: String,
-    val itemPrice: Int,
+    val itemPrice: Long,
     val orderCount: Int,
-    val totalMoney: Int,
+    val totalMoney: Long,
     val orderType: OrderType,
     val invCount: Int
 )
