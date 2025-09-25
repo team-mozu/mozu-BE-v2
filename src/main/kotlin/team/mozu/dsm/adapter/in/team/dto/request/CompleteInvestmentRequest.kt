@@ -13,13 +13,13 @@ data class CompleteInvestmentRequest(
     val itemName: String,
 
     @field:Min(value = 1, message = "주문 가격은 1원 이상이어야 합니다")
-    val itemPrice: Int,
+    val itemPrice: Long,
 
     @field:Min(value = 1, message = "주문 수량은 1개 이상이어야 합니다")
     val orderCount: Int,
 
     @field:Min(value = 1, message = "총 금액은 1원 이상이어야 합니다")
-    val totalMoney: Int,
+    val totalMoney: Long,
 
     @field:NotNull(message = "주문 타입은 필수입니다")
     val orderType: OrderType
