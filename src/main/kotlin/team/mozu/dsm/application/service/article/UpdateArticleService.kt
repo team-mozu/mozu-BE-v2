@@ -2,6 +2,7 @@ package team.mozu.dsm.application.service.article
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
@@ -25,7 +26,7 @@ class UpdateArticleService(
 ) : UpdateArticleUseCase {
 
     @Transactional
-    override fun update(id: UUID, request: ArticleRequest): ArticleResponse {
+    override fun update(id: UUID, request: ArticleRequest, image: MultipartFile): ArticleResponse {
         val organ = securityPort.getCurrentOrgan()
         val article = queryArticlePort.findById(id) ?: throw ArticleNotFoundException
 
@@ -33,7 +34,7 @@ class UpdateArticleService(
             throw CannotDeleteLessonException
         }
 
-        val newImageUrl: String? = request.articleImage
+        val newImageUrl: String? = image
             ?.takeIf { !it.isEmpty }
             ?.let { s3Port.upload(it) }
 

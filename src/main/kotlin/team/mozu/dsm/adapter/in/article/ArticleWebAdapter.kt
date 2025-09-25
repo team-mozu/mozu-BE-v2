@@ -4,6 +4,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
@@ -26,10 +27,10 @@ class ArticleWebAdapter(
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.CREATED)
     override fun create(
-        @ModelAttribute @Valid
-        request: ArticleRequest
+        @RequestPart(name = "request") @Valid request: ArticleRequest,
+        @RequestPart(name = "image") image: MultipartFile
     ): ArticleResponse {
-        return createArticleUseCase.create(request)
+        return createArticleUseCase.create(request, image)
     }
 
     @GetMapping("/{id}")
@@ -59,9 +60,9 @@ class ArticleWebAdapter(
     @ResponseStatus(HttpStatus.OK)
     override fun update(
         @PathVariable id: UUID,
-        @RequestBody @Valid
-        request: ArticleRequest
+        @RequestPart(name = "request") @Valid request: ArticleRequest,
+        @RequestPart(name = "image") image: MultipartFile
     ): ArticleResponse {
-        return updateArticleUseCase.update(id, request)
+        return updateArticleUseCase.update(id, request, image)
     }
 }

@@ -11,6 +11,8 @@ import jakarta.validation.Valid
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestPart
+import org.springframework.web.multipart.MultipartFile
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
@@ -22,7 +24,7 @@ interface ArticleApiDocument {
 
     @Operation(
         summary = "기사 생성",
-        description = "새로운 기사를 생성합니다."
+        description = "새로운 기사를 생성합니다. (이미지 업로드 포함)"
     )
     @ApiResponses(
         ApiResponse(
@@ -56,9 +58,18 @@ interface ArticleApiDocument {
             ]
         )
     )
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+        description = "기사 생성 요청 (멀티파트: JSON + 이미지 파일)",
+        required = true,
+        content = [
+            Content(
+                mediaType = MediaType.MULTIPART_FORM_DATA_VALUE
+            )
+        ]
+    )
     fun create(
-        @RequestBody @Valid
-        request: ArticleRequest
+        @RequestPart(name = "request") @Valid request: ArticleRequest,
+        @RequestPart(name = "image") image: MultipartFile
     ): ArticleResponse
 
     @Operation(
@@ -166,7 +177,7 @@ interface ArticleApiDocument {
 
     @Operation(
         summary = "기사 수정",
-        description = "지정된 ID의 기사 정보를 수정합니다."
+        description = "지정된 ID의 기사 정보를 수정합니다. (JSON + 이미지 업로드)"
     )
     @ApiResponses(
         ApiResponse(
@@ -210,9 +221,18 @@ interface ArticleApiDocument {
             ]
         )
     )
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+        description = "기사 수정 요청 (multipart/form-data: JSON + 이미지 파일)",
+        required = true,
+        content = [
+            Content(
+                mediaType = MediaType.MULTIPART_FORM_DATA_VALUE
+            )
+        ]
+    )
     fun update(
         @PathVariable id: UUID,
-        @RequestBody @Valid
-        request: ArticleRequest
+        @RequestPart(name = "request") @Valid request: ArticleRequest,
+        @RequestPart(name = "image") image: MultipartFile
     ): ArticleResponse
 }
