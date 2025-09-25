@@ -12,6 +12,7 @@ import team.mozu.dsm.application.port.out.article.CommandArticlePort
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.s3.S3Port
+import team.mozu.dsm.domain.article.model.Article
 import java.time.LocalDateTime
 import java.util.*
 
@@ -27,7 +28,7 @@ class UpdateArticleService(
     @Transactional
     override fun update(id: UUID, request: ArticleRequest): ArticleResponse {
         val organ = securityPort.getCurrentOrgan()
-        val article = queryArticlePort.findById(id) ?: throw ArticleNotFoundException
+        val article: Article = queryArticlePort.findById(id) ?: throw ArticleNotFoundException
 
         if (article.organId != organ.id) {
             throw CannotDeleteLessonException
@@ -37,14 +38,7 @@ class UpdateArticleService(
             ?.takeIf { !it.isEmpty }
             ?.let { s3Port.upload(it) }
 
-        val updated = article.copy(
-            articleName = request.articleName,
-            articleDesc = request.articleDesc,
-            articleImage = newImageUrl ?: article.articleImage,
-            updatedAt = LocalDateTime.now()
-        )
-
-        val saved = commandArticlePort.save(updated)
-        return articleMapper.toResponse(saved)
+        val saveArticle = commandArticlePort.save(article.updateArticle(request, newImageUrl))
+        return articleMapper.toResponse(saveArticle)
     }
 }

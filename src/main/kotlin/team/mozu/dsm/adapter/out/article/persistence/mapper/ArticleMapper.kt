@@ -28,6 +28,10 @@ abstract class ArticleMapper {
             articleDesc = model.articleDesc,
             articleImage = model.articleImage,
             isDeleted = model.isDeleted
-        )
+        ).apply {
+            this.id = model.id
+            this.createdAt = model.createdAt
+            this.updatedAt = model.updatedAt
+        }
     }
 }
