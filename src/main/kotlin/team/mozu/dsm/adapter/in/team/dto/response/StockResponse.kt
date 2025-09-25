@@ -11,6 +11,6 @@ data class StockResponse(
     val totalMoney: Long,
     val nowMoney: Long,
     val valuationMoney: Long,
-    val valProfit: Int,
+    val valProfit: Long,
     val profitNum: Double
 )

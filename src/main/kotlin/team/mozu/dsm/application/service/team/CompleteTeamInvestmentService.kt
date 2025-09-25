@@ -295,7 +295,7 @@ class CompleteTeamInvestmentService(
                             // === 매도 주식 처리 ===
                             totalBuyCount == 0 && totalSellCount > 0 -> {
                                 val sellRatio = totalSellCount.toDouble() / currentStock.quantity.toDouble()
-                                val newBuyMoney = (currentStock.buyMoney * (1.0 - sellRatio)).toInt()
+                                val newBuyMoney = (currentStock.buyMoney * (1.0 - sellRatio)).toLong()
 
                                 Pair(currentStock.avgPurchasePrice, newBuyMoney)
                             }
@@ -303,7 +303,7 @@ class CompleteTeamInvestmentService(
                             // === 매수 & 매도 주식 처리 ===
                             totalBuyCount > 0 && totalSellCount > 0 -> {
                                 val sellRatio = totalSellCount.toDouble() / currentStock.quantity.toDouble()
-                                val buyMoneyAfterSell = (currentStock.buyMoney * (1.0 - sellRatio)).toInt()
+                                val buyMoneyAfterSell = (currentStock.buyMoney * (1.0 - sellRatio)).toLong()
                                 val quantityAfterSell = currentStock.quantity - totalSellCount
 
                                 val currentTotalValue = currentStock.avgPurchasePrice * quantityAfterSell

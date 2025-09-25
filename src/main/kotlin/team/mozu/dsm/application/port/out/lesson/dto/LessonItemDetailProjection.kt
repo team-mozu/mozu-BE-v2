@@ -3,12 +3,12 @@ package team.mozu.dsm.application.port.out.lesson.dto
 import com.querydsl.core.annotations.QueryProjection
 
 data class LessonItemDetailProjection @QueryProjection constructor(
-    val preMoney: Int,
-    val curMoney: Int,
-    val itemCurrentMoney: Int,
-    val itemRound1Money: Int,
-    val itemRound2Money: Int,
-    val itemRound3Money: Int,
-    val itemRound4Money: Int?,
-    val itemRound5Money: Int?
+    val preMoney: Long,
+    val curMoney: Long,
+    val itemCurrentMoney: Long,
+    val itemRound1Money: Long,
+    val itemRound2Money: Long,
+    val itemRound3Money: Long,
+    val itemRound4Money: Long?,
+    val itemRound5Money: Long?
 )

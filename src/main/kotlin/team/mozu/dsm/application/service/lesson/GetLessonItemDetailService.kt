@@ -36,12 +36,12 @@ class GetLessonItemDetailService(
         )
         val moneyList = itemMoneyList.take(lesson.curInvRound)
 
-        val profitMoney = if (lessonItem.preMoney != 0) {
+        val profitMoney = if (lessonItem.preMoney != 0L) {
             lessonItem.curMoney - lessonItem.preMoney
         } else {
             0
         }
-        val profitNum = if (lessonItem.preMoney != 0) {
+        val profitNum = if (lessonItem.preMoney != 0L) {
             ((profitMoney.toDouble() * 100 / lessonItem.preMoney) * 100).roundToInt() / 100.0
         } else {
             0.0

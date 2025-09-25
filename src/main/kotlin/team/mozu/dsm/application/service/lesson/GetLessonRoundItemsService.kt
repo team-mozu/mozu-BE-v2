@@ -23,12 +23,12 @@ class GetLessonRoundItemsService(
 
         return lessonItems.map { item ->
             val nowMoney = item.curMoney
-            val profitMoney = if (item.preMoney != 0) {
+            val profitMoney = if (item.preMoney != 0L) {
                 item.curMoney - item.preMoney
             } else {
                 0
             }
-            val profitNum = if (item.preMoney != 0) {
+            val profitNum = if (item.preMoney != 0L) {
                 ((profitMoney.toDouble() * 100 / item.preMoney) * 100).roundToInt() / 100.0
             } else {
                 0.0

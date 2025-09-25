@@ -8,7 +8,7 @@ data class TeamResultResponse(
     val baseMoney: Long,
     val totalMoney: Long,
     val invRound: Int,
-    val valProfit: Int,
+    val valProfit: Long,
     val profitNum: Double,
     val orderCount: Int
 )

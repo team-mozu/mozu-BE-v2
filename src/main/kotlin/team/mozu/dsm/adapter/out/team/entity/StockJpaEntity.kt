@@ -26,7 +26,7 @@ class StockJpaEntity(
     var buyMoney: Long,
 
     @Column(nullable = false)
-    var valProfit: Int,
+    var valProfit: Long,
 
     @Column(nullable = false)
     var profitNum: Double,

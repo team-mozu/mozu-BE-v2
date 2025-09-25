@@ -10,6 +10,6 @@ data class TeamDetailResponse(
     val cashMoney: Long,
     val valuationMoney: Long,
     val curInvRound: Int,
-    val valProfit: Int,
+    val valProfit: Long,
     val profitNum: Double
 )

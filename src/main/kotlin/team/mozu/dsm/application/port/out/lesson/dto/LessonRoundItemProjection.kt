@@ -7,6 +7,6 @@ data class LessonRoundItemProjection @QueryProjection constructor(
     val itemId: Int,
     val itemName: String,
     val itemLogo: String?,
-    val preMoney: Int,
-    val curMoney: Int
+    val preMoney: Long,
+    val curMoney: Long
 )
