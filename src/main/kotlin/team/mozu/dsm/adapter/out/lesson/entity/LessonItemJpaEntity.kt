@@ -29,18 +29,18 @@ class LessonItemJpaEntity(
     var item: ItemJpaEntity,
 
     @Column(nullable = false)
-    var currentMoney: Int,
+    var currentMoney: Long,
 
     @Column(nullable = false)
-    var round1Money: Int,
+    var round1Money: Long,
 
     @Column(nullable = false)
-    var round2Money: Int,
+    var round2Money: Long,
 
     @Column(nullable = false)
-    var round3Money: Int,
+    var round3Money: Long,
 
-    var round4Money: Int?,
+    var round4Money: Long?,
 
-    var round5Money: Int?
+    var round5Money: Long?
 )
