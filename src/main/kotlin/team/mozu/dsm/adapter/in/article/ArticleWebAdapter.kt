@@ -32,7 +32,7 @@ class ArticleWebAdapter(
         return createArticleUseCase.create(request)
     }
 
-    @GetMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @PathVariable id: UUID
