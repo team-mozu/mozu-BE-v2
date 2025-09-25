@@ -4,7 +4,7 @@ data class LessonRoundItemResponse(
     val itemId: Int,
     val itemName: String,
     val itemLogo: String?,
-    val nowMoney: Int,
-    val profitMoney: Int,
+    val nowMoney: Long,
+    val profitMoney: Long,
     val profitNum: Double
 )
