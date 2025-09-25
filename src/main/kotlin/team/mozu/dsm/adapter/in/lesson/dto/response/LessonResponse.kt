@@ -9,7 +9,7 @@ data class LessonResponse(
     val name: String,
     val maxInvRound: Int,
     val curInvRound: Int? = null,
-    val baseMoney: Int,
+    val baseMoney: Long,
     val lessonNum: String? = null,
     val isInProgress: Boolean,
     val isStarred: Boolean,
@@ -23,7 +23,7 @@ data class LessonResponse(
 data class LessonItemResponse(
     val itemId: Int,
     val itemName: String,
-    val money: List<Int>
+    val money: List<Long>
 )
 
 data class LessonArticleResponse(
