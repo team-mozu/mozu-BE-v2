@@ -6,6 +6,6 @@ data class TeamRankResponse(
     val id: UUID,
     val teamName: String?,
     val schoolName: String,
-    val totalMoney: Int,
+    val totalMoney: Long,
     val isMyTeam: Boolean
 )
