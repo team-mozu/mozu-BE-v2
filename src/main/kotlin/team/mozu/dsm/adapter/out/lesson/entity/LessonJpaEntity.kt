@@ -23,7 +23,7 @@ class LessonJpaEntity(
     var curInvRound: Int,
 
     @Column(nullable = false)
-    var baseMoney: Int,
+    var baseMoney: Long,
 
     @Column(unique = true, columnDefinition = "VARCHAR(10)")
     var lessonNum: String?,
