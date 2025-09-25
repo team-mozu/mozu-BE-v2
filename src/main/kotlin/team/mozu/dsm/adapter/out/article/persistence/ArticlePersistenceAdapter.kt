@@ -44,11 +44,9 @@ class ArticlePersistenceAdapter(
     override fun save(article: Article): Article {
         val organ = organRepository.findByIdOrNull(article.organId)
             ?: throw OrganNotFoundException
+        val saveArticle = articleRepository.save(articleMapper.toEntity(article, organ))
 
-        val entity = articleMapper.toEntity(article, organ)
-        val saved = articleRepository.save(entity)
-
-        return articleMapper.toModel(saved)
+        return articleMapper.toModel(saveArticle)
     }
 
     override fun delete(article: Article) {
