@@ -22,7 +22,7 @@ class ItemJpaEntity(
     @Column(nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int?,
+    var id: Int? = null,
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var itemName: String,
@@ -34,25 +34,25 @@ class ItemJpaEntity(
     var itemInfo: String,
 
     @Column(nullable = false)
-    var money: Int,
+    var money: Long,
 
     @Column(nullable = false)
-    var debt: Int,
+    var debt: Long,
 
     @Column(nullable = false)
-    var capital: Int,
+    var capital: Long,
 
     @Column(nullable = false)
-    var profit: Int,
+    var profit: Long,
 
     @Column(nullable = false)
-    var profitOg: Int,
+    var profitOg: Long,
 
     @Column(nullable = false)
-    var profitBenefit: Int,
+    var profitBenefit: Long,
 
     @Column(nullable = false)
-    var netProfit: Int,
+    var netProfit: Long,
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
