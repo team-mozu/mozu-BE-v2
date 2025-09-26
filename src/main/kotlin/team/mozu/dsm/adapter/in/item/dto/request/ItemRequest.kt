@@ -12,7 +12,7 @@ data class ItemRequest(
     val itemName: String,
 
     @field:NotBlank(message = "종목 설명은 필수 입력입니다.")
-    @field:Size(min = 1, max = 255, message = "종목 설명은 1~255자 이내로 입력해주세요.")
+    @field:Size(min = 1, max = 10000, message = "종목 설명은 1~255자 이내로 입력해주세요.")
     val itemInfo: String,
 
     val itemLogo: MultipartFile?,
