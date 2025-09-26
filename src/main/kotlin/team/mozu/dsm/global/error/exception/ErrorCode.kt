@@ -62,6 +62,7 @@ enum class ErrorCode(
 
     // article
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "Article Not Found"),
+    CANNOT_DELETE_ARTICLE(HttpStatus.FORBIDDEN, "Can't Delete Article"),
 
     // general
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
