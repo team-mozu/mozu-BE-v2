@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
+import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
@@ -60,7 +61,7 @@ class ArticleWebAdapter(
     override fun update(
         @PathVariable id: UUID,
         @ModelAttribute @Valid
-        request: ArticleRequest
+        request: UpdateArticleRequest
     ): ArticleResponse {
         return updateArticleUseCase.update(id, request)
     }

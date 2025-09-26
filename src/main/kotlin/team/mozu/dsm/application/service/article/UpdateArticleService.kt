@@ -3,6 +3,7 @@ package team.mozu.dsm.application.service.article
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
+import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
 import team.mozu.dsm.application.exception.article.ArticleNotFoundException
@@ -26,7 +27,7 @@ class UpdateArticleService(
 ) : UpdateArticleUseCase {
 
     @Transactional
-    override fun update(id: UUID, request: ArticleRequest): ArticleResponse {
+    override fun update(id: UUID, request: UpdateArticleRequest): ArticleResponse {
         val organ = securityPort.getCurrentOrgan()
         val article: Article = queryArticlePort.findById(id) ?: throw ArticleNotFoundException
 
