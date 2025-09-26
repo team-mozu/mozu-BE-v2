@@ -2,6 +2,7 @@ package team.mozu.dsm.adapter.`in`.article.dto.request
 
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
+import org.springframework.web.multipart.MultipartFile
 
 data class UpdateArticleRequest(
     @field:NotBlank(message = "기사 제목은 필수 입력입니다.")
@@ -12,5 +13,7 @@ data class UpdateArticleRequest(
     @field:Size(min = 1, max = 10_000, message = "기사 본문은 1~10000자 이내로 입력해주세요.")
     val articleDesc: String,
 
-    val articleImage: String?
+    val articleImage: MultipartFile?,
+
+    val articleImageUrl: String?
 )
