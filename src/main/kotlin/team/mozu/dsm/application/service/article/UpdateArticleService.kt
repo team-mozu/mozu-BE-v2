@@ -35,9 +35,7 @@ class UpdateArticleService(
             throw CannotDeleteLessonException
         }
 
-        val newImageUrl: String? = request.articleImage
-            ?.takeIf { !it.isEmpty }
-            ?.let { s3Port.upload(it) }
+        val newImageUrl: String? = request.articleImage ?: article.articleImage
 
         val saveArticle = commandArticlePort.save(article.updateArticle(request, newImageUrl))
         return articleMapper.toResponse(saveArticle)
