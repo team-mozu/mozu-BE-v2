@@ -40,29 +40,15 @@ class S3Adapter(
                 .contentLength(file.size)
                 .build()
 
-            println("=== S3 Upload Debug ===")
-            println("Bucket: $bucket")
-            println("Key: $key")
-            println("FileName: $fileName")
-            println("ContentType: ${file.contentType}")
-            println("Size: ${file.size}")
-            println("urlPrefix: $urlPrefix")
-            println("AWS_ACCESS_KEY_ID: ${System.getenv("AWS_ACCESS_KEY_ID")}")
-            println("AWS_SECRET_ACCESS_KEY: ${System.getenv("AWS_SECRET_ACCESS_KEY")?.take(5)}*****")
-            println("AWS_REGION: ${System.getenv("AWS_REGION")}")
-            println("========================")
-
             file.inputStream.use { input ->
                 s3Client.putObject(putReq, RequestBody.fromInputStream(input, file.size))
             }
 
             return urlPrefix.removeSuffix("/") + "/$key"
         } catch (e: Exception) {
-            e.printStackTrace() // 구체적인 예외 로그 확인
             throw FailedUploadException
         }
     }
-
 
     override fun delete(s3Url: String) {
         try {
