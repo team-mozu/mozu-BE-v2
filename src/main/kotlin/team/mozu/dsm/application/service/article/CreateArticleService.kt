@@ -30,7 +30,6 @@ class CreateArticleService(
             ?.let { s3Port.upload(it) }
 
         val article = Article(
-            id = UUID.randomUUID(),
             organId = organ.id!!,
             articleName = request.articleName,
             articleImage = imageUrl,

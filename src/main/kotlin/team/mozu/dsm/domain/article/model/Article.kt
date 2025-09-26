@@ -7,7 +7,7 @@ import java.util.UUID
 
 @Aggregate
 data class Article(
-    val id: UUID?,
+    val id: UUID? = null,
     val organId: UUID,
     val articleName: String,
     val articleImage: String?,
