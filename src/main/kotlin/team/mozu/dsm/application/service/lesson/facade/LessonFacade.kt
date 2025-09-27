@@ -64,7 +64,7 @@ class LessonFacade(
         // 각 LessonItemRequest의 money 리스트 길이를 검증
         // 초기 금액 + 각 투자 차수 금액이 모두 존재하지 않으면 예외 발생
         lessonItems.forEach { req ->
-            if (req.money.size != lessonRound + 1) {
+            if (req.money.size != lessonRound + 2) {
                 throw InsufficientLessonItemMoneyException
             }
         }
