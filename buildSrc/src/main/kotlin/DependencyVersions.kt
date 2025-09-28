@@ -6,4 +6,5 @@ object DependencyVersions {
     const val JAKARTA_PERSISTENCE = "3.1.0"
     const val JAKARTA_ANNOTATION = "2.1.1"
     const val SWAGGER = "2.8.13"
+    const val DOT_ENV = "4.0.0"
 }
