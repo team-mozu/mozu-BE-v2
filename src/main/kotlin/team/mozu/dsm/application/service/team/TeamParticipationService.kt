@@ -78,7 +78,7 @@ class TeamParticipationService(
                         schoolName = savedTeam.schoolName,
                         lessonNum = savedTeam.lessonNum
                     )
-                    publishToSseUseCase.publishTo("${lesson.id}:${organ.id}", "TEAM_PART_IN", eventData)
+                    publishToSseUseCase.publishTo("lesson-organ-sse:${lesson.id}:${organ.id}", "TEAM_PART_IN", eventData)
                 }
             }
         )

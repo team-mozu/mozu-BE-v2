@@ -129,7 +129,7 @@ class CompleteTeamInvestmentService(
                         valuationMoney = currentTotalValProfit,
                         profitNum = profitNum
                     )
-                    publishToSseUseCase.publishTo(organ.id.toString(), "TEAM_INV_END", eventData)
+                    publishToSseUseCase.publishTo("lesson-organ-sse:${lessonId}:${organ.id}", "TEAM_INV_END", eventData)
                 }
             }
         )
