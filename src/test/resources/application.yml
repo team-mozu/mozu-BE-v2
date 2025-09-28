@@ -1,0 +1,36 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+  sql:
+    init:
+      mode: never
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+
+jwt:
+  header: Authorization
+  prefix: Bearer
+  secret-key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  access-exp: 60
+  refresh-exp: 120
+  student-access-exp: 120
+
+cloud:
+  aws:
+    s3:
+      bucket: test
+      url-prefix: test
+    region:
+      static: ap-northeast-2
+    credentials:
+      access-key: test
+      secret-key: test

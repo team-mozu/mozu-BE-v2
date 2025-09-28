@@ -37,6 +37,9 @@ dependencies {
     // JUnit5 실행 런처
     testRuntimeOnly(Dependencies.JUNIT_PLATFORM_LAUNCHER)
 
+    // H2 데이터베이스 (테스트용)
+    testImplementation("com.h2database:h2")
+
     // 웹 관련
     implementation(Dependencies.SPRING_BOOT_STARTER_WEB)
 
