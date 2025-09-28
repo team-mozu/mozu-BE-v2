@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
+import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
@@ -40,7 +41,7 @@ class ItemWebAdapter(
     override fun update(
         @PathVariable id: Int,
         @ModelAttribute @Valid
-        request: ItemRequest
+        request: UpdateItemRequest
     ): ItemResponse {
         return updateItemUseCase.update(id, request)
     }

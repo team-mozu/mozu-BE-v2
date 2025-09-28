@@ -34,12 +34,25 @@ class UpdateArticleService(
         }
 
         val newImageUrl: String? = when {
+            // 1. 명시적 삭제: deleteImage = true 또는 articleImageUrl = ""
+            request.deleteImage || request.articleImageUrl == "" -> {
+                // 기존 이미지가 있다면 S3에서 삭제
+                article.articleImage?.let { s3Port.delete(it) }
+                null
+            }
+            // 2. 새 이미지 업로드: MultipartFile 객체 제공
             request.articleImage != null && !request.articleImage.isEmpty -> {
+                // 기존 이미지가 있다면 S3에서 삭제
+                article.articleImage?.let { s3Port.delete(it) }
                 s3Port.upload(request.articleImage)
             }
+            // 3. URL로 이미지 교체: articleImageUrl에 새 URL 제공
             !request.articleImageUrl.isNullOrBlank() -> {
+                // 기존 이미지가 있다면 S3에서 삭제
+                article.articleImage?.let { s3Port.delete(it) }
                 request.articleImageUrl
             }
+            // 4. 기존 이미지 유지: null (변경 없음)
             else -> article.articleImage
         }
 

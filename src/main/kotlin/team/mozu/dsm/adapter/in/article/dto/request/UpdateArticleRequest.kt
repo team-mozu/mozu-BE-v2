@@ -15,5 +15,7 @@ data class UpdateArticleRequest(
 
     val articleImage: MultipartFile?,
 
-    val articleImageUrl: String?
+    val articleImageUrl: String?,
+
+    val deleteImage: Boolean = false
 )

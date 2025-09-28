@@ -12,6 +12,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
+import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.global.error.ErrorResponse
@@ -110,7 +111,7 @@ interface ItemApiDocument {
     fun update(
         @PathVariable id: Int,
         @RequestBody @Valid
-        request: ItemRequest
+        request: UpdateItemRequest
     ): ItemResponse
 
     @Operation(

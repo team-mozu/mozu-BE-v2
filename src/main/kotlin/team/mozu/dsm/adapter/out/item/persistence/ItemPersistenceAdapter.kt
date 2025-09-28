@@ -44,8 +44,10 @@ class ItemPersistenceAdapter(
     override fun findAllByOrganId(organId: UUID): List<Item> {
         return jpaQueryFactory
             .selectFrom(itemJpaEntity)
-            .where(itemJpaEntity.organ.id.eq(organId)
-                .and(itemJpaEntity.isDeleted.eq(false)))
+            .where(
+                itemJpaEntity.organ.id.eq(organId)
+                    .and(itemJpaEntity.isDeleted.eq(false))
+            )
             .fetch()
             .map { itemMapper.toModel(it) }
     }

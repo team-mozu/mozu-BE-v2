@@ -2,7 +2,7 @@ package team.mozu.dsm.application.service.item
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
+import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
@@ -25,7 +25,7 @@ class UpdateItemService(
 ) : UpdateItemUseCase {
 
     @Transactional
-    override fun update(id: Int, request: ItemRequest): ItemResponse {
+    override fun update(id: Int, request: UpdateItemRequest): ItemResponse {
         val organ = securityPort.getCurrentOrgan()
         val item = queryItemPort.findById(id) ?: throw ItemNotFoundException
 
@@ -33,14 +33,33 @@ class UpdateItemService(
             throw CannotDeleteLessonException
         }
 
-        val newLogoUrl: String? = request.itemLogo
-            ?.takeIf { !it.isEmpty }
-            ?.let { s3Port.upload(it) }
+        val newLogoUrl: String? = when {
+            // 1. 명시적 삭제: deleteLogo = true 또는 itemLogoUrl = ""
+            request.deleteLogo || request.itemLogoUrl == "" -> {
+                // 기존 로고가 있다면 S3에서 삭제
+                item.itemLogo?.let { s3Port.delete(it) }
+                null
+            }
+            // 2. 새 로고 업로드: MultipartFile 객체 제공
+            request.itemLogo != null && !request.itemLogo.isEmpty -> {
+                // 기존 로고가 있다면 S3에서 삭제
+                item.itemLogo?.let { s3Port.delete(it) }
+                s3Port.upload(request.itemLogo)
+            }
+            // 3. URL로 로고 교체: itemLogoUrl에 새 URL 제공
+            !request.itemLogoUrl.isNullOrBlank() -> {
+                // 기존 로고가 있다면 S3에서 삭제
+                item.itemLogo?.let { s3Port.delete(it) }
+                request.itemLogoUrl
+            }
+            // 4. 기존 로고 유지: null (변경 없음)
+            else -> item.itemLogo
+        }
 
         val updated = item.copy(
             itemName = request.itemName,
             itemInfo = request.itemInfo,
-            itemLogo = newLogoUrl ?: item.itemLogo,
+            itemLogo = newLogoUrl,
             money = request.money,
             debt = request.debt,
             capital = request.capital,
