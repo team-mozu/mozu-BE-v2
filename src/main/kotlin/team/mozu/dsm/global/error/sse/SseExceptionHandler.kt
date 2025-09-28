@@ -21,12 +21,14 @@ class SseExceptionHandler(
             is IOException -> {
                 log.warn("SSE IOException: clientId=$clientId, msg=${exception.message}")
                 runCatching { emitter.completeWithError(exception) }
+                    .onFailure { log.error("Failed to complete emitter with error for clientId=$clientId", it) }
                 sseEmitterRepository.delete(clientId)
                 throw SseConnectionClosedException
             }
             is IllegalStateException -> {
                 log.warn("SSE IllegalState: clientId=$clientId, msg=${exception.message}")
                 runCatching { emitter.completeWithError(exception) }
+                    .onFailure { log.error("Failed to complete emitter with error for clientId=$clientId", it) }
                 sseEmitterRepository.delete(clientId)
                 throw InvalidSseStateException
             }
@@ -37,6 +39,7 @@ class SseExceptionHandler(
             else -> {
                 log.error("Unknown error: clientId=$clientId", exception)
                 runCatching { emitter.completeWithError(exception) }
+                    .onFailure { log.error("Failed to complete emitter with error for clientId=$clientId", it) }
                 sseEmitterRepository.delete(clientId)
                 throw UnknownSseErrorException
             }
