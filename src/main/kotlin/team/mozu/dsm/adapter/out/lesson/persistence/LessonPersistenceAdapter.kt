@@ -53,7 +53,10 @@ class LessonPersistenceAdapter(
                     lessonJpaEntity.createdAt
                 )
             ).from(lessonJpaEntity)
-            .where(lessonJpaEntity.organ.id.eq(organId))
+            .where(
+                lessonJpaEntity.organ.id.eq(organId)
+                    .and(lessonJpaEntity.isDeleted.eq(false))
+            )
             .fetch()
     }
 
