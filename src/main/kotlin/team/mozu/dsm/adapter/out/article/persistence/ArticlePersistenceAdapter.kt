@@ -40,6 +40,17 @@ class ArticlePersistenceAdapter(
             .map { articleMapper.toModel(it) }
     }
 
+    override fun findAllByOrganId(organId: UUID): List<Article> {
+        return jpaQueryFactory
+            .selectFrom(articleJpaEntity)
+            .where(
+                articleJpaEntity.organ.id.eq(organId)
+                    .and(articleJpaEntity.isDeleted.eq(false))
+            )
+            .fetch()
+            .map { articleMapper.toModel(it) }
+    }
+
     //--Command--//
     override fun save(article: Article): Article {
         val organ = organRepository.findByIdOrNull(article.organId)

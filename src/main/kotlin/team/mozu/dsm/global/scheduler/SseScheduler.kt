@@ -23,7 +23,7 @@ class SseScheduler(
     fun cleanupDeadConnections() {
         val emitters = sseEmitterRepository.getAll().toMap()
         var cleanedCount = 0
-        
+
         emitters.forEach { (clientId, emitter) ->
             try {
                 // 빈 이벤트로 연결 상태 확인
@@ -34,7 +34,7 @@ class SseScheduler(
                 cleanedCount++
             }
         }
-        
+
         if (cleanedCount > 0) {
             log.info("Cleaned up $cleanedCount dead SSE connections")
         }

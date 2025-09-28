@@ -12,4 +12,6 @@ interface QueryArticlePort {
     fun findById(id: UUID): Article?
 
     fun findAll(): List<Article>
+
+    fun findAllByOrganId(organId: UUID): List<Article>
 }

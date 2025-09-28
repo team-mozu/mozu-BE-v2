@@ -11,6 +11,7 @@ import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.out.item.CommandItemPort
 import team.mozu.dsm.application.port.out.item.QueryItemPort
 import team.mozu.dsm.domain.item.model.Item
+import java.util.UUID
 
 @Component
 class ItemPersistenceAdapter(
@@ -37,6 +38,15 @@ class ItemPersistenceAdapter(
 
     override fun findAll(): List<Item> {
         return itemRepository.findAll()
+            .map { itemMapper.toModel(it) }
+    }
+
+    override fun findAllByOrganId(organId: UUID): List<Item> {
+        return jpaQueryFactory
+            .selectFrom(itemJpaEntity)
+            .where(itemJpaEntity.organ.id.eq(organId)
+                .and(itemJpaEntity.isDeleted.eq(false)))
+            .fetch()
             .map { itemMapper.toModel(it) }
     }
 

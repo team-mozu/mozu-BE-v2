@@ -11,7 +11,6 @@ import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import java.util.*
 
 @Service
-
 class ConnectTeamSSEService(
     private val subscribeSsePort: SubscribeSsePort,
     private val queryTeamPort: QueryTeamPort,
