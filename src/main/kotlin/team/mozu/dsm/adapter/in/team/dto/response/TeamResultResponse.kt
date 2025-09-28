@@ -9,6 +9,6 @@ data class TeamResultResponse(
     val totalMoney: Long,
     val invRound: Int,
     val valProfit: Long,
-    val profitNum: Double,
+    val profitNum: String,
     val orderCount: Int
 )

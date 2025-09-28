@@ -47,13 +47,18 @@ class GetLessonItemDetailService(
             0.0
         }
 
+        val formattedProfitNum = when {
+            profitNum > 0 -> "+${profitNum}%"
+            else -> "${profitNum}%"
+        }
+
         return LessonItemDetailResponse(
             itemId = item.id,
             itemName = item.itemName,
             itemLogo = item.itemLogo,
             nowMoney = lessonItem.curMoney,
             profitMoney = profitMoney,
-            profitNum = profitNum,
+            profitNum = formattedProfitNum,
             moneyList = moneyList,
             itemInfo = item.itemInfo,
             money = item.money,

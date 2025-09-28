@@ -6,5 +6,5 @@ data class LessonRoundItemResponse(
     val itemLogo: String?,
     val nowMoney: Long,
     val profitMoney: Long,
-    val profitNum: Double
+    val profitNum: String
 )

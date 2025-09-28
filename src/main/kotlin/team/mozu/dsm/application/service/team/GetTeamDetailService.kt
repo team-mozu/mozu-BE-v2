@@ -54,6 +54,11 @@ class GetTeamDetailService(
             0.0
         }
 
+        val formattedProfitNum = when {
+            profitNum > 0 -> "+%.2f%%".format(profitNum)
+            else -> "%.2f%%".format(profitNum)
+        }
+
         return TeamDetailResponse(
             id = teamId,
             teamName = team.teamName,
@@ -63,7 +68,7 @@ class GetTeamDetailService(
             valuationMoney = team.valuationMoney,
             curInvRound = currentRound,
             valProfit = currentTotalValProfit,
-            profitNum = profitNum
+            profitNum = formattedProfitNum
         )
     }
 }
