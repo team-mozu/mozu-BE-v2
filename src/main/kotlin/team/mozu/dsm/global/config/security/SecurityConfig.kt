@@ -56,7 +56,6 @@ class SecurityConfig(
         return source
     }
 
-
     @Bean
     fun configure(http: HttpSecurity): SecurityFilterChain {
         http.csrf(AbstractHttpConfigurer<*, *>::disable)
@@ -75,7 +74,6 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
                     .requestMatchers(HttpMethod.GET, "/organ/*").permitAll()
                     .requestMatchers(HttpMethod.GET, "/organ").permitAll()
-
                     // team
                     .requestMatchers(HttpMethod.POST, "/team/participate").permitAll()
                     .requestMatchers(HttpMethod.POST, "/team/end").hasRole("STUDENT")
@@ -85,18 +83,15 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.GET, "/team/result").hasRole("STUDENT")
                     .requestMatchers(HttpMethod.GET, "/team/ranks").hasRole("STUDENT")
                     .requestMatchers(HttpMethod.GET, "/team/sse").hasRole("STUDENT")
-
                     // lesson
                     .requestMatchers(HttpMethod.GET, "/lesson/team/items").hasRole("STUDENT")
                     .requestMatchers(HttpMethod.GET, "/lesson/team/articles").hasRole("STUDENT")
                     .requestMatchers(HttpMethod.GET, "/lesson/team/item/*").hasRole("STUDENT")
-
                     // swagger
                     .requestMatchers("/swagger-ui/**").permitAll()
                     .requestMatchers("/v3/api-docs/**").permitAll()
                     .requestMatchers("/swagger-resources/**").permitAll()
                     .requestMatchers("/webjars/**").permitAll()
-
                     // 나머지
                     .anyRequest().authenticated()
             }

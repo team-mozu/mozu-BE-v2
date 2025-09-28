@@ -7,7 +7,6 @@ import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
 import team.mozu.dsm.application.exception.article.ArticleNotFoundException
 import team.mozu.dsm.application.exception.article.CannotDeleteArticleException
-import team.mozu.dsm.application.exception.lesson.CannotDeleteLessonException
 import team.mozu.dsm.application.port.`in`.article.UpdateArticleUseCase
 import team.mozu.dsm.application.port.out.article.CommandArticlePort
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
