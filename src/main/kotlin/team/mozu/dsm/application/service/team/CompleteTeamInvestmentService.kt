@@ -191,7 +191,7 @@ class CompleteTeamInvestmentService(
         val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(lessonId, itemIds)
             .associateBy { it.lessonItemId.itemId }
 
-        val previousInv = lesson.curInvRound - 1
+        val previousInv = (lesson.curInvRound - 1).coerceAtLeast(0)
 
         val stocksToSave = mutableListOf<Stock>()
         val stockIdsToDelete = mutableListOf<UUID>()

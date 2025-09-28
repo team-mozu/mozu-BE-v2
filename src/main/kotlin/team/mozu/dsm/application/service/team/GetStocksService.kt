@@ -37,7 +37,7 @@ class GetStocksService(
                 .distinct()
         ).associateBy { it.lessonItemId.itemId }
 
-        val previousInv = lesson.curInvRound - 1
+        val previousInv = (lesson.curInvRound - 1).coerceAtLeast(0)
 
         return validStocks.map { stock ->
             val lessonItem = lessonItemMap[stock.itemId]
