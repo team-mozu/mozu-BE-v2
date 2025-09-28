@@ -54,6 +54,11 @@ class GetTeamResultService(
             0.0
         }
 
+        val formattedProfitNum = when {
+            profitNum > 0 -> "+%.2f%%".format(profitNum)
+            else -> "%.2f%%".format(profitNum)
+        }
+
         return TeamResultResponse(
             id = team.id!!,
             teamName = team.teamName,
@@ -61,7 +66,7 @@ class GetTeamResultService(
             totalMoney = team.totalMoney,
             invRound = lesson.curInvRound,
             valProfit = valProfit,
-            profitNum = profitNum,
+            profitNum = formattedProfitNum,
             orderCount = queryOrderItemPort.countOrderItemsByTeamId(teamId)
         )
     }

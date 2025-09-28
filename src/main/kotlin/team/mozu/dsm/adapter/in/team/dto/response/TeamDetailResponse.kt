@@ -11,5 +11,5 @@ data class TeamDetailResponse(
     val valuationMoney: Long,
     val curInvRound: Int,
     val valProfit: Long,
-    val profitNum: Double
+    val profitNum: String
 )

@@ -6,7 +6,7 @@ data class LessonItemDetailResponse(
     val itemLogo: String?,
     val nowMoney: Long,
     val profitMoney: Long,
-    val profitNum: Double,
+    val profitNum: String,
     val moneyList: List<Long>,
     val itemInfo: String,
     val money: Long,

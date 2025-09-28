@@ -35,7 +35,7 @@ class UpdateItemService(
 
         val newLogoUrl: String? = request.itemLogo
             ?.takeIf { !it.isEmpty }
-            ?.let { s3Port.upload(it) }   
+            ?.let { s3Port.upload(it) }
 
         val updated = item.copy(
             itemName = request.itemName,

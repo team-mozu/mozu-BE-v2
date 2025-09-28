@@ -34,13 +34,18 @@ class GetLessonRoundItemsService(
                 0.0
             }
 
+            val formattedProfitNum = when {
+                profitNum > 0 -> "+${profitNum}%"
+                else -> "${profitNum}%"
+            }
+
             LessonRoundItemResponse(
                 itemId = item.itemId,
                 itemName = item.itemName,
                 itemLogo = item.itemLogo,
                 nowMoney = nowMoney,
                 profitMoney = profitMoney,
-                profitNum = profitNum
+                profitNum = formattedProfitNum
             )
         }
     }
