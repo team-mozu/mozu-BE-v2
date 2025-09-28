@@ -27,7 +27,13 @@ class ItemPersistenceAdapter(
     }
 
     override fun findAllByIds(ids: Set<Int>): List<Item> {
-        return itemRepository.findAllById(ids)
+        return jpaQueryFactory
+            .selectFrom(itemJpaEntity)
+            .where(
+                itemJpaEntity.id.`in`(ids)
+                    .and(itemJpaEntity.isDeleted.eq(false))
+            )
+            .fetch()
             .map { itemMapper.toModel(it) }
     }
 
