@@ -47,10 +47,7 @@ class GetLessonItemDetailService(
             0.0
         }
 
-        val formattedProfitNum = when {
-            profitNum > 0 -> "+${profitNum}%"
-            else -> "${profitNum}%"
-        }
+        val formattedProfitNum = if (profitNum > 0) "+$profitNum%" else "$profitNum%"
 
         return LessonItemDetailResponse(
             itemId = item.id,
