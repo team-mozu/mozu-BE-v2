@@ -14,6 +14,7 @@ import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.request.CreateOrganRequest
 import team.mozu.dsm.adapter.`in`.organ.dto.request.LoginOrganRequest
 import team.mozu.dsm.adapter.`in`.organ.dto.request.ReissueOrganTokenRequest
+import team.mozu.dsm.adapter.`in`.organ.dto.response.MyOrganResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganListResponse
 import team.mozu.dsm.domain.organ.model.Organ
@@ -22,6 +23,34 @@ import java.util.*
 
 @Tag(name = "Organ", description = "기관 관련 API")
 interface OrganApiDocument {
+
+    @Operation(
+        summary = "자신의 기관 ID 조회",
+        description = "현재 인증된 사용자의 기관 ID를 조회합니다."
+    )
+    @ApiResponses(
+        ApiResponse(
+            responseCode = "200",
+            description = "조회 성공",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = MyOrganResponse::class)
+                )
+            ]
+        ),
+        ApiResponse(
+            responseCode = "401",
+            description = "인증 실패",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
+        )
+    )
+    fun getMyOrgan(): MyOrganResponse
 
     @Operation(
         summary = "[내부] 기관 생성",
