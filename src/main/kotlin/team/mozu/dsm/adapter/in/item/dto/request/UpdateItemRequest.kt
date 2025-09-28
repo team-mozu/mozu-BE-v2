@@ -19,8 +19,6 @@ data class UpdateItemRequest(
 
     val itemLogoUrl: String?,
 
-    val deleteLogo: Boolean = false,
-
     @field:Min(0, message = "자산은 0원 이상이어야 합니다.")
     @field:Max(999_999_999_999_999, message = "자산은 1000조 미만으로 입력해야 합니다.")
     val money: Long,
