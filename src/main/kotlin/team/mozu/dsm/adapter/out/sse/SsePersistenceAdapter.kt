@@ -14,7 +14,7 @@ class SsePersistenceAdapter(
 ) : SubscribeSsePort, PublishSsePort {
 
     companion object {
-        private const val DEFAULT_TIMEOUT = 5L * 1000 * 60
+        private const val DEFAULT_TIMEOUT = 60L * 1000 * 60
     }
 
     //--Subscribe--//
