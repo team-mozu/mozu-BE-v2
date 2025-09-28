@@ -10,6 +10,7 @@ data class TeamDetailResponse(
     val cashMoney: Long,
     val valuationMoney: Long,
     val curInvRound: Int,
+    val maxInvRound: Int,
     val valProfit: Long,
     val profitNum: String
 )

@@ -67,6 +67,7 @@ class GetTeamDetailService(
             cashMoney = team.cashMoney,
             valuationMoney = team.valuationMoney,
             curInvRound = currentRound,
+            maxInvRound = lesson.maxInvRound,
             valProfit = currentTotalValProfit,
             profitNum = formattedProfitNum
         )
