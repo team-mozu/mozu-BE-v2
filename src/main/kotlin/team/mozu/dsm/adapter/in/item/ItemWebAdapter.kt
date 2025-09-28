@@ -39,7 +39,7 @@ class ItemWebAdapter(
     @ResponseStatus(HttpStatus.OK)
     override fun update(
         @PathVariable id: Int,
-        @RequestBody @Valid
+        @ModelAttribute @Valid
         request: ItemRequest
     ): ItemResponse {
         return updateItemUseCase.update(id, request)
