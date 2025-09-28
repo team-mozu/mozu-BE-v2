@@ -53,7 +53,7 @@ class NextLessonService(
                             teamName = team.teamName,
                             schoolName = team.schoolName
                         )
-                        publishSsePort.publishTo(team.id.toString(), NEXT_LESSON_EVENT, eventData)
+                        publishSsePort.publishTo("team:${team.id}", NEXT_LESSON_EVENT, eventData)
                     }
                 }
             }
