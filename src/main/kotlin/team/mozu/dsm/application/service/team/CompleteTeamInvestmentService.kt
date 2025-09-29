@@ -129,7 +129,7 @@ class CompleteTeamInvestmentService(
                         valuationMoney = currentTotalValProfit,
                         profitNum = profitNum
                     )
-                    publishToSseUseCase.publishTo(organ.id.toString(), "TEAM_INV_END", eventData)
+                    publishToSseUseCase.publishTo("lesson-organ-sse:$lessonId:${organ.id}", "TEAM_INV_END", eventData)
                 }
             }
         )
@@ -191,7 +191,7 @@ class CompleteTeamInvestmentService(
         val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(lessonId, itemIds)
             .associateBy { it.lessonItemId.itemId }
 
-        val previousInv = lesson.curInvRound - 1
+        val previousInv = (lesson.curInvRound - 1).coerceAtLeast(0)
 
         val stocksToSave = mutableListOf<Stock>()
         val stockIdsToDelete = mutableListOf<UUID>()

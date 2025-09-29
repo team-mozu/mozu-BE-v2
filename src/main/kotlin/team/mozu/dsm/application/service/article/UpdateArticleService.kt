@@ -34,13 +34,26 @@ class UpdateArticleService(
         }
 
         val newImageUrl: String? = when {
+            // 1. 이미지 삭제: articleImageUrl = "" (빈 문자열)
+            request.articleImageUrl == "" -> {
+                // 기존 이미지가 있다면 S3에서 삭제
+                article.articleImage?.let { s3Port.delete(it) }
+                null
+            }
+            // 2. 새 이미지 업로드: File 객체
             request.articleImage != null && !request.articleImage.isEmpty -> {
+                // 기존 이미지가 있다면 S3에서 삭제
+                article.articleImage?.let { s3Port.delete(it) }
                 s3Port.upload(request.articleImage)
             }
-            !request.articleImageUrl.isNullOrBlank() -> {
+            // 3. 변경 없음: null (기존 이미지 유지)
+            request.articleImageUrl == null -> article.articleImage
+            // 4. URL로 이미지 교체: articleImageUrl에 새 URL 제공 (빈 문자열이 아닌 경우)
+            else -> {
+                // 기존 이미지가 있다면 S3에서 삭제
+                article.articleImage?.let { s3Port.delete(it) }
                 request.articleImageUrl
             }
-            else -> article.articleImage
         }
 
         val saveArticle = commandArticlePort.save(article.updateArticle(request, newImageUrl))

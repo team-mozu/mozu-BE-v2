@@ -53,7 +53,10 @@ class LessonPersistenceAdapter(
                     lessonJpaEntity.createdAt
                 )
             ).from(lessonJpaEntity)
-            .where(lessonJpaEntity.organ.id.eq(organId))
+            .where(
+                lessonJpaEntity.organ.id.eq(organId)
+                    .and(lessonJpaEntity.isDeleted.eq(false))
+            )
             .fetch()
     }
 
@@ -73,7 +76,7 @@ class LessonPersistenceAdapter(
             .update(lessonJpaEntity)
             .set(lessonJpaEntity.lessonNum, lessonNum)
             .set(lessonJpaEntity.isInProgress, true)
-            .set(lessonJpaEntity.curInvRound, 1)
+            .set(lessonJpaEntity.curInvRound, 0)
             .where(lessonJpaEntity.id.eq(id))
             .execute()
     }

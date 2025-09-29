@@ -24,7 +24,7 @@ class NextLessonService(
 ) : NextLessonUseCase {
 
     companion object {
-        private const val NEXT_LESSON_EVENT = "NEXT_LESSON"
+        private const val NEXT_LESSON_EVENT = "CLASS_NEXT_INV_START"
     }
 
     @Transactional
@@ -53,7 +53,7 @@ class NextLessonService(
                             teamName = team.teamName,
                             schoolName = team.schoolName
                         )
-                        publishSsePort.publishTo(team.id.toString(), NEXT_LESSON_EVENT, eventData)
+                        publishSsePort.publishTo("team-sse:${team.id}", NEXT_LESSON_EVENT, eventData)
                     }
                 }
             }

@@ -72,6 +72,7 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
                     .requestMatchers(HttpMethod.PATCH, "/organ/token/reissue").permitAll()
                     .requestMatchers(HttpMethod.POST, "/organ/login").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/organ/my").authenticated()
                     .requestMatchers(HttpMethod.GET, "/organ/*").permitAll()
                     .requestMatchers(HttpMethod.GET, "/organ").permitAll()
                     // team

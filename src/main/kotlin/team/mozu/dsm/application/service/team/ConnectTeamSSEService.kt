@@ -3,6 +3,7 @@ package team.mozu.dsm.application.service.team
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.sse.dto.SSEResponse
+import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.`in`.team.ConnectTeamSSEUseCase
 import team.mozu.dsm.application.port.out.sse.SubscribeSsePort
@@ -12,7 +13,8 @@ import java.util.*
 @Service
 class ConnectTeamSSEService(
     private val subscribeSsePort: SubscribeSsePort,
-    private val queryTeamPort: QueryTeamPort
+    private val queryTeamPort: QueryTeamPort,
+    private val sseEmitterRepository: SseEmitterRepository
 ) : ConnectTeamSSEUseCase {
 
     companion object {
@@ -22,7 +24,7 @@ class ConnectTeamSSEService(
     override fun connectTeamSSE(teamId: UUID): SseEmitter {
         val team = queryTeamPort.findById(teamId) ?: throw TeamNotFoundException
 
-        val clientId = "team:${team.id}"
+        val clientId = "team-sse:${team.id}"
         val emitter = subscribeSsePort.subscribe(clientId)
 
         try {
@@ -37,7 +39,9 @@ class ConnectTeamSSEService(
                     )
             )
         } catch (e: Exception) {
+            sseEmitterRepository.delete(clientId)
             emitter.completeWithError(e)
+            throw e
         }
 
         return emitter

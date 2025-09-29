@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import org.springframework.web.multipart.MultipartFile
 
-data class ItemRequest(
+data class UpdateItemRequest(
     @field:NotBlank(message = "종목 이름은 필수 입력입니다.")
     @field:Size(min = 1, max = 30, message = "종목 이름은 1~30자 이내로 입력해주세요.")
     val itemName: String,
@@ -16,6 +16,8 @@ data class ItemRequest(
     val itemInfo: String,
 
     val itemLogo: MultipartFile?,
+
+    val itemLogoUrl: String?,
 
     @field:Min(0, message = "자산은 0원 이상이어야 합니다.")
     @field:Max(999_999_999_999_999, message = "자산은 1000조 미만으로 입력해야 합니다.")

@@ -104,26 +104,31 @@ class LessonFacade(
     fun toLessonItemResponses(lessonItems: List<LessonItem>): List<LessonItemResponse> {
         // lessonItems에서 itemId만 추출하고 중복 제거
         val itemIds = lessonItems.map { it.lessonItemId.itemId }.toSet()
-        // DB에서 해당 itemId에 맞는 Item 엔티티를 조회 후, ID를 key로 매핑
+        // DB에서 해당 itemId에 맞는 Item 엔티티를 조회 후, ID를 key로 매핑 (삭제되지 않은 것만)
         val itemMap = itemPort.findAllByIds(itemIds).associateBy { it.id!! }
 
         // LessonItem 도메인을 LessonItemResponse DTO로 변환
-        // money 리스트는 1~3차 + nullable 4~5차 구성
-        return lessonItems.map { lessonItem ->
+        // 존재하지 않거나 삭제된 Item은 제외
+        return lessonItems.mapNotNull { lessonItem ->
             val item = itemMap[lessonItem.lessonItemId.itemId]
-                ?: throw ItemNotFoundException
-            LessonItemResponse(
-                itemId = item.id!!,
-                itemName = item.itemName,
-                money = listOf(
-                    lessonItem.currentMoney,
-                    lessonItem.round1Money,
-                    lessonItem.round2Money,
-                    lessonItem.round3Money
-                ).let { list ->
-                    listOfNotNull(*list.toTypedArray(), lessonItem.round4Money, lessonItem.round5Money)
-                }
-            )
+            if (item == null) {
+                // 존재하지 않는 Item은 로그를 남기고 제외
+                println("Warning: Item with ID ${lessonItem.lessonItemId.itemId} not found or deleted")
+                null
+            } else {
+                LessonItemResponse(
+                    itemId = item.id!!,
+                    itemName = item.itemName,
+                    money = listOf(
+                        lessonItem.currentMoney,
+                        lessonItem.round1Money,
+                        lessonItem.round2Money,
+                        lessonItem.round3Money
+                    ).let { list ->
+                        listOfNotNull(*list.toTypedArray(), lessonItem.round4Money, lessonItem.round5Money)
+                    }
+                )
+            }
         }
     }
 

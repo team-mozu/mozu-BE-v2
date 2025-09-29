@@ -77,6 +77,9 @@ dependencies {
 
     // Swagger
     implementation(Dependencies.SWAGGER)
+
+    // DotEnv
+    implementation(Dependencies.DOT_ENV)
 }
 
 kotlin {

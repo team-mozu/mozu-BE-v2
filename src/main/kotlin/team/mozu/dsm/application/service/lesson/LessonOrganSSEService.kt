@@ -3,6 +3,7 @@ package team.mozu.dsm.application.service.lesson
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.sse.dto.SSEResponse
+import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
 import team.mozu.dsm.application.exception.lesson.CannotLessonSSEConnectException
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
@@ -14,7 +15,8 @@ import java.util.UUID
 class LessonOrganSSEService(
     private val subscribeSsePort: SubscribeSsePort,
     private val lessonFacade: LessonFacade,
-    private val securityPort: SecurityPort
+    private val securityPort: SecurityPort,
+    private val sseEmitterRepository: SseEmitterRepository
 ) : LessonOrganSSEUseCase {
 
     companion object {
@@ -29,7 +31,7 @@ class LessonOrganSSEService(
             throw CannotLessonSSEConnectException
         }
 
-        val clientId = "${lesson.id}:${organ.id}"
+        val clientId = "lesson-organ-sse:${lesson.id}:${organ.id}"
         val emitter = subscribeSsePort.subscribe(clientId)
 
         try {
@@ -39,7 +41,9 @@ class LessonOrganSSEService(
                     .data(SSEResponse(CONNECTED_EVENT, "id ${lesson.id}의 수업 기관 클라이언트 SSE 연결되었습니다."))
             )
         } catch (e: Exception) {
+            sseEmitterRepository.delete(clientId)
             emitter.completeWithError(e)
+            throw e
         }
 
         return emitter

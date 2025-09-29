@@ -45,4 +45,8 @@ object Dependencies {
 
     // SWAGGER
     const val SWAGGER = "org.springdoc:springdoc-openapi-starter-webmvc-ui:${DependencyVersions.SWAGGER}"
+
+    // Dotenv
+    const val DOT_ENV = "me.paulschwarz:spring-dotenv:${DependencyVersions.DOT_ENV}"
+
 }

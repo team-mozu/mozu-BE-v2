@@ -1,6 +1,7 @@
 package team.mozu.dsm.application.port.out.item
 
 import team.mozu.dsm.domain.item.model.Item
+import java.util.UUID
 
 interface QueryItemPort {
 
@@ -11,4 +12,6 @@ interface QueryItemPort {
     fun findById(id: Int): Item?
 
     fun findAll(): List<Item>
+
+    fun findAllByOrganId(organId: UUID): List<Item>
 }
