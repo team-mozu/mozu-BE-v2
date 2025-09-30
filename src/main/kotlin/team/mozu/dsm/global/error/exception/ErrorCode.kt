@@ -41,7 +41,7 @@ enum class ErrorCode(
     LESSON_NUM_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Num Not Found"),
     LESSON_NOT_FOUND(HttpStatus.NOT_FOUND, "Lesson Not Found"),
     LESSON_NOT_IN_PROGRESS(HttpStatus.UNPROCESSABLE_ENTITY, "Lesson Not In Progress"),
-    LESSON_DELETED(HttpStatus.BAD_REQUEST, "Lesson Deleted"),
+    LESSON_DELETED(HttpStatus.GONE, "Lesson Deleted"),
     TEAM_NAME_REQUIRED(HttpStatus.BAD_REQUEST, "Team Name Required"),
     LESSON_ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "Lesson Item Not Found"),
     INVALID_LESSON_ROUND(HttpStatus.BAD_REQUEST, "Invalid Lesson Round"),

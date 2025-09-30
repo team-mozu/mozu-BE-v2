@@ -14,7 +14,7 @@ class SseScheduler(
 
     private val log = org.slf4j.LoggerFactory.getLogger(javaClass)
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = 1000)
     fun sendPing() {
         publishToAllSseUseCase.publishToAll("ping", "ping")
     }
