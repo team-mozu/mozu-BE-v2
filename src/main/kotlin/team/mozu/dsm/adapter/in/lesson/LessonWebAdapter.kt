@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.lesson.dto.request.LessonRequest
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonItemResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
@@ -33,12 +32,12 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
-import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemDetailUseCase
 import team.mozu.dsm.global.document.lesson.LessonApiDocument
 import team.mozu.dsm.global.security.auth.StudentPrincipal
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.util.UUID
 
 @RestController
@@ -55,7 +54,6 @@ class LessonWebAdapter(
     private val getLessonItemsUseCase: GetLessonItemsUseCase,
     private val getLessonArticlesUseCase: GetLessonArticlesUseCase,
     private val nextLessonUseCase: NextLessonUseCase,
-    private val lessonOrganSSEUseCase: LessonOrganSSEUseCase,
     private val getLessonRoundItemsUseCase: GetLessonRoundItemsUseCase,
     private val getLessonRoundArticlesUseCase: GetLessonRoundArticlesUseCase,
     private val getLessonItemDetailUseCase: GetLessonItemDetailUseCase
@@ -150,14 +148,6 @@ class LessonWebAdapter(
         nextLessonUseCase.next(lessonId)
     }
 
-    @GetMapping("/sse/{lesson-id}")
-    @ResponseStatus(HttpStatus.OK)
-    override fun sse(
-        @PathVariable("lesson-id") lessonId: UUID
-    ): SseEmitter {
-        return lessonOrganSSEUseCase.connect(lessonId)
-    }
-
     @GetMapping("/team/items")
     @ResponseStatus(HttpStatus.OK)
     override fun getLessonRoundItems(
@@ -181,5 +171,14 @@ class LessonWebAdapter(
         @PathVariable("item-id") itemId: Int
     ): LessonItemDetailResponse {
         return getLessonItemDetailUseCase.get(studentPrincipal.lessonNum, itemId)
+    }
+
+    @GetMapping("/sse/{lesson-id}")
+    @ResponseStatus(HttpStatus.OK)
+    override fun sse(
+        @PathVariable("lesson-id") lessonId: UUID
+    ): SseEmitter {
+        // TODO: Implement in task 5.4 - 관리자 SSE 및 제어 엔드포인트 구현
+        throw NotImplementedError("SSE endpoint will be implemented in task 5.4")
     }
 }

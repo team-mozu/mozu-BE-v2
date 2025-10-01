@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -455,7 +456,7 @@ interface TeamApiDocument {
 
     @Operation(
         summary = "팀 SSE 연결",
-        description = "팀 관련 실시간 이벤트를 수신하기 위한 SSE 연결을 설정합니다."
+        description = "팀 관련 실시간 이벤트를 수신하기 위한 SSE 연결을 설정합니다. JWT 토큰은 Authorization 헤더 또는 token 쿼리 파라미터로 제공할 수 있습니다."
     )
     @ApiResponses(
         ApiResponse(
@@ -465,7 +466,17 @@ interface TeamApiDocument {
         ),
         ApiResponse(
             responseCode = "401",
-            description = "인증 실패",
+            description = "인증 실패 - 토큰이 없거나 유효하지 않음",
+            content = [
+                Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = Schema(implementation = ErrorResponse::class)
+                )
+            ]
+        ),
+        ApiResponse(
+            responseCode = "403",
+            description = "팀 접근 권한 없음",
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -489,6 +500,10 @@ interface TeamApiDocument {
         produces = [MediaType.TEXT_EVENT_STREAM_VALUE]
     )
     fun connectTeamSSE(
-        @AuthenticationPrincipal principal: StudentPrincipal
+        @RequestParam("teamId") teamId: UUID,
+        @RequestParam(value = "lastEventId", required = false) lastEventId: String?,
+        @RequestParam(value = "reconnection", required = false, defaultValue = "false") isReconnection: Boolean,
+        @AuthenticationPrincipal principal: StudentPrincipal?,
+        request: jakarta.servlet.http.HttpServletRequest
     ): SseEmitter
 }
