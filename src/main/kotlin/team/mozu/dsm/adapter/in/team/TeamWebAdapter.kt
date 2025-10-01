@@ -1,5 +1,6 @@
 package team.mozu.dsm.adapter.`in`.team
 
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.team.dto.request.CompleteInvestmentRequest
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamRankResponse
@@ -22,15 +22,17 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.OrderItemResponse
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.team.GetHoldStockUseCase
-import team.mozu.dsm.application.port.`in`.team.ConnectTeamSSEUseCase
 import team.mozu.dsm.application.port.`in`.team.GetCurrentOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetStocksUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
 import team.mozu.dsm.application.port.`in`.team.GetOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamResultUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamRanksUseCase
+import team.mozu.dsm.application.port.`in`.team.TeamSseService
 import team.mozu.dsm.global.document.team.TeamApiDocument
 import team.mozu.dsm.global.security.auth.StudentPrincipal
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
+import org.springframework.web.bind.annotation.RequestParam
 import java.util.UUID
 
 @RestController
@@ -45,7 +47,7 @@ class TeamWebAdapter(
     private val getTeamResultUseCase: GetTeamResultUseCase,
     private val getHoldStockUseCase: GetHoldStockUseCase,
     private val getTeamRanksUseCase: GetTeamRanksUseCase,
-    private val connectTeamSSEUseCase: ConnectTeamSSEUseCase
+    private val teamSseService: TeamSseService
 ) : TeamApiDocument {
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
@@ -64,6 +66,19 @@ class TeamWebAdapter(
         @AuthenticationPrincipal principal: StudentPrincipal
     ) {
         teamInvestmentUseCase.completeInvestment(request, principal.lessonNum, principal.teamId)
+
+        // 투자 완료 후 SSE 알림 처리
+        val teamDetail = getTeamDetailUseCase.getTeamDetail(principal.lessonNum, principal.teamId)
+        val investmentData = team.mozu.dsm.adapter.`in`.team.dto.TeamInvestmentCompletedEventDTO(
+            teamId = principal.teamId,
+            teamName = teamDetail.teamName,
+            curInvRound = teamDetail.curInvRound,
+            totalMoney = teamDetail.totalMoney,
+            valuationMoney = teamDetail.valuationMoney,
+            profitNum = teamDetail.profitNum.toDoubleOrNull() ?: 0.0
+        )
+
+        teamSseService.notifyInvestmentComplete(principal.teamId, investmentData)
     }
 
     @GetMapping("/stocks")
@@ -125,8 +140,18 @@ class TeamWebAdapter(
     @GetMapping("/sse")
     @ResponseStatus(HttpStatus.OK)
     override fun connectTeamSSE(
-        @AuthenticationPrincipal principal: StudentPrincipal
+        @RequestParam("teamId") teamId: UUID,
+        @RequestParam(value = "lastEventId", required = false) lastEventId: String?,
+        @RequestParam(value = "reconnection", required = false, defaultValue = "false") isReconnection: Boolean,
+        @AuthenticationPrincipal principal: StudentPrincipal?,
+        request: jakarta.servlet.http.HttpServletRequest
     ): SseEmitter {
-        return connectTeamSSEUseCase.connectTeamSSE(principal.teamId)
+        // 기존 Spring Security 인증이 있는 경우 사용
+        if (principal != null) {
+            return teamSseService.connectTeamSSE(teamId, principal, lastEventId, isReconnection)
+        }
+
+        // 토큰 기반 인증 사용
+        return teamSseService.connectTeamSSEWithToken(teamId, request, lastEventId, isReconnection)
     }
 }

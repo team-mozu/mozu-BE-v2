@@ -2,9 +2,6 @@ package team.mozu.dsm.application.service.team
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.transaction.support.TransactionSynchronization
-import org.springframework.transaction.support.TransactionSynchronizationManager
-import team.mozu.dsm.adapter.`in`.team.dto.TeamInvestmentCompletedEventDTO
 import team.mozu.dsm.adapter.`in`.team.dto.request.CompleteInvestmentRequest
 import team.mozu.dsm.application.exception.item.InvalidItemException
 import team.mozu.dsm.application.exception.item.ItemDeletedException
@@ -16,7 +13,6 @@ import team.mozu.dsm.application.exception.team.InsufficientCashException
 import team.mozu.dsm.application.exception.team.InsufficientStockQuantityException
 import team.mozu.dsm.application.exception.team.StockNotOwnedException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
-import team.mozu.dsm.application.port.`in`.sse.PublishToSseUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
 import team.mozu.dsm.application.port.out.item.QueryItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
@@ -45,8 +41,7 @@ class CompleteTeamInvestmentService(
     private val queryOrganPort: QueryOrganPort,
     private val commandStockPort: CommandStockPort,
     private val commandTeamPort: CommandTeamPort,
-    private val queryItemPort: QueryItemPort,
-    private val publishToSseUseCase: PublishToSseUseCase
+    private val queryItemPort: QueryItemPort
 ) : CompleteTeamInvestmentUseCase {
 
     @Transactional
@@ -84,55 +79,6 @@ class CompleteTeamInvestmentService(
         updatePreviouslyTradedStocksProfit(teamId, lesson, requests.map { it.itemId })
 
         updateStocksAndTeam(requests, team)
-
-        TransactionSynchronizationManager.registerSynchronization(
-            object : TransactionSynchronization {
-                override fun afterCommit() {
-                    //트랜잭션 시작 시점의 오래된 값을 사용할 수 있어 재조회함
-                    val updatedTeam = queryTeamPort.findById(teamId)
-                    val updatedStocks = queryStockPort.findAllByTeamId(teamId)
-
-                    val currentRound = lesson.curInvRound
-
-                    val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
-                        lessonId,
-                        updatedStocks.map { it.itemId }.distinct()
-                    ).associateBy { it.lessonItemId.itemId }
-
-                    val totalBuyMoney = updatedStocks.sumOf { it.buyMoney }
-
-                    val currentTotalValProfit = updatedStocks.sumOf { stock ->
-                        val lessonItem = lessonItemMap[stock.itemId]
-
-                        val currentPrice = lessonItem?.getPriceByRound(currentRound) ?: lessonItem?.currentMoney ?: 0
-                        (currentPrice * stock.quantity) - stock.buyMoney
-                    }
-
-                    val profitNum = if (totalBuyMoney > 0) {
-                        (currentTotalValProfit.toDouble() / totalBuyMoney.toDouble()) * 100
-                    } else {
-                        0.0
-                    }
-
-                    val stockValuationMoney = updatedStocks.sumOf { stock ->
-                        val lessonItem = lessonItemMap[stock.itemId]
-
-                        val currentPrice = lessonItem?.getPriceByRound(currentRound) ?: lessonItem?.currentMoney ?: 0
-                        currentPrice * stock.quantity
-                    }
-
-                    val eventData = TeamInvestmentCompletedEventDTO(
-                        teamId = teamId,
-                        teamName = updatedTeam.teamName,
-                        curInvRound = currentRound,
-                        totalMoney = stockValuationMoney,
-                        valuationMoney = currentTotalValProfit,
-                        profitNum = profitNum
-                    )
-                    publishToSseUseCase.publishTo("lesson-organ-sse:$lessonId:${organ.id}", "TEAM_INV_END", eventData)
-                }
-            }
-        )
     }
 
     /**
