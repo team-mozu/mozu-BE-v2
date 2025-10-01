@@ -75,7 +75,7 @@ class TeamWebAdapter(
             curInvRound = teamDetail.curInvRound,
             totalMoney = teamDetail.totalMoney,
             valuationMoney = teamDetail.valuationMoney,
-            profitNum = teamDetail.profitNum.toDoubleOrNull() ?: 0.0
+            profitNum = teamDetail.profitNum
         )
 
         teamSseService.notifyInvestmentComplete(principal.teamId, investmentData)

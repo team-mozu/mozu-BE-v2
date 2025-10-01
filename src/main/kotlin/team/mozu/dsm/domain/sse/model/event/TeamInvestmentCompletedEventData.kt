@@ -12,6 +12,6 @@ data class TeamInvestmentCompletedEventData(
     val curInvRound: Int,
     val totalMoney: Long,
     val valuationMoney: Long,
-    val profitNum: Double,
+    val profitNum: String,
     val completedAt: LocalDateTime
 )

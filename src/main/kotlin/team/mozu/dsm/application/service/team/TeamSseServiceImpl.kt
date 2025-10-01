@@ -246,9 +246,6 @@ class TeamSseServiceImpl(
                 teamId = teamId
             )
 
-            // 팀에게 투자 완료 알림
-            eventManager.publishTeamEvent(teamId, investmentEvent)
-
             // 관리자에게 투자 완료 알림
             eventManager.publishAdminEvent(lesson.id!!, investmentEvent)
 
