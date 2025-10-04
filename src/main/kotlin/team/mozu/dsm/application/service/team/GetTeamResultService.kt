@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamResultResponse
 import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
+import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.`in`.team.GetTeamResultUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
@@ -28,23 +29,23 @@ class GetTeamResultService(
             ?: throw LessonNotFoundException
 
         val team = queryTeamPort.findById(teamId)
+            ?: throw TeamNotFoundException
 
         val stocks = queryStockPort.findAllByTeamId(teamId)
+        val stockItemIds = stocks.map { it.itemId }.distinct()
 
-        val previousInv = (lesson.curInvRound - 1).coerceAtLeast(0)
-
-        val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
-            lesson.id!!,
-            stocks.map { it.itemId }.distinct()
-        ).associateBy { it.lessonItemId.itemId }
+        val lessonItemMap = if (stockItemIds.isNotEmpty()) {
+            queryLessonItemPort.findAllByLessonIdAndItemIds(lesson.id!!, stockItemIds)
+                .associateBy { it.lessonItemId.itemId }
+        } else {
+            emptyMap()
+        }
 
         val totalBuyMoney = stocks.sumOf { it.buyMoney }
 
         val valProfit = stocks.sumOf { stock ->
-            val lessonItem = lessonItemMap[stock.itemId]
-                ?: throw LessonItemNotFoundException
-
-            val currentPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
+            val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
+            val currentPrice = lessonItem.getPriceByRound(lesson.curInvRound) ?: lessonItem.currentMoney
             (currentPrice * stock.quantity) - stock.buyMoney
         }
 
@@ -59,11 +60,21 @@ class GetTeamResultService(
             else -> "%.2f%%".format(profitNum)
         }
 
+        // 현재 주식 평가액 계산
+        val currentStockValuation = stocks.sumOf { stock ->
+            val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
+            val currentPrice = lessonItem.getPriceByRound(lesson.curInvRound) ?: lessonItem.currentMoney
+            currentPrice * stock.quantity
+        }
+
+        // 실제 총 자산 = 현금 + 주식 평가액
+        val actualTotalMoney = team.cashMoney + currentStockValuation
+
         return TeamResultResponse(
             id = team.id!!,
             teamName = team.teamName,
             baseMoney = lesson.baseMoney,
-            totalMoney = team.totalMoney,
+            totalMoney = actualTotalMoney,
             invRound = lesson.curInvRound,
             valProfit = valProfit,
             profitNum = formattedProfitNum,
