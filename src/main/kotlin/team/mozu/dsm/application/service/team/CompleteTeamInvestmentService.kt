@@ -89,22 +89,24 @@ class CompleteTeamInvestmentService(
             object : TransactionSynchronization {
                 override fun afterCommit() {
                     //트랜잭션 시작 시점의 오래된 값을 사용할 수 있어 재조회함
-                    val updatedTeam = queryTeamPort.findById(teamId)
+                    val updatedTeam = queryTeamPort.findById(teamId) ?: return
                     val updatedStocks = queryStockPort.findAllByTeamId(teamId)
 
                     val currentRound = lesson.curInvRound
+                    val stockItemIds = updatedStocks.map { it.itemId }.distinct()
 
-                    val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
-                        lessonId,
-                        updatedStocks.map { it.itemId }.distinct()
-                    ).associateBy { it.lessonItemId.itemId }
+                    val lessonItemMap = if (stockItemIds.isNotEmpty()) {
+                        queryLessonItemPort.findAllByLessonIdAndItemIds(lessonId, stockItemIds)
+                            .associateBy { it.lessonItemId.itemId }
+                    } else {
+                        emptyMap()
+                    }
 
                     val totalBuyMoney = updatedStocks.sumOf { it.buyMoney }
 
                     val currentTotalValProfit = updatedStocks.sumOf { stock ->
-                        val lessonItem = lessonItemMap[stock.itemId]
-
-                        val currentPrice = lessonItem?.getPriceByRound(currentRound) ?: lessonItem?.currentMoney ?: 0
+                        val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
+                        val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
                         (currentPrice * stock.quantity) - stock.buyMoney
                     }
 
@@ -115,9 +117,8 @@ class CompleteTeamInvestmentService(
                     }
 
                     val stockValuationMoney = updatedStocks.sumOf { stock ->
-                        val lessonItem = lessonItemMap[stock.itemId]
-
-                        val currentPrice = lessonItem?.getPriceByRound(currentRound) ?: lessonItem?.currentMoney ?: 0
+                        val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
+                        val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
                         currentPrice * stock.quantity
                     }
 
@@ -125,7 +126,7 @@ class CompleteTeamInvestmentService(
                         teamId = teamId,
                         teamName = updatedTeam.teamName,
                         curInvRound = currentRound,
-                        totalMoney = stockValuationMoney,
+                        totalMoney = updatedTeam.totalMoney, // 팀의 실제 총 자산 (현금 + 평가액)
                         valuationMoney = currentTotalValProfit,
                         profitNum = profitNum
                     )
