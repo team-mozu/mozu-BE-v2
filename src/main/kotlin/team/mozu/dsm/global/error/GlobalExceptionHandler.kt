@@ -4,12 +4,9 @@ import jakarta.persistence.EntityNotFoundException
 import jakarta.validation.ConstraintViolationException
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.AccessDeniedException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import team.mozu.dsm.domain.sse.exception.SseAuthenticationException
-import team.mozu.dsm.domain.sse.exception.SseRateLimitException
 import team.mozu.dsm.global.error.exception.ErrorCode
 import team.mozu.dsm.global.error.exception.MozuException
 
@@ -70,28 +67,6 @@ class GlobalExceptionHandler {
         val errorCode = ErrorCode.ORGAN_ACCESS_DENIED
         return ResponseEntity.status(errorCode.httpStatus)
             .body(ErrorResponse.of(errorCode, e.message ?: errorCode.message))
-    }
-
-    // SSE 인증 예외
-    @ExceptionHandler(SseAuthenticationException::class)
-    fun handleSseAuthentication(e: SseAuthenticationException): ResponseEntity<ErrorResponse> {
-        val errorCode = when (e) {
-            is SseAuthenticationException.TokenMissingException,
-            is SseAuthenticationException.TokenExpiredException,
-            is SseAuthenticationException.InvalidTokenException -> ErrorCode.INVALID_TOKEN
-            is SseAuthenticationException.InsufficientPermissionException -> ErrorCode.ORGAN_ACCESS_DENIED
-            is SseAuthenticationException.InvalidTokenTypeException -> ErrorCode.UNAUTHORIZED_TOKEN_TYPE
-        }
-        return ResponseEntity.status(errorCode.httpStatus)
-            .body(ErrorResponse.of(errorCode, e.message ?: errorCode.message))
-    }
-
-    // SSE Rate Limiting 예외
-    @ExceptionHandler(SseRateLimitException::class)
-    fun handleSseRateLimit(e: SseRateLimitException): ResponseEntity<ErrorResponse> {
-        val errorCode = ErrorCode.BAD_REQUEST // Rate limiting은 일반적으로 429 Too Many Requests이지만 기존 에러코드 사용
-        return ResponseEntity.status(429) // HTTP 429 Too Many Requests
-            .body(ErrorResponse.of(errorCode, e.message ?: "Rate limit exceeded"))
     }
 
     // 그 외 예기치 못한 에러만 500

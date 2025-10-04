@@ -2,10 +2,15 @@ package team.mozu.dsm.application.service.lesson
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionSynchronization
+import org.springframework.transaction.support.TransactionSynchronizationManager
+import team.mozu.dsm.adapter.`in`.lesson.dto.NextLessonEventDTO
 import team.mozu.dsm.application.exception.lesson.CannotNextLessonException
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
+import team.mozu.dsm.application.port.out.sse.PublishSsePort
+import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import team.mozu.dsm.application.service.lesson.facade.LessonFacade
 import java.util.UUID
 
@@ -13,9 +18,14 @@ import java.util.UUID
 class NextLessonService(
     private val lessonFacade: LessonFacade,
     private val lessonPort: CommandLessonPort,
-    private val securityPort: SecurityPort,
-    private val adminSseService: team.mozu.dsm.application.service.admin.AdminSseServiceImpl
+    private val publishSsePort: PublishSsePort,
+    private val teamPort: QueryTeamPort,
+    private val securityPort: SecurityPort
 ) : NextLessonUseCase {
+
+    companion object {
+        private const val NEXT_LESSON_EVENT = "CLASS_NEXT_INV_START"
+    }
 
     @Transactional
     override fun next(lessonId: UUID) {
@@ -27,12 +37,26 @@ class NextLessonService(
         }
 
         // 다음 차수 진행을 위해 curInvRound 업데이트
-        lessonPort.updateCurInvRound(lesson.id!!)
+        val updatedLesson = lessonPort.updateCurInvRound(lesson.id!!)
+        // 해당 수업에 참여중인 팀 조회
+        val teams = teamPort.findAllByLessonId(lesson.id)
 
-        // 업데이트된 lesson 정보 다시 조회
-        val updatedLesson = lessonFacade.findByLessonId(lessonId)
-
-        // 모든 팀에게 다음 투자 라운드 시작 알림
-        adminSseService.startNextInvestmentRound(lesson.id, updatedLesson.curInvRound)
+        // 트랜잭션 커밋 후 이벤트 발행
+        TransactionSynchronizationManager.registerSynchronization(
+            object : TransactionSynchronization {
+                override fun afterCommit() {
+                    teams.forEach { team ->
+                        val eventData = NextLessonEventDTO(
+                            lessonId = updatedLesson.id!!,
+                            curInvRound = updatedLesson.curInvRound,
+                            teamId = team.id!!,
+                            teamName = team.teamName,
+                            schoolName = team.schoolName
+                        )
+                        publishSsePort.publishTo("team-sse:${team.id}", NEXT_LESSON_EVENT, eventData)
+                    }
+                }
+            }
+        )
     }
 }
