@@ -43,23 +43,6 @@ class GetTeamResultService(
 
         val totalBuyMoney = stocks.sumOf { it.buyMoney }
 
-        val valProfit = stocks.sumOf { stock ->
-            val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
-            val currentPrice = lessonItem.getPriceByRound(lesson.curInvRound) ?: lessonItem.currentMoney
-            (currentPrice * stock.quantity) - stock.buyMoney
-        }
-
-        val profitNum = if (totalBuyMoney > 0) {
-            (valProfit.toDouble() / totalBuyMoney.toDouble()) * 100
-        } else {
-            0.0
-        }
-
-        val formattedProfitNum = when {
-            profitNum > 0 -> "+%.2f%%".format(profitNum)
-            else -> "%.2f%%".format(profitNum)
-        }
-
         // 현재 주식 평가액 계산
         val currentStockValuation = stocks.sumOf { stock ->
             val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
@@ -69,6 +52,21 @@ class GetTeamResultService(
 
         // 실제 총 자산 = 현금 + 주식 평가액
         val actualTotalMoney = team.cashMoney + currentStockValuation
+
+        // 평가손익 = 총 자산 - 초기 자산
+        val valProfit = actualTotalMoney - lesson.baseMoney
+
+        // 수익률 = ((최종 자산 - 초기 자산) / 초기 자산) * 100
+        val profitNum = if (lesson.baseMoney > 0) {
+            ((actualTotalMoney.toDouble() - lesson.baseMoney.toDouble()) / lesson.baseMoney.toDouble()) * 100
+        } else {
+            0.0
+        }
+
+        val formattedProfitNum = when {
+            profitNum > 0 -> "+%.2f%%".format(profitNum)
+            else -> "%.2f%%".format(profitNum)
+        }
 
         return TeamResultResponse(
             id = team.id!!,

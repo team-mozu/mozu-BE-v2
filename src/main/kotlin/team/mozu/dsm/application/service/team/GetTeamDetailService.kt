@@ -59,13 +59,25 @@ class GetTeamDetailService(
             else -> "%.2f%%".format(profitNum)
         }
 
+        // 보유주식 평가금액 = 모든 보유 주식의 (수량 * 현재가) 합
+        val currentStockValuation = stocks.sumOf { stock ->
+            val lessonItem = lessonItemMap[stock.itemId]
+                ?: throw LessonItemNotFoundException
+            
+            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+            currentPrice * stock.quantity
+        }
+
+        // 실제 총 자산 = 현금 + 주식 평가액
+        val actualTotalMoney = team.cashMoney + currentStockValuation
+
         return TeamDetailResponse(
             id = teamId,
             teamName = team.teamName,
             baseMoney = lesson.baseMoney,
-            totalMoney = team.totalMoney,
+            totalMoney = actualTotalMoney,
             cashMoney = team.cashMoney,
-            valuationMoney = team.valuationMoney,
+            valuationMoney = currentStockValuation,
             curInvRound = currentRound,
             maxInvRound = lesson.maxInvRound,
             valProfit = currentTotalValProfit,
