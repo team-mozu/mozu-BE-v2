@@ -93,6 +93,9 @@ class CompleteTeamInvestmentService(
                     val updatedStocks = queryStockPort.findAllByTeamId(teamId)
 
                     val currentRound = lesson.curInvRound
+                    // SSE 이벤트 수익 계산을 위한 차수: 현재 진행 차수(N) + 1
+                    val profitCalculationRound = lesson.curInvRound + 1
+                    
                     val stockItemIds = updatedStocks.map { it.itemId }.distinct()
 
                     val lessonItemMap = if (stockItemIds.isNotEmpty()) {
@@ -102,32 +105,31 @@ class CompleteTeamInvestmentService(
                         emptyMap()
                     }
 
-                    val totalBuyMoney = updatedStocks.sumOf { it.buyMoney }
-
-                    val currentTotalValProfit = updatedStocks.sumOf { stock ->
-                        val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
-                        val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
-                        (currentPrice * stock.quantity) - stock.buyMoney
-                    }
-
-                    val profitNum = if (totalBuyMoney > 0) {
-                        (currentTotalValProfit.toDouble() / totalBuyMoney.toDouble()) * 100
-                    } else {
-                        0.0
-                    }
-
+                    // 평가손익 계산 (N+1 차수 기준)
                     val stockValuationMoney = updatedStocks.sumOf { stock ->
                         val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
-                        val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+                        val currentPrice = lessonItem.getPriceByRound(profitCalculationRound) ?: lessonItem.currentMoney
                         currentPrice * stock.quantity
+                    }
+                    
+                    // 총 자산 = 현금 + 주식 평가액 (N+1 차수 기준)
+                    val totalMoneyWithNextRound = updatedTeam.cashMoney + stockValuationMoney
+                    
+                    // 평가손익 = 총 자산 - 초기 자산
+                    val currentTotalValProfit = totalMoneyWithNextRound - lesson.baseMoney
+
+                    val profitNum = if (lesson.baseMoney > 0) {
+                        (currentTotalValProfit.toDouble() / lesson.baseMoney.toDouble()) * 100
+                    } else {
+                        0.0
                     }
 
                     val eventData = TeamInvestmentCompletedEventDTO(
                         teamId = teamId,
                         teamName = updatedTeam.teamName,
                         curInvRound = currentRound,
-                        totalMoney = updatedTeam.totalMoney, // 팀의 실제 총 자산 (현금 + 평가액)
-                        valuationMoney = currentTotalValProfit,
+                        totalMoney = totalMoneyWithNextRound, // N+1 차수 기준 총 자산
+                        valuationMoney = currentTotalValProfit, // N+1 차수 기준 평가손익
                         profitNum = profitNum
                     )
                     publishToSseUseCase.publishTo("lesson-organ-sse:$lessonId:${organ.id}", "TEAM_INV_END", eventData)
