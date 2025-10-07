@@ -3,7 +3,6 @@ package team.mozu.dsm.application.service.team
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamResultResponse
-import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.`in`.team.GetTeamResultUseCase
@@ -45,7 +44,7 @@ class GetTeamResultService(
 
         // 수익 계산을 위한 차수: 현재 진행 차수(N) + 1
         val profitCalculationRound = lesson.curInvRound + 1
-        
+
         // 주식 평가액 계산 (N+1 차수 기준)
         val currentStockValuation = stocks.sumOf { stock ->
             val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L

@@ -95,7 +95,7 @@ class CompleteTeamInvestmentService(
                     val currentRound = lesson.curInvRound
                     // SSE 이벤트 수익 계산을 위한 차수: 현재 진행 차수(N) + 1
                     val profitCalculationRound = lesson.curInvRound + 1
-                    
+
                     val stockItemIds = updatedStocks.map { it.itemId }.distinct()
 
                     val lessonItemMap = if (stockItemIds.isNotEmpty()) {
@@ -111,10 +111,10 @@ class CompleteTeamInvestmentService(
                         val currentPrice = lessonItem.getPriceByRound(profitCalculationRound) ?: lessonItem.currentMoney
                         currentPrice * stock.quantity
                     }
-                    
+
                     // 총 자산 = 현금 + 주식 평가액 (N+1 차수 기준)
                     val totalMoneyWithNextRound = updatedTeam.cashMoney + stockValuationMoney
-                    
+
                     // 평가손익 = 총 자산 - 초기 자산
                     val currentTotalValProfit = totalMoneyWithNextRound - lesson.baseMoney
 
@@ -198,17 +198,19 @@ class CompleteTeamInvestmentService(
 
         val stocksToSave = mutableListOf<Stock>()
         val stockIdsToDelete = mutableListOf<UUID>()
-        
+
         // 실시간 현금 및 평가액 업데이트를 위한 변수
         var currentCashMoney = team.cashMoney
-        
+
         // 현재 보유 주식들의 평가액 계산 (실시간 추적 초기값)
         val existingStocks = queryStockPort.findAllByTeamId(teamId)
         var currentValuationMoney = existingStocks.sumOf { stock ->
             val lessonItem = lessonItemMap[stock.itemId]
             val currentPrice = if (lessonItem != null) {
                 lessonItem.getPriceByRound(lesson.curInvRound) ?: lessonItem.currentMoney
-            } else 0L
+            } else {
+                0L
+            }
             currentPrice * stock.quantity
         }
 
@@ -285,7 +287,7 @@ class CompleteTeamInvestmentService(
                         updatedAt = null
                     )
                     stocksToSave.add(newStock)
-                    
+
                     // 매수: 현금 차감, 평가액 즉시 업데이트
                     currentCashMoney -= itemTotalBuyAmount
                     currentValuationMoney += (currentPrice * netQuantityChange)
@@ -358,7 +360,7 @@ class CompleteTeamInvestmentService(
                             updatedAt = LocalDateTime.now()
                         )
                         stocksToSave.add(updatedStock)
-                        
+
                         // 실시간 현금 및 평가액 업데이트
                         // 매수: 현금 차감, 매도: 현금 증가
                         val itemTotalSellAmount = sellRequests
@@ -367,7 +369,7 @@ class CompleteTeamInvestmentService(
                                 previousPrice * r.orderCount
                             }
                         currentCashMoney = currentCashMoney - itemTotalBuyAmount + itemTotalSellAmount
-                        
+
                         // 평가액 업데이트: 기존 평가액 제거 후 새로운 평가액 추가
                         val previousValuation = currentStock.quantity * currentPrice
                         val newValuation = newQuantity * currentPrice
@@ -376,7 +378,7 @@ class CompleteTeamInvestmentService(
 
                     newQuantity == 0 -> {
                         currentStock.id?.let { stockIdsToDelete.add(it) }
-                        
+
                         // 모든 주식 매도 시 현금 증가, 평가액 제거
                         val itemTotalSellAmount = sellRequests
                             .sumOf { r ->
@@ -384,7 +386,7 @@ class CompleteTeamInvestmentService(
                                 previousPrice * r.orderCount
                             }
                         currentCashMoney += itemTotalSellAmount
-                        
+
                         // 전량 매도로 평가액에서 해당 주식 가치 제거
                         val previousValuation = currentStock.quantity * currentPrice
                         currentValuationMoney -= previousValuation
