@@ -57,10 +57,6 @@ class GetStocksService(
             } else {
                 0.0
             }
-            val formattedProfitNum = when {
-                profitNum > 0 -> "+%.2f%%".format(profitNum)
-                else -> "%.2f%%".format(profitNum)
-            }
 
             StockResponse(
                 id = stock.id!!,
@@ -72,7 +68,7 @@ class GetStocksService(
                 nowMoney = nowMoney,
                 valuationMoney = valuationMoney,
                 valProfit = valProfit,
-                profitNum = formattedProfitNum
+                profitNum = profitNum
             )
         }
     }
