@@ -55,11 +55,17 @@ class GetTeamDetailService(
             previousPrice * stock.quantity
         }
 
-        // 전차시 대비 수익/손실
-        val currentTotalValProfit = currentStockValuation - previousStockValuation
+        // 실제 총 자산 = 현금 + 주식 평가액 (현재 차수 기준)
+        val actualTotalMoney = team.cashMoney + currentStockValuation
 
-        val profitNum = if (previousStockValuation > 0) {
-            (currentTotalValProfit.toDouble() / previousStockValuation.toDouble()) * 100
+        // 이전 차수 기준 총 자산 = 현금 + 이전 차수 주식 평가액
+        val previousTotalMoney = team.cashMoney + previousStockValuation
+
+        // 총 자산 증감률 (전차시 대비)
+        val currentTotalValProfit = actualTotalMoney - previousTotalMoney
+
+        val profitNum = if (previousTotalMoney > 0) {
+            (currentTotalValProfit.toDouble() / previousTotalMoney.toDouble()) * 100
         } else {
             0.0
         }
@@ -68,9 +74,6 @@ class GetTeamDetailService(
             profitNum > 0 -> "+%.2f%%".format(profitNum)
             else -> "%.2f%%".format(profitNum)
         }
-
-        // 실제 총 자산 = 현금 + 주식 평가액
-        val actualTotalMoney = team.cashMoney + currentStockValuation
 
         return TeamDetailResponse(
             id = teamId,
