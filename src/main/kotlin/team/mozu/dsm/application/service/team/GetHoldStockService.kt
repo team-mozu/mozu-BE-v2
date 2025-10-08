@@ -35,26 +35,39 @@ class GetHoldStockService(
             .findAllByLessonIdAndItemIds(lesson.id!!, stocks.map { it.itemId }.distinct())
             .associateBy { it.lessonItemId.itemId }
 
-        val prevRound = (lesson.curInvRound - 1).coerceAtLeast(0)
+        val currentRound = lesson.curInvRound
+        val previousRound = (currentRound - 1).coerceAtLeast(0)
 
         return stocks.map { stock ->
             val lessonItem = lessonItemMap[stock.itemId] ?: throw LessonItemNotFoundException
-            val nowMoney = lessonItem.getPriceByRound(prevRound) ?: lessonItem.currentMoney
+            val nowMoney = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+            val previousMoney = lessonItem.getPriceByRound(previousRound) ?: lessonItem.currentMoney
 
-            return stocks.map { stock ->
-                StockResponse(
-                    id = stock.id!!,
-                    itemId = stock.itemId,
-                    itemName = stock.itemName,
-                    avgPurchasePrice = stock.avgPurchasePrice,
-                    quantity = stock.quantity,
-                    totalMoney = stock.buyMoney,
-                    nowMoney = nowMoney,
-                    valuationMoney = nowMoney * stock.quantity,
-                    valProfit = stock.valProfit,
-                    profitNum = stock.profitNum
-                )
+            val valuationMoney = nowMoney * stock.quantity
+            val previousValuation = previousMoney * stock.quantity
+            val valProfit = valuationMoney - previousValuation
+            val profitNum = if (previousValuation > 0) {
+                (valProfit.toDouble() / previousValuation.toDouble()) * 100
+            } else {
+                0.0
             }
+            val formattedProfitNum = when {
+                profitNum > 0 -> "+%.2f%%".format(profitNum)
+                else -> "%.2f%%".format(profitNum)
+            }
+
+            StockResponse(
+                id = stock.id!!,
+                itemId = stock.itemId,
+                itemName = stock.itemName,
+                avgPurchasePrice = stock.avgPurchasePrice,
+                quantity = stock.quantity,
+                totalMoney = stock.buyMoney,
+                nowMoney = nowMoney,
+                valuationMoney = valuationMoney,
+                valProfit = valProfit,
+                profitNum = formattedProfitNum
+            )
         }
     }
 }

@@ -30,26 +30,36 @@ class GetTeamDetailService(
         val stocks = queryStockPort.findAllByTeamId(teamId)
 
         val currentRound = lesson.curInvRound
-
-        val previousInv = (lesson.curInvRound - 1).coerceAtLeast(0)
+        val previousRound = (currentRound - 1).coerceAtLeast(0)
 
         val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
             lesson.id!!,
             stocks.map { it.itemId }.distinct()
         ).associateBy { it.lessonItemId.itemId }
 
-        val totalBuyMoney = stocks.sumOf { it.buyMoney }
-
-        val currentTotalValProfit = stocks.sumOf { stock ->
+        // 현재 차수 기준 평가금액
+        val currentStockValuation = stocks.sumOf { stock ->
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
-            val currentPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
-            (currentPrice * stock.quantity) - stock.buyMoney
+            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+            currentPrice * stock.quantity
         }
 
-        val profitNum = if (totalBuyMoney > 0) {
-            (currentTotalValProfit.toDouble() / totalBuyMoney.toDouble()) * 100
+        // 이전 차수 기준 평가금액
+        val previousStockValuation = stocks.sumOf { stock ->
+            val lessonItem = lessonItemMap[stock.itemId]
+                ?: throw LessonItemNotFoundException
+
+            val previousPrice = lessonItem.getPriceByRound(previousRound) ?: lessonItem.currentMoney
+            previousPrice * stock.quantity
+        }
+
+        // 전차시 대비 수익/손실
+        val currentTotalValProfit = currentStockValuation - previousStockValuation
+
+        val profitNum = if (previousStockValuation > 0) {
+            (currentTotalValProfit.toDouble() / previousStockValuation.toDouble()) * 100
         } else {
             0.0
         }
@@ -57,15 +67,6 @@ class GetTeamDetailService(
         val formattedProfitNum = when {
             profitNum > 0 -> "+%.2f%%".format(profitNum)
             else -> "%.2f%%".format(profitNum)
-        }
-
-        // 보유주식 평가금액 = 모든 보유 주식의 (수량 * 현재가) 합
-        val currentStockValuation = stocks.sumOf { stock ->
-            val lessonItem = lessonItemMap[stock.itemId]
-                ?: throw LessonItemNotFoundException
-
-            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
-            currentPrice * stock.quantity
         }
 
         // 실제 총 자산 = 현금 + 주식 평가액

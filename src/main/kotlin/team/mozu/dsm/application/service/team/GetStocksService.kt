@@ -37,14 +37,30 @@ class GetStocksService(
                 .distinct()
         ).associateBy { it.lessonItemId.itemId }
 
-        val previousInv = (lesson.curInvRound - 1).coerceAtLeast(0)
+        val currentRound = lesson.curInvRound
+        val previousRound = (currentRound - 1).coerceAtLeast(0)
 
         return validStocks.map { stock ->
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
-            val nowMoney = lessonItem.getPriceByRound(previousInv)
+            val nowMoney = lessonItem.getPriceByRound(currentRound)
                 ?: lessonItem.currentMoney
+            val previousMoney = lessonItem.getPriceByRound(previousRound)
+                ?: lessonItem.currentMoney
+
+            val valuationMoney = nowMoney * stock.quantity
+            val previousValuation = previousMoney * stock.quantity
+            val valProfit = valuationMoney - previousValuation
+            val profitNum = if (previousValuation > 0) {
+                (valProfit.toDouble() / previousValuation.toDouble()) * 100
+            } else {
+                0.0
+            }
+            val formattedProfitNum = when {
+                profitNum > 0 -> "+%.2f%%".format(profitNum)
+                else -> "%.2f%%".format(profitNum)
+            }
 
             StockResponse(
                 id = stock.id!!,
@@ -54,9 +70,9 @@ class GetStocksService(
                 quantity = stock.quantity,
                 totalMoney = stock.buyMoney,
                 nowMoney = nowMoney,
-                valuationMoney = nowMoney * stock.quantity,
-                valProfit = stock.valProfit,
-                profitNum = stock.profitNum
+                valuationMoney = valuationMoney,
+                valProfit = valProfit,
+                profitNum = formattedProfitNum
             )
         }
     }
