@@ -62,9 +62,9 @@ class LessonFacade(
 
     fun saveLessonItems(lesson: Lesson, lessonRound: Int, lessonItems: List<LessonItemRequest>): List<LessonItem> {
         // 각 LessonItemRequest의 money 리스트 길이를 검증
-        // 초기 금액 + 각 투자 차수 금액이 모두 존재하지 않으면 예외 발생
+        // 초기 금액(fallback) + 각 투자 차수 금액이 모두 존재하지 않으면 예외 발생
         lessonItems.forEach { req ->
-            if (req.money.size != lessonRound + 2) {
+            if (req.money.size != lessonRound + 1) {
                 throw InsufficientLessonItemMoneyException
             }
         }
