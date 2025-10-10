@@ -30,7 +30,7 @@ class GetTeamDetailService(
         val stocks = queryStockPort.findAllByTeamId(teamId)
 
         val currentRound = lesson.curInvRound
-        val previousRound = (currentRound - 1).coerceAtLeast(0)
+        val previousRound = (currentRound - 1).coerceAtLeast(1)
 
         val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
             lesson.id!!,

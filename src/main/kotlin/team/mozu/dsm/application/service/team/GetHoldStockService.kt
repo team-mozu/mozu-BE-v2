@@ -36,7 +36,7 @@ class GetHoldStockService(
             .associateBy { it.lessonItemId.itemId }
 
         val currentRound = lesson.curInvRound
-        val previousRound = (currentRound - 1).coerceAtLeast(0)
+        val previousRound = (currentRound - 1).coerceAtLeast(1)
 
         return stocks.map { stock ->
             val lessonItem = lessonItemMap[stock.itemId] ?: throw LessonItemNotFoundException
