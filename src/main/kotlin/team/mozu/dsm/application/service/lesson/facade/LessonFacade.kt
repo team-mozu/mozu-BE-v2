@@ -62,7 +62,7 @@ class LessonFacade(
 
     fun saveLessonItems(lesson: Lesson, lessonRound: Int, lessonItems: List<LessonItemRequest>): List<LessonItem> {
         // 각 LessonItemRequest의 money 리스트 길이를 검증
-        // 초기 금액(fallback) + 각 투자 차수 금액이 모두 존재하지 않으면 예외 발생
+        // 각 투자 차수 가격 + 종료가가 모두 존재하지 않으면 예외 발생
         lessonItems.forEach { req ->
             if (req.money.size != lessonRound + 1) {
                 throw InsufficientLessonItemMoneyException
@@ -73,12 +73,12 @@ class LessonFacade(
         val lessonItemsToSave = lessonItems.map { req ->
             LessonItem(
                 lessonItemId = LessonItemId(lesson.id!!, req.itemId),
-                currentMoney = req.money.get(0),
-                round1Money = req.money.get(1),
-                round2Money = req.money.get(2),
-                round3Money = req.money.get(3),
-                round4Money = req.money.getOrNull(4),
-                round5Money = req.money.getOrNull(5)
+                currentMoney = req.money.getOrNull(lessonRound) ?: req.money.last(), // 종료가 (fallback)
+                round1Money = req.money.get(0), // 1차가격
+                round2Money = req.money.get(1), // 2차가격
+                round3Money = req.money.get(2), // 3차가격
+                round4Money = req.money.getOrNull(3), // 4차가격 (optional)
+                round5Money = req.money.getOrNull(4) // 5차가격 (optional)
             )
         }
         lessonItemPort.saveAll(lesson.id!!, lessonItemsToSave)

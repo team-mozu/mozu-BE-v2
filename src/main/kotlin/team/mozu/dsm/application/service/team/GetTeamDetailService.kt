@@ -30,7 +30,7 @@ class GetTeamDetailService(
         val stocks = queryStockPort.findAllByTeamId(teamId)
 
         val currentRound = lesson.curInvRound
-        val previousRound = (currentRound - 1).coerceAtLeast(0)
+        val nextRound = currentRound + 1
 
         val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
             lesson.id!!,
@@ -46,26 +46,26 @@ class GetTeamDetailService(
             currentPrice * stock.quantity
         }
 
-        // 이전 차수 기준 평가금액
-        val previousStockValuation = stocks.sumOf { stock ->
+        // 다음 차수 기준 평가금액
+        val nextStockValuation = stocks.sumOf { stock ->
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
-            val previousPrice = lessonItem.getPriceByRound(previousRound) ?: lessonItem.currentMoney
-            previousPrice * stock.quantity
+            val nextPrice = lessonItem.getPriceByRound(nextRound) ?: lessonItem.currentMoney
+            nextPrice * stock.quantity
         }
 
         // 실제 총 자산 = 현금 + 주식 평가액 (현재 차수 기준)
         val actualTotalMoney = team.cashMoney + currentStockValuation
 
-        // 이전 차수 기준 총 자산 = 현금 + 이전 차수 주식 평가액
-        val previousTotalMoney = team.cashMoney + previousStockValuation
+        // 다음 차수 기준 총 자산 = 현금 + 다음 차수 주식 평가액
+        val nextTotalMoney = team.cashMoney + nextStockValuation
 
-        // 총 자산 증감률 (전차시 대비)
-        val currentTotalValProfit = actualTotalMoney - previousTotalMoney
+        // 총 자산 증감률 (현재 vs 다음 차수)
+        val currentTotalValProfit = nextTotalMoney - actualTotalMoney
 
-        val profitNum = if (previousTotalMoney > 0) {
-            (currentTotalValProfit.toDouble() / previousTotalMoney.toDouble()) * 100
+        val profitNum = if (actualTotalMoney > 0) {
+            (currentTotalValProfit.toDouble() / actualTotalMoney.toDouble()) * 100
         } else {
             0.0
         }

@@ -214,18 +214,20 @@ class CompleteTeamInvestmentService(
             currentPrice * stock.quantity
         }
 
+        val currentRound = lesson.curInvRound
+
         val totalBuyAmount = requests.filter { it.orderType == OrderType.BUY }
             .sumOf { r ->
                 val lessonItem = lessonItemMap[r.itemId] ?: throw LessonItemNotFoundException
-                val previousPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
-                previousPrice * r.orderCount
+                val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+                currentPrice * r.orderCount
             }
 
         val totalSellAmount = requests.filter { it.orderType == OrderType.SELL }
             .sumOf { r ->
                 val lessonItem = lessonItemMap[r.itemId] ?: throw LessonItemNotFoundException
-                val previousPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
-                previousPrice * r.orderCount
+                val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+                currentPrice * r.orderCount
             }
 
         if (currentCashMoney + totalSellAmount < totalBuyAmount) {
@@ -249,8 +251,7 @@ class CompleteTeamInvestmentService(
             val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
             val itemTotalBuyAmount = buyRequests
                 .sumOf { r ->
-                    val previousPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
-                    previousPrice * r.orderCount
+                    currentPrice * r.orderCount
                 }
             val netQuantityChange = totalBuyCount - totalSellCount
 
@@ -365,8 +366,7 @@ class CompleteTeamInvestmentService(
                         // 매수: 현금 차감, 매도: 현금 증가
                         val itemTotalSellAmount = sellRequests
                             .sumOf { r ->
-                                val previousPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
-                                previousPrice * r.orderCount
+                                currentPrice * r.orderCount
                             }
                         currentCashMoney = currentCashMoney - itemTotalBuyAmount + itemTotalSellAmount
 
@@ -382,8 +382,7 @@ class CompleteTeamInvestmentService(
                         // 모든 주식 매도 시 현금 증가, 평가액 제거
                         val itemTotalSellAmount = sellRequests
                             .sumOf { r ->
-                                val previousPrice = lessonItem.getPriceByRound(previousInv) ?: lessonItem.currentMoney
-                                previousPrice * r.orderCount
+                                currentPrice * r.orderCount
                             }
                         currentCashMoney += itemTotalSellAmount
 
