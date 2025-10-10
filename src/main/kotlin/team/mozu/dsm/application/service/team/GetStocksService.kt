@@ -38,7 +38,7 @@ class GetStocksService(
         ).associateBy { it.lessonItemId.itemId }
 
         val currentRound = lesson.curInvRound
-        val nextRound = currentRound + 1
+        val previousRound = (currentRound - 1).coerceAtLeast(0)
 
         return validStocks.map { stock ->
             val lessonItem = lessonItemMap[stock.itemId]
@@ -46,14 +46,14 @@ class GetStocksService(
 
             val currentPrice = lessonItem.getPriceByRound(currentRound)
                 ?: lessonItem.currentMoney
-            val nextPrice = lessonItem.getPriceByRound(nextRound)
+            val previousPrice = lessonItem.getPriceByRound(previousRound)
                 ?: lessonItem.currentMoney
 
             val currentValuation = currentPrice * stock.quantity
-            val nextValuation = nextPrice * stock.quantity
-            val valProfit = nextValuation - currentValuation
-            val profitNum = if (currentValuation > 0) {
-                (valProfit.toDouble() / currentValuation.toDouble()) * 100
+            val previousValuation = previousPrice * stock.quantity
+            val valProfit = currentValuation - previousValuation
+            val profitNum = if (previousValuation > 0) {
+                (valProfit.toDouble() / previousValuation.toDouble()) * 100
             } else {
                 0.0
             }
