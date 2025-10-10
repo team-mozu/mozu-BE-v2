@@ -120,13 +120,10 @@ class LessonFacade(
                     itemId = item.id!!,
                     itemName = item.itemName,
                     money = listOf(
-                        lessonItem.currentMoney, // 0번째 (건너뜀)
-                        lessonItem.round1Money, // 1번째 -> 1차
-                        lessonItem.round2Money, // 2번째 -> 2차
-                        lessonItem.round3Money // 3번째 -> 3차
-                    ).let { list ->
-                        listOfNotNull(*list.toTypedArray(), lessonItem.round4Money, lessonItem.round5Money)
-                    }.drop(1) // 0번째 인덱스 건너뛰고 1번째부터 사용
+                        lessonItem.round1Money, // 0번째 -> 1차
+                        lessonItem.round2Money, // 1번째 -> 2차
+                        lessonItem.round3Money // 2번째 -> 3차
+                    ) + listOfNotNull(lessonItem.round4Money, lessonItem.round5Money, lessonItem.currentMoney) // 4차, 5차, 종료가
                 )
             }
         }
