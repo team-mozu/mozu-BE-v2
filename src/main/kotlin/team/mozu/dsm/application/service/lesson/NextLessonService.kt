@@ -27,6 +27,8 @@ class NextLessonService(
         private const val NEXT_LESSON_EVENT = "CLASS_NEXT_INV_START"
     }
 
+    private val log = org.slf4j.LoggerFactory.getLogger(javaClass)
+
     @Transactional
     override fun next(lessonId: UUID) {
         val organ = securityPort.getCurrentOrgan()
@@ -46,14 +48,19 @@ class NextLessonService(
             object : TransactionSynchronization {
                 override fun afterCommit() {
                     teams.forEach { team ->
-                        val eventData = NextLessonEventDTO(
-                            lessonId = updatedLesson.id!!,
-                            curInvRound = updatedLesson.curInvRound,
-                            teamId = team.id!!,
-                            teamName = team.teamName,
-                            schoolName = team.schoolName
-                        )
-                        publishSsePort.publishTo("team-sse:${team.id}", NEXT_LESSON_EVENT, eventData)
+                        try {
+                            val eventData = NextLessonEventDTO(
+                                lessonId = updatedLesson.id!!,
+                                curInvRound = updatedLesson.curInvRound,
+                                teamId = team.id!!,
+                                teamName = team.teamName,
+                                schoolName = team.schoolName
+                            )
+                            publishSsePort.publishTo("team-sse:${team.id}", NEXT_LESSON_EVENT, eventData)
+                        } catch (e: Exception) {
+                            // 개별 팀 이벤트 전송 실패가 다른 팀에 영향을 주지 않도록 예외 처리
+                            log.error("Failed to send CLASS_NEXT_INV_START event to team ${team.id}", e)
+                        }
                     }
                 }
             }

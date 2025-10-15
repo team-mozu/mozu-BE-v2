@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
@@ -125,8 +126,9 @@ class TeamWebAdapter(
     @GetMapping("/sse")
     @ResponseStatus(HttpStatus.OK)
     override fun connectTeamSSE(
-        @AuthenticationPrincipal principal: StudentPrincipal
+        @AuthenticationPrincipal principal: StudentPrincipal,
+        @RequestHeader(value = "Last-Event-ID", required = false) lastEventId: String?
     ): SseEmitter {
-        return connectTeamSSEUseCase.connectTeamSSE(principal.teamId)
+        return connectTeamSSEUseCase.connectTeamSSE(principal.teamId, lastEventId)
     }
 }
