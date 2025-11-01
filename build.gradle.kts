@@ -46,6 +46,7 @@ dependencies {
     // 데이터베이스
     implementation(Dependencies.SPRING_BOOT_STARTER_DATA_JPA)
     implementation(Dependencies.SPRING_BOOT_STARTER_DATA_REDIS)
+    implementation(Dependencies.LETTUCE_CORE)
     runtimeOnly(Dependencies.MYSQL_CONNECTOR)
 
     // 보안
