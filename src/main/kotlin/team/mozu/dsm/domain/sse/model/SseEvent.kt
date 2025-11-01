@@ -1,6 +1,7 @@
 package team.mozu.dsm.domain.sse.model
 
 import team.mozu.dsm.domain.annotation.Aggregate
+import team.mozu.dsm.domain.sse.exception.InvalidEventStateTransitionException
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -11,7 +12,8 @@ data class SseEvent(
     val eventName: String,
     val data: String,
     val timestamp: LocalDateTime,
-    val teamId: UUID? = null
+    val teamId: UUID? = null,
+    val status: SendStatus = SendStatus.PENDING
 ) {
     companion object {
         fun create(
@@ -26,12 +28,20 @@ data class SseEvent(
                 eventName = eventName,
                 data = data,
                 timestamp = LocalDateTime.now(),
-                teamId = teamId
+                teamId = teamId,
+                status = SendStatus.PENDING
             )
         }
 
         private fun generateEventId(): String {
             return "${System.currentTimeMillis()}-${UUID.randomUUID().toString().take(8)}"
         }
+    }
+
+    fun markAsSent(): SseEvent {
+        if (status != SendStatus.PENDING) {
+            throw InvalidEventStateTransitionException
+        }
+        return this.copy(status = SendStatus.SENT)
     }
 }
