@@ -23,47 +23,56 @@ class GetHoldStockService(
 
     @Transactional(readOnly = true)
     override fun getHoldStock(teamId: UUID): List<StockResponse> {
-        val team = queryTeamPort.findById(teamId) ?: throw TeamNotFoundException
+        return try {
+            val team = queryTeamPort.findById(teamId) ?: throw TeamNotFoundException
 
-        val lesson = queryLessonPort.findByLessonNum(team.lessonNum)
-            ?: throw LessonNotFoundException
+            val lesson = queryLessonPort.findByLessonNum(team.lessonNum)
+                ?: throw LessonNotFoundException
 
-        val stocks = queryStockPort.findAllByTeamId(teamId).filter { it.id != null }
-        if (stocks.isEmpty()) return emptyList()
+            val stocks = queryStockPort.findAllByTeamId(teamId)
+                .filter { it.id != null && it.quantity > 0 }
+            
+            if (stocks.isEmpty()) return emptyList()
 
-        val lessonItemMap = queryLessonItemPort
-            .findAllByLessonIdAndItemIds(lesson.id!!, stocks.map { it.itemId }.distinct())
-            .associateBy { it.lessonItemId.itemId }
+            val lessonItemMap = queryLessonItemPort
+                .findAllByLessonIdAndItemIds(lesson.id!!, stocks.map { it.itemId }.distinct())
+                .associateBy { it.lessonItemId.itemId }
 
-        val currentRound = lesson.curInvRound
-        val previousRound = (currentRound - 1).coerceAtLeast(1)
+            val currentRound = lesson.curInvRound.coerceAtLeast(0)
+            val previousRound = if (currentRound > 1) currentRound - 1 else 1
 
-        return stocks.map { stock ->
-            val lessonItem = lessonItemMap[stock.itemId] ?: throw LessonItemNotFoundException
-            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
-            val previousPrice = lessonItem.getPriceByRound(previousRound) ?: lessonItem.currentMoney
+            stocks.mapNotNull { stock ->
+                val lessonItem = lessonItemMap[stock.itemId] ?: return@mapNotNull null
+                
+                val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+                val previousPrice = lessonItem.getPriceByRound(previousRound) ?: lessonItem.currentMoney
 
-            val currentValuation = currentPrice * stock.quantity
-            val previousValuation = previousPrice * stock.quantity
-            val valProfit = currentValuation - previousValuation
-            val profitNum = if (previousValuation > 0) {
-                (valProfit.toDouble() / previousValuation.toDouble()) * 100
-            } else {
-                0.0
+                val currentValuation = currentPrice * stock.quantity
+                val previousValuation = previousPrice * stock.quantity
+                val valProfit = currentValuation - previousValuation
+                
+                val profitNum = if (previousValuation > 0) {
+                    (valProfit.toDouble() / previousValuation.toDouble()) * 100
+                } else {
+                    0.0
+                }
+
+                StockResponse(
+                    id = stock.id!!,
+                    itemId = stock.itemId,
+                    itemName = stock.itemName,
+                    avgPurchasePrice = stock.avgPurchasePrice,
+                    quantity = stock.quantity,
+                    totalMoney = stock.buyMoney,
+                    nowMoney = currentPrice,
+                    valuationMoney = currentValuation,
+                    valProfit = valProfit,
+                    profitNum = profitNum
+                )
             }
-
-            StockResponse(
-                id = stock.id!!,
-                itemId = stock.itemId,
-                itemName = stock.itemName,
-                avgPurchasePrice = stock.avgPurchasePrice,
-                quantity = stock.quantity,
-                totalMoney = stock.buyMoney,
-                nowMoney = currentPrice,
-                valuationMoney = currentValuation,
-                valProfit = valProfit,
-                profitNum = profitNum
-            )
+        } catch (e: Exception) {
+            // 로깅이 필요한 경우 여기에 추가
+            emptyList()
         }
     }
 }

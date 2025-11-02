@@ -25,7 +25,7 @@ data class LessonItem(
             3 -> round3Money
             4 -> round4Money
             5 -> round5Money
-            else -> throw InvalidLessonRoundException
+            else -> currentMoney // 6차 이상인 경우 현재가로 fallback
         }
     }
 }
