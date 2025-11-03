@@ -3,7 +3,6 @@ package team.mozu.dsm.application.service.team
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.team.dto.response.StockResponse
-import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.`in`.team.GetHoldStockUseCase
@@ -25,7 +24,7 @@ class GetHoldStockService(
     override fun getHoldStock(teamId: UUID): List<StockResponse> {
         return try {
             println("GetHoldStockService - Starting request for teamId: $teamId")
-            
+
             val team = queryTeamPort.findById(teamId) ?: run {
                 println("Team not found for teamId: $teamId")
                 throw TeamNotFoundException
@@ -41,7 +40,7 @@ class GetHoldStockService(
             val stocks = queryStockPort.findAllByTeamId(teamId)
                 .filter { it.id != null && it.quantity > 0 }
             println("Found ${stocks.size} stocks for teamId: $teamId")
-            
+
             if (stocks.isEmpty()) {
                 println("No stocks found, returning empty list")
                 return emptyList()
@@ -56,14 +55,14 @@ class GetHoldStockService(
 
             stocks.mapNotNull { stock ->
                 val lessonItem = lessonItemMap[stock.itemId] ?: return@mapNotNull null
-                
+
                 val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
                 val previousPrice = lessonItem.getPriceByRound(previousRound) ?: lessonItem.currentMoney
 
                 val currentValuation = currentPrice * stock.quantity
                 val previousValuation = previousPrice * stock.quantity
                 val valProfit = currentValuation - previousValuation
-                
+
                 val profitNum = if (previousValuation > 0) {
                     (valProfit.toDouble() / previousValuation.toDouble()) * 100
                 } else {
