@@ -1,19 +1,17 @@
 package team.mozu.dsm.domain.sse.model
 
 import team.mozu.dsm.domain.annotation.Aggregate
-import team.mozu.dsm.domain.sse.exception.InvalidEventStateTransitionException
 import java.time.LocalDateTime
 import java.util.UUID
 
 @Aggregate
 data class SseEvent(
-    val id: String,
+    var id: String? = null,
     val clientId: String,
     val eventName: String,
     val data: String,
     val timestamp: LocalDateTime,
-    val teamId: UUID? = null,
-    val status: SendStatus = SendStatus.PENDING
+    val teamId: UUID? = null
 ) {
     companion object {
         fun create(
@@ -23,25 +21,18 @@ data class SseEvent(
             teamId: UUID? = null
         ): SseEvent {
             return SseEvent(
-                id = generateEventId(),
                 clientId = clientId,
                 eventName = eventName,
                 data = data,
                 timestamp = LocalDateTime.now(),
-                teamId = teamId,
-                status = SendStatus.PENDING
+                teamId = teamId
             )
         }
-
-        private fun generateEventId(): String {
-            return "${System.currentTimeMillis()}-${UUID.randomUUID().toString().take(8)}"
-        }
     }
-
-    fun markAsSent(): SseEvent {
-        if (status != SendStatus.PENDING) {
-            throw InvalidEventStateTransitionException
-        }
-        return this.copy(status = SendStatus.SENT)
+    /**
+     * Redis에 저장된 후 streamId를 도메인 이벤트에 부여한다.
+     */
+    fun assignId(id: String) {
+        this.id = id
     }
 }
