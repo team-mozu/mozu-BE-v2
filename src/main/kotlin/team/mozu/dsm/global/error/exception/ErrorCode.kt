@@ -27,6 +27,8 @@ enum class ErrorCode(
     UNKNOWN_SSE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown SSE Error"),
     LESSON_CREATED_AT_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "Created at Not Found"),
     SSE_INVALID_STATE_TRANSITION(HttpStatus.CONFLICT, "Invalid Event State Transition"),
+    CLIENT_ID_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "Client Id not found"),
+    TIMESTAMP_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "Timestamp Not Found"),
 
     // organ
     ORGAN_NOT_FOUND(HttpStatus.NOT_FOUND, "Organ Not Found"),
