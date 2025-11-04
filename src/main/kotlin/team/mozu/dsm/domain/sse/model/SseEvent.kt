@@ -6,7 +6,7 @@ import java.util.UUID
 
 @Aggregate
 data class SseEvent(
-    var id: String? = null,
+    val id: String,
     val clientId: String,
     val eventName: String,
     val data: String,
@@ -21,6 +21,7 @@ data class SseEvent(
             teamId: UUID? = null
         ): SseEvent {
             return SseEvent(
+                id = generateEventId(),
                 clientId = clientId,
                 eventName = eventName,
                 data = data,
@@ -28,11 +29,9 @@ data class SseEvent(
                 teamId = teamId
             )
         }
-    }
-    /**
-     * Redis에 저장된 후 streamId를 도메인 이벤트에 부여한다.
-     */
-    fun assignId(id: String) {
-        this.id = id
+
+        private fun generateEventId(): String {
+            return "${System.currentTimeMillis()}-${UUID.randomUUID().toString().take(8)}"
+        }
     }
 }
