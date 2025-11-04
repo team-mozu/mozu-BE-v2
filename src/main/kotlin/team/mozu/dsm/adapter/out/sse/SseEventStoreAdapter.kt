@@ -1,5 +1,6 @@
 package team.mozu.dsm.adapter.out.sse
 
+import io.lettuce.core.Limit
 import io.lettuce.core.Range
 import io.lettuce.core.StreamMessage
 import io.lettuce.core.api.sync.RedisCommands
@@ -56,7 +57,7 @@ class SseEventStoreAdapter(
     private fun readLatestEvents(streamKey: String, lastEventId: String?): List<SseEvent> {
         val startId = lastEventId?.let { "($it" } ?: "0"
         val messages: List<StreamMessage<String, String>> =
-            redisCommands.xrange(streamKey, Range.create(startId, "+")) ?: emptyList()
+            redisCommands.xrange(streamKey, Range.create(startId, "+"), Limit.create(0, 500)) ?: emptyList()
 
         val events = mutableListOf<SseEvent>()
 
