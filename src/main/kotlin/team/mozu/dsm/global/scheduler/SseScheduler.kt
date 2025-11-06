@@ -5,8 +5,6 @@ import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
 import team.mozu.dsm.application.port.`in`.sse.PublishToAllSseUseCase
-import team.mozu.dsm.application.port.out.sse.SseEventStorePort
-import java.time.LocalDateTime
 
 @Component
 class SseScheduler(
