@@ -11,8 +11,7 @@ import java.time.LocalDateTime
 @Component
 class SseScheduler(
     private val publishToAllSseUseCase: PublishToAllSseUseCase,
-    private val sseEmitterRepository: SseEmitterRepository,
-    private val sseEventStorePort: SseEventStorePort
+    private val sseEmitterRepository: SseEmitterRepository
 ) {
 
     private val log = org.slf4j.LoggerFactory.getLogger(javaClass)
@@ -40,17 +39,6 @@ class SseScheduler(
 
         if (cleanedCount > 0) {
             log.info("Cleaned up $cleanedCount dead SSE connections")
-        }
-    }
-
-    @Scheduled(fixedRate = 3600000) // 1시간마다 실행
-    fun cleanupOldEvents() {
-        val twoHoursAgo = LocalDateTime.now().minusHours(2)
-        try {
-            sseEventStorePort.deleteOldEvents(twoHoursAgo)
-            log.debug("Cleaned up SSE events older than 2 hours")
-        } catch (e: Exception) {
-            log.error("Failed to cleanup old SSE events", e)
         }
     }
 }

@@ -49,4 +49,6 @@ object Dependencies {
     // Dotenv
     const val DOT_ENV = "me.paulschwarz:spring-dotenv:${DependencyVersions.DOT_ENV}"
 
+    // LETTUCE_CORE
+    const val LETTUCE_CORE = "io.lettuce:lettuce-core"
 }

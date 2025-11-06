@@ -7,5 +7,4 @@ interface SseEventStorePort {
     fun save(event: SseEvent)
     fun findEventsAfter(clientId: String, lastEventId: String?): List<SseEvent>
     fun findTeamEventsAfter(teamId: UUID, lastEventId: String?): List<SseEvent>
-    fun deleteOldEvents(beforeTimestamp: java.time.LocalDateTime)
 }
