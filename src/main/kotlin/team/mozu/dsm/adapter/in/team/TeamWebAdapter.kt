@@ -48,6 +48,7 @@ class TeamWebAdapter(
     private val getTeamRanksUseCase: GetTeamRanksUseCase,
     private val connectTeamSSEUseCase: ConnectTeamSSEUseCase
 ) : TeamApiDocument {
+
     @PostMapping("/participate")
     @ResponseStatus(HttpStatus.CREATED)
     override fun participate(
