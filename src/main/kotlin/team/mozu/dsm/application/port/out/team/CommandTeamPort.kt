@@ -4,7 +4,7 @@ import team.mozu.dsm.domain.team.model.Team
 
 interface CommandTeamPort {
 
-    fun create(team: Team): Team
+    fun save(team: Team): Team
 
     fun update(team: Team): Team
 }

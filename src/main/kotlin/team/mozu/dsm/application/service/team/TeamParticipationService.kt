@@ -61,12 +61,12 @@ class TeamParticipationService(
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now()
         )
-        val savedTeam = commandTeamPort.create(team)
+        val savedTeam = commandTeamPort.save(team)
 
         /**
          * 트랜잭션 안에서 SSE 이벤트를 직접 발행하면
          * 이벤트 발행 중 예외가 발생할 경우 DB 트랜잭션은 롤백되지만 이미 발행된 이벤트는 취소되지 않음
-         * TransactionSynchronizationManager.registerSynchronizatio을 사용해
+         * TransactionSynchronizationManager.registerSynchronization을 사용해
          * 트랜잭션이 성공적으로 커밋된 이후에만 SSE를 발행함
          */
         TransactionSynchronizationManager.registerSynchronization(

@@ -64,7 +64,7 @@ class TeamPersistenceAdapter(
     }
 
     //--Command--//
-    override fun create(team: Team): Team {
+    override fun save(team: Team): Team {
         val lessonEntity = lessonRepository.findByIdOrNull(team.lessonId)
             ?: throw LessonNotFoundException
         val entity = teamMapper.toEntity(team, lessonEntity)
