@@ -10,12 +10,12 @@ import team.mozu.dsm.global.security.jwt.JwtTokenFilter
 import team.mozu.dsm.global.security.jwt.JwtAdapter
 
 class FilterConfig(
-    private val jwtTokenProvider: JwtAdapter,
+    private val jwtAdapter: JwtAdapter,
     private val objectMapper: ObjectMapper
 ) : SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>() {
 
     override fun configure(http: HttpSecurity) {
-        val jwtTokenFilter = JwtTokenFilter(jwtTokenProvider)
+        val jwtTokenFilter = JwtTokenFilter(jwtAdapter)
         val globalExceptionFilter = GlobalExceptionFilter(objectMapper)
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
