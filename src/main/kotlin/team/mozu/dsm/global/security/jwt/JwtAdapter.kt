@@ -35,6 +35,7 @@ class JwtAdapter(
     private val customUserDetailsService: CustomUserDetailsService,
     private val refreshTokenRepository: RefreshTokenRepository
 ) : JwtPort {
+
     companion object {
         private const val TYPE_CLAIM = "type"
         private const val ACCESS_TYPE = "access"
@@ -105,8 +106,8 @@ class JwtAdapter(
         )
     }
 
-    //외부 호출
-    override fun createStudentAccessToken(lessonNum: String, teamId: UUID): TeamTokenResponse {
+    // 외부 호출
+    override fun createStudentAccessToken(teamId: UUID, lessonNum: String): TeamTokenResponse {
         val now = LocalDateTime.now()
 
         return TeamTokenResponse(
