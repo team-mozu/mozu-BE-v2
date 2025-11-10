@@ -3,7 +3,7 @@ package team.mozu.dsm.adapter.`in`.lesson.dto.response
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.querydsl.core.annotations.QueryProjection
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 data class LessonListResponse(
     val lessons: List<LessonSummaryResponse>

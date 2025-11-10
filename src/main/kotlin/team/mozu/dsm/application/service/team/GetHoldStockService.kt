@@ -10,7 +10,7 @@ import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.application.port.out.team.QueryStockPort
 import team.mozu.dsm.application.port.out.team.QueryTeamPort
-import java.util.*
+import java.util.UUID
 
 @Service
 class GetHoldStockService(

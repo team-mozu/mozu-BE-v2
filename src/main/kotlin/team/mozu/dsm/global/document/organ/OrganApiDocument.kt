@@ -9,7 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.PathVariable
 import team.mozu.dsm.adapter.`in`.auth.dto.response.TokenResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.request.CreateOrganRequest
 import team.mozu.dsm.adapter.`in`.organ.dto.request.LoginOrganRequest
@@ -19,7 +20,7 @@ import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganListResponse
 import team.mozu.dsm.domain.organ.model.Organ
 import team.mozu.dsm.global.error.ErrorResponse
-import java.util.*
+import java.util.UUID
 
 @Tag(name = "Organ", description = "기관 관련 API")
 interface OrganApiDocument {

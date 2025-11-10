@@ -24,7 +24,7 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
 import team.mozu.dsm.global.error.ErrorResponse
 import team.mozu.dsm.global.security.auth.StudentPrincipal
-import java.util.*
+import java.util.UUID
 
 @Tag(name = "Lesson", description = "수업 관련 API")
 interface LessonApiDocument {

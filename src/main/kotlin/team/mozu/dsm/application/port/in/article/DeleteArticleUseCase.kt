@@ -1,6 +1,6 @@
 package team.mozu.dsm.application.port.`in`.article
 
-import java.util.*
+import java.util.UUID
 
 interface DeleteArticleUseCase {
 

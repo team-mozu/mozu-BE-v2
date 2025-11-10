@@ -3,7 +3,7 @@ package team.mozu.dsm.application.port.out.lesson
 import team.mozu.dsm.application.port.out.lesson.dto.LessonItemDetailProjection
 import team.mozu.dsm.application.port.out.lesson.dto.LessonRoundItemProjection
 import team.mozu.dsm.domain.lesson.model.LessonItem
-import java.util.*
+import java.util.UUID
 
 interface QueryLessonItemPort {
 

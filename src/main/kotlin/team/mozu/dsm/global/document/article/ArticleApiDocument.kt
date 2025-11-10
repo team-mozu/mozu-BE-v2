@@ -16,7 +16,7 @@ import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.global.error.ErrorResponse
-import java.util.*
+import java.util.UUID
 
 @Tag(name = "Article", description = "기사 관련 API")
 interface ArticleApiDocument {

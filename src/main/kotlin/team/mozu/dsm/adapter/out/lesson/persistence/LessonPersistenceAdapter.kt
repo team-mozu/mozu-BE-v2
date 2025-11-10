@@ -16,7 +16,7 @@ import team.mozu.dsm.application.port.`in`.lesson.command.UpdateLessonCommand
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.domain.lesson.model.Lesson
-import java.util.UUID
+import java.util.*
 
 @Component
 class LessonPersistenceAdapter(

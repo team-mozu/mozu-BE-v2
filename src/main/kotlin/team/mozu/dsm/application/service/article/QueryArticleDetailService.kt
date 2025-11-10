@@ -6,7 +6,7 @@ import team.mozu.dsm.application.exception.article.ArticleNotFoundException
 import team.mozu.dsm.application.port.`in`.article.QueryArticleDetailUseCase
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import team.mozu.dsm.domain.article.model.Article
-import java.util.*
+import java.util.UUID
 
 @Service
 class QueryArticleDetailService(
