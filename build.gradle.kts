@@ -81,6 +81,10 @@ dependencies {
 
     // DotEnv
     implementation(Dependencies.DOT_ENV)
+
+    // Flyway
+    implementation(Dependencies.FLYWAY_CORE)
+    implementation(Dependencies.FLYWAY_MYSQL)
 }
 
 kotlin {
