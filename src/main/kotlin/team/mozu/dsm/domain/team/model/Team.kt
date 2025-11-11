@@ -8,7 +8,7 @@ import java.util.UUID
 data class Team(
     val id: UUID?,
     val lessonId: UUID,
-    val teamName: String?,
+    val teamName: String,
     val schoolName: String,
     val totalMoney: Long,
     val cashMoney: Long,
