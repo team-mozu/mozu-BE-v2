@@ -12,12 +12,14 @@ import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotInProgressException
 import team.mozu.dsm.application.exception.lesson.LessonNumNotFoundException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
+import team.mozu.dsm.application.exception.team.TeamAlreadyExistsException
 import team.mozu.dsm.application.port.`in`.sse.PublishToSseUseCase
 import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.application.port.out.team.CommandTeamPort
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
+import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
 
@@ -27,7 +29,8 @@ class TeamParticipationService(
     private val commandTeamPort: CommandTeamPort,
     private val queryOrganPort: QueryOrganPort,
     private val jwtPort: JwtPort,
-    private val publishToSseUseCase: PublishToSseUseCase
+    private val publishToSseUseCase: PublishToSseUseCase,
+    private val queryTeamPort: QueryTeamPort
 ) : TeamParticipationUseCase {
 
     @Transactional
@@ -37,6 +40,10 @@ class TeamParticipationService(
 
         val organ = queryOrganPort.findModelById(lesson.organId)
             ?: throw OrganNotFoundException
+
+        if (queryTeamPort.existsByTeamName(request.teamName)) {
+            throw TeamAlreadyExistsException
+        }
 
         if (!lesson.isInProgress) {
             throw LessonNotInProgressException
