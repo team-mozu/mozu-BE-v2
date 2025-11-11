@@ -62,6 +62,7 @@ enum class ErrorCode(
     STOCK_QUANTITY_INSUFFICIENT(HttpStatus.CONFLICT, "Stock Quantity Insufficient"),
     STOCK_NOT_OWNED(HttpStatus.CONFLICT, "Stock Not Owned"),
     INSUFFICIENT_CASH(HttpStatus.BAD_REQUEST, "Insufficient Cash"),
+    TEAM_ALREADY_EXISTS(HttpStatus.CONFLICT, "Team Already Exists"),
 
     // article
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "Article Not Found"),
