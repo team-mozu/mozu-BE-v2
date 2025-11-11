@@ -81,13 +81,13 @@ class JwtAdapter(
     }
 
     // 내부 학생용 accessToken 생성
-    fun generateStudentAccessToken(lessonNum: String, teamId: UUID): String {
+    fun generateStudentAccessToken(teamId: UUID, lessonNum: String): String {
         val now = Date()
 
         return Jwts.builder()
-            .setSubject(lessonNum)
+            .setSubject(teamId.toString())
             .claim(TYPE_CLAIM, STUDENT_ACCESS_TYPE)
-            .claim("teamId", teamId.toString())
+            .claim("lessonNum", lessonNum)
             .setIssuedAt(now)
             .setExpiration(Date(now.time + jwtProperties.studentAccessExp * MILLISECONDS))
             .signWith(secretKey)
@@ -107,11 +107,11 @@ class JwtAdapter(
     }
 
     // 외부 호출
-    override fun createStudentAccessToken(teamId: UUID, lessonNum: String): TeamTokenResponse {
+    override fun createStudentAccessToken(lessonNum: String, teamId: UUID): TeamTokenResponse {
         val now = LocalDateTime.now()
 
         return TeamTokenResponse(
-            accessToken = generateStudentAccessToken(lessonNum, teamId),
+            accessToken = generateStudentAccessToken(teamId, lessonNum),
             accessExpiredAt = now.plusSeconds(jwtProperties.studentAccessExp)
         )
     }
