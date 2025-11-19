@@ -11,7 +11,7 @@ import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.out.team.CommandStockPort
 import team.mozu.dsm.application.port.out.team.QueryStockPort
 import team.mozu.dsm.domain.team.model.Stock
-import java.util.*
+import java.util.UUID
 
 @Component
 class StockPersistenceAdapter(

@@ -63,8 +63,12 @@ class TeamPersistenceAdapter(
         return teams.map { teamMapper.toModel(it) }
     }
 
+    override fun existsByTeamName(teamName: String): Boolean {
+        return teamRepository.existsByTeamName(teamName)
+    }
+
     //--Command--//
-    override fun create(team: Team): Team {
+    override fun save(team: Team): Team {
         val lessonEntity = lessonRepository.findByIdOrNull(team.lessonId)
             ?: throw LessonNotFoundException
         val entity = teamMapper.toEntity(team, lessonEntity)

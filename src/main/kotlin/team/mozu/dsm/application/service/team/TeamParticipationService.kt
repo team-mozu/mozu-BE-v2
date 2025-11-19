@@ -12,12 +12,14 @@ import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotInProgressException
 import team.mozu.dsm.application.exception.lesson.LessonNumNotFoundException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
+import team.mozu.dsm.application.exception.team.TeamAlreadyExistsException
 import team.mozu.dsm.application.port.`in`.sse.PublishToSseUseCase
 import team.mozu.dsm.application.port.out.auth.JwtPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.application.port.out.team.CommandTeamPort
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort
+import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import team.mozu.dsm.domain.team.model.Team
 import java.time.LocalDateTime
 
@@ -27,7 +29,8 @@ class TeamParticipationService(
     private val commandTeamPort: CommandTeamPort,
     private val queryOrganPort: QueryOrganPort,
     private val jwtPort: JwtPort,
-    private val publishToSseUseCase: PublishToSseUseCase
+    private val publishToSseUseCase: PublishToSseUseCase,
+    private val queryTeamPort: QueryTeamPort
 ) : TeamParticipationUseCase {
 
     @Transactional
@@ -37,6 +40,10 @@ class TeamParticipationService(
 
         val organ = queryOrganPort.findModelById(lesson.organId)
             ?: throw OrganNotFoundException
+
+        if (queryTeamPort.existsByTeamName(request.teamName)) {
+            throw TeamAlreadyExistsException
+        }
 
         if (!lesson.isInProgress) {
             throw LessonNotInProgressException
@@ -61,12 +68,12 @@ class TeamParticipationService(
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now()
         )
-        val savedTeam = commandTeamPort.create(team)
+        val savedTeam = commandTeamPort.save(team)
 
         /**
          * 트랜잭션 안에서 SSE 이벤트를 직접 발행하면
          * 이벤트 발행 중 예외가 발생할 경우 DB 트랜잭션은 롤백되지만 이미 발행된 이벤트는 취소되지 않음
-         * TransactionSynchronizationManager.registerSynchronizatio을 사용해
+         * TransactionSynchronizationManager.registerSynchronization을 사용해
          * 트랜잭션이 성공적으로 커밋된 이후에만 SSE를 발행함
          */
         TransactionSynchronizationManager.registerSynchronization(

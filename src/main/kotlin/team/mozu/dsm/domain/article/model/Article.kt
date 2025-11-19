@@ -3,7 +3,7 @@ package team.mozu.dsm.domain.article.model
 import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
 import team.mozu.dsm.domain.annotation.Aggregate
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 @Aggregate
 data class Article(

@@ -11,7 +11,7 @@ import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.out.article.CommandArticlePort
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import team.mozu.dsm.domain.article.model.Article
-import java.util.*
+import java.util.UUID
 
 @Component
 class ArticlePersistenceAdapter(

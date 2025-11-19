@@ -8,7 +8,7 @@ import team.mozu.dsm.application.port.`in`.article.DeleteArticleUseCase
 import team.mozu.dsm.application.port.out.article.CommandArticlePort
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import team.mozu.dsm.application.port.out.auth.SecurityPort
-import java.util.*
+import java.util.UUID
 
 @Service
 class DeleteArticleService(

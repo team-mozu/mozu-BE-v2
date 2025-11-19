@@ -51,4 +51,8 @@ object Dependencies {
 
     // LETTUCE_CORE
     const val LETTUCE_CORE = "io.lettuce:lettuce-core"
+
+    // Flyway
+    const val FLYWAY_CORE = "org.flywaydb:flyway-core"
+    const val FLYWAY_MYSQL = "org.flywaydb:flyway-mysql"
 }

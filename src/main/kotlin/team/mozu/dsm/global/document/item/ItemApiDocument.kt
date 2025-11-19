@@ -16,7 +16,6 @@ import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.global.error.ErrorResponse
-import java.util.*
 
 @Tag(name = "Item", description = "종목 관련 API")
 interface ItemApiDocument {

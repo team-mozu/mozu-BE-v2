@@ -13,7 +13,7 @@ import team.mozu.dsm.application.port.out.article.QueryArticlePort
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.s3.S3Port
 import team.mozu.dsm.domain.article.model.Article
-import java.util.*
+import java.util.UUID
 
 @Service
 class UpdateArticleService(

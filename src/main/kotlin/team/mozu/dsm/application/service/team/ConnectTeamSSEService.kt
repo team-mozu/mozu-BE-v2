@@ -9,7 +9,7 @@ import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.`in`.team.ConnectTeamSSEUseCase
 import team.mozu.dsm.application.port.out.sse.SubscribeSsePort
 import team.mozu.dsm.application.port.out.team.QueryTeamPort
-import java.util.*
+import java.util.UUID
 
 @Service
 class ConnectTeamSSEService(

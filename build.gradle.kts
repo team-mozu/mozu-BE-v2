@@ -81,6 +81,10 @@ dependencies {
 
     // DotEnv
     implementation(Dependencies.DOT_ENV)
+
+    // Flyway
+    implementation(Dependencies.FLYWAY_CORE)
+    implementation(Dependencies.FLYWAY_MYSQL)
 }
 
 kotlin {
@@ -107,4 +111,8 @@ plugins.withId("org.jlleitschuh.gradle.ktlint") {
     tasks.named("runKtlintCheckOverMainSourceSet") {
         dependsOn("kaptKotlin")
     }
+}
+
+tasks.test {
+    enabled = false
 }

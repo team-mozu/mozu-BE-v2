@@ -19,8 +19,9 @@ import java.time.LocalDateTime
 @Table(name = "tbl_item")
 @Where(clause = "is_deleted = false")
 class ItemJpaEntity(
-    @Column(nullable = false)
+
     @Id
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null,
 

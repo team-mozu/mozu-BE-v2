@@ -12,10 +12,8 @@ import team.mozu.dsm.domain.article.model.Article
 abstract class ArticleMapper {
 
     @Mapping(target = "organId", source = "organ.id")
-    @Mapping(target = "articleDesc", source = "articleDesc")
     abstract fun toModel(entity: ArticleJpaEntity): Article
 
-    @Mapping(target = "articleDesc", source = "articleDesc")
     @Mapping(target = "articleImg", source = "articleImage")
     abstract fun toResponse(model: Article): ArticleResponse
 
