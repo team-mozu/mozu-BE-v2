@@ -10,7 +10,7 @@ import team.mozu.dsm.adapter.out.lesson.entity.LessonJpaEntity
 import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
-@Table(name = "tbl_lesson_team")
+@Table(name = "tbl_team")
 class TeamJpaEntity(
 
     @Column(nullable = false, unique = true, columnDefinition = "VARCHAR(100)")
