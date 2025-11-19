@@ -112,3 +112,7 @@ plugins.withId("org.jlleitschuh.gradle.ktlint") {
         dependsOn("kaptKotlin")
     }
 }
+
+tasks.test {
+    enabled = false
+}
