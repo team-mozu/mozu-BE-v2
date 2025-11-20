@@ -37,11 +37,9 @@ data class ItemRequest(
     @field:Max(Long.MAX_VALUE, message = "매출원가는 유효한 범위를 초과할 수 없습니다.")
     val profitOg: Long,
 
-    @field:Min(0, message = "매출이익은 0원 이상이어야 합니다.")
     @field:Max(Long.MAX_VALUE, message = "매출이익은 유효한 범위를 초과할 수 없습니다.")
     val profitBenefit: Long,
 
-    @field:Min(0, message = "당기순이익은 0원 이상이어야 합니다.")
     @field:Max(Long.MAX_VALUE, message = "당기순이익은 유효한 범위를 초과할 수 없습니다.")
     val netProfit: Long
 )
