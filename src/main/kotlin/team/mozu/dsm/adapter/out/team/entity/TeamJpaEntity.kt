@@ -13,7 +13,7 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 @Table(name = "tbl_team")
 class TeamJpaEntity(
 
-    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR(100)")
+    @Column(nullable = false, columnDefinition = "VARCHAR(100)")
     var teamName: String?,
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")

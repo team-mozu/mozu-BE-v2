@@ -41,9 +41,11 @@ class TeamParticipationService(
         val organ = queryOrganPort.findModelById(lesson.organId)
             ?: throw OrganNotFoundException
 
-        if (queryTeamPort.existsByTeamName(request.teamName)) {
-            throw TeamAlreadyExistsException
-        }
+        lesson.id?.let { lessonId ->
+            if (queryTeamPort.existsByTeamNameAndLessonId(request.teamName, lessonId)) {
+                throw TeamAlreadyExistsException
+            }
+        } ?: throw LessonNotFoundException
 
         if (!lesson.isInProgress) {
             throw LessonNotInProgressException
@@ -57,7 +59,7 @@ class TeamParticipationService(
 
         val team = Team(
             id = null,
-            lessonId = lesson.id ?: throw LessonNotFoundException,
+            lessonId = lesson.id,
             teamName = request.teamName,
             schoolName = request.schoolName,
             totalMoney = baseMoney,
