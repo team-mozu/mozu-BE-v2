@@ -13,7 +13,7 @@ import team.mozu.dsm.domain.team.type.OrderType
 import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
-@Table(name = "tbl_team_order")
+@Table(name = "tbl_order_item")
 class OrderItemJpaEntity(
 
     @Column(nullable = false, columnDefinition = "VARCHAR(100)")
