@@ -5,7 +5,7 @@ import java.util.UUID
 
 interface QueryTeamPort {
 
-    fun findById(teamId: UUID): Team
+    fun findById(teamId: UUID): Team?
 
     fun findByIdWithLock(teamId: UUID): Team?
 

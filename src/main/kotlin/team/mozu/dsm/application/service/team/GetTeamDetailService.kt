@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamDetailResponse
 import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
+import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
@@ -25,7 +26,7 @@ class GetTeamDetailService(
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 
-        val team = queryTeamPort.findById(teamId)
+        val team = queryTeamPort.findById(teamId) ?: throw TeamNotFoundException
 
         val stocks = queryStockPort.findAllByTeamId(teamId)
 

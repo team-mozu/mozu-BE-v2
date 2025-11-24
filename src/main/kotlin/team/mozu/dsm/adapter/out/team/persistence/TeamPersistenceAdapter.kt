@@ -24,9 +24,9 @@ class TeamPersistenceAdapter(
 ) : CommandTeamPort, QueryTeamPort {
 
     //--Query--//
-    override fun findById(teamId: UUID): Team {
+    override fun findById(teamId: UUID): Team? {
         val entity = teamRepository.findByIdOrNull(teamId)
-            ?: throw TeamNotFoundException
+            ?: return null
 
         return teamMapper.toModel(entity)
     }
