@@ -21,7 +21,7 @@ data class LessonRequest(
     @field:Max(5, message = "투자 차수는 최대 5차까지 가능합니다.")
     val lessonRound: Int,
 
-    @field:Size(min = 1, max = 20, message = "수업 종목은 1~20개 사이로 입력해야 합니다.")
+    @field:Size(min = 1, max = 40, message = "수업 종목은 1~40개 사이로 입력해야 합니다.")
     val lessonItems: List<LessonItemRequest>,
 
     @field:Valid
