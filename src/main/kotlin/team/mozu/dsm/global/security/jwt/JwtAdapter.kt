@@ -85,9 +85,9 @@ class JwtAdapter(
         val now = Date()
 
         return Jwts.builder()
-            .setSubject(teamId.toString())
+            .setSubject(lessonNum)
             .claim(TYPE_CLAIM, STUDENT_ACCESS_TYPE)
-            .claim("lessonNum", lessonNum)
+            .claim("teamId", teamId.toString())
             .setIssuedAt(now)
             .setExpiration(Date(now.time + jwtProperties.studentAccessExp * MILLISECONDS))
             .signWith(secretKey)
