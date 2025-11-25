@@ -85,9 +85,9 @@ class JwtAdapter(
         val now = Date()
 
         return Jwts.builder()
-            .setSubject(lessonNum)
+            .setSubject(teamId.toString())
             .claim(TYPE_CLAIM, STUDENT_ACCESS_TYPE)
-            .claim("teamId", teamId.toString())
+            .claim("lessonNum", lessonNum)
             .setIssuedAt(now)
             .setExpiration(Date(now.time + jwtProperties.studentAccessExp * MILLISECONDS))
             .signWith(secretKey)
@@ -122,8 +122,8 @@ class JwtAdapter(
 
         return when (tokenType) {
             STUDENT_ACCESS_TYPE -> {
-                val lessonNum = claims.subject
-                val teamId = UUID.fromString(claims.get("teamId", String::class.java))
+                val teamId = UUID.fromString(claims.subject)
+                val lessonNum = claims.get("lessonNum", String::class.java)
                 UsernamePasswordAuthenticationToken(
                     StudentPrincipal(lessonNum, teamId),
                     null,
