@@ -85,6 +85,8 @@ dependencies {
     // Flyway
     implementation(Dependencies.FLYWAY_CORE)
     implementation(Dependencies.FLYWAY_MYSQL)
+
+    implementation("me.paulschwarz:spring-dotenv:3.0.0")
 }
 
 kotlin {
