@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size
 
 data class TeamParticipationRequest(
 
-    @field:Size(min = 7, max = 7, message = "수업 번호는 7자로 입력해주세요.")
+    @field:Size(min = 4, max = 4, message = "수업 번호는 4자로 입력해주세요.")
     @field:NotBlank(message = "수업 번호는 필수입니다.")
     val lessonNum: String,
 

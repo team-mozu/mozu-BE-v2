@@ -49,7 +49,7 @@ class StartLessonService(
     }
 
     private fun createCode(): String {
-        val code = random.nextInt(10_000_000) // 0 ~ 9,999,999 숫자 랜덤 발급
-        return "%07d".format(code)
+        val code = random.nextInt(10_000) // 0 ~ 9,999 숫자 랜덤 발급
+        return "%04d".format(code)
     }
 }
