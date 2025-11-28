@@ -75,6 +75,8 @@ class GetTeamResultService(
             teamName = team.teamName,
             baseMoney = lesson.baseMoney,
             totalMoney = actualTotalMoney,
+            investingMoney = totalBuyMoney, // 투자중인 금액 (매입한 주식 총액)
+            availableMoney = team.cashMoney, // 주문 가능 금액 (보유 현금)
             invRound = lesson.curInvRound,
             valProfit = valProfit,
             profitNum = formattedProfitNum,

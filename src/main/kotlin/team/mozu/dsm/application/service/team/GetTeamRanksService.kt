@@ -14,7 +14,8 @@ class GetTeamRanksService(
 
     @Transactional(readOnly = true)
     override fun get(lessonNum: String, teamId: UUID): List<TeamRankResponse> {
-        val allTeams = queryTeamPort.findAllByLessonNumOrderByTotalMoneyDesc(lessonNum)
+        val nextLessonNum = (lessonNum.toIntOrNull()?.plus(1) ?: lessonNum.toInt() + 1).toString()
+        val allTeams = queryTeamPort.findAllByLessonNumOrderByTotalMoneyDesc(nextLessonNum)
 
         return allTeams
             .map { team ->
