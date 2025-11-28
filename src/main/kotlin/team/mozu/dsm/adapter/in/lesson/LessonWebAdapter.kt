@@ -33,6 +33,7 @@ import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
+import team.mozu.dsm.application.port.`in`.lesson.StartLessonInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundArticlesUseCase
@@ -55,6 +56,7 @@ class LessonWebAdapter(
     private val getLessonItemsUseCase: GetLessonItemsUseCase,
     private val getLessonArticlesUseCase: GetLessonArticlesUseCase,
     private val nextLessonUseCase: NextLessonUseCase,
+    private val startLessonInvestmentUseCase: StartLessonInvestmentUseCase,
     private val lessonOrganSSEUseCase: LessonOrganSSEUseCase,
     private val getLessonRoundItemsUseCase: GetLessonRoundItemsUseCase,
     private val getLessonRoundArticlesUseCase: GetLessonRoundArticlesUseCase,
@@ -148,6 +150,14 @@ class LessonWebAdapter(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
         nextLessonUseCase.next(lessonId)
+    }
+
+    @PatchMapping("/start-investment/{lesson-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun startInvestment(
+        @PathVariable("lesson-id") lessonId: UUID
+    ) {
+        startLessonInvestmentUseCase.startInvestment(lessonId)
     }
 
     @GetMapping("/sse/{lesson-id}")
