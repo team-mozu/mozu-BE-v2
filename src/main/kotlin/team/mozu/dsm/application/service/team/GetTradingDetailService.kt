@@ -47,10 +47,10 @@ class GetTradingDetailService(
                 ?: lessonItem.currentMoney
 
             val valuationAmount = currentPrice * stock.quantity
-            val totalBuyAmount = stock.avgPurchasePrice * stock.quantity
-            val profitLoss = valuationAmount - totalBuyAmount
-            val profitLossRate = if (totalBuyAmount > 0) {
-                (profitLoss.toDouble() / totalBuyAmount.toDouble()) * 100
+            val totalPurchaseAmount = stock.buyMoney // 총 매입금액 사용
+            val profitLoss = valuationAmount - totalPurchaseAmount
+            val profitLossRate = if (totalPurchaseAmount > 0) {
+                (profitLoss.toDouble() / totalPurchaseAmount.toDouble()) * 100
             } else {
                 0.0
             }
@@ -59,7 +59,7 @@ class GetTradingDetailService(
                 itemId = stock.itemId,
                 itemName = stock.itemName,
                 holdingQuantity = stock.quantity,
-                averagePrice = stock.avgPurchasePrice,
+                purchasePrice = totalPurchaseAmount, // 총 매입금액
                 currentPrice = currentPrice,
                 valuationAmount = valuationAmount,
                 profitLoss = profitLoss,
