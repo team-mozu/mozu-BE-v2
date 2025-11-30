@@ -20,6 +20,7 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.StockResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamDetailResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.OrderItemResponse
+import team.mozu.dsm.adapter.`in`.team.dto.response.TradingDetailResponse
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.team.GetHoldStockUseCase
@@ -30,6 +31,7 @@ import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
 import team.mozu.dsm.application.port.`in`.team.GetOrderItemUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamResultUseCase
 import team.mozu.dsm.application.port.`in`.team.GetTeamRanksUseCase
+import team.mozu.dsm.application.port.`in`.team.GetTradingDetailUseCase
 import team.mozu.dsm.global.document.team.TeamApiDocument
 import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.UUID
@@ -46,6 +48,7 @@ class TeamWebAdapter(
     private val getTeamResultUseCase: GetTeamResultUseCase,
     private val getHoldStockUseCase: GetHoldStockUseCase,
     private val getTeamRanksUseCase: GetTeamRanksUseCase,
+    private val getTradingDetailUseCase: GetTradingDetailUseCase,
     private val connectTeamSSEUseCase: ConnectTeamSSEUseCase
 ) : TeamApiDocument {
 
@@ -122,6 +125,14 @@ class TeamWebAdapter(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TeamRankResponse> {
         return getTeamRanksUseCase.get(principal.lessonNum, principal.teamId)
+    }
+
+    @GetMapping("/trading-detail")
+    @ResponseStatus(HttpStatus.OK)
+    fun getTradingDetail(
+        @AuthenticationPrincipal principal: StudentPrincipal
+    ): List<TradingDetailResponse> {
+        return getTradingDetailUseCase.getTradingDetail(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/sse")
