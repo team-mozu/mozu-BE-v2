@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+    mysql:
+        image: mysql:8.0
+        container_name: mozu-mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: troy96475
+            MYSQL_DATABASE: mozu_server
+            TZ: Asia/Seoul
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./mysql-data:/var/lib/mysql
+        restart: always
+
+    redis:
+        image: redis:7
+        container_name: mozu-redis
+        ports:
+            - "6379:6379"
+        volumes:
+            - ./redis-data:/data
+        restart: always
+
+    backend:
+        image: jidohyun/mozu-server-onpremise:1.0.0
+        container_name: mozu-server-onpremise
+        env_file:
+            - ./.env
+        ports:
+            - "8080:8080"
+        depends_on:
+            - mysql
+            - redis
+        restart: always

@@ -13,5 +13,7 @@ interface QueryTeamPort {
 
     fun findAllByLessonId(lessonId: UUID): List<Team>
 
+    fun findAllByLessonIdAndInvestmentInProgress(lessonId: UUID): List<Team>
+
     fun existsByTeamNameAndLessonId(teamName: String, lessonId: UUID): Boolean
 }

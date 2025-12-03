@@ -1,14 +1,5 @@
--- Initial schema for MOZU (Auto-generated from staging DB)
--- Flyway Version 1 : Base Tables Creation
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- -----------------------------------------------------
--- Table `flyway_schema_history`
--- (필요 없으며 Flyway가 자동으로 생성하므로 제외 권장)
--- -----------------------------------------------------
-
 
 -- -----------------------------------------------------
 -- Table `tbl_organ`
@@ -36,8 +27,8 @@ CREATE TABLE `tbl_article` (
   `is_deleted` bit(1) NOT NULL,
   `organ_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKsbo1e0mmt0f3tldkemd4o6u1x` (`organ_id`),
-  CONSTRAINT `FKsbo1e0mmt0f3tldkemd4o6u1x`
+  KEY `FK_article_organ` (`organ_id`),
+  CONSTRAINT `FK_article_organ`
     FOREIGN KEY (`organ_id`) REFERENCES `tbl_organ` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -59,9 +50,9 @@ CREATE TABLE `tbl_lesson` (
   `max_inv_round` int NOT NULL,
   `organ_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK1ojd81lqh48i11h0e2oedgpvr` (`lesson_num`),
-  KEY `FKlgrh5u3cf4wvpnf91sgl8bj3g` (`organ_id`),
-  CONSTRAINT `FKlgrh5u3cf4wvpnf91sgl8bj3g`
+  UNIQUE KEY `UK_lesson_num` (`lesson_num`),
+  KEY `FK_lesson_organ` (`organ_id`),
+  CONSTRAINT `FK_lesson_organ`
     FOREIGN KEY (`organ_id`) REFERENCES `tbl_organ` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -86,10 +77,10 @@ CREATE TABLE `tbl_item` (
   `updated_at` datetime(6) DEFAULT NULL,
   `organ_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKosq83c049ouulml943f9wd3ba` (`organ_id`),
-  CONSTRAINT `FKosq83c049ouulml943f9wd3ba`
+  KEY `FK_item_organ` (`organ_id`),
+  CONSTRAINT `FK_item_organ`
     FOREIGN KEY (`organ_id`) REFERENCES `tbl_organ` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1074 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -105,10 +96,10 @@ CREATE TABLE `tbl_lesson_item` (
   `item_id` int NOT NULL,
   `lesson_id` binary(16) NOT NULL,
   PRIMARY KEY (`item_id`,`lesson_id`),
-  KEY `FKka6lx97amdkp3xk0hrx8olk9a` (`lesson_id`),
-  CONSTRAINT `FKka6lx97amdkp3xk0hrx8olk9a`
+  KEY `FK_lessonitem_lesson` (`lesson_id`),
+  CONSTRAINT `FK_lessonitem_lesson`
     FOREIGN KEY (`lesson_id`) REFERENCES `tbl_lesson` (`id`),
-  CONSTRAINT `FKqj8sgk0nrsg6e3rjd39ljb4e6`
+  CONSTRAINT `FK_lessonitem_item`
     FOREIGN KEY (`item_id`) REFERENCES `tbl_item` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -121,18 +112,18 @@ CREATE TABLE `tbl_lesson_article` (
   `article_id` binary(16) NOT NULL,
   `lesson_id` binary(16) NOT NULL,
   PRIMARY KEY (`article_id`,`lesson_id`),
-  KEY `FKe3dw95swkky5p7ver17i9q8kt` (`lesson_id`),
-  CONSTRAINT `FKe3dw95swkky5p7ver17i9q8kt`
+  KEY `FK_lessonarticle_lesson` (`lesson_id`),
+  CONSTRAINT `FK_lessonarticle_lesson`
     FOREIGN KEY (`lesson_id`) REFERENCES `tbl_lesson` (`id`),
-  CONSTRAINT `FKoam6o917bvwpw3yw1lkb29sll`
+  CONSTRAINT `FK_lessonarticle_article`
     FOREIGN KEY (`article_id`) REFERENCES `tbl_article` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `tbl_team`
+-- Table `tbl_lesson_team` (rename 이전)
 -- -----------------------------------------------------
-CREATE TABLE `tbl_team` (
+CREATE TABLE `tbl_lesson_team` (
   `id` binary(16) NOT NULL,
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
@@ -145,17 +136,16 @@ CREATE TABLE `tbl_team` (
   `valuation_money` bigint NOT NULL,
   `lesson_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_team_name_lesson_id` (`team_name`,`lesson_id`),
-  KEY `FKn5ywhkdehga1gvq7cpx2emdcs` (`lesson_id`),
-  CONSTRAINT `FKn5ywhkdehga1gvq7cpx2emdcs`
+  KEY `FK_lessonteam_lesson` (`lesson_id`),
+  CONSTRAINT `FK_lessonteam_lesson`
     FOREIGN KEY (`lesson_id`) REFERENCES `tbl_lesson` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `tbl_order_item`
+-- Table `tbl_team_order` (rename 이전)
 -- -----------------------------------------------------
-CREATE TABLE `tbl_order_item` (
+CREATE TABLE `tbl_team_order` (
   `id` binary(16) NOT NULL,
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
@@ -168,12 +158,12 @@ CREATE TABLE `tbl_order_item` (
   `item_id` int NOT NULL,
   `team_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKcteiahcxwx60yr0lj8sx6p18` (`item_id`),
-  KEY `FK59bli978wogs13m6rvwupm38s` (`team_id`),
-  CONSTRAINT `FK59bli978wogs13m6rvwupm38s`
-    FOREIGN KEY (`team_id`) REFERENCES `tbl_team` (`id`),
-  CONSTRAINT `FKcteiahcxwx60yr0lj8sx6p18`
-    FOREIGN KEY (`item_id`) REFERENCES `tbl_item` (`id`)
+  KEY `FK_teamorder_item` (`item_id`),
+  KEY `FK_teamorder_team` (`team_id`),
+  CONSTRAINT `FK_teamorder_item`
+    FOREIGN KEY (`item_id`) REFERENCES `tbl_item` (`id`),
+  CONSTRAINT `FK_teamorder_team`
+    FOREIGN KEY (`team_id`) REFERENCES `tbl_lesson_team` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -193,12 +183,13 @@ CREATE TABLE `tbl_stock` (
   `item_id` int NOT NULL,
   `team_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK3brsuekqyrly9yfjv0ye4ro9u` (`item_id`),
-  KEY `FKtdg4wpvosckjgnlq04px27dhh` (`team_id`),
-  CONSTRAINT `FK3brsuekqyrly9yfjv0ye4ro9u`
+  KEY `FK_stock_item` (`item_id`),
+  KEY `FK_stock_team` (`team_id`),
+  CONSTRAINT `FK_stock_item`
     FOREIGN KEY (`item_id`) REFERENCES `tbl_item` (`id`),
-  CONSTRAINT `FKtdg4wpvosckjgnlq04px27dhh`
-    FOREIGN KEY (`team_id`) REFERENCES `tbl_team` (`id`)
+  CONSTRAINT `FK_stock_team`
+    FOREIGN KEY (`team_id`) REFERENCES `tbl_lesson_team` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 SET FOREIGN_KEY_CHECKS = 1;
