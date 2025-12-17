@@ -44,7 +44,7 @@ class GetTradingDetailService(
                 ?: throw LessonItemNotFoundException
 
             val currentPrice = lessonItem.getPriceByRound(currentRound)
-                ?: lessonItem.currentMoney
+                ?: lessonItem.endPrice
 
             val valuationAmount = currentPrice * stock.quantity
             val totalPurchaseAmount = stock.buyMoney // 총 매입금액 사용

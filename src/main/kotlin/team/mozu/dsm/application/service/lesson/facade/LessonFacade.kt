@@ -73,12 +73,12 @@ class LessonFacade(
         val lessonItemsToSave = lessonItems.map { req ->
             LessonItem(
                 lessonItemId = LessonItemId(lesson.id!!, req.itemId),
-                currentMoney = req.money.getOrNull(lessonRound) ?: req.money.last(), // 종료가 (fallback)
-                round1Money = req.money.get(0), // 1차가격
-                round2Money = req.money.get(1), // 2차가격
-                round3Money = req.money.get(2), // 3차가격
-                round4Money = req.money.getOrNull(3), // 4차가격 (optional)
-                round5Money = req.money.getOrNull(4) // 5차가격 (optional)
+                round1Price = req.money.get(0), // 1차가격
+                round2Price = req.money.get(1), // 2차가격
+                round3Price = req.money.get(2), // 3차가격
+                round4Price = req.money.getOrNull(3), // 4차가격 (optional)
+                round5Price = req.money.getOrNull(4), // 5차가격 (optional)
+                endPrice = req.money.getOrNull(lessonRound) ?: req.money.last() // 종료가 (fallback)
             )
         }
         lessonItemPort.saveAll(lesson.id!!, lessonItemsToSave)
@@ -120,10 +120,10 @@ class LessonFacade(
                     itemId = item.id!!,
                     itemName = item.itemName,
                     money = listOf(
-                        lessonItem.round1Money, // 0번째 -> 1차
-                        lessonItem.round2Money, // 1번째 -> 2차
-                        lessonItem.round3Money // 2번째 -> 3차
-                    ) + listOfNotNull(lessonItem.round4Money, lessonItem.round5Money, lessonItem.currentMoney) // 4차, 5차, 종료가
+                        lessonItem.round1Price, // 0번째 -> 1차
+                        lessonItem.round2Price, // 1번째 -> 2차
+                        lessonItem.round3Price // 2번째 -> 3차
+                    ) + listOfNotNull(lessonItem.round4Price, lessonItem.round5Price, lessonItem.endPrice) // 4차, 5차, 종료가
                 )
             }
         }

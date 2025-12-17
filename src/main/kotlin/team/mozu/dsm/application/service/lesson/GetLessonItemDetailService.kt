@@ -28,12 +28,12 @@ class GetLessonItemDetailService(
 
         // 전체 money 배열: [currentMoney, round1Money, round2Money, round3Money, round4Money, round5Money]
         val fullMoneyArray = listOf(
-            lessonItem.itemCurrentMoney, // 0번째 (건너뜀)
-            lessonItem.itemRound1Money, // 1번째 -> 1차
-            lessonItem.itemRound2Money, // 2번째 -> 2차
-            lessonItem.itemRound3Money, // 3번째 -> 3차
-            lessonItem.itemRound4Money ?: 0, // 4번째 -> 4차
-            lessonItem.itemRound5Money ?: 0 // 5번째 -> 5차
+            lessonItem.endPrice, // 0번째 (건너뜀)
+            lessonItem.round1Price, // 1번째 -> 1차
+            lessonItem.round2Price, // 2번째 -> 2차
+            lessonItem.round3Price, // 3번째 -> 3차
+            lessonItem.round4Price ?: 0, // 4번째 -> 4차
+            lessonItem.round5Price ?: 0 // 5번째 -> 5차
         )
 
         // 0번째 인덱스를 건너뛰고 1번째부터 사용

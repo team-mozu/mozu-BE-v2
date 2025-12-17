@@ -43,7 +43,7 @@ class GetTeamDetailService(
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
-            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.endPrice
             currentPrice * stock.quantity
         }
 
@@ -52,7 +52,7 @@ class GetTeamDetailService(
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
-            val previousPrice = lessonItem.getPriceByRound(previousRound) ?: lessonItem.currentMoney
+            val previousPrice = lessonItem.getPriceByRound(previousRound) ?: lessonItem.endPrice
             previousPrice * stock.quantity
         }
 

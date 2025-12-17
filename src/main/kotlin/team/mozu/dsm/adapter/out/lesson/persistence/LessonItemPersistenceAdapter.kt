@@ -89,12 +89,12 @@ class LessonItemPersistenceAdapter(
                 QLessonItemDetailProjection(
                     getPreMoneyCase(),
                     getCurMoneyCase(),
-                    lessonItemJpaEntity.currentMoney,
-                    lessonItemJpaEntity.round1Money,
-                    lessonItemJpaEntity.round2Money,
-                    lessonItemJpaEntity.round3Money,
-                    lessonItemJpaEntity.round4Money,
-                    lessonItemJpaEntity.round5Money
+                    lessonItemJpaEntity.round1Price,
+                    lessonItemJpaEntity.round2Price,
+                    lessonItemJpaEntity.round3Price,
+                    lessonItemJpaEntity.round4Price,
+                    lessonItemJpaEntity.round5Price,
+                    lessonItemJpaEntity.endPrice
                 )
             )
             .from(lessonItemJpaEntity)
@@ -146,20 +146,20 @@ class LessonItemPersistenceAdapter(
     private fun getPreMoneyCase(): NumberExpression<Long> {
         return CaseBuilder()
             .`when`(lessonJpaEntity.curInvRound.eq(1)).then(0L) // 1차는 이전 차수가 없음
-            .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.round1Money) // 2차 이전: 1번째 인덱스
-            .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round2Money) // 3차 이전: 2번째 인덱스
-            .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round3Money) // 4차 이전: 3번째 인덱스
-            .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round4Money.coalesce(0)) // 5차 이전: 4번째 인덱스
+            .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.round1Price) // 2차 이전: 1번째 인덱스
+            .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round2Price) // 3차 이전: 2번째 인덱스
+            .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round3Price) // 4차 이전: 3번째 인덱스
+            .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round4Price.coalesce(0)) // 5차 이전: 4번째 인덱스
             .otherwise(0L)
     }
 
     private fun getCurMoneyCase(): NumberExpression<Long> {
         return CaseBuilder()
-            .`when`(lessonJpaEntity.curInvRound.eq(1)).then(lessonItemJpaEntity.round1Money) // 1차: 1번째 인덱스
-            .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.round2Money) // 2차: 2번째 인덱스
-            .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round3Money) // 3차: 3번째 인덱스
-            .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round4Money.coalesce(0)) // 4차: 4번째 인덱스
-            .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round5Money.coalesce(0)) // 5차: 5번째 인덱스
+            .`when`(lessonJpaEntity.curInvRound.eq(1)).then(lessonItemJpaEntity.round1Price) // 1차: 1번째 인덱스
+            .`when`(lessonJpaEntity.curInvRound.eq(2)).then(lessonItemJpaEntity.round2Price) // 2차: 2번째 인덱스
+            .`when`(lessonJpaEntity.curInvRound.eq(3)).then(lessonItemJpaEntity.round3Price) // 3차: 3번째 인덱스
+            .`when`(lessonJpaEntity.curInvRound.eq(4)).then(lessonItemJpaEntity.round4Price.coalesce(0)) // 4차: 4번째 인덱스
+            .`when`(lessonJpaEntity.curInvRound.eq(5)).then(lessonItemJpaEntity.round5Price.coalesce(0)) // 5차: 5번째 인덱스
             .otherwise(0L)
     }
 }
