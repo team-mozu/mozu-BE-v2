@@ -5,10 +5,10 @@ import com.querydsl.core.annotations.QueryProjection
 data class LessonItemDetailProjection @QueryProjection constructor(
     val preMoney: Long,
     val curMoney: Long,
-    val itemCurrentMoney: Long,
-    val itemRound1Money: Long,
-    val itemRound2Money: Long,
-    val itemRound3Money: Long,
-    val itemRound4Money: Long?,
-    val itemRound5Money: Long?
+    val round1Price: Long,
+    val round2Price: Long,
+    val round3Price: Long,
+    val round4Price: Long?,
+    val round5Price: Long?,
+    val endPrice: Long,
 )

@@ -56,8 +56,8 @@ class GetHoldStockService(
             stocks.mapNotNull { stock ->
                 val lessonItem = lessonItemMap[stock.itemId] ?: return@mapNotNull null
 
-                val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
-                val previousPrice = lessonItem.getPriceByRound(previousRound) ?: lessonItem.currentMoney
+                val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.endPrice
+                val previousPrice = lessonItem.getPriceByRound(previousRound) ?: lessonItem.endPrice
 
                 val currentValuation = currentPrice * stock.quantity
                 val previousValuation = previousPrice * stock.quantity

@@ -48,7 +48,7 @@ class GetTeamResultService(
         // 주식 평가액 계산 (N+1 차수 기준)
         val currentStockValuation = stocks.sumOf { stock ->
             val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
-            val currentPrice = lessonItem.getPriceByRound(profitCalculationRound) ?: lessonItem.currentMoney
+            val currentPrice = lessonItem.getPriceByRound(profitCalculationRound) ?: lessonItem.endPrice
             currentPrice * stock.quantity
         }
 

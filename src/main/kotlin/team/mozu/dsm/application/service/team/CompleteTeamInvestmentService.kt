@@ -108,7 +108,7 @@ class CompleteTeamInvestmentService(
                     // 평가손익 계산 (N+1 차수 기준)
                     val stockValuationMoney = updatedStocks.sumOf { stock ->
                         val lessonItem = lessonItemMap[stock.itemId] ?: return@sumOf 0L
-                        val currentPrice = lessonItem.getPriceByRound(profitCalculationRound) ?: lessonItem.currentMoney
+                        val currentPrice = lessonItem.getPriceByRound(profitCalculationRound) ?: lessonItem.endPrice
                         currentPrice * stock.quantity
                     }
 
@@ -207,7 +207,7 @@ class CompleteTeamInvestmentService(
         var currentValuationMoney = existingStocks.sumOf { stock ->
             val lessonItem = lessonItemMap[stock.itemId]
             val currentPrice = if (lessonItem != null) {
-                lessonItem.getPriceByRound(lesson.curInvRound) ?: lessonItem.currentMoney
+                lessonItem.getPriceByRound(lesson.curInvRound) ?: lessonItem.endPrice
             } else {
                 0L
             }
@@ -219,14 +219,14 @@ class CompleteTeamInvestmentService(
         val totalBuyAmount = requests.filter { it.orderType == OrderType.BUY }
             .sumOf { r ->
                 val lessonItem = lessonItemMap[r.itemId] ?: throw LessonItemNotFoundException
-                val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+                val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.endPrice
                 currentPrice * r.orderCount
             }
 
         val totalSellAmount = requests.filter { it.orderType == OrderType.SELL }
             .sumOf { r ->
                 val lessonItem = lessonItemMap[r.itemId] ?: throw LessonItemNotFoundException
-                val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+                val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.endPrice
                 currentPrice * r.orderCount
             }
 
@@ -248,7 +248,7 @@ class CompleteTeamInvestmentService(
             val totalSellCount = sellRequests.sumOf { it.orderCount }
             val lessonItem = lessonItemMap[itemId] ?: throw LessonItemNotFoundException
             val currentRound = lesson.curInvRound
-            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.endPrice
             val itemTotalBuyAmount = buyRequests
                 .sumOf { r ->
                     currentPrice * r.orderCount
@@ -425,7 +425,7 @@ class CompleteTeamInvestmentService(
         // 평가액 = 모든 보유 주식의 (수량 * 현재가) 합 (실시간 계산)
         val valuationMoney = currentStocks.sumOf { stock ->
             val lessonItem = stockLessonItemMap[stock.itemId] ?: throw LessonItemNotFoundException
-            val currentPrice = lessonItem.getPriceByRound(curInvRound) ?: lessonItem.currentMoney
+            val currentPrice = lessonItem.getPriceByRound(curInvRound) ?: lessonItem.endPrice
             currentPrice * stock.quantity
         }
 
@@ -461,7 +461,7 @@ class CompleteTeamInvestmentService(
 
         val stocksToUpdate = nonTradedStocks.map { stock ->
             val lessonItem = lessonItemMap[stock.itemId] ?: throw LessonItemNotFoundException
-            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.currentMoney
+            val currentPrice = lessonItem.getPriceByRound(currentRound) ?: lessonItem.endPrice
 
             val currentValProfit = (currentPrice * stock.quantity) - stock.buyMoney
             val currentProfitNum = if (stock.buyMoney > 0) {

@@ -45,9 +45,9 @@ class GetStocksService(
                 ?: throw LessonItemNotFoundException
 
             val currentPrice = lessonItem.getPriceByRound(currentRound)
-                ?: lessonItem.currentMoney
+                ?: lessonItem.endPrice
             val previousPrice = lessonItem.getPriceByRound(previousRound)
-                ?: lessonItem.currentMoney
+                ?: lessonItem.endPrice
 
             val currentValuation = currentPrice * stock.quantity
             val previousValuation = previousPrice * stock.quantity

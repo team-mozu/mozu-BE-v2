@@ -29,18 +29,18 @@ class LessonItemJpaEntity(
     var item: ItemJpaEntity,
 
     @Column(nullable = false)
-    var currentMoney: Long,
+    var round1Price: Long,
 
     @Column(nullable = false)
-    var round1Money: Long,
+    var round2Price: Long,
 
     @Column(nullable = false)
-    var round2Money: Long,
+    var round3Price: Long,
+
+    var round4Price: Long?,
+
+    var round5Price: Long?,
 
     @Column(nullable = false)
-    var round3Money: Long,
-
-    var round4Money: Long?,
-
-    var round5Money: Long?
+    var endPrice: Long
 )

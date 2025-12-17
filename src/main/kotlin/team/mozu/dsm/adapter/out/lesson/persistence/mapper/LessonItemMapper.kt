@@ -20,12 +20,12 @@ abstract class LessonItemMapper {
             ),
             lesson = lesson,
             item = item,
-            currentMoney = model.currentMoney,
-            round1Money = model.round1Money,
-            round2Money = model.round2Money,
-            round3Money = model.round3Money,
-            round4Money = model.round4Money,
-            round5Money = model.round5Money
+            round1Price = model.round1Price,
+            round2Price = model.round2Price,
+            round3Price = model.round3Price,
+            round4Price = model.round4Price,
+            round5Price = model.round5Price,
+            endPrice = model.endPrice
         )
     }
 }
