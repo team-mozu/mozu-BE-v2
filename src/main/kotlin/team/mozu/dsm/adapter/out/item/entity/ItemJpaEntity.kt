@@ -31,7 +31,7 @@ class ItemJpaEntity(
     @Column(columnDefinition = "VARCHAR(255)")
     var itemLogo: String?,
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "VARCHAR(10000)")
     var itemInfo: String,
 
     @Column(nullable = false)

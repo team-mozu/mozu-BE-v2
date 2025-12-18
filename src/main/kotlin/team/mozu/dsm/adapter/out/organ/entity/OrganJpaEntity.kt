@@ -15,6 +15,6 @@ class OrganJpaEntity(
     @Column(columnDefinition = "VARCHAR(100)", nullable = false)
     var organName: String,
 
-    @Column(columnDefinition = "VARCHAR(300)", nullable = false)
+    @Column(columnDefinition = "CHAR(60)", nullable = false)
     var password: String
 ) : BaseUUIDEntity()
