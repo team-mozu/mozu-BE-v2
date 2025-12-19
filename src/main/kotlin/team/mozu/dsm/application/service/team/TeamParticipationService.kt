@@ -42,7 +42,7 @@ class TeamParticipationService(
             ?: throw OrganNotFoundException
 
         lesson.id?.let { lessonId ->
-            if (queryTeamPort.existsByTeamNameAndLessonId(request.teamName, lessonId)) {
+            if (queryTeamPort.existsByTeamNameAndLessonIdAndLessonNum(request.teamName, lessonId, request.lessonNum)) {
                 throw TeamAlreadyExistsException
             }
         } ?: throw LessonNotFoundException

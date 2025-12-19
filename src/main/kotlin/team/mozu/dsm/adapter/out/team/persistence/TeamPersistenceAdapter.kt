@@ -72,13 +72,14 @@ class TeamPersistenceAdapter(
         return teams.map { teamMapper.toModel(it) }
     }
 
-    override fun existsByTeamNameAndLessonId(teamName: String, lessonId: UUID): Boolean {
+    override fun existsByTeamNameAndLessonIdAndLessonNum(teamName: String, lessonId: UUID, lessonNum: String): Boolean {
         return jpaQueryFactory
             .selectOne()
             .from(teamJpaEntity)
             .where(
                 teamJpaEntity.teamName.eq(teamName)
                     .and(teamJpaEntity.lesson.id.eq(lessonId))
+                    .and(teamJpaEntity.lessonNum.eq(lessonNum))
             )
             .fetchFirst() != null
     }
