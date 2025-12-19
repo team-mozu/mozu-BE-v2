@@ -28,7 +28,7 @@ class TeamJpaEntity(
     @Column(nullable = false)
     var valuationMoney: Long,
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(40)")
+    @Column(nullable = false, columnDefinition = "CHAR(4)")
     var lessonNum: String,
 
     @Column(nullable = false)
