@@ -20,11 +20,9 @@ class ArticleJpaEntity(
 
     @Column(name = "article_description", nullable = false, columnDefinition = "VARCHAR(10000)")
     var articleDesc: String,
-    // text로 변경하기
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "VARCHAR(255)")
     var articleImage: String?,
-    // varchar(255)로 변경하기
 
     @Column(nullable = false)
     var isDeleted: Boolean = false,

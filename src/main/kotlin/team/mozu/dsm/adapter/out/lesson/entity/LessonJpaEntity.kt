@@ -25,7 +25,7 @@ class LessonJpaEntity(
     @Column(nullable = false)
     var baseMoney: Long,
 
-    @Column(unique = true, columnDefinition = "VARCHAR(10)")
+    @Column(unique = true, columnDefinition = "CHAR(4)")
     var lessonNum: String?,
 
     @Column(nullable = false)
