@@ -52,7 +52,7 @@ class StartLessonService(
                 val updatedLesson = lessonFacade.findByLessonId(lesson.id)
 
                 // 해당 수업에 참여중인 팀 조회
-                val teams = teamPort.findAllByLessonId(lesson.id)
+                val teams = teamPort.findAllByLessonNum(lesson.lessonNum!!)
 
                 // 트랜잭션 커밋 후 이벤트 발행
                 TransactionSynchronizationManager.registerSynchronization(

@@ -36,7 +36,7 @@ class EndLessonService(
         }
 
         // 해당 수업에 참여 중인 팀들 조회
-        val teams = queryTeamPort.findAllByLessonId(lesson.id!!)
+        val teams = queryTeamPort.findAllByLessonNum(lesson.lessonNum!!)
 
         commandLessonPort.updateIsInProgress(lesson.id!!)
 
