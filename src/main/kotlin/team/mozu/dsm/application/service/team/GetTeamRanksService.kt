@@ -3,7 +3,6 @@ package team.mozu.dsm.application.service.team
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamRankResponse
-import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.port.`in`.team.GetTeamRanksUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
@@ -26,7 +25,7 @@ class GetTeamRanksService(
             ?: throw LessonNotFoundException
 
         // lessonNum으로 모든 팀 조회 (정렬 없이)
-        val allTeams = queryTeamPort.findAllByLessonId(lesson.id!!)
+        val allTeams = queryTeamPort.findAllByLessonNum(lesson.lessonNum!!)
 
         // 수익 계산을 위한 차수: 현재 진행 차수(N) + 1 (/team/result와 동일)
         val profitCalculationRound = lesson.curInvRound + 1
@@ -37,7 +36,7 @@ class GetTeamRanksService(
             val stockItemIds = stocks.map { it.itemId }.distinct()
 
             val lessonItemMap = if (stockItemIds.isNotEmpty()) {
-                queryLessonItemPort.findAllByLessonIdAndItemIds(lesson.id, stockItemIds)
+                queryLessonItemPort.findAllByLessonIdAndItemIds(lesson.id!!, stockItemIds)
                     .associateBy { it.lessonItemId.itemId }
             } else {
                 emptyMap()
