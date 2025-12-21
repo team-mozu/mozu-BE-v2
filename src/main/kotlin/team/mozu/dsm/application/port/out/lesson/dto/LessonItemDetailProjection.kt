@@ -10,5 +10,5 @@ data class LessonItemDetailProjection @QueryProjection constructor(
     val round3Price: Long,
     val round4Price: Long?,
     val round5Price: Long?,
-    val endPrice: Long,
+    val endPrice: Long
 )
