@@ -116,4 +116,16 @@ class TeamPersistenceAdapter(
         val savedEntity = teamRepository.save(entity)
         return teamMapper.toModel(savedEntity)
     }
+
+    override fun updateIsInvestmentInProgress(teams: List<Team>) {
+        if (teams.isEmpty()) return
+
+        val teamIds = teams.map { it.id }
+
+        jpaQueryFactory
+            .update(teamJpaEntity)
+            .set(teamJpaEntity.isInvestmentInProgress, false)
+            .where(teamJpaEntity.id.`in`(teamIds))
+            .execute()
+    }
 }
