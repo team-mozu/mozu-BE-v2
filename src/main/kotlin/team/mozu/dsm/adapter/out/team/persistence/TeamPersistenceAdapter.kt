@@ -51,10 +51,13 @@ class TeamPersistenceAdapter(
         return entities.map { teamMapper.toModel(it) }
     }
 
-    override fun findAllByLessonNum(lessonNum: String): List<Team> {
+    override fun findAllByLessonId(lessonId: UUID): List<Team> {
         val teams = jpaQueryFactory
             .selectFrom(teamJpaEntity)
-            .where(teamJpaEntity.lesson.lessonNum.eq(lessonNum))
+            .where(
+                teamJpaEntity.lesson.id.eq(lessonId)
+                    .and(teamJpaEntity.isInvestmentInProgress.isTrue)
+            )
             .fetch()
 
         return teams.map { teamMapper.toModel(it) }

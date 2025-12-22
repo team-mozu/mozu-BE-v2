@@ -41,7 +41,7 @@ class StartLessonInvestmentService(
         // 수업 투자 시작을 위해 curInvRound 업데이트 (차수 증가)
         val updatedLesson = lessonPort.updateCurInvRound(lesson.id!!)
         // 해당 수업에 참여중인 팀 조회
-        val teams = teamPort.findAllByLessonNum(lesson.lessonNum!!)
+        val teams = teamPort.findAllByLessonId(lesson.id)
 
         // 트랜잭션 커밋 후 이벤트 발행
         TransactionSynchronizationManager.registerSynchronization(

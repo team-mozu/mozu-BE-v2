@@ -24,13 +24,13 @@ class GetTeamRanksService(
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 
-        // lessonNum으로 모든 팀 조회 (정렬 없이)
-        val allTeams = queryTeamPort.findAllByLessonNum(lesson.lessonNum!!)
+        // 수업에 참여중인 모든 팀 조회
+        val teams = queryTeamPort.findAllByLessonId(lesson.id!!)
 
         // 수익 계산을 위한 차수: 현재 진행 차수(N) + 1 (/team/result와 동일)
         val profitCalculationRound = lesson.curInvRound + 1
 
-        val teamRanks = allTeams.map { team ->
+        val teamRanks = teams.map { team ->
             // 각 팀의 주식 조회
             val stocks = queryStockPort.findAllByTeamId(team.id!!)
             val stockItemIds = stocks.map { it.itemId }.distinct()

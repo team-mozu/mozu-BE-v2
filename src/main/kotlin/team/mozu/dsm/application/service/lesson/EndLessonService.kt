@@ -36,9 +36,9 @@ class EndLessonService(
         }
 
         // 해당 수업에 참여 중인 팀들 조회
-        val teams = queryTeamPort.findAllByLessonNum(lesson.lessonNum!!)
+        val teams = queryTeamPort.findAllByLessonId(lesson.id!!)
 
-        commandLessonPort.updateIsInProgress(lesson.id!!)
+        commandLessonPort.updateIsInProgress(lesson.id)
 
         // 트랜잭션 커밋 후 팀들에게 수업 취소 이벤트 발행
         TransactionSynchronizationManager.registerSynchronization(
