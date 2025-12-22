@@ -7,9 +7,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import team.mozu.dsm.adapter.`in`.team.dto.TeamParticipationEventDTO
 import team.mozu.dsm.adapter.`in`.team.dto.request.TeamParticipationRequest
 import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
-import team.mozu.dsm.application.exception.lesson.LessonDeletedException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotInProgressException
+import team.mozu.dsm.application.exception.lesson.CannotParticipateLessonException
+import team.mozu.dsm.application.exception.lesson.LessonDeletedException
 import team.mozu.dsm.application.exception.lesson.LessonNumNotFoundException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.exception.team.TeamAlreadyExistsException
@@ -36,7 +37,7 @@ class TeamParticipationService(
     @Transactional
     override fun participate(request: TeamParticipationRequest): TeamTokenResponse {
         val lesson = queryLessonPort.findByLessonNum(request.lessonNum)
-            ?: throw LessonNumNotFoundException
+            ?: throw LessonNotFoundException
 
         val organ = queryOrganPort.findModelById(lesson.organId)
             ?: throw OrganNotFoundException
@@ -49,6 +50,10 @@ class TeamParticipationService(
 
         if (!lesson.isInProgress) {
             throw LessonNotInProgressException
+        }
+
+        if (lesson.curInvRound > 0) {
+            throw CannotParticipateLessonException
         }
 
         if (lesson.isDeleted) {

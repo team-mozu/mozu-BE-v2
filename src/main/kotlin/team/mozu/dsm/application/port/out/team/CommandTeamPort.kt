@@ -7,4 +7,6 @@ interface CommandTeamPort {
     fun save(team: Team): Team
 
     fun update(team: Team): Team
+
+    fun updateIsInvestmentInProgress(teams: List<Team>)
 }

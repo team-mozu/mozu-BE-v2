@@ -51,10 +51,13 @@ class TeamPersistenceAdapter(
         return entities.map { teamMapper.toModel(it) }
     }
 
-    override fun findAllByLessonNum(lessonNum: String): List<Team> {
+    override fun findAllByLessonId(lessonId: UUID): List<Team> {
         val teams = jpaQueryFactory
             .selectFrom(teamJpaEntity)
-            .where(teamJpaEntity.lesson.lessonNum.eq(lessonNum))
+            .where(
+                teamJpaEntity.lesson.id.eq(lessonId)
+                    .and(teamJpaEntity.isInvestmentInProgress.isTrue)
+            )
             .fetch()
 
         return teams.map { teamMapper.toModel(it) }
@@ -112,5 +115,17 @@ class TeamPersistenceAdapter(
 
         val savedEntity = teamRepository.save(entity)
         return teamMapper.toModel(savedEntity)
+    }
+
+    override fun updateIsInvestmentInProgress(teams: List<Team>) {
+        if (teams.isEmpty()) return
+
+        val teamIds = teams.map { it.id }
+
+        jpaQueryFactory
+            .update(teamJpaEntity)
+            .set(teamJpaEntity.isInvestmentInProgress, false)
+            .where(teamJpaEntity.id.`in`(teamIds))
+            .execute()
     }
 }

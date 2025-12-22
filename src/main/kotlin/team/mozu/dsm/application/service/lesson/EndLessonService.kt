@@ -9,6 +9,7 @@ import team.mozu.dsm.application.port.`in`.lesson.EndLessonUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
 import team.mozu.dsm.application.port.out.sse.PublishSsePort
+import team.mozu.dsm.application.port.out.team.CommandTeamPort
 import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import team.mozu.dsm.application.service.lesson.facade.LessonFacade
 import java.util.UUID
@@ -19,7 +20,8 @@ class EndLessonService(
     private val commandLessonPort: CommandLessonPort,
     private val securityPort: SecurityPort,
     private val publishSsePort: PublishSsePort,
-    private val queryTeamPort: QueryTeamPort
+    private val queryTeamPort: QueryTeamPort,
+    private val commandTeamPort: CommandTeamPort
 ) : EndLessonUseCase {
 
     companion object {
@@ -36,9 +38,10 @@ class EndLessonService(
         }
 
         // 해당 수업에 참여 중인 팀들 조회
-        val teams = queryTeamPort.findAllByLessonNum(lesson.lessonNum!!)
+        val teams = queryTeamPort.findAllByLessonId(lesson.id!!)
 
-        commandLessonPort.updateIsInProgress(lesson.id!!)
+        commandLessonPort.updateIsInProgress(lesson.id)
+        commandTeamPort.updateIsInvestmentInProgress(teams)
 
         // 트랜잭션 커밋 후 팀들에게 수업 취소 이벤트 발행
         TransactionSynchronizationManager.registerSynchronization(
