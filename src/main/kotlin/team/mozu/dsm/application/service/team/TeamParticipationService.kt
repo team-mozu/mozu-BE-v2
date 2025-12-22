@@ -36,7 +36,7 @@ class TeamParticipationService(
     @Transactional
     override fun participate(request: TeamParticipationRequest): TeamTokenResponse {
         val lesson = queryLessonPort.findByLessonNum(request.lessonNum)
-            ?: throw LessonNumNotFoundException
+            ?: throw LessonNotFoundException
 
         val organ = queryOrganPort.findModelById(lesson.organId)
             ?: throw OrganNotFoundException
