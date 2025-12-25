@@ -17,7 +17,7 @@ class LoginOrganService(
     private val passwordEncoder: PasswordEncoder
 ) : LoginOrganUseCase {
 
-    override fun login(request: LoginOrganRequest): TokenResponse {
+    override fun execute(request: LoginOrganRequest): TokenResponse {
         val organ = queryOrganPort.findByOrganCode(request.code)
             ?: throw OrganNotFoundException
 

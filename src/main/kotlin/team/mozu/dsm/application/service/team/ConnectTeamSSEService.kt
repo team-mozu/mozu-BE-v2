@@ -25,7 +25,7 @@ class ConnectTeamSSEService(
         private val logger = LoggerFactory.getLogger(ConnectTeamSSEService::class.java)
     }
 
-    override fun connectTeamSSE(teamId: UUID, lastEventId: String?): SseEmitter {
+    override fun execute(teamId: UUID, lastEventId: String?): SseEmitter {
         logger.info("SSE 연결 시도 - TeamId: $teamId, LastEventId: $lastEventId")
 
         val team = queryTeamPort.findById(teamId)

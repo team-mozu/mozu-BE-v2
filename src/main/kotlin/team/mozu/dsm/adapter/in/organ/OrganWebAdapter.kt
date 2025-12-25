@@ -44,7 +44,7 @@ class OrganWebAdapter(
         @RequestBody @Valid
         request: CreateOrganRequest
     ): Organ {
-        return createOrganUseCase.create(request)
+        return createOrganUseCase.execute(request)
     }
 
     @PatchMapping("/token/reissue")
@@ -53,7 +53,7 @@ class OrganWebAdapter(
         @RequestBody @Valid
         request: ReissueOrganTokenRequest
     ): TokenResponse {
-        return reissueOrganTokenUseCase.reissue(request)
+        return reissueOrganTokenUseCase.execute(request)
     }
 
     @PostMapping("/login")
@@ -62,24 +62,24 @@ class OrganWebAdapter(
         @RequestBody @Valid
         request: LoginOrganRequest
     ): TokenResponse {
-        return loginOrganUseCase.login(request)
+        return loginOrganUseCase.execute(request)
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryOrganDetail(@PathVariable id: UUID): OrganDetailResponse {
-        return queryOrganDetailUseCase.queryOrganDetail(id)
+        return queryOrganDetailUseCase.execute(id)
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     override fun queryOrganInventory(): List<OrganListResponse> {
-        return queryOrganInventoryUseCase.queryOrganInventory()
+        return queryOrganInventoryUseCase.execute()
     }
 
     @GetMapping("/my")
     @ResponseStatus(HttpStatus.OK)
     override fun getMyOrgan(): MyOrganResponse {
-        return getMyOrganUseCase.getMyOrgan()
+        return getMyOrganUseCase.execute()
     }
 }

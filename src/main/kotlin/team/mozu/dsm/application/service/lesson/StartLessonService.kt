@@ -24,7 +24,7 @@ class StartLessonService(
     }
 
     @Transactional
-    override fun start(id: UUID): StartLessonResponse {
+    override fun execute(id: UUID): StartLessonResponse {
         val lesson = lessonFacade.findByLessonId(id)
         val organ = securityPort.getCurrentOrgan()
 

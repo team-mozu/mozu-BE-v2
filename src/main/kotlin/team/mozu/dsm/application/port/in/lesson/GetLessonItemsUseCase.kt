@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface GetLessonItemsUseCase {
 
-    fun get(lessonId: UUID): List<LessonItemResponse>
+    fun execute(lessonId: UUID): List<LessonItemResponse>
 }

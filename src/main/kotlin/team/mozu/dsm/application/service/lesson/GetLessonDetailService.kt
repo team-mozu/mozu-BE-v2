@@ -17,7 +17,7 @@ class GetLessonDetailService(
 ) : GetLessonDetailUseCase {
 
     @Transactional(readOnly = true)
-    override fun get(id: UUID): LessonResponse {
+    override fun execute(id: UUID): LessonResponse {
         val lesson = lessonFacade.findByLessonId(id)
 
         val lessonItems = lessonItemPort.findAllByLessonId(lesson.id!!)

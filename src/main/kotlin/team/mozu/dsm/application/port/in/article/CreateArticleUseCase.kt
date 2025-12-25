@@ -5,5 +5,5 @@ import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 
 interface CreateArticleUseCase {
 
-    fun create(request: ArticleRequest): ArticleResponse
+    fun execute(request: ArticleRequest): ArticleResponse
 }

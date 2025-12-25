@@ -50,7 +50,7 @@ class CompleteTeamInvestmentService(
 ) : CompleteTeamInvestmentUseCase {
 
     @Transactional
-    override fun completeInvestment(requests: List<CompleteInvestmentRequest>, lessonNum: String, teamId: UUID) {
+    override fun execute(requests: List<CompleteInvestmentRequest>, lessonNum: String, teamId: UUID) {
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 

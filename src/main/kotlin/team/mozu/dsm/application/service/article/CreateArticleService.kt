@@ -21,7 +21,7 @@ class CreateArticleService(
 ) : CreateArticleUseCase {
 
     @Transactional
-    override fun create(request: ArticleRequest): ArticleResponse {
+    override fun execute(request: ArticleRequest): ArticleResponse {
         val organ = securityPort.getCurrentOrgan()
 
         val imageUrl: String? = request.articleImage

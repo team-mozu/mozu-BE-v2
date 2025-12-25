@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface GetHoldStockUseCase {
 
-    fun getHoldStock(teamId: UUID): List<StockResponse>
+    fun execute(teamId: UUID): List<StockResponse>
 }

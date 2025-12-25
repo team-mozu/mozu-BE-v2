@@ -41,7 +41,7 @@ class ItemWebAdapter(
         @ModelAttribute @Valid
         request: ItemRequest
     ): ItemResponse {
-        return createItemUseCase.create(request)
+        return createItemUseCase.execute(request)
     }
 
     @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
@@ -51,7 +51,7 @@ class ItemWebAdapter(
         @ModelAttribute @Valid
         request: UpdateItemRequest
     ): ItemResponse {
-        return updateItemUseCase.update(id, request)
+        return updateItemUseCase.execute(id, request)
     }
 
     @GetMapping("/{id}")
@@ -59,14 +59,14 @@ class ItemWebAdapter(
     override fun queryDetail(
         @PathVariable id: Int
     ): ItemResponse {
-        val item = queryItemDetailUseCase.queryDetail(id)
+        val item = queryItemDetailUseCase.execute(id)
         return itemMapper.toResponse(item)
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     override fun queryAll(): List<ItemQueryResponse> {
-        return queryItemAllUseCase.queryAll()
+        return queryItemAllUseCase.execute()
     }
 
     @DeleteMapping("/{id}")
@@ -74,6 +74,6 @@ class ItemWebAdapter(
     override fun delete(
         @PathVariable id: Int
     ) {
-        deleteItemUseCase.delete(id)
+        deleteItemUseCase.execute(id)
     }
 }

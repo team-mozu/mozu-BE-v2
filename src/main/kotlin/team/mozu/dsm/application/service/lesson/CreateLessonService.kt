@@ -18,7 +18,7 @@ class CreateLessonService(
 ) : CreateLessonUseCase {
 
     @Transactional
-    override fun create(request: LessonRequest): LessonResponse {
+    override fun execute(request: LessonRequest): LessonResponse {
         // 로그인한 기관 정보 조회
         val organ = securityPort.getCurrentOrgan()
 

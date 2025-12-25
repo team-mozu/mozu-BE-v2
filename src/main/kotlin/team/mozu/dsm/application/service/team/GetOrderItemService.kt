@@ -13,7 +13,7 @@ class GetOrderItemService(
 ) : GetOrderItemUseCase {
 
     @Transactional(readOnly = true)
-    override fun getOrderItems(teamId: UUID): List<OrderItemResponse> {
+    override fun execute(teamId: UUID): List<OrderItemResponse> {
         val orderItems = queryOrderItemPort.findAllByTeamId(teamId)
 
         return orderItems.map { orderItem ->

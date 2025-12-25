@@ -25,7 +25,7 @@ class UpdateArticleService(
 ) : UpdateArticleUseCase {
 
     @Transactional
-    override fun update(id: UUID, request: UpdateArticleRequest): ArticleResponse {
+    override fun execute(id: UUID, request: UpdateArticleRequest): ArticleResponse {
         val organ = securityPort.getCurrentOrgan()
         val article: Article = queryArticlePort.findById(id) ?: throw ArticleNotFoundException
 

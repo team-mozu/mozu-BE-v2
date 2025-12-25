@@ -4,5 +4,5 @@ import java.util.UUID
 
 interface ChangeStarUseCase {
 
-    fun change(id: UUID)
+    fun execute(id: UUID)
 }

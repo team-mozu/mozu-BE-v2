@@ -21,7 +21,7 @@ class CreateItemService(
 ) : CreateItemUseCase {
 
     @Transactional
-    override fun create(request: ItemRequest): ItemResponse {
+    override fun execute(request: ItemRequest): ItemResponse {
         val organ = securityPort.getCurrentOrgan()
 
         val logoUrl: String? = request.itemLogo

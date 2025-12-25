@@ -16,7 +16,7 @@ class QueryArticleAllService(
 ) : QueryArticleAllUseCase {
 
     @Transactional(readOnly = true)
-    override fun queryAll(): List<ArticleQueryResponse> {
+    override fun execute(): List<ArticleQueryResponse> {
         val currentOrgan = securityPort.getCurrentOrgan()
 
         return queryArticlePort.findAllByOrganId(currentOrgan.id!!).map { articleMapper.toQueryResponse(it) }

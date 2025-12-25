@@ -4,5 +4,5 @@ import java.util.UUID
 
 interface DeleteArticleUseCase {
 
-    fun delete(id: UUID)
+    fun execute(id: UUID)
 }

@@ -6,5 +6,5 @@ import java.util.UUID
 
 interface UpdateArticleUseCase {
 
-    fun update(id: UUID, request: UpdateArticleRequest): ArticleResponse
+    fun execute(id: UUID, request: UpdateArticleRequest): ArticleResponse
 }

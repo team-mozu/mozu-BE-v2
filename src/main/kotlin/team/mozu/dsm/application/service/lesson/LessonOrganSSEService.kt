@@ -23,7 +23,7 @@ class LessonOrganSSEService(
         private const val CONNECTED_EVENT = "LESSON_SSE_CONNECTED"
     }
 
-    override fun connect(lessonId: UUID): SseEmitter {
+    override fun execute(lessonId: UUID): SseEmitter {
         val lesson = lessonFacade.findByLessonId(lessonId)
         val organ = securityPort.getCurrentOrgan()
 

@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface CompleteTeamInvestmentUseCase {
 
-    fun completeInvestment(requests: List<CompleteInvestmentRequest>, lessonNum: String, teamId: UUID)
+    fun execute(requests: List<CompleteInvestmentRequest>, lessonNum: String, teamId: UUID)
 }

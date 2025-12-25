@@ -16,7 +16,7 @@ class GetLessonRoundItemsService(
 ) : GetLessonRoundItemsUseCase {
 
     @Transactional(readOnly = true)
-    override fun get(lessonNum: String): List<LessonRoundItemResponse> {
+    override fun execute(lessonNum: String): List<LessonRoundItemResponse> {
         val lesson = lessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
         val lessonItems = lessonItemPort.findAllRoundItemsByLessonId(lesson.id!!)

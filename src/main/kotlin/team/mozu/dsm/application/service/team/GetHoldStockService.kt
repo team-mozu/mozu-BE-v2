@@ -21,7 +21,7 @@ class GetHoldStockService(
 ) : GetHoldStockUseCase {
 
     @Transactional(readOnly = true)
-    override fun getHoldStock(teamId: UUID): List<StockResponse> {
+    override fun execute(teamId: UUID): List<StockResponse> {
         return try {
             println("GetHoldStockService - Starting request for teamId: $teamId")
 

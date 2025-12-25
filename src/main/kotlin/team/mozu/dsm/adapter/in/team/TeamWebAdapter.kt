@@ -58,7 +58,7 @@ class TeamWebAdapter(
         @Valid @RequestBody
         request: TeamParticipationRequest
     ): TeamTokenResponse {
-        return teamParticipationUseCase.participate(request)
+        return teamParticipationUseCase.execute(request)
     }
 
     @PostMapping("/end")
@@ -68,7 +68,7 @@ class TeamWebAdapter(
         request: List<@Valid CompleteInvestmentRequest>,
         @AuthenticationPrincipal principal: StudentPrincipal
     ) {
-        teamInvestmentUseCase.completeInvestment(request, principal.lessonNum, principal.teamId)
+        teamInvestmentUseCase.execute(request, principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/stocks")
@@ -76,7 +76,7 @@ class TeamWebAdapter(
     override fun getStocks(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<StockResponse> {
-        return getStocksUseCase.getStocks(principal.lessonNum, principal.teamId)
+        return getStocksUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/detail")
@@ -84,7 +84,7 @@ class TeamWebAdapter(
     override fun getTeamDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamDetailResponse {
-        return getTeamDetailUseCase.getTeamDetail(principal.lessonNum, principal.teamId)
+        return getTeamDetailUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/orders")
@@ -92,7 +92,7 @@ class TeamWebAdapter(
     override fun getOrderItems(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<OrderItemResponse> {
-        return getOrderItemUseCase.getOrderItems(principal.teamId)
+        return getOrderItemUseCase.execute(principal.teamId)
     }
 
     @GetMapping("/{team-id}")
@@ -100,7 +100,7 @@ class TeamWebAdapter(
     override fun getCurrentOrderItem(
         @PathVariable("team-id") teamId: UUID
     ): List<OrderItemResponse> {
-        return getCurrentOrderItemUseCase.getCurrentOrderItem(teamId)
+        return getCurrentOrderItemUseCase.execute(teamId)
     }
 
     @GetMapping("/result")
@@ -108,7 +108,7 @@ class TeamWebAdapter(
     override fun getResult(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamResultResponse {
-        return getTeamResultUseCase.get(principal.lessonNum, principal.teamId)
+        return getTeamResultUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/{team-id}/holdItems")
@@ -116,7 +116,7 @@ class TeamWebAdapter(
     override fun getHoldStock(
         @PathVariable("team-id") teamId: UUID
     ): List<StockResponse> {
-        return getHoldStockUseCase.getHoldStock(teamId)
+        return getHoldStockUseCase.execute(teamId)
     }
 
     @GetMapping("/ranks")
@@ -124,7 +124,7 @@ class TeamWebAdapter(
     override fun getRank(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TeamRankResponse> {
-        return getTeamRanksUseCase.get(principal.lessonNum, principal.teamId)
+        return getTeamRanksUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/trading-detail")
@@ -132,7 +132,7 @@ class TeamWebAdapter(
     fun getTradingDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TradingDetailResponse> {
-        return getTradingDetailUseCase.getTradingDetail(principal.lessonNum, principal.teamId)
+        return getTradingDetailUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/sse")
@@ -141,6 +141,6 @@ class TeamWebAdapter(
         @AuthenticationPrincipal principal: StudentPrincipal,
         @RequestHeader(value = "Last-Event-ID", required = false) lastEventId: String?
     ): SseEmitter {
-        return connectTeamSSEUseCase.connectTeamSSE(principal.teamId, lastEventId)
+        return connectTeamSSEUseCase.execute(principal.teamId, lastEventId)
     }
 }

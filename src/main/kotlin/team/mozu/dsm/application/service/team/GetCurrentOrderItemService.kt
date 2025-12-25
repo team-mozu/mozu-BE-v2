@@ -14,7 +14,7 @@ class GetCurrentOrderItemService(
 ) : GetCurrentOrderItemUseCase {
 
     @Transactional(readOnly = true)
-    override fun getCurrentOrderItem(teamId: UUID): List<OrderItemResponse> {
+    override fun execute(teamId: UUID): List<OrderItemResponse> {
         val orderItems = queryOrderItemPort.findAllByTeamId(teamId)
             ?: throw TeamNotFoundException
 

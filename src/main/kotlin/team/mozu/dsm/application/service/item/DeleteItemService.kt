@@ -17,7 +17,7 @@ class DeleteItemService(
 ) : DeleteItemUseCase {
 
     @Transactional
-    override fun delete(id: Int) {
+    override fun execute(id: Int) {
         val organ = securityPort.getCurrentOrgan()
         val item = queryItemPort.findById(id)
             ?: throw ItemNotFoundException

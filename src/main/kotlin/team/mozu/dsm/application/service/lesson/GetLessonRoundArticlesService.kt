@@ -15,7 +15,7 @@ class GetLessonRoundArticlesService(
 ) : GetLessonRoundArticlesUseCase {
 
     @Transactional(readOnly = true)
-    override fun get(lessonNum: String): List<LessonRoundArticleResponse> {
+    override fun execute(lessonNum: String): List<LessonRoundArticleResponse> {
         val lesson = lessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
         val nowInvRound = lesson.curInvRound

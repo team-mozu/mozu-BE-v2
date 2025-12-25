@@ -14,7 +14,7 @@ class GetLessonsService(
 ) : GetLessonsUseCase {
 
     @Transactional(readOnly = true)
-    override fun get(): LessonListResponse {
+    override fun execute(): LessonListResponse {
         val organ = securityPort.getCurrentOrgan()
         val lessonList = lessonPort.findAllByOrganId(organ.id!!)
 

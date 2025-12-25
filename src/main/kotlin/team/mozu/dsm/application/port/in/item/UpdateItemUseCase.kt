@@ -5,5 +5,5 @@ import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 
 interface UpdateItemUseCase {
 
-    fun update(id: Int, request: UpdateItemRequest): ItemResponse
+    fun execute(id: Int, request: UpdateItemRequest): ItemResponse
 }

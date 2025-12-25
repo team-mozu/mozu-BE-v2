@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface QueryOrganDetailUseCase {
 
-    fun queryOrganDetail(id: UUID): OrganDetailResponse
+    fun execute(id: UUID): OrganDetailResponse
 }

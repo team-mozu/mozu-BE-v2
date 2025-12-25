@@ -19,6 +19,6 @@ class SseWebAdapter(
         @RequestParam
         clientId: String
     ): SseEmitter {
-        return subscribeSseUseCase.subscribe(clientId)
+        return subscribeSseUseCase.execute(clientId)
     }
 }

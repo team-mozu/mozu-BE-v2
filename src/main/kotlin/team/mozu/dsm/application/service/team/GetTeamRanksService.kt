@@ -20,7 +20,7 @@ class GetTeamRanksService(
 ) : GetTeamRanksUseCase {
 
     @Transactional(readOnly = true)
-    override fun get(lessonNum: String, teamId: UUID): List<TeamRankResponse> {
+    override fun execute(lessonNum: String, teamId: UUID): List<TeamRankResponse> {
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 

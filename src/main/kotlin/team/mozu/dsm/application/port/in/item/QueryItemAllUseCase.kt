@@ -4,5 +4,5 @@ import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 
 interface QueryItemAllUseCase {
 
-    fun queryAll(): List<ItemQueryResponse>
+    fun execute(): List<ItemQueryResponse>
 }

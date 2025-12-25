@@ -22,7 +22,7 @@ class GetTeamDetailService(
 ) : GetTeamDetailUseCase {
 
     @Transactional(readOnly = true)
-    override fun getTeamDetail(lessonNum: String, teamId: UUID): TeamDetailResponse {
+    override fun execute(lessonNum: String, teamId: UUID): TeamDetailResponse {
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 

@@ -19,7 +19,7 @@ class NextLessonService(
 ) : NextLessonUseCase {
 
     @Transactional
-    override fun next(lessonId: UUID) {
+    override fun execute(lessonId: UUID) {
         val organ = securityPort.getCurrentOrgan()
         val lesson = lessonFacade.findByLessonId(lessonId)
 

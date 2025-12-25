@@ -13,7 +13,7 @@ class QueryItemDetailService(
 ) : QueryItemDetailUseCase {
 
     @Transactional(readOnly = true)
-    override fun queryDetail(id: Int): Item {
+    override fun execute(id: Int): Item {
         return queryItemPort.findById(id)
             ?: throw ItemNotFoundException
     }

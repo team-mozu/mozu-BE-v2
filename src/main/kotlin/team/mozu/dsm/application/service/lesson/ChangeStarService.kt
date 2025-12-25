@@ -17,7 +17,7 @@ class ChangeStarService(
 ) : ChangeStarUseCase {
 
     @Transactional
-    override fun change(id: UUID) {
+    override fun execute(id: UUID) {
         val lesson = lessonFacade.findByLessonId(id)
         val organ = securityPort.getCurrentOrgan()
 

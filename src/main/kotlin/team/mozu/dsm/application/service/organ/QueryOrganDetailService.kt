@@ -14,7 +14,7 @@ class QueryOrganDetailService(
     private val securityPort: SecurityPort
 ) : QueryOrganDetailUseCase {
 
-    override fun queryOrganDetail(id: UUID): OrganDetailResponse {
+    override fun execute(id: UUID): OrganDetailResponse {
         val organ = securityPort.getCurrentOrgan()
 
         return queryOrganPort.findById(organ.id!!) ?: throw OrganNotFoundException

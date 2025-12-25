@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface GetTeamRanksUseCase {
 
-    fun get(lessonNum: String, teamId: UUID): List<TeamRankResponse>
+    fun execute(lessonNum: String, teamId: UUID): List<TeamRankResponse>
 }

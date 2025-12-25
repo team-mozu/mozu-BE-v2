@@ -18,7 +18,7 @@ class DeleteArticleService(
 ) : DeleteArticleUseCase {
 
     @Transactional
-    override fun delete(id: UUID) {
+    override fun execute(id: UUID) {
         val organ = securityPort.getCurrentOrgan()
         val article = queryArticlePort.findById(id)
             ?: throw ArticleNotFoundException

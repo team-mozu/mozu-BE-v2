@@ -4,5 +4,5 @@ import team.mozu.dsm.domain.item.model.Item
 
 interface QueryItemDetailUseCase {
 
-    fun queryDetail(id: Int): Item
+    fun execute(id: Int): Item
 }

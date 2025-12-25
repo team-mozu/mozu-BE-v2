@@ -13,7 +13,7 @@ class GetLessonItemsService(
     private val lessonFacade: LessonFacade
 ) : GetLessonItemsUseCase {
 
-    override fun get(lessonId: UUID): List<LessonItemResponse> {
+    override fun execute(lessonId: UUID): List<LessonItemResponse> {
         lessonFacade.findByLessonId(lessonId)
         val lessonItems = lessonItemPort.findAllByLessonId(lessonId)
 

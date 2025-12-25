@@ -29,7 +29,7 @@ class EndLessonService(
     }
 
     @Transactional
-    override fun end(id: UUID) {
+    override fun execute(id: UUID) {
         val lesson = lessonFacade.findByLessonId(id)
         val organ = securityPort.getCurrentOrgan()
 

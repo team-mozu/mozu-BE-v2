@@ -12,7 +12,7 @@ class GetMyOrganService(
 ) : GetMyOrganUseCase {
 
     @Transactional(readOnly = true)
-    override fun getMyOrgan(): MyOrganResponse {
+    override fun execute(): MyOrganResponse {
         val organ = securityPort.getCurrentOrgan()
         return MyOrganResponse(organId = organ.id!!)
     }

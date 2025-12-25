@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface StartLessonUseCase {
 
-    fun start(id: UUID): StartLessonResponse
+    fun execute(id: UUID): StartLessonResponse
 }

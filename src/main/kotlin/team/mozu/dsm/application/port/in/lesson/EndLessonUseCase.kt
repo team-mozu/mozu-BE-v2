@@ -4,5 +4,5 @@ import java.util.UUID
 
 interface EndLessonUseCase {
 
-    fun end(id: UUID)
+    fun execute(id: UUID)
 }

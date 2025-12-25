@@ -19,7 +19,7 @@ class GetLessonItemDetailService(
 ) : GetLessonItemDetailUseCase {
 
     @Transactional(readOnly = true)
-    override fun get(lessonNum: String, itemId: Int): LessonItemDetailResponse {
+    override fun execute(lessonNum: String, itemId: Int): LessonItemDetailResponse {
         val lesson = lessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
         val item = itemPort.findById(itemId)

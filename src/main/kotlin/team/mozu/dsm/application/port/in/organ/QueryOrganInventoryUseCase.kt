@@ -4,5 +4,5 @@ import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganListResponse
 
 interface QueryOrganInventoryUseCase {
 
-    fun queryOrganInventory(): List<OrganListResponse>
+    fun execute(): List<OrganListResponse>
 }

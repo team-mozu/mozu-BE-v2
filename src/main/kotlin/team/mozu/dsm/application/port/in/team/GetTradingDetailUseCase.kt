@@ -4,5 +4,6 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.TradingDetailResponse
 import java.util.UUID
 
 interface GetTradingDetailUseCase {
-    fun getTradingDetail(lessonNum: String, teamId: UUID): List<TradingDetailResponse>
+
+    fun execute(lessonNum: String, teamId: UUID): List<TradingDetailResponse>
 }

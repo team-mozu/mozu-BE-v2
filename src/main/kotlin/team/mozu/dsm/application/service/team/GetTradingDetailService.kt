@@ -19,7 +19,7 @@ class GetTradingDetailService(
 ) : GetTradingDetailUseCase {
 
     @Transactional(readOnly = true)
-    override fun getTradingDetail(lessonNum: String, teamId: UUID): List<TradingDetailResponse> {
+    override fun execute(lessonNum: String, teamId: UUID): List<TradingDetailResponse> {
         val lesson = queryLessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
 

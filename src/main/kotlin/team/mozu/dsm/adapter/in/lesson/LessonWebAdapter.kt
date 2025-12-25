@@ -69,7 +69,7 @@ class LessonWebAdapter(
         @RequestBody @Valid
         request: LessonRequest
     ): LessonResponse {
-        return createLessonUseCase.create(request)
+        return createLessonUseCase.execute(request)
     }
 
     @PatchMapping("/start/{lesson-id}")
@@ -77,7 +77,7 @@ class LessonWebAdapter(
     override fun start(
         @PathVariable("lesson-id") lessonId: UUID
     ): StartLessonResponse {
-        return startLessonUseCase.start(lessonId)
+        return startLessonUseCase.execute(lessonId)
     }
 
     @PatchMapping("/star/{lesson-id}")
@@ -85,7 +85,7 @@ class LessonWebAdapter(
     override fun star(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
-        changeStarUseCase.change(lessonId)
+        changeStarUseCase.execute(lessonId)
     }
 
     @DeleteMapping("/{lesson-id}")
@@ -93,7 +93,7 @@ class LessonWebAdapter(
     override fun delete(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
-        deleteLessonUseCase.delete(lessonId)
+        deleteLessonUseCase.execute(lessonId)
     }
 
     @PatchMapping("/end/{lesson-id}")
@@ -101,7 +101,7 @@ class LessonWebAdapter(
     override fun end(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
-        endLessonUseCase.end(lessonId)
+        endLessonUseCase.execute(lessonId)
     }
 
     @PatchMapping("/{lesson-id}")
@@ -111,7 +111,7 @@ class LessonWebAdapter(
         @RequestBody @Valid
         request: LessonRequest
     ): LessonResponse {
-        return updateLessonUseCase.update(lessonId, request)
+        return updateLessonUseCase.execute(lessonId, request)
     }
 
     @GetMapping("/{lesson-id}")
@@ -119,13 +119,13 @@ class LessonWebAdapter(
     override fun getDetail(
         @PathVariable("lesson-id") lessonId: UUID
     ): LessonResponse {
-        return getLessonDetailUseCase.get(lessonId)
+        return getLessonDetailUseCase.execute(lessonId)
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     override fun get(): LessonListResponse {
-        return getLessonsUseCase.get()
+        return getLessonsUseCase.execute()
     }
 
     @GetMapping("/items/{lesson-id}")
@@ -133,7 +133,7 @@ class LessonWebAdapter(
     override fun getLessonItems(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<LessonItemResponse> {
-        return getLessonItemsUseCase.get(lessonId)
+        return getLessonItemsUseCase.execute(lessonId)
     }
 
     @GetMapping("/articles/{lesson-id}")
@@ -141,7 +141,7 @@ class LessonWebAdapter(
     override fun getLessonArticles(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<LessonArticleResponse> {
-        return getLessonArticlesUseCase.get(lessonId)
+        return getLessonArticlesUseCase.execute(lessonId)
     }
 
     @PatchMapping("/next/{lesson-id}")
@@ -149,7 +149,7 @@ class LessonWebAdapter(
     override fun next(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
-        nextLessonUseCase.next(lessonId)
+        nextLessonUseCase.execute(lessonId)
     }
 
     @PatchMapping("/start-investment/{lesson-id}")
@@ -157,7 +157,7 @@ class LessonWebAdapter(
     fun startInvestment(
         @PathVariable("lesson-id") lessonId: UUID
     ) {
-        startLessonInvestmentUseCase.startInvestment(lessonId)
+        startLessonInvestmentUseCase.execute(lessonId)
     }
 
     @GetMapping("/sse/{lesson-id}")
@@ -165,7 +165,7 @@ class LessonWebAdapter(
     override fun sse(
         @PathVariable("lesson-id") lessonId: UUID
     ): SseEmitter {
-        return lessonOrganSSEUseCase.connect(lessonId)
+        return lessonOrganSSEUseCase.execute(lessonId)
     }
 
     @GetMapping("/team/items")
@@ -173,7 +173,7 @@ class LessonWebAdapter(
     override fun getLessonRoundItems(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundItemResponse> {
-        return getLessonRoundItemsUseCase.get(studentPrincipal.lessonNum)
+        return getLessonRoundItemsUseCase.execute(studentPrincipal.lessonNum)
     }
 
     @GetMapping("/team/articles")
@@ -181,7 +181,7 @@ class LessonWebAdapter(
     override fun getLessonRoundArticles(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundArticleResponse> {
-        return getLessonRoundArticlesUseCase.get(studentPrincipal.lessonNum)
+        return getLessonRoundArticlesUseCase.execute(studentPrincipal.lessonNum)
     }
 
     @GetMapping("/team/item/{item-id}")
@@ -190,6 +190,6 @@ class LessonWebAdapter(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal,
         @PathVariable("item-id") itemId: Int
     ): LessonItemDetailResponse {
-        return getLessonItemDetailUseCase.get(studentPrincipal.lessonNum, itemId)
+        return getLessonItemDetailUseCase.execute(studentPrincipal.lessonNum, itemId)
     }
 }

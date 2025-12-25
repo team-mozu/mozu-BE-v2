@@ -10,6 +10,6 @@ class SubscribeSseService(
     private val subscribeSsePort: SubscribeSsePort
 ) : SubscribeSseUseCase {
 
-    override fun subscribe(clientId: String): SseEmitter =
+    override fun execute(clientId: String): SseEmitter =
         subscribeSsePort.subscribe(clientId)
 }
