@@ -11,7 +11,5 @@ interface QueryItemPort {
 
     fun findById(id: Int): Item?
 
-    fun findAll(): List<Item>
-
     fun findAllByOrganId(organId: UUID): List<Item>
 }

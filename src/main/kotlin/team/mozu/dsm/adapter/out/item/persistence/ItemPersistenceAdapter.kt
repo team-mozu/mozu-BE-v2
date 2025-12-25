@@ -42,11 +42,6 @@ class ItemPersistenceAdapter(
             ?.let { itemMapper.toModel(it) }
     }
 
-    override fun findAll(): List<Item> {
-        return itemRepository.findAll()
-            .map { itemMapper.toModel(it) }
-    }
-
     override fun findAllByOrganId(organId: UUID): List<Item> {
         return jpaQueryFactory
             .selectFrom(itemJpaEntity)
