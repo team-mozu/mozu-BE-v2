@@ -40,7 +40,7 @@ class OrganWebAdapter(
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    override fun createOrgan(
+    override fun create(
         @RequestBody @Valid
         request: CreateOrganRequest
     ): Organ {
@@ -49,7 +49,7 @@ class OrganWebAdapter(
 
     @PatchMapping("/token/reissue")
     @ResponseStatus(HttpStatus.OK)
-    override fun reissueOrganToken(
+    override fun reissue(
         @RequestBody @Valid
         request: ReissueOrganTokenRequest
     ): TokenResponse {
@@ -67,19 +67,19 @@ class OrganWebAdapter(
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    override fun queryOrganDetail(@PathVariable id: UUID): OrganDetailResponse {
+    override fun queryDetail(@PathVariable id: UUID): OrganDetailResponse {
         return queryOrganDetailUseCase.execute(id)
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryOrganInventory(): List<OrganListResponse> {
+    override fun queryAll(): List<OrganListResponse> {
         return queryOrganInventoryUseCase.execute()
     }
 
     @GetMapping("/my")
     @ResponseStatus(HttpStatus.OK)
-    override fun getMyOrgan(): MyOrganResponse {
+    override fun queryMine(): MyOrganResponse {
         return getMyOrganUseCase.execute()
     }
 }

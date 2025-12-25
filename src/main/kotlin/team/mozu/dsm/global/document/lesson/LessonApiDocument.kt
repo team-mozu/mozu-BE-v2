@@ -303,7 +303,7 @@ interface LessonApiDocument {
             ]
         )
     )
-    fun getDetail(
+    fun queryDetail(
         @PathVariable("lesson-id") lessonId: UUID
     ): LessonResponse
 
@@ -333,7 +333,7 @@ interface LessonApiDocument {
             ]
         )
     )
-    fun get(): LessonListResponse
+    fun queryAll(): LessonListResponse
 
     @Operation(
         summary = "수업 종목 목록 조회",
@@ -371,7 +371,7 @@ interface LessonApiDocument {
             ]
         )
     )
-    fun getLessonItems(
+    fun queryAllLessonItem(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<LessonItemResponse>
 
@@ -411,7 +411,7 @@ interface LessonApiDocument {
             ]
         )
     )
-    fun getLessonArticles(
+    fun queryAllLessonArticle(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<LessonArticleResponse>
 
@@ -521,7 +521,7 @@ interface LessonApiDocument {
             ]
         )
     )
-    fun getLessonRoundItems(
+    fun queryAllLessonRoundItem(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundItemResponse>
 
@@ -561,7 +561,7 @@ interface LessonApiDocument {
             ]
         )
     )
-    fun getLessonRoundArticles(
+    fun queryAllLessonRoundArticle(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundArticleResponse>
 
@@ -611,7 +611,7 @@ interface LessonApiDocument {
             ]
         )
     )
-    fun getLessonItemDetail(
+    fun queryLessonItemDetail(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal,
         @PathVariable("item-id") itemId: Int
     ): LessonItemDetailResponse

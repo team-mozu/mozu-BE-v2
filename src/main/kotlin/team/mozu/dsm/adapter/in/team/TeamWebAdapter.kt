@@ -73,7 +73,7 @@ class TeamWebAdapter(
 
     @GetMapping("/stocks")
     @ResponseStatus(HttpStatus.OK)
-    override fun getStocks(
+    override fun queryAllStock(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<StockResponse> {
         return getStocksUseCase.execute(principal.lessonNum, principal.teamId)
@@ -81,7 +81,7 @@ class TeamWebAdapter(
 
     @GetMapping("/detail")
     @ResponseStatus(HttpStatus.OK)
-    override fun getTeamDetail(
+    override fun queryDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamDetailResponse {
         return getTeamDetailUseCase.execute(principal.lessonNum, principal.teamId)
@@ -89,7 +89,7 @@ class TeamWebAdapter(
 
     @GetMapping("/orders")
     @ResponseStatus(HttpStatus.OK)
-    override fun getOrderItems(
+    override fun queryAllOrderItem(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<OrderItemResponse> {
         return getOrderItemUseCase.execute(principal.teamId)
@@ -97,7 +97,7 @@ class TeamWebAdapter(
 
     @GetMapping("/{team-id}")
     @ResponseStatus(HttpStatus.OK)
-    override fun getCurrentOrderItem(
+    override fun queryAllCurrentOrderItem(
         @PathVariable("team-id") teamId: UUID
     ): List<OrderItemResponse> {
         return getCurrentOrderItemUseCase.execute(teamId)
@@ -105,7 +105,7 @@ class TeamWebAdapter(
 
     @GetMapping("/result")
     @ResponseStatus(HttpStatus.OK)
-    override fun getResult(
+    override fun queryResult(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamResultResponse {
         return getTeamResultUseCase.execute(principal.lessonNum, principal.teamId)
@@ -113,7 +113,7 @@ class TeamWebAdapter(
 
     @GetMapping("/{team-id}/holdItems")
     @ResponseStatus(HttpStatus.OK)
-    override fun getHoldStock(
+    override fun queryAllHoldStock(
         @PathVariable("team-id") teamId: UUID
     ): List<StockResponse> {
         return getHoldStockUseCase.execute(teamId)
@@ -121,7 +121,7 @@ class TeamWebAdapter(
 
     @GetMapping("/ranks")
     @ResponseStatus(HttpStatus.OK)
-    override fun getRank(
+    override fun queryRank(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TeamRankResponse> {
         return getTeamRanksUseCase.execute(principal.lessonNum, principal.teamId)
@@ -129,7 +129,7 @@ class TeamWebAdapter(
 
     @GetMapping("/trading-detail")
     @ResponseStatus(HttpStatus.OK)
-    fun getTradingDetail(
+    fun queryTradingDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TradingDetailResponse> {
         return getTradingDetailUseCase.execute(principal.lessonNum, principal.teamId)

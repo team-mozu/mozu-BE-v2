@@ -116,7 +116,7 @@ class LessonWebAdapter(
 
     @GetMapping("/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
-    override fun getDetail(
+    override fun queryDetail(
         @PathVariable("lesson-id") lessonId: UUID
     ): LessonResponse {
         return getLessonDetailUseCase.execute(lessonId)
@@ -124,13 +124,13 @@ class LessonWebAdapter(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun get(): LessonListResponse {
+    override fun queryAll(): LessonListResponse {
         return getLessonsUseCase.execute()
     }
 
     @GetMapping("/items/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
-    override fun getLessonItems(
+    override fun queryAllLessonItem(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<LessonItemResponse> {
         return getLessonItemsUseCase.execute(lessonId)
@@ -138,7 +138,7 @@ class LessonWebAdapter(
 
     @GetMapping("/articles/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
-    override fun getLessonArticles(
+    override fun queryAllLessonArticle(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<LessonArticleResponse> {
         return getLessonArticlesUseCase.execute(lessonId)
@@ -170,7 +170,7 @@ class LessonWebAdapter(
 
     @GetMapping("/team/items")
     @ResponseStatus(HttpStatus.OK)
-    override fun getLessonRoundItems(
+    override fun queryAllLessonRoundItem(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundItemResponse> {
         return getLessonRoundItemsUseCase.execute(studentPrincipal.lessonNum)
@@ -178,7 +178,7 @@ class LessonWebAdapter(
 
     @GetMapping("/team/articles")
     @ResponseStatus(HttpStatus.OK)
-    override fun getLessonRoundArticles(
+    override fun queryAllLessonRoundArticle(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundArticleResponse> {
         return getLessonRoundArticlesUseCase.execute(studentPrincipal.lessonNum)
@@ -186,7 +186,7 @@ class LessonWebAdapter(
 
     @GetMapping("/team/item/{item-id}")
     @ResponseStatus(HttpStatus.OK)
-    override fun getLessonItemDetail(
+    override fun queryLessonItemDetail(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal,
         @PathVariable("item-id") itemId: Int
     ): LessonItemDetailResponse {
