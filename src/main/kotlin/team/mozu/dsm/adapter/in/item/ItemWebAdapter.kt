@@ -16,7 +16,7 @@ import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
-import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
+import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase

@@ -2,7 +2,7 @@ package team.mozu.dsm.global.security
 
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.out.organ.persistence.mapper.OrganMapper
+import team.mozu.dsm.adapter.out.organ.mapper.OrganMapper
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.out.auth.SecurityPort

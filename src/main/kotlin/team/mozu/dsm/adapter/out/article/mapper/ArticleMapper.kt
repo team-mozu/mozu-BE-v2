@@ -1,4 +1,4 @@
-package team.mozu.dsm.adapter.out.article.persistence.mapper
+package team.mozu.dsm.adapter.out.article.mapper
 
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping

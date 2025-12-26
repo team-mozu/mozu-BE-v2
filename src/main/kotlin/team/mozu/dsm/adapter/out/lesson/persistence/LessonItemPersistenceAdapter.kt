@@ -8,15 +8,15 @@ import team.mozu.dsm.adapter.out.item.entity.QItemJpaEntity.itemJpaEntity
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity.lessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
-import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonItemMapper
+import team.mozu.dsm.adapter.out.lesson.mapper.LessonItemMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonItemRepository
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
-import team.mozu.dsm.application.port.out.lesson.dto.LessonItemDetailProjection
 import team.mozu.dsm.application.port.out.lesson.CommandLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
+import team.mozu.dsm.application.port.out.lesson.dto.LessonItemDetailProjection
 import team.mozu.dsm.application.port.out.lesson.dto.LessonRoundItemProjection
 import team.mozu.dsm.application.port.out.lesson.dto.QLessonItemDetailProjection
 import team.mozu.dsm.application.port.out.lesson.dto.QLessonRoundItemProjection

@@ -3,7 +3,7 @@ package team.mozu.dsm.application.service.item
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
-import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
+import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.item.QueryItemPort

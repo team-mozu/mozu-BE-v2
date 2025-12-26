@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.article.entity.QArticleJpaEntity.articleJpaEntity
-import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
+import team.mozu.dsm.adapter.out.article.mapper.ArticleMapper
 import team.mozu.dsm.adapter.out.article.persistence.repository.ArticleRepository
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException

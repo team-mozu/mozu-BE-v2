@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
-import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
+import team.mozu.dsm.adapter.out.article.mapper.ArticleMapper
 import team.mozu.dsm.application.exception.article.ArticleNotFoundException
 import team.mozu.dsm.application.exception.article.CannotDeleteArticleException
 import team.mozu.dsm.application.port.`in`.article.UpdateArticleUseCase

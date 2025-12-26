@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
-import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
+import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.CannotDeleteLessonException
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase

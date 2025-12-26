@@ -1,4 +1,4 @@
-package team.mozu.dsm.adapter.out.organ.persistence.mapper
+package team.mozu.dsm.adapter.out.organ.mapper
 
 import org.mapstruct.Mapper
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonSummaryResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.QLessonSummaryResponse
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
-import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonMapper
+import team.mozu.dsm.adapter.out.lesson.mapper.LessonMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
@@ -16,7 +16,7 @@ import team.mozu.dsm.application.port.`in`.lesson.command.UpdateLessonCommand
 import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
 import team.mozu.dsm.domain.lesson.model.Lesson
-import java.util.*
+import java.util.UUID
 
 @Component
 class LessonPersistenceAdapter(

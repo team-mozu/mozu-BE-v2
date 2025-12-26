@@ -1,4 +1,4 @@
-package team.mozu.dsm.adapter.out.lesson.persistence.mapper
+package team.mozu.dsm.adapter.out.lesson.mapper
 
 import org.mapstruct.Mapper
 import team.mozu.dsm.adapter.out.item.entity.ItemJpaEntity

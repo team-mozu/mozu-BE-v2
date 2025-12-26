@@ -8,7 +8,7 @@ import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganListResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganListResponse
 import team.mozu.dsm.adapter.out.organ.entity.QOrganJpaEntity.organJpaEntity
-import team.mozu.dsm.adapter.out.organ.persistence.mapper.OrganMapper
+import team.mozu.dsm.adapter.out.organ.mapper.OrganMapper
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.port.out.organ.CommandOrganPort
 import team.mozu.dsm.application.port.out.organ.QueryOrganPort

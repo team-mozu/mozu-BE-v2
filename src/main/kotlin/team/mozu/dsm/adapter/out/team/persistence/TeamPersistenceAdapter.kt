@@ -6,7 +6,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.adapter.out.team.entity.QTeamJpaEntity.teamJpaEntity
-import team.mozu.dsm.adapter.out.team.persistence.mapper.TeamMapper
+import team.mozu.dsm.adapter.out.team.mapper.TeamMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException

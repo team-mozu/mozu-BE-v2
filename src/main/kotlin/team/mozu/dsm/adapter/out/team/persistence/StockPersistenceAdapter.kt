@@ -3,7 +3,7 @@ package team.mozu.dsm.adapter.out.team.persistence
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
-import team.mozu.dsm.adapter.out.team.persistence.mapper.StockMapper
+import team.mozu.dsm.adapter.out.team.mapper.StockMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.StockRepository
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException

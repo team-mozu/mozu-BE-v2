@@ -4,10 +4,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundArticleResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.QLessonRoundArticleResponse
+import team.mozu.dsm.adapter.out.article.entity.QArticleJpaEntity.articleJpaEntity
 import team.mozu.dsm.adapter.out.article.persistence.repository.ArticleRepository
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonArticleJpaEntity.lessonArticleJpaEntity
-import team.mozu.dsm.adapter.out.article.entity.QArticleJpaEntity.articleJpaEntity
-import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonArticleMapper
+import team.mozu.dsm.adapter.out.lesson.mapper.LessonArticleMapper
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonArticleRepository
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.exception.article.ArticleNotFoundException

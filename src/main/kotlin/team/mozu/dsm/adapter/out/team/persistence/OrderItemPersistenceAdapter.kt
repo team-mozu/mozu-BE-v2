@@ -5,7 +5,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
 import team.mozu.dsm.adapter.out.team.entity.QOrderItemJpaEntity.orderItemJpaEntity
-import team.mozu.dsm.adapter.out.team.persistence.mapper.OrderItemMapper
+import team.mozu.dsm.adapter.out.team.mapper.OrderItemMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.OrderItemRepository
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
