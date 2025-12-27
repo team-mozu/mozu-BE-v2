@@ -10,8 +10,7 @@ import team.mozu.dsm.adapter.out.team.persistence.repository.OrderItemRepository
 import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
-import team.mozu.dsm.application.port.out.team.CommandOrderItemPort
-import team.mozu.dsm.application.port.out.team.QueryOrderItemPort
+import team.mozu.dsm.application.port.out.team.OrderItemPort
 import team.mozu.dsm.domain.team.model.OrderItem
 import java.util.UUID
 
@@ -22,7 +21,7 @@ class OrderItemPersistenceAdapter(
     private val teamRepository: TeamRepository,
     private val orderItemMapper: OrderItemMapper,
     private val jpaQueryFactory: JPAQueryFactory
-) : CommandOrderItemPort, QueryOrderItemPort {
+) : OrderItemPort {
 
     //--Query--//
     override fun findAllByTeamId(teamId: UUID): List<OrderItem> {

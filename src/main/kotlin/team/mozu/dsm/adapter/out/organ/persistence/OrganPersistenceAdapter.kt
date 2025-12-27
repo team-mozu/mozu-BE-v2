@@ -10,8 +10,7 @@ import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganListResponse
 import team.mozu.dsm.adapter.out.organ.entity.QOrganJpaEntity.organJpaEntity
 import team.mozu.dsm.adapter.out.organ.mapper.OrganMapper
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
-import team.mozu.dsm.application.port.out.organ.CommandOrganPort
-import team.mozu.dsm.application.port.out.organ.QueryOrganPort
+import team.mozu.dsm.application.port.out.organ.OrganPort
 import team.mozu.dsm.domain.organ.model.Organ
 import java.util.UUID
 
@@ -20,7 +19,7 @@ class OrganPersistenceAdapter(
     private val organRepository: OrganRepository,
     private val organMapper: OrganMapper,
     private val jpaQueryFactory: JPAQueryFactory
-) : QueryOrganPort, CommandOrganPort {
+) : OrganPort {
 
     //--Query--//
     override fun findByOrganCode(organCode: String): Organ? {

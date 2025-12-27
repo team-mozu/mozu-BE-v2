@@ -8,8 +8,7 @@ import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
 import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
-import team.mozu.dsm.application.port.out.item.CommandItemPort
-import team.mozu.dsm.application.port.out.item.QueryItemPort
+import team.mozu.dsm.application.port.out.item.ItemPort
 import team.mozu.dsm.domain.item.model.Item
 import java.util.UUID
 
@@ -19,7 +18,7 @@ class ItemPersistenceAdapter(
     private val itemMapper: ItemMapper,
     private val organRepository: OrganRepository,
     private val jpaQueryFactory: JPAQueryFactory
-) : QueryItemPort, CommandItemPort {
+) : ItemPort {
 
     //--Query--//
     override fun existsById(id: Int): Boolean {

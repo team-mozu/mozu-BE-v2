@@ -13,8 +13,7 @@ import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.lesson.MaxInvestmentRoundReachedException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.`in`.lesson.command.UpdateLessonCommand
-import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
-import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
+import team.mozu.dsm.application.port.out.lesson.LessonPort
 import team.mozu.dsm.domain.lesson.model.Lesson
 import java.util.UUID
 
@@ -24,7 +23,7 @@ class LessonPersistenceAdapter(
     private val lessonMapper: LessonMapper,
     private val organRepository: OrganRepository,
     private val jpaQueryFactory: JPAQueryFactory
-) : QueryLessonPort, CommandLessonPort {
+) : LessonPort {
 
     //--Query--//
     override fun findByLessonNum(lessonNum: String): Lesson? {

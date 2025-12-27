@@ -12,8 +12,7 @@ import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonArticleRepo
 import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.exception.article.ArticleNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
-import team.mozu.dsm.application.port.out.lesson.CommandLessonArticlePort
-import team.mozu.dsm.application.port.out.lesson.QueryLessonArticlePort
+import team.mozu.dsm.application.port.out.lesson.LessonArticlePort
 import team.mozu.dsm.domain.lesson.model.LessonArticle
 import java.util.UUID
 
@@ -24,7 +23,7 @@ class LessonArticlePersistenceAdapter(
     private val lessonArticleMapper: LessonArticleMapper,
     private val lessonArticleRepository: LessonArticleRepository,
     private val jpaQueryFactory: JPAQueryFactory
-) : QueryLessonArticlePort, CommandLessonArticlePort {
+) : LessonArticlePort {
 
     //--Query--//
     override fun findAllByLessonId(lessonId: UUID): List<LessonArticle> {

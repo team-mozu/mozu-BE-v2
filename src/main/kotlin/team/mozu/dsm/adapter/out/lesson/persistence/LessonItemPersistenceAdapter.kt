@@ -14,8 +14,7 @@ import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
-import team.mozu.dsm.application.port.out.lesson.CommandLessonItemPort
-import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
+import team.mozu.dsm.application.port.out.lesson.LessonItemPort
 import team.mozu.dsm.application.port.out.lesson.dto.LessonItemDetailProjection
 import team.mozu.dsm.application.port.out.lesson.dto.LessonRoundItemProjection
 import team.mozu.dsm.application.port.out.lesson.dto.QLessonItemDetailProjection
@@ -30,7 +29,7 @@ class LessonItemPersistenceAdapter(
     private val lessonItemMapper: LessonItemMapper,
     private val itemRepository: ItemRepository,
     private val jpaQueryFactory: JPAQueryFactory
-) : QueryLessonItemPort, CommandLessonItemPort {
+) : LessonItemPort {
 
     //--Query--//
     override fun findItemIdsByLessonId(lessonId: UUID): List<Int> {
