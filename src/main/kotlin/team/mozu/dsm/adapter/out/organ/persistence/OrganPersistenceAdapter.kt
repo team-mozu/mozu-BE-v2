@@ -9,14 +9,14 @@ import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganListResponse
 import team.mozu.dsm.adapter.out.organ.entity.QOrganJpaEntity.organJpaEntity
 import team.mozu.dsm.adapter.out.organ.mapper.OrganMapper
-import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganJpaRepository
 import team.mozu.dsm.application.port.out.organ.OrganPort
 import team.mozu.dsm.domain.organ.model.Organ
 import java.util.UUID
 
 @Component
 class OrganPersistenceAdapter(
-    private val organRepository: OrganRepository,
+    private val organRepository: OrganJpaRepository,
     private val organMapper: OrganMapper,
     private val jpaQueryFactory: JPAQueryFactory
 ) : OrganPort {

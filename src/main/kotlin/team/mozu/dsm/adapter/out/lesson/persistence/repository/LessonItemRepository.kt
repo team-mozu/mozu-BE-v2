@@ -5,7 +5,7 @@ import team.mozu.dsm.adapter.out.lesson.entity.LessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.entity.id.LessonItemId
 import java.util.UUID
 
-interface LessonItemRepository : JpaRepository<LessonItemJpaEntity, LessonItemId> {
+interface LessonItemJpaRepository : JpaRepository<LessonItemJpaEntity, LessonItemId> {
 
     fun findAllByLessonId(lessonId: UUID): List<LessonItemJpaEntity>
 }

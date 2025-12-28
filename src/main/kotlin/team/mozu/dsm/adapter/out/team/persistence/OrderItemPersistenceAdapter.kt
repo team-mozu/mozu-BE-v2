@@ -3,11 +3,11 @@ package team.mozu.dsm.adapter.out.team.persistence
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
+import team.mozu.dsm.adapter.out.item.persistence.repository.ItemJpaRepository
 import team.mozu.dsm.adapter.out.team.entity.QOrderItemJpaEntity.orderItemJpaEntity
 import team.mozu.dsm.adapter.out.team.mapper.OrderItemMapper
-import team.mozu.dsm.adapter.out.team.persistence.repository.OrderItemRepository
-import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
+import team.mozu.dsm.adapter.out.team.persistence.repository.OrderItemJpaRepository
+import team.mozu.dsm.adapter.out.team.persistence.repository.TeamJpaRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.out.team.OrderItemPort
@@ -16,9 +16,9 @@ import java.util.UUID
 
 @Component
 class OrderItemPersistenceAdapter(
-    private val orderItemRepository: OrderItemRepository,
-    private val itemRepository: ItemRepository,
-    private val teamRepository: TeamRepository,
+    private val orderItemRepository: OrderItemJpaRepository,
+    private val itemRepository: ItemJpaRepository,
+    private val teamRepository: TeamJpaRepository,
     private val orderItemMapper: OrderItemMapper,
     private val jpaQueryFactory: JPAQueryFactory
 ) : OrderItemPort {

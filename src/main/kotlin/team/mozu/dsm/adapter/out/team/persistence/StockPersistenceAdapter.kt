@@ -2,10 +2,10 @@ package team.mozu.dsm.adapter.out.team.persistence
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
+import team.mozu.dsm.adapter.out.item.persistence.repository.ItemJpaRepository
 import team.mozu.dsm.adapter.out.team.mapper.StockMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.StockRepository
-import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
+import team.mozu.dsm.adapter.out.team.persistence.repository.TeamJpaRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.out.team.StockPort
@@ -15,8 +15,8 @@ import java.util.UUID
 @Component
 class StockPersistenceAdapter(
     private val stockRepository: StockRepository,
-    private val teamRepository: TeamRepository,
-    private val itemRepository: ItemRepository,
+    private val teamRepository: TeamJpaRepository,
+    private val itemRepository: ItemJpaRepository,
     private val stockMapper: StockMapper
 ) : StockPort {
 

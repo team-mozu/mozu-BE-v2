@@ -5,8 +5,8 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.entity.QItemJpaEntity.itemJpaEntity
 import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
-import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
-import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
+import team.mozu.dsm.adapter.out.item.persistence.repository.ItemJpaRepository
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganJpaRepository
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.out.item.ItemPort
 import team.mozu.dsm.domain.item.model.Item
@@ -14,9 +14,9 @@ import java.util.UUID
 
 @Component
 class ItemPersistenceAdapter(
-    private val itemRepository: ItemRepository,
+    private val itemRepository: ItemJpaRepository,
     private val itemMapper: ItemMapper,
-    private val organRepository: OrganRepository,
+    private val organRepository: OrganJpaRepository,
     private val jpaQueryFactory: JPAQueryFactory
 ) : ItemPort {
 

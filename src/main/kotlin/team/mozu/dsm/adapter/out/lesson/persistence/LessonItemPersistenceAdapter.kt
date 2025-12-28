@@ -5,12 +5,12 @@ import com.querydsl.core.types.dsl.NumberExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.entity.QItemJpaEntity.itemJpaEntity
-import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
+import team.mozu.dsm.adapter.out.item.persistence.repository.ItemJpaRepository
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonItemJpaEntity.lessonItemJpaEntity
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
 import team.mozu.dsm.adapter.out.lesson.mapper.LessonItemMapper
-import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonItemRepository
-import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
+import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonItemJpaRepository
+import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonJpaRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
@@ -24,10 +24,10 @@ import java.util.UUID
 
 @Component
 class LessonItemPersistenceAdapter(
-    private val lessonRepository: LessonRepository,
-    private val lessonItemRepository: LessonItemRepository,
+    private val lessonRepository: LessonJpaRepository,
+    private val lessonItemRepository: LessonItemJpaRepository,
     private val lessonItemMapper: LessonItemMapper,
-    private val itemRepository: ItemRepository,
+    private val itemRepository: ItemJpaRepository,
     private val jpaQueryFactory: JPAQueryFactory
 ) : LessonItemPort {
 

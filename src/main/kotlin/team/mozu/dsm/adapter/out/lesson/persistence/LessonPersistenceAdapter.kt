@@ -7,8 +7,8 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonSummaryResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.QLessonSummaryResponse
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
 import team.mozu.dsm.adapter.out.lesson.mapper.LessonMapper
-import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
-import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
+import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonJpaRepository
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganJpaRepository
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.lesson.MaxInvestmentRoundReachedException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
@@ -19,9 +19,9 @@ import java.util.UUID
 
 @Component
 class LessonPersistenceAdapter(
-    private val lessonRepository: LessonRepository,
+    private val lessonRepository: LessonJpaRepository,
     private val lessonMapper: LessonMapper,
-    private val organRepository: OrganRepository,
+    private val organRepository: OrganJpaRepository,
     private val jpaQueryFactory: JPAQueryFactory
 ) : LessonPort {
 

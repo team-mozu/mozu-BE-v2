@@ -4,10 +4,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.LockModeType
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
+import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonJpaRepository
 import team.mozu.dsm.adapter.out.team.entity.QTeamJpaEntity.teamJpaEntity
 import team.mozu.dsm.adapter.out.team.mapper.TeamMapper
-import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
+import team.mozu.dsm.adapter.out.team.persistence.repository.TeamJpaRepository
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.out.team.TeamPort
@@ -16,8 +16,8 @@ import java.util.UUID
 
 @Component
 class TeamPersistenceAdapter(
-    private val teamRepository: TeamRepository,
-    private val lessonRepository: LessonRepository,
+    private val teamRepository: TeamJpaRepository,
+    private val lessonRepository: LessonJpaRepository,
     private val teamMapper: TeamMapper,
     private val jpaQueryFactory: JPAQueryFactory
 ) : TeamPort {

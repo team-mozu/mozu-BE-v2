@@ -5,11 +5,11 @@ import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundArticleResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.QLessonRoundArticleResponse
 import team.mozu.dsm.adapter.out.article.entity.QArticleJpaEntity.articleJpaEntity
-import team.mozu.dsm.adapter.out.article.persistence.repository.ArticleRepository
+import team.mozu.dsm.adapter.out.article.persistence.repository.ArticleJpaRepository
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonArticleJpaEntity.lessonArticleJpaEntity
 import team.mozu.dsm.adapter.out.lesson.mapper.LessonArticleMapper
-import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonArticleRepository
-import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
+import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonArticleJpaRepository
+import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonJpaRepository
 import team.mozu.dsm.application.exception.article.ArticleNotFoundException
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.port.out.lesson.LessonArticlePort
@@ -18,10 +18,10 @@ import java.util.UUID
 
 @Component
 class LessonArticlePersistenceAdapter(
-    private val lessonRepository: LessonRepository,
-    private val articleRepository: ArticleRepository,
+    private val lessonRepository: LessonJpaRepository,
+    private val articleRepository: ArticleJpaRepository,
     private val lessonArticleMapper: LessonArticleMapper,
-    private val lessonArticleRepository: LessonArticleRepository,
+    private val lessonArticleRepository: LessonArticleJpaRepository,
     private val jpaQueryFactory: JPAQueryFactory
 ) : LessonArticlePort {
 
