@@ -16,8 +16,7 @@ class QueryItemsService(
 ) : QueryItemsUseCase {
 
     @Transactional(readOnly = true)
-    override fun execute(): List<ItemQueryResponse> {
-        val currentOrgan = securityPort.getCurrentOrgan()
-        return queryItemPort.findAllByOrganId(currentOrgan.id!!).map { itemMapper.toQueryResponse(it) }
-    }
+    override fun execute(): List<ItemQueryResponse> =
+        queryItemPort.findAllByOrganId(securityPort.getCurrentOrgan().id!!)
+            .map { itemMapper.toQueryResponse(it) }
 }
