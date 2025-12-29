@@ -23,15 +23,15 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.OrderItemResponse
 import team.mozu.dsm.adapter.`in`.team.dto.response.TradingDetailResponse
 import team.mozu.dsm.application.port.`in`.team.TeamParticipationUseCase
 import team.mozu.dsm.application.port.`in`.team.CompleteTeamInvestmentUseCase
-import team.mozu.dsm.application.port.`in`.team.GetHoldStockUseCase
+import team.mozu.dsm.application.port.`in`.team.QueryHoldStocksUseCase
 import team.mozu.dsm.application.port.`in`.team.ConnectTeamSSEUseCase
-import team.mozu.dsm.application.port.`in`.team.GetCurrentOrderItemUseCase
-import team.mozu.dsm.application.port.`in`.team.GetStocksUseCase
-import team.mozu.dsm.application.port.`in`.team.GetTeamDetailUseCase
-import team.mozu.dsm.application.port.`in`.team.GetOrderItemUseCase
-import team.mozu.dsm.application.port.`in`.team.GetTeamResultUseCase
-import team.mozu.dsm.application.port.`in`.team.GetTeamRanksUseCase
-import team.mozu.dsm.application.port.`in`.team.GetTradingDetailUseCase
+import team.mozu.dsm.application.port.`in`.team.QueryCurrentOrderItemsUseCase
+import team.mozu.dsm.application.port.`in`.team.QueryStocksUseCase
+import team.mozu.dsm.application.port.`in`.team.QueryTeamDetailUseCase
+import team.mozu.dsm.application.port.`in`.team.QueryOrderItemsUseCase
+import team.mozu.dsm.application.port.`in`.team.QueryTeamResultUseCase
+import team.mozu.dsm.application.port.`in`.team.QueryTeamRanksUseCase
+import team.mozu.dsm.application.port.`in`.team.QueryTradingDetailUseCase
 import team.mozu.dsm.global.document.team.TeamApiDocument
 import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.UUID
@@ -41,14 +41,14 @@ import java.util.UUID
 class TeamWebAdapter(
     private val teamParticipationUseCase: TeamParticipationUseCase,
     private val teamInvestmentUseCase: CompleteTeamInvestmentUseCase,
-    private val getStocksUseCase: GetStocksUseCase,
-    private val getTeamDetailUseCase: GetTeamDetailUseCase,
-    private val getOrderItemUseCase: GetOrderItemUseCase,
-    private val getCurrentOrderItemUseCase: GetCurrentOrderItemUseCase,
-    private val getTeamResultUseCase: GetTeamResultUseCase,
-    private val getHoldStockUseCase: GetHoldStockUseCase,
-    private val getTeamRanksUseCase: GetTeamRanksUseCase,
-    private val getTradingDetailUseCase: GetTradingDetailUseCase,
+    private val queryStocksUseCase: QueryStocksUseCase,
+    private val queryTeamDetailUseCase: QueryTeamDetailUseCase,
+    private val queryOrderItemsUseCase: QueryOrderItemsUseCase,
+    private val queryCurrentOrderItemsUseCase: QueryCurrentOrderItemsUseCase,
+    private val queryTeamResultUseCase: QueryTeamResultUseCase,
+    private val queryHoldStocksUseCase: QueryHoldStocksUseCase,
+    private val queryTeamRanksUseCase: QueryTeamRanksUseCase,
+    private val queryTradingDetailUseCase: QueryTradingDetailUseCase,
     private val connectTeamSSEUseCase: ConnectTeamSSEUseCase
 ) : TeamApiDocument {
 
@@ -76,7 +76,7 @@ class TeamWebAdapter(
     override fun queryAllStock(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<StockResponse> {
-        return getStocksUseCase.execute(principal.lessonNum, principal.teamId)
+        return queryStocksUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/detail")
@@ -84,7 +84,7 @@ class TeamWebAdapter(
     override fun queryDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamDetailResponse {
-        return getTeamDetailUseCase.execute(principal.lessonNum, principal.teamId)
+        return queryTeamDetailUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/orders")
@@ -92,7 +92,7 @@ class TeamWebAdapter(
     override fun queryAllOrderItem(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<OrderItemResponse> {
-        return getOrderItemUseCase.execute(principal.teamId)
+        return queryOrderItemsUseCase.execute(principal.teamId)
     }
 
     @GetMapping("/{team-id}")
@@ -100,7 +100,7 @@ class TeamWebAdapter(
     override fun queryAllCurrentOrderItem(
         @PathVariable("team-id") teamId: UUID
     ): List<OrderItemResponse> {
-        return getCurrentOrderItemUseCase.execute(teamId)
+        return queryCurrentOrderItemsUseCase.execute(teamId)
     }
 
     @GetMapping("/result")
@@ -108,7 +108,7 @@ class TeamWebAdapter(
     override fun queryResult(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamResultResponse {
-        return getTeamResultUseCase.execute(principal.lessonNum, principal.teamId)
+        return queryTeamResultUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/{team-id}/holdItems")
@@ -116,7 +116,7 @@ class TeamWebAdapter(
     override fun queryAllHoldStock(
         @PathVariable("team-id") teamId: UUID
     ): List<StockResponse> {
-        return getHoldStockUseCase.execute(teamId)
+        return queryHoldStocksUseCase.execute(teamId)
     }
 
     @GetMapping("/ranks")
@@ -124,7 +124,7 @@ class TeamWebAdapter(
     override fun queryRank(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TeamRankResponse> {
-        return getTeamRanksUseCase.execute(principal.lessonNum, principal.teamId)
+        return queryTeamRanksUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/trading-detail")
@@ -132,7 +132,7 @@ class TeamWebAdapter(
     fun queryTradingDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TradingDetailResponse> {
-        return getTradingDetailUseCase.execute(principal.lessonNum, principal.teamId)
+        return queryTradingDetailUseCase.execute(principal.lessonNum, principal.teamId)
     }
 
     @GetMapping("/sse")

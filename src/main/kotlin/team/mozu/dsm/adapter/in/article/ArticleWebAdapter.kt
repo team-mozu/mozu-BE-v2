@@ -17,7 +17,7 @@ import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.application.port.`in`.article.CreateArticleUseCase
-import team.mozu.dsm.application.port.`in`.article.QueryArticleAllUseCase
+import team.mozu.dsm.application.port.`in`.article.QueryArticlesUseCase
 import team.mozu.dsm.application.port.`in`.article.QueryArticleDetailUseCase
 import team.mozu.dsm.application.port.`in`.article.DeleteArticleUseCase
 import team.mozu.dsm.application.port.`in`.article.UpdateArticleUseCase
@@ -29,7 +29,7 @@ import java.util.UUID
 class ArticleWebAdapter(
     private val createArticleUseCase: CreateArticleUseCase,
     private val queryArticleDetailUseCase: QueryArticleDetailUseCase,
-    private val queryArticleAllUseCase: QueryArticleAllUseCase,
+    private val queryArticlesUseCase: QueryArticlesUseCase,
     private val deleteArticleUseCase: DeleteArticleUseCase,
     private val updateArticleUseCase: UpdateArticleUseCase
 ) : ArticleApiDocument {
@@ -54,7 +54,7 @@ class ArticleWebAdapter(
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     override fun queryAll(): List<ArticleQueryResponse> {
-        return queryArticleAllUseCase.execute()
+        return queryArticlesUseCase.execute()
     }
 
     @DeleteMapping("/{id}")

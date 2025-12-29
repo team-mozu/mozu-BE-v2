@@ -19,7 +19,7 @@ import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
-import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
+import team.mozu.dsm.application.port.`in`.item.QueryItemsUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemDetailUseCase
 import team.mozu.dsm.application.port.`in`.item.DeleteItemUseCase
 import team.mozu.dsm.global.document.item.ItemApiDocument
@@ -30,7 +30,7 @@ class ItemWebAdapter(
     private val createItemUseCase: CreateItemUseCase,
     private val updateItemUseCase: UpdateItemUseCase,
     private val queryItemDetailUseCase: QueryItemDetailUseCase,
-    private val queryItemAllUseCase: QueryItemAllUseCase,
+    private val queryItemsUseCase: QueryItemsUseCase,
     private val itemMapper: ItemMapper,
     private val deleteItemUseCase: DeleteItemUseCase
 ) : ItemApiDocument {
@@ -66,7 +66,7 @@ class ItemWebAdapter(
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     override fun queryAll(): List<ItemQueryResponse> {
-        return queryItemAllUseCase.execute()
+        return queryItemsUseCase.execute()
     }
 
     @DeleteMapping("/{id}")

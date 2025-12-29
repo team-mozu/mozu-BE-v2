@@ -19,10 +19,10 @@ import team.mozu.dsm.adapter.`in`.organ.dto.response.MyOrganResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganListResponse
 import team.mozu.dsm.application.port.`in`.organ.CreateOrganUseCase
-import team.mozu.dsm.application.port.`in`.organ.GetMyOrganUseCase
+import team.mozu.dsm.application.port.`in`.organ.QueryMyOrganUseCase
 import team.mozu.dsm.application.port.`in`.organ.LoginOrganUseCase
 import team.mozu.dsm.application.port.`in`.organ.QueryOrganDetailUseCase
-import team.mozu.dsm.application.port.`in`.organ.QueryOrganInventoryUseCase
+import team.mozu.dsm.application.port.`in`.organ.QueryOrgansUseCase
 import team.mozu.dsm.domain.organ.model.Organ
 import team.mozu.dsm.global.document.organ.OrganApiDocument
 import java.util.UUID
@@ -34,8 +34,8 @@ class OrganWebAdapter(
     private val reissueOrganTokenUseCase: ReissueOrganTokenUseCase,
     private val loginOrganUseCase: LoginOrganUseCase,
     private val queryOrganDetailUseCase: QueryOrganDetailUseCase,
-    private val queryOrganInventoryUseCase: QueryOrganInventoryUseCase,
-    private val getMyOrganUseCase: GetMyOrganUseCase
+    private val queryOrgansUseCase: QueryOrgansUseCase,
+    private val queryMyOrganUseCase: QueryMyOrganUseCase
 ) : OrganApiDocument {
 
     @PostMapping("/create")
@@ -74,12 +74,12 @@ class OrganWebAdapter(
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     override fun queryAll(): List<OrganListResponse> {
-        return queryOrganInventoryUseCase.execute()
+        return queryOrgansUseCase.execute()
     }
 
     @GetMapping("/my")
     @ResponseStatus(HttpStatus.OK)
     override fun queryMine(): MyOrganResponse {
-        return getMyOrganUseCase.execute()
+        return queryMyOrganUseCase.execute()
     }
 }

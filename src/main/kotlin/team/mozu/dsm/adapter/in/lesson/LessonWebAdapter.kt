@@ -28,16 +28,16 @@ import team.mozu.dsm.application.port.`in`.lesson.DeleteLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.StartLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.EndLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.UpdateLessonUseCase
-import team.mozu.dsm.application.port.`in`.lesson.GetLessonDetailUseCase
-import team.mozu.dsm.application.port.`in`.lesson.GetLessonsUseCase
-import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemsUseCase
-import team.mozu.dsm.application.port.`in`.lesson.GetLessonArticlesUseCase
+import team.mozu.dsm.application.port.`in`.lesson.QueryLessonDetailUseCase
+import team.mozu.dsm.application.port.`in`.lesson.QueryLessonsUseCase
+import team.mozu.dsm.application.port.`in`.lesson.QueryLessonItemsUseCase
+import team.mozu.dsm.application.port.`in`.lesson.QueryLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.StartLessonInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
-import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundItemsUseCase
-import team.mozu.dsm.application.port.`in`.lesson.GetLessonRoundArticlesUseCase
-import team.mozu.dsm.application.port.`in`.lesson.GetLessonItemDetailUseCase
+import team.mozu.dsm.application.port.`in`.lesson.QueryLessonRoundItemsUseCase
+import team.mozu.dsm.application.port.`in`.lesson.QueryLessonRoundArticlesUseCase
+import team.mozu.dsm.application.port.`in`.lesson.QueryLessonItemDetailUseCase
 import team.mozu.dsm.global.document.lesson.LessonApiDocument
 import team.mozu.dsm.global.security.auth.StudentPrincipal
 import java.util.UUID
@@ -51,16 +51,16 @@ class LessonWebAdapter(
     private val deleteLessonUseCase: DeleteLessonUseCase,
     private val endLessonUseCase: EndLessonUseCase,
     private val updateLessonUseCase: UpdateLessonUseCase,
-    private val getLessonDetailUseCase: GetLessonDetailUseCase,
-    private val getLessonsUseCase: GetLessonsUseCase,
-    private val getLessonItemsUseCase: GetLessonItemsUseCase,
-    private val getLessonArticlesUseCase: GetLessonArticlesUseCase,
+    private val queryLessonDetailUseCase: QueryLessonDetailUseCase,
+    private val queryLessonsUseCase: QueryLessonsUseCase,
+    private val queryLessonItemsUseCase: QueryLessonItemsUseCase,
+    private val queryLessonArticlesUseCase: QueryLessonArticlesUseCase,
     private val nextLessonUseCase: NextLessonUseCase,
     private val startLessonInvestmentUseCase: StartLessonInvestmentUseCase,
     private val lessonOrganSSEUseCase: LessonOrganSSEUseCase,
-    private val getLessonRoundItemsUseCase: GetLessonRoundItemsUseCase,
-    private val getLessonRoundArticlesUseCase: GetLessonRoundArticlesUseCase,
-    private val getLessonItemDetailUseCase: GetLessonItemDetailUseCase
+    private val queryLessonRoundItemsUseCase: QueryLessonRoundItemsUseCase,
+    private val queryLessonRoundArticlesUseCase: QueryLessonRoundArticlesUseCase,
+    private val queryLessonItemDetailUseCase: QueryLessonItemDetailUseCase
 ) : LessonApiDocument {
 
     @PostMapping
@@ -119,13 +119,13 @@ class LessonWebAdapter(
     override fun queryDetail(
         @PathVariable("lesson-id") lessonId: UUID
     ): LessonResponse {
-        return getLessonDetailUseCase.execute(lessonId)
+        return queryLessonDetailUseCase.execute(lessonId)
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     override fun queryAll(): LessonListResponse {
-        return getLessonsUseCase.execute()
+        return queryLessonsUseCase.execute()
     }
 
     @GetMapping("/items/{lesson-id}")
@@ -133,7 +133,7 @@ class LessonWebAdapter(
     override fun queryAllLessonItem(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<LessonItemResponse> {
-        return getLessonItemsUseCase.execute(lessonId)
+        return queryLessonItemsUseCase.execute(lessonId)
     }
 
     @GetMapping("/articles/{lesson-id}")
@@ -141,7 +141,7 @@ class LessonWebAdapter(
     override fun queryAllLessonArticle(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<LessonArticleResponse> {
-        return getLessonArticlesUseCase.execute(lessonId)
+        return queryLessonArticlesUseCase.execute(lessonId)
     }
 
     @PatchMapping("/next/{lesson-id}")
@@ -173,7 +173,7 @@ class LessonWebAdapter(
     override fun queryAllLessonRoundItem(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundItemResponse> {
-        return getLessonRoundItemsUseCase.execute(studentPrincipal.lessonNum)
+        return queryLessonRoundItemsUseCase.execute(studentPrincipal.lessonNum)
     }
 
     @GetMapping("/team/articles")
@@ -181,7 +181,7 @@ class LessonWebAdapter(
     override fun queryAllLessonRoundArticle(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
     ): List<LessonRoundArticleResponse> {
-        return getLessonRoundArticlesUseCase.execute(studentPrincipal.lessonNum)
+        return queryLessonRoundArticlesUseCase.execute(studentPrincipal.lessonNum)
     }
 
     @GetMapping("/team/item/{item-id}")
@@ -190,6 +190,6 @@ class LessonWebAdapter(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal,
         @PathVariable("item-id") itemId: Int
     ): LessonItemDetailResponse {
-        return getLessonItemDetailUseCase.execute(studentPrincipal.lessonNum, itemId)
+        return queryLessonItemDetailUseCase.execute(studentPrincipal.lessonNum, itemId)
     }
 }
