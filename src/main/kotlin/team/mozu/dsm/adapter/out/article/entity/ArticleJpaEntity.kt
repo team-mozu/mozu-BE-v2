@@ -12,7 +12,6 @@ import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
 @Table(name = "tbl_article")
-@Where(clause = "is_deleted = false")
 class ArticleJpaEntity(
 
     @Column(nullable = false, columnDefinition = "VARCHAR(300)")

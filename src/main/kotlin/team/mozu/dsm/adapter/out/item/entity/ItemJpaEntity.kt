@@ -17,7 +17,6 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tbl_item")
-@Where(clause = "is_deleted = false")
 class ItemJpaEntity(
 
     @Id
