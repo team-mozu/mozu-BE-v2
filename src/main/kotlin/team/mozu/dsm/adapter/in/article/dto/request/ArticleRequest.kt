@@ -10,7 +10,7 @@ data class ArticleRequest(
     val articleName: String,
 
     @field:NotBlank(message = "기사 본문 내용은 필수 입력입니다.")
-    @field:Size(min = 1, max = 10_000, message = "기사 본문은 1~10000자 이내로 입력해주세요.")
+    @field:Size(min = 1, max = 10000, message = "기사 본문은 1~10000자 이내로 입력해주세요.")
     val articleDesc: String,
 
     val articleImage: MultipartFile?
