@@ -21,15 +21,13 @@ class StockPersistenceAdapter(
 ) : StockPort {
 
     //--Query--//
-    override fun findByTeamIdAndItemId(teamId: UUID, itemId: Int): Stock? {
-        return stockRepository.findByTeam_IdAndItem_Id(teamId, itemId)
+    override fun findByTeamIdAndItemId(teamId: UUID, itemId: Int): Stock? =
+        stockRepository.findByTeam_IdAndItem_Id(teamId, itemId)
             ?.let { stockMapper.toModel(it) }
-    }
 
-    override fun findAllByTeamId(teamId: UUID): List<Stock> {
-        return stockRepository.findAllByTeam_Id(teamId)
+    override fun findAllByTeamId(teamId: UUID): List<Stock> =
+        stockRepository.findAllByTeam_Id(teamId)
             .map { stockMapper.toModel(it) }
-    }
 
     //--Command--//
     override fun saveAll(stocks: List<Stock>) {

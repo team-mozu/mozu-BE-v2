@@ -12,8 +12,6 @@ class QueryMyOrganService(
 ) : QueryMyOrganUseCase {
 
     @Transactional(readOnly = true)
-    override fun execute(): MyOrganResponse {
-        val organ = securityPort.getCurrentOrgan()
-        return MyOrganResponse(organId = organ.id!!)
-    }
+    override fun execute(): MyOrganResponse =
+        MyOrganResponse(securityPort.getCurrentOrgan().id!!)
 }

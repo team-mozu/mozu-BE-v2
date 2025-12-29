@@ -24,11 +24,9 @@ class OrderItemPersistenceAdapter(
 ) : OrderItemPort {
 
     //--Query--//
-    override fun findAllByTeamId(teamId: UUID): List<OrderItem> {
-        val entities = orderItemRepository.findAllByTeamId(teamId)
-
-        return entities.map { orderItemMapper.toModel(it) }
-    }
+    override fun findAllByTeamId(teamId: UUID): List<OrderItem> =
+        orderItemRepository.findAllByTeamId(teamId)
+            .map { orderItemMapper.toModel(it) }
 
     //--Command--//
     override fun saveAll(orderItems: List<OrderItem>) {
@@ -53,11 +51,10 @@ class OrderItemPersistenceAdapter(
         orderItemRepository.saveAll(entities)
     }
 
-    override fun countOrderItemsByTeamId(teamId: UUID): Int {
-        return jpaQueryFactory
+    override fun countOrderItemsByTeamId(teamId: UUID): Int =
+        jpaQueryFactory
             .select(orderItemJpaEntity.count())
             .from(orderItemJpaEntity)
             .where(orderItemJpaEntity.team.id.eq(teamId))
             .fetchOne()?.toInt() ?: 0
-    }
 }

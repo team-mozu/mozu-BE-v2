@@ -16,7 +16,6 @@ import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
-import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemsUseCase
@@ -31,7 +30,6 @@ class ItemWebAdapter(
     private val updateItemUseCase: UpdateItemUseCase,
     private val queryItemDetailUseCase: QueryItemDetailUseCase,
     private val queryItemsUseCase: QueryItemsUseCase,
-    private val itemMapper: ItemMapper,
     private val deleteItemUseCase: DeleteItemUseCase
 ) : ItemApiDocument {
 
@@ -40,9 +38,7 @@ class ItemWebAdapter(
     override fun create(
         @ModelAttribute @Valid
         request: ItemRequest
-    ): ItemResponse {
-        return createItemUseCase.execute(request)
-    }
+    ): ItemResponse = createItemUseCase.execute(request)
 
     @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.OK)
@@ -50,30 +46,22 @@ class ItemWebAdapter(
         @PathVariable id: Int,
         @ModelAttribute @Valid
         request: UpdateItemRequest
-    ): ItemResponse {
-        return updateItemUseCase.execute(id, request)
-    }
+    ): ItemResponse = updateItemUseCase.execute(id, request)
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @PathVariable id: Int
-    ): ItemResponse {
-        val item = queryItemDetailUseCase.execute(id)
-        return itemMapper.toResponse(item)
-    }
+    ): ItemResponse = queryItemDetailUseCase.execute(id)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryAll(): List<ItemQueryResponse> {
-        return queryItemsUseCase.execute()
-    }
+    override fun queryAll(): List<ItemQueryResponse> =
+        queryItemsUseCase.execute()
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun delete(
         @PathVariable id: Int
-    ) {
-        deleteItemUseCase.execute(id)
-    }
+    ) = deleteItemUseCase.execute(id)
 }

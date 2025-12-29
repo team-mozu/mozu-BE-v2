@@ -21,26 +21,23 @@ class ArticlePersistenceAdapter(
 ) : ArticlePort {
 
     //--Query--//
-    override fun existsById(id: UUID): Boolean {
-        return articleRepository.existsById(id)
-    }
+    override fun existsById(id: UUID): Boolean =
+        articleRepository.existsById(id)
 
-    override fun findAllByIds(ids: Set<UUID>): List<Article> {
-        return articleRepository.findAllById(ids)
+    override fun findAllByIds(ids: Set<UUID>): List<Article> =
+        articleRepository.findAllById(ids)
             .map { articleMapper.toModel(it) }
-    }
-    override fun findById(id: UUID): Article? {
-        return articleRepository.findByIdOrNull(id)
+
+    override fun findById(id: UUID): Article? =
+        articleRepository.findByIdOrNull(id)
             ?.let { articleMapper.toModel(it) }
-    }
 
-    override fun findAll(): List<Article> {
-        return articleRepository.findAll()
+    override fun findAll(): List<Article> =
+        articleRepository.findAll()
             .map { articleMapper.toModel(it) }
-    }
 
-    override fun findAllByOrganId(organId: UUID): List<Article> {
-        return jpaQueryFactory
+    override fun findAllByOrganId(organId: UUID): List<Article> =
+        jpaQueryFactory
             .selectFrom(articleJpaEntity)
             .where(
                 articleJpaEntity.organ.id.eq(organId)
@@ -48,7 +45,6 @@ class ArticlePersistenceAdapter(
             )
             .fetch()
             .map { articleMapper.toModel(it) }
-    }
 
     //--Command--//
     override fun save(article: Article): Article {

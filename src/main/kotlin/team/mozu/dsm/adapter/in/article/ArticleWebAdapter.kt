@@ -39,31 +39,24 @@ class ArticleWebAdapter(
     override fun create(
         @ModelAttribute @Valid
         request: ArticleRequest
-    ): ArticleResponse {
-        return createArticleUseCase.execute(request)
-    }
+    ): ArticleResponse = createArticleUseCase.execute(request)
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @PathVariable id: UUID
-    ): ArticleResponse {
-        return queryArticleDetailUseCase.execute(id)
-    }
+    ): ArticleResponse = queryArticleDetailUseCase.execute(id)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryAll(): List<ArticleQueryResponse> {
-        return queryArticlesUseCase.execute()
-    }
+    override fun queryAll(): List<ArticleQueryResponse> =
+        queryArticlesUseCase.execute()
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun delete(
         @PathVariable id: UUID
-    ) {
-        deleteArticleUseCase.execute(id)
-    }
+    ) = deleteArticleUseCase.execute(id)
 
     @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.OK)
@@ -71,7 +64,5 @@ class ArticleWebAdapter(
         @PathVariable id: UUID,
         @ModelAttribute @Valid
         request: UpdateArticleRequest
-    ): ArticleResponse {
-        return updateArticleUseCase.execute(id, request)
-    }
+    ): ArticleResponse = updateArticleUseCase.execute(id, request)
 }

@@ -32,8 +32,8 @@ class LessonItemPersistenceAdapter(
 ) : LessonItemPort {
 
     //--Query--//
-    override fun findItemIdsByLessonId(lessonId: UUID): List<Int> {
-        return jpaQueryFactory
+    override fun findItemIdsByLessonId(lessonId: UUID): List<Int> =
+        jpaQueryFactory
             .select(
                 lessonItemJpaEntity.lessonItemId
                     .itemId
@@ -41,7 +41,6 @@ class LessonItemPersistenceAdapter(
             .from(lessonItemJpaEntity)
             .where(lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId))
             .fetch()
-    }
 
     override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<Int>): List<LessonItem> {
         if (itemIds.isEmpty()) return emptyList()
@@ -56,13 +55,12 @@ class LessonItemPersistenceAdapter(
         return entities.map { lessonItemMapper.toModel(it) }
     }
 
-    override fun findAllByLessonId(lessonId: UUID): List<LessonItem> {
-        return lessonItemRepository.findAllByLessonId(lessonId)
+    override fun findAllByLessonId(lessonId: UUID): List<LessonItem> =
+        lessonItemRepository.findAllByLessonId(lessonId)
             .map { lessonItemMapper.toModel(it) }
-    }
 
-    override fun findAllRoundItemsByLessonId(lessonId: UUID): List<LessonRoundItemProjection> {
-        return jpaQueryFactory
+    override fun findAllRoundItemsByLessonId(lessonId: UUID): List<LessonRoundItemProjection> =
+        jpaQueryFactory
             .select(
                 QLessonRoundItemProjection(
                     itemJpaEntity.id,
@@ -80,10 +78,9 @@ class LessonItemPersistenceAdapter(
                     .and(lessonItemJpaEntity.lesson.isInProgress.isTrue)
             )
             .fetch()
-    }
 
-    override fun findItemDetailByLessonIdAndItemId(lessonId: UUID, itemId: Int): LessonItemDetailProjection {
-        return jpaQueryFactory
+    override fun findItemDetailByLessonIdAndItemId(lessonId: UUID, itemId: Int): LessonItemDetailProjection =
+        jpaQueryFactory
             .select(
                 QLessonItemDetailProjection(
                     getPreMoneyCase(),
@@ -104,7 +101,6 @@ class LessonItemPersistenceAdapter(
                     .and(lessonJpaEntity.isInProgress.isTrue)
             )
             .fetchOne() ?: throw LessonItemNotFoundException
-    }
 
     //--Command--//
     override fun saveAll(id: UUID, lessonItems: List<LessonItem>): List<LessonItem> {

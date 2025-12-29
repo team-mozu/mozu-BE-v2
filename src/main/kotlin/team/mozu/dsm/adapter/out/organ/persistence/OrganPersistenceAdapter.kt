@@ -22,17 +22,15 @@ class OrganPersistenceAdapter(
 ) : OrganPort {
 
     //--Query--//
-    override fun findByOrganCode(organCode: String): Organ? {
-        return organRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
-    }
+    override fun findByOrganCode(organCode: String): Organ? =
+        organRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
 
-    override fun findModelById(organId: UUID): Organ? {
-        return organRepository.findByIdOrNull(organId)
+    override fun findModelById(organId: UUID): Organ? =
+        organRepository.findByIdOrNull(organId)
             ?.let { organMapper.toModel(it) }
-    }
 
-    override fun findById(id: UUID): OrganDetailResponse? {
-        return jpaQueryFactory
+    override fun findById(id: UUID): OrganDetailResponse? =
+        jpaQueryFactory
             .select(
                 QOrganDetailResponse(
                     organJpaEntity.id,
@@ -44,10 +42,9 @@ class OrganPersistenceAdapter(
             .from(organJpaEntity)
             .where(organJpaEntity.id.eq(id))
             .fetchOne()
-    }
 
-    override fun findOrganInventory(): List<OrganListResponse> {
-        return jpaQueryFactory
+    override fun findOrganInventory(): List<OrganListResponse> =
+        jpaQueryFactory
             .select(
                 QOrganListResponse(
                     organJpaEntity.id,
@@ -58,7 +55,6 @@ class OrganPersistenceAdapter(
             )
             .from(organJpaEntity)
             .fetch()
-    }
 
     //--Command--//
     override fun save(organ: Organ): Organ {

@@ -21,12 +21,11 @@ class ItemPersistenceAdapter(
 ) : ItemPort {
 
     //--Query--//
-    override fun existsById(id: Int): Boolean {
-        return itemRepository.existsById(id)
-    }
+    override fun existsById(id: Int): Boolean =
+        itemRepository.existsById(id)
 
-    override fun findAllByIds(ids: Set<Int>): List<Item> {
-        return jpaQueryFactory
+    override fun findAllByIds(ids: Set<Int>): List<Item> =
+        jpaQueryFactory
             .selectFrom(itemJpaEntity)
             .where(
                 itemJpaEntity.id.`in`(ids)
@@ -34,15 +33,13 @@ class ItemPersistenceAdapter(
             )
             .fetch()
             .map { itemMapper.toModel(it) }
-    }
 
-    override fun findById(id: Int): Item? {
-        return itemRepository.findByIdOrNull(id)
+    override fun findById(id: Int): Item? =
+        itemRepository.findByIdOrNull(id)
             ?.let { itemMapper.toModel(it) }
-    }
 
-    override fun findAllByOrganId(organId: UUID): List<Item> {
-        return jpaQueryFactory
+    override fun findAllByOrganId(organId: UUID): List<Item> =
+        jpaQueryFactory
             .selectFrom(itemJpaEntity)
             .where(
                 itemJpaEntity.organ.id.eq(organId)
@@ -50,7 +47,6 @@ class ItemPersistenceAdapter(
             )
             .fetch()
             .map { itemMapper.toModel(it) }
-    }
 
     //--Command--//
     override fun save(item: Item): Item {

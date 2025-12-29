@@ -68,41 +68,31 @@ class LessonWebAdapter(
     override fun create(
         @RequestBody @Valid
         request: LessonRequest
-    ): LessonResponse {
-        return createLessonUseCase.execute(request)
-    }
+    ): LessonResponse = createLessonUseCase.execute(request)
 
     @PatchMapping("/start/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
     override fun start(
         @PathVariable("lesson-id") lessonId: UUID
-    ): StartLessonResponse {
-        return startLessonUseCase.execute(lessonId)
-    }
+    ): StartLessonResponse = startLessonUseCase.execute(lessonId)
 
     @PatchMapping("/star/{lesson-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun star(
         @PathVariable("lesson-id") lessonId: UUID
-    ) {
-        changeStarUseCase.execute(lessonId)
-    }
+    ) = changeStarUseCase.execute(lessonId)
 
     @DeleteMapping("/{lesson-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun delete(
         @PathVariable("lesson-id") lessonId: UUID
-    ) {
-        deleteLessonUseCase.execute(lessonId)
-    }
+    ) = deleteLessonUseCase.execute(lessonId)
 
     @PatchMapping("/end/{lesson-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun end(
         @PathVariable("lesson-id") lessonId: UUID
-    ) {
-        endLessonUseCase.execute(lessonId)
-    }
+    ) = endLessonUseCase.execute(lessonId)
 
     @PatchMapping("/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
@@ -110,86 +100,70 @@ class LessonWebAdapter(
         @PathVariable("lesson-id") lessonId: UUID,
         @RequestBody @Valid
         request: LessonRequest
-    ): LessonResponse {
-        return updateLessonUseCase.execute(lessonId, request)
-    }
+    ): LessonResponse = updateLessonUseCase.execute(lessonId, request)
 
     @GetMapping("/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @PathVariable("lesson-id") lessonId: UUID
-    ): LessonResponse {
-        return queryLessonDetailUseCase.execute(lessonId)
-    }
+    ): LessonResponse = queryLessonDetailUseCase.execute(lessonId)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryAll(): LessonListResponse {
-        return queryLessonsUseCase.execute()
-    }
+    override fun queryAll(): LessonListResponse =
+        queryLessonsUseCase.execute()
 
     @GetMapping("/items/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryAllLessonItem(
         @PathVariable("lesson-id") lessonId: UUID
-    ): List<LessonItemResponse> {
-        return queryLessonItemsUseCase.execute(lessonId)
-    }
+    ): List<LessonItemResponse> =
+        queryLessonItemsUseCase.execute(lessonId)
 
     @GetMapping("/articles/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryAllLessonArticle(
         @PathVariable("lesson-id") lessonId: UUID
-    ): List<LessonArticleResponse> {
-        return queryLessonArticlesUseCase.execute(lessonId)
-    }
+    ): List<LessonArticleResponse> =
+        queryLessonArticlesUseCase.execute(lessonId)
 
     @PatchMapping("/next/{lesson-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun next(
         @PathVariable("lesson-id") lessonId: UUID
-    ) {
-        nextLessonUseCase.execute(lessonId)
-    }
+    ) = nextLessonUseCase.execute(lessonId)
 
     @PatchMapping("/start-investment/{lesson-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun startInvestment(
         @PathVariable("lesson-id") lessonId: UUID
-    ) {
-        startLessonInvestmentUseCase.execute(lessonId)
-    }
+    ) = startLessonInvestmentUseCase.execute(lessonId)
 
     @GetMapping("/sse/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
     override fun sse(
         @PathVariable("lesson-id") lessonId: UUID
-    ): SseEmitter {
-        return lessonOrganSSEUseCase.execute(lessonId)
-    }
+    ): SseEmitter = lessonOrganSSEUseCase.execute(lessonId)
 
     @GetMapping("/team/items")
     @ResponseStatus(HttpStatus.OK)
     override fun queryAllLessonRoundItem(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
-    ): List<LessonRoundItemResponse> {
-        return queryLessonRoundItemsUseCase.execute(studentPrincipal.lessonNum)
-    }
+    ): List<LessonRoundItemResponse> =
+        queryLessonRoundItemsUseCase.execute(studentPrincipal.lessonNum)
 
     @GetMapping("/team/articles")
     @ResponseStatus(HttpStatus.OK)
     override fun queryAllLessonRoundArticle(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal
-    ): List<LessonRoundArticleResponse> {
-        return queryLessonRoundArticlesUseCase.execute(studentPrincipal.lessonNum)
-    }
+    ): List<LessonRoundArticleResponse> =
+        queryLessonRoundArticlesUseCase.execute(studentPrincipal.lessonNum)
 
     @GetMapping("/team/item/{item-id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryLessonItemDetail(
         @AuthenticationPrincipal studentPrincipal: StudentPrincipal,
         @PathVariable("item-id") itemId: Int
-    ): LessonItemDetailResponse {
-        return queryLessonItemDetailUseCase.execute(studentPrincipal.lessonNum, itemId)
-    }
+    ): LessonItemDetailResponse =
+        queryLessonItemDetailUseCase.execute(studentPrincipal.lessonNum, itemId)
 }

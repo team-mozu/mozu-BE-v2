@@ -62,20 +62,18 @@ class TeamPersistenceAdapter(
         return teams.map { teamMapper.toModel(it) }
     }
 
-    override fun findAllByLessonIdAndInvestmentInProgress(lessonId: UUID): List<Team> {
-        val teams = jpaQueryFactory
+    override fun findAllByLessonIdAndInvestmentInProgress(lessonId: UUID): List<Team> =
+        jpaQueryFactory
             .selectFrom(teamJpaEntity)
             .where(
                 teamJpaEntity.lesson.id.eq(lessonId)
                     .and(teamJpaEntity.isInvestmentInProgress.isTrue)
             )
             .fetch()
+            .map { teamMapper.toModel(it) }
 
-        return teams.map { teamMapper.toModel(it) }
-    }
-
-    override fun existsByTeamNameAndLessonIdAndLessonNum(teamName: String, lessonId: UUID, lessonNum: String): Boolean {
-        return jpaQueryFactory
+    override fun existsByTeamNameAndLessonIdAndLessonNum(teamName: String, lessonId: UUID, lessonNum: String): Boolean =
+        jpaQueryFactory
             .selectOne()
             .from(teamJpaEntity)
             .where(
@@ -84,7 +82,6 @@ class TeamPersistenceAdapter(
                     .and(teamJpaEntity.lessonNum.eq(lessonNum))
             )
             .fetchFirst() != null
-    }
 
     //--Command--//
     override fun save(team: Team): Team {

@@ -57,9 +57,8 @@ class TeamWebAdapter(
     override fun participate(
         @Valid @RequestBody
         request: TeamParticipationRequest
-    ): TeamTokenResponse {
-        return teamParticipationUseCase.execute(request)
-    }
+    ): TeamTokenResponse =
+        teamParticipationUseCase.execute(request)
 
     @PostMapping("/end")
     @ResponseStatus(HttpStatus.CREATED)
@@ -67,80 +66,69 @@ class TeamWebAdapter(
         @Valid @RequestBody
         request: List<@Valid CompleteInvestmentRequest>,
         @AuthenticationPrincipal principal: StudentPrincipal
-    ) {
-        teamInvestmentUseCase.execute(request, principal.lessonNum, principal.teamId)
-    }
+    ) = teamInvestmentUseCase.execute(request, principal.lessonNum, principal.teamId)
 
     @GetMapping("/stocks")
     @ResponseStatus(HttpStatus.OK)
     override fun queryAllStock(
         @AuthenticationPrincipal principal: StudentPrincipal
-    ): List<StockResponse> {
-        return queryStocksUseCase.execute(principal.lessonNum, principal.teamId)
-    }
+    ): List<StockResponse> =
+        queryStocksUseCase.execute(principal.lessonNum, principal.teamId)
 
     @GetMapping("/detail")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
-    ): TeamDetailResponse {
-        return queryTeamDetailUseCase.execute(principal.lessonNum, principal.teamId)
-    }
+    ): TeamDetailResponse =
+        queryTeamDetailUseCase.execute(principal.lessonNum, principal.teamId)
 
     @GetMapping("/orders")
     @ResponseStatus(HttpStatus.OK)
     override fun queryAllOrderItem(
         @AuthenticationPrincipal principal: StudentPrincipal
-    ): List<OrderItemResponse> {
-        return queryOrderItemsUseCase.execute(principal.teamId)
-    }
+    ): List<OrderItemResponse> =
+        queryOrderItemsUseCase.execute(principal.teamId)
 
     @GetMapping("/{team-id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryAllCurrentOrderItem(
         @PathVariable("team-id") teamId: UUID
-    ): List<OrderItemResponse> {
-        return queryCurrentOrderItemsUseCase.execute(teamId)
-    }
+    ): List<OrderItemResponse> =
+        queryCurrentOrderItemsUseCase.execute(teamId)
 
     @GetMapping("/result")
     @ResponseStatus(HttpStatus.OK)
     override fun queryResult(
         @AuthenticationPrincipal principal: StudentPrincipal
-    ): TeamResultResponse {
-        return queryTeamResultUseCase.execute(principal.lessonNum, principal.teamId)
-    }
+    ): TeamResultResponse =
+        queryTeamResultUseCase.execute(principal.lessonNum, principal.teamId)
 
     @GetMapping("/{team-id}/holdItems")
     @ResponseStatus(HttpStatus.OK)
     override fun queryAllHoldStock(
         @PathVariable("team-id") teamId: UUID
-    ): List<StockResponse> {
-        return queryHoldStocksUseCase.execute(teamId)
-    }
+    ): List<StockResponse> =
+        queryHoldStocksUseCase.execute(teamId)
 
     @GetMapping("/ranks")
     @ResponseStatus(HttpStatus.OK)
     override fun queryRank(
         @AuthenticationPrincipal principal: StudentPrincipal
-    ): List<TeamRankResponse> {
-        return queryTeamRanksUseCase.execute(principal.lessonNum, principal.teamId)
-    }
+    ): List<TeamRankResponse> =
+        queryTeamRanksUseCase.execute(principal.lessonNum, principal.teamId)
 
     @GetMapping("/trading-detail")
     @ResponseStatus(HttpStatus.OK)
     fun queryTradingDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
-    ): List<TradingDetailResponse> {
-        return queryTradingDetailUseCase.execute(principal.lessonNum, principal.teamId)
-    }
+    ): List<TradingDetailResponse> =
+        queryTradingDetailUseCase.execute(principal.lessonNum, principal.teamId)
 
     @GetMapping("/sse")
     @ResponseStatus(HttpStatus.OK)
     override fun connectTeamSSE(
         @AuthenticationPrincipal principal: StudentPrincipal,
         @RequestHeader(value = "Last-Event-ID", required = false) lastEventId: String?
-    ): SseEmitter {
-        return connectTeamSSEUseCase.execute(principal.teamId, lastEventId)
-    }
+    ): SseEmitter =
+        connectTeamSSEUseCase.execute(principal.teamId, lastEventId)
 }

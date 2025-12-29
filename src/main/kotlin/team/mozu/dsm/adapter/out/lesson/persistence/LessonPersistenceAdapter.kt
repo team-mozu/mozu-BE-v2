@@ -26,24 +26,21 @@ class LessonPersistenceAdapter(
 ) : LessonPort {
 
     //--Query--//
-    override fun findByLessonNum(lessonNum: String): Lesson? {
-        return lessonRepository.findByLessonNum(lessonNum)
+    override fun findByLessonNum(lessonNum: String): Lesson? =
+        lessonRepository.findByLessonNum(lessonNum)
             ?.takeIf { !it.isDeleted }
             ?.let { lessonMapper.toModel(it) }
-    }
 
-    override fun findById(id: UUID): Lesson? {
-        return lessonRepository.findByIdOrNull(id)
+    override fun findById(id: UUID): Lesson? =
+        lessonRepository.findByIdOrNull(id)
             ?.takeIf { !it.isDeleted }
             ?.let { lessonMapper.toModel(it) }
-    }
 
-    override fun existsByLessonNum(lessonNum: String): Boolean {
-        return lessonRepository.existsByLessonNum(lessonNum)
-    }
+    override fun existsByLessonNum(lessonNum: String): Boolean =
+        lessonRepository.existsByLessonNum(lessonNum)
 
-    override fun findAllByOrganId(organId: UUID): List<LessonSummaryResponse> {
-        return jpaQueryFactory
+    override fun findAllByOrganId(organId: UUID): List<LessonSummaryResponse> =
+        jpaQueryFactory
             .select(
                 QLessonSummaryResponse(
                     lessonJpaEntity.id,
@@ -57,7 +54,6 @@ class LessonPersistenceAdapter(
                     .and(lessonJpaEntity.isDeleted.eq(false))
             )
             .fetch()
-    }
 
     //--Command--//
     override fun save(lesson: Lesson): Lesson {

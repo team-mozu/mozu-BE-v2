@@ -26,13 +26,12 @@ class LessonArticlePersistenceAdapter(
 ) : LessonArticlePort {
 
     //--Query--//
-    override fun findAllByLessonId(lessonId: UUID): List<LessonArticle> {
-        return lessonArticleRepository.findAllByLessonId(lessonId)
+    override fun findAllByLessonId(lessonId: UUID): List<LessonArticle> =
+        lessonArticleRepository.findAllByLessonId(lessonId)
             .map { lessonArticleMapper.toModel(it) }
-    }
 
-    override fun findAllRoundArticlesByLessonId(lessonId: UUID, nowInvRound: Int): List<LessonRoundArticleResponse> {
-        return jpaQueryFactory
+    override fun findAllRoundArticlesByLessonId(lessonId: UUID, nowInvRound: Int): List<LessonRoundArticleResponse> =
+        jpaQueryFactory
             .select(
                 QLessonRoundArticleResponse(
                     articleJpaEntity.id,
@@ -48,7 +47,6 @@ class LessonArticlePersistenceAdapter(
                     .and(lessonArticleJpaEntity.investmentRound.eq(nowInvRound))
             )
             .fetch()
-    }
 
     //--Command--//
     override fun saveAll(id: UUID, lessonArticles: List<LessonArticle>): List<LessonArticle> {
