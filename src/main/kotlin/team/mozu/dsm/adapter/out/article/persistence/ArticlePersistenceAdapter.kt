@@ -25,11 +25,13 @@ class ArticlePersistenceAdapter(
         articleRepository.existsById(id)
 
     override fun findAllByIds(ids: Set<UUID>): List<Article> =
-        articleRepository.findAllById(ids)
+        articleRepository
+            .findAllByIdInAndIsDeletedFalse(ids.toList())
             .map { articleMapper.toModel(it) }
 
     override fun findById(id: UUID): Article? =
-        articleRepository.findByIdOrNull(id)
+        articleRepository
+            .findByIdAndIsDeletedFalse(id)
             ?.let { articleMapper.toModel(it) }
 
     override fun findAll(): List<Article> =
@@ -37,13 +39,8 @@ class ArticlePersistenceAdapter(
             .map { articleMapper.toModel(it) }
 
     override fun findAllByOrganId(organId: UUID): List<Article> =
-        jpaQueryFactory
-            .selectFrom(articleJpaEntity)
-            .where(
-                articleJpaEntity.organ.id.eq(organId)
-                    .and(articleJpaEntity.isDeleted.eq(false))
-            )
-            .fetch()
+        articleRepository
+            .findAllByOrganIdAndIsDeletedFalse(organId)
             .map { articleMapper.toModel(it) }
 
     //--Command--//

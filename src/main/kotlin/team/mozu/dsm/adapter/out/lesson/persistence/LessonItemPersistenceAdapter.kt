@@ -39,7 +39,10 @@ class LessonItemPersistenceAdapter(
                     .itemId
             )
             .from(lessonItemJpaEntity)
-            .where(lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId))
+            .where(
+                lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId)
+                    .and(lessonItemJpaEntity.item.isDeleted.isFalse())
+            )
             .fetch()
 
     override fun findAllByLessonIdAndItemIds(lessonId: UUID, itemIds: List<Int>): List<LessonItem> {
@@ -49,6 +52,7 @@ class LessonItemPersistenceAdapter(
             .where(
                 lessonItemJpaEntity.lessonItemId.lessonId.eq(lessonId)
                     .and(lessonItemJpaEntity.lessonItemId.itemId.`in`(itemIds))
+                    .and(lessonItemJpaEntity.item.isDeleted.isFalse())
             )
             .fetch()
 
@@ -56,7 +60,7 @@ class LessonItemPersistenceAdapter(
     }
 
     override fun findAllByLessonId(lessonId: UUID): List<LessonItem> =
-        lessonItemRepository.findAllByLessonId(lessonId)
+        lessonItemRepository.findAllByLesson_IdAndItem_IsDeletedFalse(lessonId)
             .map { lessonItemMapper.toModel(it) }
 
     override fun findAllRoundItemsByLessonId(lessonId: UUID): List<LessonRoundItemProjection> =
@@ -76,6 +80,7 @@ class LessonItemPersistenceAdapter(
             .where(
                 lessonItemJpaEntity.lesson.id.eq(lessonId)
                     .and(lessonItemJpaEntity.lesson.isInProgress.isTrue)
+                    .and(itemJpaEntity.isDeleted.isFalse())
             )
             .fetch()
 
@@ -99,6 +104,7 @@ class LessonItemPersistenceAdapter(
                 lessonItemJpaEntity.lesson.id.eq(lessonId)
                     .and(lessonItemJpaEntity.item.id.eq(itemId))
                     .and(lessonJpaEntity.isInProgress.isTrue)
+                    .and(lessonItemJpaEntity.item.isDeleted.isFalse())
             )
             .fetchOne() ?: throw LessonItemNotFoundException
 
@@ -109,21 +115,32 @@ class LessonItemPersistenceAdapter(
 
         /**
          * LessonItemList 저장 프로세스
-         * 1) lessonItems에서 모든 itemId 추출 후 DB에서 한 번에 조회 (DB 성능 최적화를 위해)
-         * 2) .associateBy를 사용하여 Map<UUID, ItemJpaEntity> 형식으로 변환
-         * 3) 각 LessonItem 도메인 모델을 Lesson, Item과 매핑하여 JPA 엔티티 생성
-         * 4) 생성된 엔티티를 saveAll로 저장 후 도메인 모델로 변환
+         *
+         * 1) lessonItems에서 모든 itemId를 추출
+         *    → 여러 번 조회하지 않기 위해 ID 목록을 먼저 수집
+         * 2) itemId 목록을 기준으로
+         *    → isDeleted = false 인 Item만 DB에서 한 번에 조회
+         * 3) 조회된 Item 엔티티를
+         *    → Map<UUID, ItemJpaEntity> 형태로 변환하여 빠른 조회(O(1)) 가능하게 구성
+         * 4) 각 LessonItem 도메인 모델을
+         *    → Lesson 엔티티 + 유효한 Item 엔티티와 매핑하여 LessonItem JPA 엔티티 생성
+         *    → 삭제되었거나 존재하지 않는 Item일 경우 예외 발생
+         * 5) 생성된 LessonItem 엔티티 목록을 saveAll로 일괄 저장
+         * 6) 저장된 엔티티를 도메인 모델로 변환하여 반환
          */
-        val lessonItemList = itemRepository.findAllById(lessonItems.map { it.lessonItemId.itemId })
-            .associateBy { it.id }
-            .let { itemMap ->
-                lessonItems.map { model ->
-                    val itemEntity = itemMap[model.lessonItemId.itemId]
-                        ?: throw ItemNotFoundException
+        val itemIds = lessonItems.map { it.lessonItemId.itemId }
 
-                    lessonItemMapper.toEntity(model, lessonEntity, itemEntity)
-                }
-            }
+        val itemMap = itemRepository
+            .findAllByIdInAndIsDeletedFalse(itemIds)
+            .associateBy { it.id }
+
+        val lessonItemList = lessonItems.map { model ->
+            val itemEntity = itemMap[model.lessonItemId.itemId]
+                ?: throw ItemNotFoundException
+
+            lessonItemMapper.toEntity(model, lessonEntity, itemEntity)
+        }
+
         lessonItemRepository.saveAll(lessonItemList)
 
         return lessonItemList.map { entity -> lessonItemMapper.toModel(entity) }

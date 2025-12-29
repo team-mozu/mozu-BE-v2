@@ -8,4 +8,6 @@ import java.util.UUID
 interface LessonArticleJpaRepository : JpaRepository<LessonArticleJpaEntity, LessonArticleId> {
 
     fun findAllByLessonId(lessonId: UUID): List<LessonArticleJpaEntity>
+
+    fun findAllByLessonIdAndArticleIsDeletedFalse(lessonId: UUID): List<LessonArticleJpaEntity>
 }

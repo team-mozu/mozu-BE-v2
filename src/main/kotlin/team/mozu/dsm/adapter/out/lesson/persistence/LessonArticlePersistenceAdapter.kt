@@ -27,7 +27,8 @@ class LessonArticlePersistenceAdapter(
 
     //--Query--//
     override fun findAllByLessonId(lessonId: UUID): List<LessonArticle> =
-        lessonArticleRepository.findAllByLessonId(lessonId)
+        lessonArticleRepository
+            .findAllByLessonIdAndArticleIsDeletedFalse(lessonId)
             .map { lessonArticleMapper.toModel(it) }
 
     override fun findAllRoundArticlesByLessonId(lessonId: UUID, nowInvRound: Int): List<LessonRoundArticleResponse> =
@@ -45,6 +46,7 @@ class LessonArticlePersistenceAdapter(
             .where(
                 lessonArticleJpaEntity.lesson.id.eq(lessonId)
                     .and(lessonArticleJpaEntity.investmentRound.eq(nowInvRound))
+                    .and(lessonArticleJpaEntity.article.isDeleted.isFalse())
             )
             .fetch()
 
@@ -55,21 +57,32 @@ class LessonArticlePersistenceAdapter(
 
         /**
          * LessonArticleList 저장 프로세스
-         * 1) lessonArticles에서 모든 articleId 추출 후 DB에서 한 번에 조회 (DB 성능 최적화를 위해)
-         * 2) .associateBy를 사용하여 Map<UUID, ArticleJpaEntity> 형식으로 변환
-         * 3) 각 LessonArticle 도메인 모델을 Lesson, Article과 매핑하여 JPA 엔티티 생성
-         * 4) 생성된 엔티티를 saveAll로 저장 후 도메인 모델로 변환
+         *
+         * 1) lessonArticles에서 모든 articleId를 추출
+         *    → 여러 번 조회하지 않기 위해 ID 목록을 먼저 수집
+         * 2) articleId 목록을 기준으로
+         *    → isDeleted = false 인 Article만 DB에서 한 번에 조회
+         * 3) 조회된 Article 엔티티를
+         *    → Map<UUID, ArticleJpaEntity> 형태로 변환하여 빠른 조회(O(1)) 가능하게 구성
+         * 4) 각 LessonArticle 도메인 모델을
+         *    → Lesson 엔티티 + 유효한 Article 엔티티와 매핑하여 LessonArticle JPA 엔티티 생성
+         *    → 삭제되었거나 존재하지 않는 Article일 경우 예외 발생
+         * 5) 생성된 LessonArticle 엔티티 목록을 saveAll로 일괄 저장
+         * 6) 저장된 엔티티를 도메인 모델로 변환하여 반환
          */
-        val lessonArticleList = articleRepository.findAllById(lessonArticles.map { it.lessonArticleId.articleId })
-            .associateBy { it.id }
-            .let { articleMap ->
-                lessonArticles.map { model ->
-                    val articleEntity = articleMap[model.lessonArticleId.articleId]
-                        ?: throw ArticleNotFoundException
+        val articleIds = lessonArticles.map { it.lessonArticleId.articleId }
 
-                    lessonArticleMapper.toEntity(model, lessonEntity, articleEntity)
-                }
-            }
+        val articleMap = articleRepository
+            .findAllByIdInAndIsDeletedFalse(articleIds)
+            .associateBy { it.id }
+
+        val lessonArticleList = lessonArticles.map { model ->
+            val articleEntity = articleMap[model.lessonArticleId.articleId]
+                ?: throw ArticleNotFoundException
+
+            lessonArticleMapper.toEntity(model, lessonEntity, articleEntity)
+        }
+
         lessonArticleRepository.saveAll(lessonArticleList)
 
         return lessonArticleList.map { entity -> lessonArticleMapper.toModel(entity) }
