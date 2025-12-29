@@ -7,7 +7,6 @@ import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.port.`in`.item.QueryItemDetailUseCase
 import team.mozu.dsm.application.port.out.item.QueryItemPort
-import team.mozu.dsm.domain.item.model.Item
 
 @Service
 class QueryItemDetailService(

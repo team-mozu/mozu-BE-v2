@@ -18,7 +18,7 @@ class QueryArticleDetailService(
     @Transactional(readOnly = true)
     override fun execute(id: UUID): ArticleResponse =
         articleMapper.toResponse(
-        queryArticlePort.findById(id)
-            ?: throw ArticleNotFoundException
-    )
+            queryArticlePort.findById(id)
+                ?: throw ArticleNotFoundException
+        )
 }
