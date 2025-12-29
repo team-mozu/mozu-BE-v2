@@ -28,34 +28,6 @@ class SecurityConfig(
     @Bean
     fun passwordEncorder(): PasswordEncoder = BCryptPasswordEncoder()
 
-//    @Bean
-//    @Throws(Exception::class)
-//    fun filterChain(http: HttpSecurity): SecurityFilterChain {
-//        http
-//            .cors { it.configurationSource(corsConfigurationSource()) }
-//            .csrf { it.disable() }
-//            .authorizeHttpRequests { auth ->
-//                auth
-//                    .anyRequest().permitAll()
-//            }
-//
-//        return http.build()
-//    }
-
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-
-        configuration.allowedOriginPatterns = listOf("*") // 모든 Origin 허용
-        configuration.allowedMethods = listOf("*") // 모든 메서드 허용
-        configuration.allowedHeaders = listOf("*") // 모든 헤더 허용
-        configuration.allowCredentials = true // 쿠키/Authorization 같이 보내기 허용
-
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
-    }
-
     @Bean
     fun configure(http: HttpSecurity): SecurityFilterChain {
         http.csrf(AbstractHttpConfigurer<*, *>::disable)
@@ -101,27 +73,26 @@ class SecurityConfig(
 
         return http.build()
     }
-//
-//    @Bean
-//    fun corsConfigurationSource(): CorsConfigurationSource {
-//        val configuration = CorsConfiguration()
-//        configuration.allowedOrigins = listOf(
-//            "http://localhost:3000",
-//            "https://mozu-v2-prod.dsmhs.kr",
-//            "https://mozu-v2-stag.dsmhs.kr"
-//        )
-//        configuration.allowedMethods = listOf(
-//            HttpMethod.GET.name(),
-//            HttpMethod.POST.name(),
-//            HttpMethod.PUT.name(),
-//            HttpMethod.PATCH.name(),
-//            HttpMethod.DELETE.name()
-//        )
-//        configuration.allowedHeaders = listOf("Content-Type", "Authorization")
-//        configuration.allowCredentials = true
-//
-//        val source = UrlBasedCorsConfigurationSource()
-//        source.registerCorsConfiguration("/**", configuration)
-//        return source
-//    }
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf(
+            "http://localhost:3000",
+            "https://mozu-v2-prod.dsmhs.kr",
+            "https://mozu-v2-stag.dsmhs.kr"
+        )
+        configuration.allowedMethods = listOf(
+            HttpMethod.GET.name(),
+            HttpMethod.POST.name(),
+            HttpMethod.PATCH.name(),
+            HttpMethod.DELETE.name()
+        )
+        configuration.allowedHeaders = listOf("Content-Type", "Authorization")
+        configuration.allowCredentials = true
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
+    }
 }
