@@ -23,26 +23,18 @@ class QueryHoldStocksService(
     @Transactional(readOnly = true)
     override fun execute(teamId: UUID): List<StockResponse> {
         return try {
-            println("GetHoldStockService - Starting request for teamId: $teamId")
-
             val team = queryTeamPort.findById(teamId) ?: run {
-                println("Team not found for teamId: $teamId")
                 throw TeamNotFoundException
             }
-            println("Found team with lessonNum: ${team.lessonNum}")
 
             val lesson = queryLessonPort.findByLessonNum(team.lessonNum) ?: run {
-                println("Lesson not found for lessonNum: ${team.lessonNum}")
                 throw LessonNotFoundException
             }
-            println("Found lesson with curInvRound: ${lesson.curInvRound}")
 
             val stocks = queryStockPort.findAllByTeamId(teamId)
                 .filter { it.id != null && it.quantity > 0 }
-            println("Found ${stocks.size} stocks for teamId: $teamId")
 
             if (stocks.isEmpty()) {
-                println("No stocks found, returning empty list")
                 return emptyList()
             }
 
@@ -83,7 +75,6 @@ class QueryHoldStocksService(
                 )
             }
         } catch (e: Exception) {
-            println("GetHoldStockService Error - teamId: $teamId, error: ${e.message}")
             e.printStackTrace()
             emptyList()
         }
