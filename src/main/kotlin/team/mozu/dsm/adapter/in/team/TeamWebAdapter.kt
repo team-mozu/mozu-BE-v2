@@ -126,7 +126,7 @@ class TeamWebAdapter(
 
     @GetMapping("/sse")
     @ResponseStatus(HttpStatus.OK)
-    override fun connectTeamSSE(
+    override fun sse(
         @AuthenticationPrincipal principal: StudentPrincipal,
         @RequestHeader(value = "Last-Event-ID", required = false) lastEventId: String?
     ): SseEmitter =

@@ -497,7 +497,7 @@ interface TeamApiDocument {
         value = ["/sse"],
         produces = [MediaType.TEXT_EVENT_STREAM_VALUE]
     )
-    fun connectTeamSSE(
+    fun sse(
         @AuthenticationPrincipal principal: StudentPrincipal,
         @RequestHeader(value = "Last-Event-ID", required = false) lastEventId: String?
     ): SseEmitter
