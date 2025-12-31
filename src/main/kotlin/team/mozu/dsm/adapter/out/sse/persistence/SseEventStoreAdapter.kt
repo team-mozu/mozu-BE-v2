@@ -1,4 +1,4 @@
-package team.mozu.dsm.adapter.out.sse
+package team.mozu.dsm.adapter.out.sse.persistence
 
 import io.lettuce.core.Limit
 import io.lettuce.core.Range

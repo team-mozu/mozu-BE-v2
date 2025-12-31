@@ -3,7 +3,7 @@ package team.mozu.dsm.application.service.lesson
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.sse.dto.SSEResponse
-import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
+import team.mozu.dsm.adapter.out.sse.persistence.repository.SseEmitterRepository
 import team.mozu.dsm.application.exception.lesson.CannotLessonSSEConnectException
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort

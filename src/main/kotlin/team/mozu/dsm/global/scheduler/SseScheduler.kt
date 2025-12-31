@@ -3,7 +3,7 @@ package team.mozu.dsm.global.scheduler
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
-import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
+import team.mozu.dsm.adapter.out.sse.persistence.repository.SseEmitterRepository
 import team.mozu.dsm.application.port.`in`.sse.PublishToAllSseUseCase
 
 @Component

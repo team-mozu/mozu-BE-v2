@@ -4,8 +4,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.sse.dto.SSEResponse
-import team.mozu.dsm.adapter.out.sse.SsePersistenceAdapter
-import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
+import team.mozu.dsm.adapter.out.sse.persistence.SsePersistenceAdapter
+import team.mozu.dsm.adapter.out.sse.persistence.repository.SseEmitterRepository
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
 import team.mozu.dsm.application.port.`in`.team.ConnectTeamSSEUseCase
 import team.mozu.dsm.application.port.out.sse.SubscribeSsePort

@@ -1,8 +1,8 @@
-package team.mozu.dsm.adapter.out.sse
+package team.mozu.dsm.adapter.out.sse.persistence
 
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
-import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
+import team.mozu.dsm.adapter.out.sse.persistence.repository.SseEmitterRepository
 import team.mozu.dsm.application.port.out.sse.PublishSsePort
 import team.mozu.dsm.application.port.out.sse.SubscribeSsePort
 import team.mozu.dsm.application.port.out.sse.SseEventStorePort

@@ -1,4 +1,4 @@
-package team.mozu.dsm.adapter.out.sse.repository
+package team.mozu.dsm.adapter.out.sse.persistence.repository
 
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
