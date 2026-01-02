@@ -2,7 +2,7 @@ package team.mozu.dsm.application.service.item
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.QueryItemsUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
@@ -16,7 +16,7 @@ class QueryItemsService(
 ) : QueryItemsUseCase {
 
     @Transactional(readOnly = true)
-    override fun execute(): List<ItemQueryResponse> =
+    override fun execute(): List<ItemResponse> =
         queryItemPort.findAllByOrganId(securityPort.getCurrentOrgan().id!!)
-            .map { itemMapper.toQueryResponse(it) }
+            .map { itemMapper.toResponse(it) }
 }

@@ -2,7 +2,7 @@ package team.mozu.dsm.adapter.out.item.mapper
 
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
 import team.mozu.dsm.adapter.out.item.entity.ItemJpaEntity
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
@@ -18,7 +18,7 @@ abstract class ItemMapper {
     abstract fun toDetailResponse(model: Item): ItemDetailResponse
 
     @Mapping(target = "itemId", source = "id")
-    abstract fun toQueryResponse(model: Item): ItemQueryResponse
+    abstract fun toResponse(model: Item): ItemResponse
 
     fun toEntity(model: Item, organ: OrganJpaEntity): ItemJpaEntity {
         return ItemJpaEntity(

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
 import team.mozu.dsm.global.error.ErrorResponse
 
@@ -164,7 +164,7 @@ interface ItemApiDocument {
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    array = ArraySchema(schema = Schema(implementation = ItemQueryResponse::class))
+                    array = ArraySchema(schema = Schema(implementation = ItemResponse::class))
                 )
             ]
         ),
@@ -179,7 +179,7 @@ interface ItemApiDocument {
             ]
         )
     )
-    fun queryAll(): List<ItemQueryResponse>
+    fun queryAll(): List<ItemResponse>
 
     @Operation(
         summary = "종목 삭제",

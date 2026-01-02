@@ -1,8 +1,8 @@
 package team.mozu.dsm.application.port.`in`.item
 
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
 
 interface QueryItemsUseCase {
 
-    fun execute(): List<ItemQueryResponse>
+    fun execute(): List<ItemResponse>
 }
