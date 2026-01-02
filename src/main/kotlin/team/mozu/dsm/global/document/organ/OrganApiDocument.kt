@@ -51,7 +51,7 @@ interface OrganApiDocument {
             ]
         )
     )
-    fun getMyOrgan(): MyOrganResponse
+    fun queryMine(): MyOrganResponse
 
     @Operation(
         summary = "[내부] 기관 생성",
@@ -99,7 +99,7 @@ interface OrganApiDocument {
             ]
         )
     )
-    fun createOrgan(
+    fun create(
         @RequestBody @Valid
         request: CreateOrganRequest
     ): Organ
@@ -150,7 +150,7 @@ interface OrganApiDocument {
             ]
         )
     )
-    fun reissueOrganToken(
+    fun reissue(
         @RequestBody @Valid
         request: ReissueOrganTokenRequest
     ): TokenResponse
@@ -252,7 +252,7 @@ interface OrganApiDocument {
             ]
         )
     )
-    fun queryOrganDetail(
+    fun queryDetail(
         @PathVariable id: UUID
     ): OrganDetailResponse
 
@@ -282,5 +282,5 @@ interface OrganApiDocument {
             ]
         )
     )
-    fun queryOrganInventory(): List<OrganListResponse>
+    fun queryAll(): List<OrganListResponse>
 }

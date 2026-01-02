@@ -4,59 +4,37 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.out.item.entity.QItemJpaEntity.itemJpaEntity
-import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
-import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
-import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
+import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
+import team.mozu.dsm.adapter.out.item.persistence.repository.ItemJpaRepository
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganJpaRepository
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
-import team.mozu.dsm.application.port.out.item.CommandItemPort
-import team.mozu.dsm.application.port.out.item.QueryItemPort
+import team.mozu.dsm.application.port.out.item.ItemPort
 import team.mozu.dsm.domain.item.model.Item
 import java.util.UUID
 
 @Component
 class ItemPersistenceAdapter(
-    private val itemRepository: ItemRepository,
+    private val itemRepository: ItemJpaRepository,
     private val itemMapper: ItemMapper,
-    private val organRepository: OrganRepository,
+    private val organRepository: OrganJpaRepository,
     private val jpaQueryFactory: JPAQueryFactory
-) : QueryItemPort, CommandItemPort {
+) : ItemPort {
 
     //--Query--//
-    override fun existsById(id: Int): Boolean {
-        return itemRepository.existsById(id)
-    }
-
-    override fun findAllByIds(ids: Set<Int>): List<Item> {
-        return jpaQueryFactory
-            .selectFrom(itemJpaEntity)
-            .where(
-                itemJpaEntity.id.`in`(ids)
-                    .and(itemJpaEntity.isDeleted.eq(false))
-            )
-            .fetch()
+    override fun findAllByIds(ids: Set<Int>): List<Item> =
+        itemRepository
+            .findAllByIdInAndIsDeletedFalse(ids.toList())
             .map { itemMapper.toModel(it) }
-    }
 
-    override fun findById(id: Int): Item? {
-        return itemRepository.findByIdOrNull(id)
+    override fun findById(id: Int): Item? =
+        itemRepository
+            .findByIdAndIsDeletedFalse(id)
             ?.let { itemMapper.toModel(it) }
-    }
 
-    override fun findAll(): List<Item> {
-        return itemRepository.findAll()
+    override fun findAllByOrganId(organId: UUID): List<Item> =
+        itemRepository
+            .findAllByOrgan_IdAndIsDeletedFalse(organId)
             .map { itemMapper.toModel(it) }
-    }
-
-    override fun findAllByOrganId(organId: UUID): List<Item> {
-        return jpaQueryFactory
-            .selectFrom(itemJpaEntity)
-            .where(
-                itemJpaEntity.organ.id.eq(organId)
-                    .and(itemJpaEntity.isDeleted.eq(false))
-            )
-            .fetch()
-            .map { itemMapper.toModel(it) }
-    }
 
     //--Command--//
     override fun save(item: Item): Item {

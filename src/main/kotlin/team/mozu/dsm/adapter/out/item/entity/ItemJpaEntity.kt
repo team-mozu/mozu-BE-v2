@@ -9,7 +9,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
-import org.hibernate.annotations.Where
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
@@ -17,7 +16,6 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "tbl_item")
-@Where(clause = "is_deleted = false")
 class ItemJpaEntity(
 
     @Id

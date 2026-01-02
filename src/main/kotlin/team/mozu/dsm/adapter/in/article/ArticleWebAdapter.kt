@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
-import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
-import team.mozu.dsm.adapter.out.article.persistence.mapper.ArticleMapper
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
 import team.mozu.dsm.application.port.`in`.article.CreateArticleUseCase
-import team.mozu.dsm.application.port.`in`.article.QueryArticleAllUseCase
+import team.mozu.dsm.application.port.`in`.article.QueryArticlesUseCase
 import team.mozu.dsm.application.port.`in`.article.QueryArticleDetailUseCase
 import team.mozu.dsm.application.port.`in`.article.DeleteArticleUseCase
 import team.mozu.dsm.application.port.`in`.article.UpdateArticleUseCase
@@ -30,10 +29,9 @@ import java.util.UUID
 class ArticleWebAdapter(
     private val createArticleUseCase: CreateArticleUseCase,
     private val queryArticleDetailUseCase: QueryArticleDetailUseCase,
-    private val queryArticleAllUseCase: QueryArticleAllUseCase,
+    private val queryArticlesUseCase: QueryArticlesUseCase,
     private val deleteArticleUseCase: DeleteArticleUseCase,
-    private val updateArticleUseCase: UpdateArticleUseCase,
-    private val articleMapper: ArticleMapper
+    private val updateArticleUseCase: UpdateArticleUseCase
 ) : ArticleApiDocument {
 
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
@@ -41,32 +39,24 @@ class ArticleWebAdapter(
     override fun create(
         @ModelAttribute @Valid
         request: ArticleRequest
-    ): ArticleResponse {
-        return createArticleUseCase.create(request)
-    }
+    ): ArticleDetailResponse = createArticleUseCase.execute(request)
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @PathVariable id: UUID
-    ): ArticleResponse {
-        val article = queryArticleDetailUseCase.queryDetail(id)
-        return articleMapper.toResponse(article)
-    }
+    ): ArticleDetailResponse = queryArticleDetailUseCase.execute(id)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryAll(): List<ArticleQueryResponse> {
-        return queryArticleAllUseCase.queryAll()
-    }
+    override fun queryAll(): List<ArticleResponse> =
+        queryArticlesUseCase.execute()
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun delete(
         @PathVariable id: UUID
-    ) {
-        deleteArticleUseCase.delete(id)
-    }
+    ) = deleteArticleUseCase.execute(id)
 
     @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.OK)
@@ -74,7 +64,5 @@ class ArticleWebAdapter(
         @PathVariable id: UUID,
         @ModelAttribute @Valid
         request: UpdateArticleRequest
-    ): ArticleResponse {
-        return updateArticleUseCase.update(id, request)
-    }
+    ): ArticleDetailResponse = updateArticleUseCase.execute(id, request)
 }

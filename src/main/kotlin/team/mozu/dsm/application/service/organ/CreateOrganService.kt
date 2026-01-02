@@ -15,7 +15,7 @@ class CreateOrganService(
 ) : CreateOrganUseCase {
 
     @Transactional
-    override fun create(request: CreateOrganRequest): Organ {
+    override fun execute(request: CreateOrganRequest): Organ {
         val organ = Organ(
             organCode = request.code,
             organName = request.organName,

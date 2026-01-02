@@ -5,5 +5,5 @@ import team.mozu.dsm.adapter.`in`.team.dto.response.TeamTokenResponse
 
 interface TeamParticipationUseCase {
 
-    fun participate(request: TeamParticipationRequest): TeamTokenResponse
+    fun execute(request: TeamParticipationRequest): TeamTokenResponse
 }

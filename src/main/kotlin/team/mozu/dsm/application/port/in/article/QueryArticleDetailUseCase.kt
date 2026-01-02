@@ -1,9 +1,9 @@
 package team.mozu.dsm.application.port.`in`.article
 
-import team.mozu.dsm.domain.article.model.Article
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
 import java.util.UUID
 
 interface QueryArticleDetailUseCase {
 
-    fun queryDetail(id: UUID): Article
+    fun execute(id: UUID): ArticleDetailResponse
 }

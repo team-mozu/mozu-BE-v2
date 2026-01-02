@@ -4,5 +4,5 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 
 interface SubscribeSseUseCase {
 
-    fun subscribe(clientId: String): SseEmitter
+    fun execute(clientId: String): SseEmitter
 }

@@ -3,8 +3,8 @@ package team.mozu.dsm.application.service.item
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
-import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
+import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.CannotDeleteLessonException
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
@@ -24,7 +24,7 @@ class UpdateItemService(
 ) : UpdateItemUseCase {
 
     @Transactional
-    override fun update(id: Int, request: UpdateItemRequest): ItemResponse {
+    override fun execute(id: Int, request: UpdateItemRequest): ItemDetailResponse {
         val organ = securityPort.getCurrentOrgan()
         val item = queryItemPort.findById(id) ?: throw ItemNotFoundException
 
@@ -70,6 +70,6 @@ class UpdateItemService(
         )
 
         val saved = commandItemPort.save(updated)
-        return itemMapper.toResponse(saved)
+        return itemMapper.toDetailResponse(saved)
     }
 }

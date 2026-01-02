@@ -17,7 +17,7 @@ class DeleteLessonService(
 ) : DeleteLessonUseCase {
 
     @Transactional
-    override fun delete(id: UUID) {
+    override fun execute(id: UUID) {
         val lesson = lessonFacade.findByLessonId(id)
         val organ = securityPort.getCurrentOrgan()
 

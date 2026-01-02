@@ -198,7 +198,7 @@ interface TeamApiDocument {
             ]
         )
     )
-    fun getStocks(
+    fun queryAllStock(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<StockResponse>
 
@@ -248,7 +248,7 @@ interface TeamApiDocument {
             ]
         )
     )
-    fun getTeamDetail(
+    fun queryDetail(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamDetailResponse
 
@@ -288,7 +288,7 @@ interface TeamApiDocument {
             ]
         )
     )
-    fun getOrderItems(
+    fun queryAllOrderItem(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<OrderItemResponse>
 
@@ -328,7 +328,7 @@ interface TeamApiDocument {
             ]
         )
     )
-    fun getCurrentOrderItem(
+    fun queryAllCurrentOrderItem(
         @PathVariable("team-id") teamId: UUID
     ): List<OrderItemResponse>
 
@@ -378,7 +378,7 @@ interface TeamApiDocument {
             ]
         )
     )
-    fun getResult(
+    fun queryResult(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): TeamResultResponse
 
@@ -418,7 +418,7 @@ interface TeamApiDocument {
             ]
         )
     )
-    fun getHoldStock(
+    fun queryAllHoldStock(
         @PathVariable("team-id") teamId: UUID
     ): List<StockResponse>
 
@@ -458,7 +458,7 @@ interface TeamApiDocument {
             ]
         )
     )
-    fun getRank(
+    fun queryRank(
         @AuthenticationPrincipal principal: StudentPrincipal
     ): List<TeamRankResponse>
 
@@ -497,7 +497,7 @@ interface TeamApiDocument {
         value = ["/sse"],
         produces = [MediaType.TEXT_EVENT_STREAM_VALUE]
     )
-    fun connectTeamSSE(
+    fun sse(
         @AuthenticationPrincipal principal: StudentPrincipal,
         @RequestHeader(value = "Last-Event-ID", required = false) lastEventId: String?
     ): SseEmitter

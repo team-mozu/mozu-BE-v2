@@ -18,7 +18,7 @@ class StartLessonInvestmentService(
 ) : StartLessonInvestmentUseCase {
 
     @Transactional
-    override fun startInvestment(lessonId: UUID) {
+    override fun execute(lessonId: UUID) {
         val organ = securityPort.getCurrentOrgan()
         val lesson = lessonFacade.findByLessonId(lessonId)
 

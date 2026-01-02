@@ -5,5 +5,5 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 
 interface CreateLessonUseCase {
 
-    fun create(request: LessonRequest): LessonResponse
+    fun execute(request: LessonRequest): LessonResponse
 }

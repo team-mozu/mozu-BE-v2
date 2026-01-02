@@ -1,9 +1,9 @@
 package team.mozu.dsm.application.port.`in`.item
 
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
 
 interface CreateItemUseCase {
 
-    fun create(request: ItemRequest): ItemResponse
+    fun execute(request: ItemRequest): ItemDetailResponse
 }

@@ -11,11 +11,9 @@ class RefreshTokenPersistenceAdapter(
     private val refreshTokenRepository: RefreshTokenRepository
 ) : QueryTokenPort, CommandTokenPort {
 
-    override fun findByRefreshToken(refreshToken: String): RefreshTokenRedisEntity? {
-        return refreshTokenRepository.findByRefreshToken(refreshToken)
-    }
+    override fun findByRefreshToken(refreshToken: String): RefreshTokenRedisEntity? =
+        refreshTokenRepository.findByRefreshToken(refreshToken)
 
-    override fun deleteByRefreshToken(refreshToken: String): RefreshTokenRedisEntity? {
-        return refreshTokenRepository.deleteByRefreshToken(refreshToken)
-    }
+    override fun deleteByRefreshToken(refreshToken: String): RefreshTokenRedisEntity? =
+        refreshTokenRepository.deleteByRefreshToken(refreshToken)
 }

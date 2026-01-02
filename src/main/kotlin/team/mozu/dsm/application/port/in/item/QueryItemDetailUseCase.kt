@@ -1,8 +1,8 @@
 package team.mozu.dsm.application.port.`in`.item
 
-import team.mozu.dsm.domain.item.model.Item
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
 
 interface QueryItemDetailUseCase {
 
-    fun queryDetail(id: Int): Item
+    fun execute(id: Int): ItemDetailResponse
 }

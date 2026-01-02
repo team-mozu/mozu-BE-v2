@@ -2,7 +2,7 @@ package team.mozu.dsm.global.error.sse
 
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
-import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
+import team.mozu.dsm.adapter.out.sse.persistence.repository.SseEmitterRepository
 import team.mozu.dsm.global.exception.sse.InvalidSseDataException
 import team.mozu.dsm.global.exception.sse.InvalidSseStateException
 import team.mozu.dsm.global.exception.sse.SseConnectionClosedException

@@ -2,15 +2,15 @@ package team.mozu.dsm.global.security
 
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.out.organ.persistence.mapper.OrganMapper
-import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
+import team.mozu.dsm.adapter.out.organ.mapper.OrganMapper
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganJpaRepository
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.domain.organ.model.Organ
 
 @Component
 class SecurityAdapter(
-    private val organRepository: OrganRepository,
+    private val organRepository: OrganJpaRepository,
     private val organMapper: OrganMapper
 ) : SecurityPort {
 

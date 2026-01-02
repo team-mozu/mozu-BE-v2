@@ -36,7 +36,7 @@ enum class ErrorCode(
 
     //item
     INVALID_INVESTMENT_ITEM(HttpStatus.BAD_REQUEST, "Invalid Investment Item"),
-    ITEM_NOT_FOUND(HttpStatus.BAD_REQUEST, "Item Not Found"),
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "Item Not Found"),
     ITEM_DELETED(HttpStatus.BAD_REQUEST, "Item Deleted"),
     INSUFFICIENT_LESSON_ITEM_MONEY(HttpStatus.BAD_REQUEST, "Insufficient Lesson Item Money"),
 

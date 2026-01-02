@@ -2,35 +2,32 @@ package team.mozu.dsm.adapter.out.team.persistence
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
-import team.mozu.dsm.adapter.out.item.persistence.repository.ItemRepository
-import team.mozu.dsm.adapter.out.team.persistence.mapper.StockMapper
+import team.mozu.dsm.adapter.out.item.persistence.repository.ItemJpaRepository
+import team.mozu.dsm.adapter.out.team.mapper.StockMapper
 import team.mozu.dsm.adapter.out.team.persistence.repository.StockRepository
-import team.mozu.dsm.adapter.out.team.persistence.repository.TeamRepository
+import team.mozu.dsm.adapter.out.team.persistence.repository.TeamJpaRepository
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.team.TeamNotFoundException
-import team.mozu.dsm.application.port.out.team.CommandStockPort
-import team.mozu.dsm.application.port.out.team.QueryStockPort
+import team.mozu.dsm.application.port.out.team.StockPort
 import team.mozu.dsm.domain.team.model.Stock
 import java.util.UUID
 
 @Component
 class StockPersistenceAdapter(
     private val stockRepository: StockRepository,
-    private val teamRepository: TeamRepository,
-    private val itemRepository: ItemRepository,
+    private val teamRepository: TeamJpaRepository,
+    private val itemRepository: ItemJpaRepository,
     private val stockMapper: StockMapper
-) : CommandStockPort, QueryStockPort {
+) : StockPort {
 
     //--Query--//
-    override fun findByTeamIdAndItemId(teamId: UUID, itemId: Int): Stock? {
-        return stockRepository.findByTeam_IdAndItem_Id(teamId, itemId)
+    override fun findByTeamIdAndItemId(teamId: UUID, itemId: Int): Stock? =
+        stockRepository.findByTeam_IdAndItem_Id(teamId, itemId)
             ?.let { stockMapper.toModel(it) }
-    }
 
-    override fun findAllByTeamId(teamId: UUID): List<Stock> {
-        return stockRepository.findAllByTeam_Id(teamId)
+    override fun findAllByTeamId(teamId: UUID): List<Stock> =
+        stockRepository.findAllByTeam_Id(teamId)
             .map { stockMapper.toModel(it) }
-    }
 
     //--Command--//
     override fun saveAll(stocks: List<Stock>) {

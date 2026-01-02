@@ -112,8 +112,6 @@ class LessonFacade(
         return lessonItems.mapNotNull { lessonItem ->
             val item = itemMap[lessonItem.lessonItemId.itemId]
             if (item == null) {
-                // 존재하지 않는 Item은 로그를 남기고 제외
-                println("Warning: Item with ID ${lessonItem.lessonItemId.itemId} not found or deleted")
                 null
             } else {
                 LessonItemResponse(

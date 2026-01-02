@@ -6,45 +6,41 @@ import org.springframework.stereotype.Component
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonSummaryResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.QLessonSummaryResponse
 import team.mozu.dsm.adapter.out.lesson.entity.QLessonJpaEntity.lessonJpaEntity
-import team.mozu.dsm.adapter.out.lesson.persistence.mapper.LessonMapper
-import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonRepository
-import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
+import team.mozu.dsm.adapter.out.lesson.mapper.LessonMapper
+import team.mozu.dsm.adapter.out.lesson.persistence.repository.LessonJpaRepository
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganJpaRepository
 import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.exception.lesson.MaxInvestmentRoundReachedException
 import team.mozu.dsm.application.exception.organ.OrganNotFoundException
 import team.mozu.dsm.application.port.`in`.lesson.command.UpdateLessonCommand
-import team.mozu.dsm.application.port.out.lesson.CommandLessonPort
-import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
+import team.mozu.dsm.application.port.out.lesson.LessonPort
 import team.mozu.dsm.domain.lesson.model.Lesson
-import java.util.*
+import java.util.UUID
 
 @Component
 class LessonPersistenceAdapter(
-    private val lessonRepository: LessonRepository,
+    private val lessonRepository: LessonJpaRepository,
     private val lessonMapper: LessonMapper,
-    private val organRepository: OrganRepository,
+    private val organRepository: OrganJpaRepository,
     private val jpaQueryFactory: JPAQueryFactory
-) : QueryLessonPort, CommandLessonPort {
+) : LessonPort {
 
     //--Query--//
-    override fun findByLessonNum(lessonNum: String): Lesson? {
-        return lessonRepository.findByLessonNum(lessonNum)
+    override fun findByLessonNum(lessonNum: String): Lesson? =
+        lessonRepository.findByLessonNum(lessonNum)
             ?.takeIf { !it.isDeleted }
             ?.let { lessonMapper.toModel(it) }
-    }
 
-    override fun findById(id: UUID): Lesson? {
-        return lessonRepository.findByIdOrNull(id)
+    override fun findById(id: UUID): Lesson? =
+        lessonRepository.findByIdOrNull(id)
             ?.takeIf { !it.isDeleted }
             ?.let { lessonMapper.toModel(it) }
-    }
 
-    override fun existsByLessonNum(lessonNum: String): Boolean {
-        return lessonRepository.existsByLessonNum(lessonNum)
-    }
+    override fun existsByLessonNum(lessonNum: String): Boolean =
+        lessonRepository.existsByLessonNum(lessonNum)
 
-    override fun findAllByOrganId(organId: UUID): List<LessonSummaryResponse> {
-        return jpaQueryFactory
+    override fun findAllByOrganId(organId: UUID): List<LessonSummaryResponse> =
+        jpaQueryFactory
             .select(
                 QLessonSummaryResponse(
                     lessonJpaEntity.id,
@@ -58,7 +54,6 @@ class LessonPersistenceAdapter(
                     .and(lessonJpaEntity.isDeleted.eq(false))
             )
             .fetch()
-    }
 
     //--Command--//
     override fun save(lesson: Lesson): Lesson {

@@ -6,5 +6,5 @@ import java.util.UUID
 
 interface UpdateLessonUseCase {
 
-    fun update(id: UUID, request: LessonRequest): LessonResponse
+    fun execute(id: UUID, request: LessonRequest): LessonResponse
 }

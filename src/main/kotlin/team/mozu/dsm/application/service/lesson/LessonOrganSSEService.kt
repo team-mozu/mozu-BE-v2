@@ -3,7 +3,7 @@ package team.mozu.dsm.application.service.lesson
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.sse.dto.SSEResponse
-import team.mozu.dsm.adapter.out.sse.repository.SseEmitterRepository
+import team.mozu.dsm.adapter.out.sse.persistence.repository.SseEmitterRepository
 import team.mozu.dsm.application.exception.lesson.CannotLessonSSEConnectException
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
@@ -23,7 +23,7 @@ class LessonOrganSSEService(
         private const val CONNECTED_EVENT = "LESSON_SSE_CONNECTED"
     }
 
-    override fun connect(lessonId: UUID): SseEmitter {
+    override fun execute(lessonId: UUID): SseEmitter {
         val lesson = lessonFacade.findByLessonId(lessonId)
         val organ = securityPort.getCurrentOrgan()
 

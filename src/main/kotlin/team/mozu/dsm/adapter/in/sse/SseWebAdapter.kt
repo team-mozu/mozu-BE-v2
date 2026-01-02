@@ -18,7 +18,5 @@ class SseWebAdapter(
     override fun subscribe(
         @RequestParam
         clientId: String
-    ): SseEmitter {
-        return subscribeSseUseCase.subscribe(clientId)
-    }
+    ): SseEmitter = subscribeSseUseCase.execute(clientId)
 }

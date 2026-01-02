@@ -4,5 +4,5 @@ import java.util.UUID
 
 interface NextLessonUseCase {
 
-    fun next(lessonId: UUID)
+    fun execute(lessonId: UUID)
 }

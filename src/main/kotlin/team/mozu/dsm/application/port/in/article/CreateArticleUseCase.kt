@@ -1,9 +1,9 @@
 package team.mozu.dsm.application.port.`in`.article
 
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
-import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
 
 interface CreateArticleUseCase {
 
-    fun create(request: ArticleRequest): ArticleResponse
+    fun execute(request: ArticleRequest): ArticleDetailResponse
 }

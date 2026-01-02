@@ -4,5 +4,5 @@ import java.util.UUID
 
 interface DeleteLessonUseCase {
 
-    fun delete(id: UUID)
+    fun execute(id: UUID)
 }

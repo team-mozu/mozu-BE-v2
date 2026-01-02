@@ -35,7 +35,7 @@ class TeamParticipationService(
 ) : TeamParticipationUseCase {
 
     @Transactional
-    override fun participate(request: TeamParticipationRequest): TeamTokenResponse {
+    override fun execute(request: TeamParticipationRequest): TeamTokenResponse {
         val lesson = queryLessonPort.findByLessonNum(request.lessonNum)
             ?: throw LessonNotFoundException
 

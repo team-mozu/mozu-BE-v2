@@ -5,5 +5,5 @@ import team.mozu.dsm.adapter.`in`.organ.dto.request.LoginOrganRequest
 
 interface LoginOrganUseCase {
 
-    fun login(request: LoginOrganRequest): TokenResponse
+    fun execute(request: LoginOrganRequest): TokenResponse
 }

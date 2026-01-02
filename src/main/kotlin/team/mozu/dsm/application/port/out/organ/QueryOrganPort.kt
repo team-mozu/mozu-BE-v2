@@ -11,7 +11,7 @@ interface QueryOrganPort {
 
     fun findById(id: UUID): OrganDetailResponse?
 
-    fun findOrganInventory(): List<OrganListResponse>
+    fun findAll(): List<OrganListResponse>
 
     fun findModelById(organId: UUID): Organ?
 }

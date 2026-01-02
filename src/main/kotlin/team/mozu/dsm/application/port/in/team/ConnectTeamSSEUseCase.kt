@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface ConnectTeamSSEUseCase {
 
-    fun connectTeamSSE(teamId: UUID, lastEventId: String? = null): SseEmitter
+    fun execute(teamId: UUID, lastEventId: String? = null): SseEmitter
 }

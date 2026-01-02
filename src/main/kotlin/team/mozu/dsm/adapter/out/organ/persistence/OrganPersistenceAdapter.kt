@@ -8,32 +8,29 @@ import team.mozu.dsm.adapter.`in`.organ.dto.response.OrganListResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganDetailResponse
 import team.mozu.dsm.adapter.`in`.organ.dto.response.QOrganListResponse
 import team.mozu.dsm.adapter.out.organ.entity.QOrganJpaEntity.organJpaEntity
-import team.mozu.dsm.adapter.out.organ.persistence.mapper.OrganMapper
-import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganRepository
-import team.mozu.dsm.application.port.out.organ.CommandOrganPort
-import team.mozu.dsm.application.port.out.organ.QueryOrganPort
+import team.mozu.dsm.adapter.out.organ.mapper.OrganMapper
+import team.mozu.dsm.adapter.out.organ.persistence.repository.OrganJpaRepository
+import team.mozu.dsm.application.port.out.organ.OrganPort
 import team.mozu.dsm.domain.organ.model.Organ
 import java.util.UUID
 
 @Component
 class OrganPersistenceAdapter(
-    private val organRepository: OrganRepository,
+    private val organRepository: OrganJpaRepository,
     private val organMapper: OrganMapper,
     private val jpaQueryFactory: JPAQueryFactory
-) : QueryOrganPort, CommandOrganPort {
+) : OrganPort {
 
     //--Query--//
-    override fun findByOrganCode(organCode: String): Organ? {
-        return organRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
-    }
+    override fun findByOrganCode(organCode: String): Organ? =
+        organRepository.findByOrganCode(organCode)?.let { organMapper.toModel(it) }
 
-    override fun findModelById(organId: UUID): Organ? {
-        return organRepository.findByIdOrNull(organId)
+    override fun findModelById(organId: UUID): Organ? =
+        organRepository.findByIdOrNull(organId)
             ?.let { organMapper.toModel(it) }
-    }
 
-    override fun findById(id: UUID): OrganDetailResponse? {
-        return jpaQueryFactory
+    override fun findById(id: UUID): OrganDetailResponse? =
+        jpaQueryFactory
             .select(
                 QOrganDetailResponse(
                     organJpaEntity.id,
@@ -45,10 +42,9 @@ class OrganPersistenceAdapter(
             .from(organJpaEntity)
             .where(organJpaEntity.id.eq(id))
             .fetchOne()
-    }
 
-    override fun findOrganInventory(): List<OrganListResponse> {
-        return jpaQueryFactory
+    override fun findAll(): List<OrganListResponse> =
+        jpaQueryFactory
             .select(
                 QOrganListResponse(
                     organJpaEntity.id,
@@ -59,7 +55,6 @@ class OrganPersistenceAdapter(
             )
             .from(organJpaEntity)
             .fetch()
-    }
 
     //--Command--//
     override fun save(organ: Organ): Organ {

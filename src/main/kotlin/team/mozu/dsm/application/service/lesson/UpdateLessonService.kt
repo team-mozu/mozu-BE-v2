@@ -24,7 +24,7 @@ class UpdateLessonService(
 ) : UpdateLessonUseCase {
 
     @Transactional
-    override fun update(id: UUID, request: LessonRequest): LessonResponse {
+    override fun execute(id: UUID, request: LessonRequest): LessonResponse {
         val lesson = lessonFacade.findByLessonId(id)
         val organ = securityPort.getCurrentOrgan()
 

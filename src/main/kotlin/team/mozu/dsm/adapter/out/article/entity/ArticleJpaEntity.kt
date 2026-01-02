@@ -6,13 +6,11 @@ import jakarta.persistence.Column
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
-import org.hibernate.annotations.Where
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import team.mozu.dsm.global.entity.BaseTimeEntity
 
 @Entity
 @Table(name = "tbl_article")
-@Where(clause = "is_deleted = false")
 class ArticleJpaEntity(
 
     @Column(nullable = false, columnDefinition = "VARCHAR(300)")

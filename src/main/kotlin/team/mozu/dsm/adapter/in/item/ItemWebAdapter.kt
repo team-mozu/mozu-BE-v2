@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.DeleteMapping
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
-import team.mozu.dsm.adapter.out.item.persistence.mapper.ItemMapper
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
-import team.mozu.dsm.application.port.`in`.item.QueryItemAllUseCase
+import team.mozu.dsm.application.port.`in`.item.QueryItemsUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemDetailUseCase
 import team.mozu.dsm.application.port.`in`.item.DeleteItemUseCase
 import team.mozu.dsm.global.document.item.ItemApiDocument
@@ -30,8 +29,7 @@ class ItemWebAdapter(
     private val createItemUseCase: CreateItemUseCase,
     private val updateItemUseCase: UpdateItemUseCase,
     private val queryItemDetailUseCase: QueryItemDetailUseCase,
-    private val queryItemAllUseCase: QueryItemAllUseCase,
-    private val itemMapper: ItemMapper,
+    private val queryItemsUseCase: QueryItemsUseCase,
     private val deleteItemUseCase: DeleteItemUseCase
 ) : ItemApiDocument {
 
@@ -40,9 +38,7 @@ class ItemWebAdapter(
     override fun create(
         @ModelAttribute @Valid
         request: ItemRequest
-    ): ItemResponse {
-        return createItemUseCase.create(request)
-    }
+    ): ItemDetailResponse = createItemUseCase.execute(request)
 
     @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.OK)
@@ -50,30 +46,22 @@ class ItemWebAdapter(
         @PathVariable id: Int,
         @ModelAttribute @Valid
         request: UpdateItemRequest
-    ): ItemResponse {
-        return updateItemUseCase.update(id, request)
-    }
+    ): ItemDetailResponse = updateItemUseCase.execute(id, request)
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @PathVariable id: Int
-    ): ItemResponse {
-        val item = queryItemDetailUseCase.queryDetail(id)
-        return itemMapper.toResponse(item)
-    }
+    ): ItemDetailResponse = queryItemDetailUseCase.execute(id)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryAll(): List<ItemQueryResponse> {
-        return queryItemAllUseCase.queryAll()
-    }
+    override fun queryAll(): List<ItemResponse> =
+        queryItemsUseCase.execute()
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     override fun delete(
         @PathVariable id: Int
-    ) {
-        deleteItemUseCase.delete(id)
-    }
+    ) = deleteItemUseCase.execute(id)
 }
