@@ -43,7 +43,7 @@ class OrganPersistenceAdapter(
             .where(organJpaEntity.id.eq(id))
             .fetchOne()
 
-    override fun findOrganInventory(): List<OrganListResponse> =
+    override fun findAll(): List<OrganListResponse> =
         jpaQueryFactory
             .select(
                 QOrganListResponse(

@@ -10,7 +10,6 @@ class QueryOrgansService(
     private val queryOrganPort: QueryOrganPort
 ) : QueryOrgansUseCase {
 
-    override fun execute(): List<OrganListResponse> {
-        return queryOrganPort.findOrganInventory()
-    }
+    override fun execute(): List<OrganListResponse> =
+        queryOrganPort.findAll()
 }
