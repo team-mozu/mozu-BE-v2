@@ -21,9 +21,6 @@ class ItemPersistenceAdapter(
 ) : ItemPort {
 
     //--Query--//
-    override fun existsById(id: Int): Boolean =
-        itemRepository.existsById(id)
-
     override fun findAllByIds(ids: Set<Int>): List<Item> =
         itemRepository
             .findAllByIdInAndIsDeletedFalse(ids.toList())

@@ -21,9 +21,6 @@ class ArticlePersistenceAdapter(
 ) : ArticlePort {
 
     //--Query--//
-    override fun existsById(id: UUID): Boolean =
-        articleRepository.existsById(id)
-
     override fun findAllByIds(ids: Set<UUID>): List<Article> =
         articleRepository
             .findAllByIdInAndIsDeletedFalse(ids.toList())
@@ -33,10 +30,6 @@ class ArticlePersistenceAdapter(
         articleRepository
             .findByIdAndIsDeletedFalse(id)
             ?.let { articleMapper.toModel(it) }
-
-    override fun findAll(): List<Article> =
-        articleRepository.findAll()
-            .map { articleMapper.toModel(it) }
 
     override fun findAllByOrganId(organId: UUID): List<Article> =
         articleRepository
