@@ -40,7 +40,7 @@ class ArticlePersistenceAdapter(
 
     override fun findAllByOrganId(organId: UUID): List<Article> =
         articleRepository
-            .findAllByOrganIdAndIsDeletedFalse(organId)
+            .findAllByOrgan_IdAndIsDeletedFalse(organId)
             .map { articleMapper.toModel(it) }
 
     //--Command--//

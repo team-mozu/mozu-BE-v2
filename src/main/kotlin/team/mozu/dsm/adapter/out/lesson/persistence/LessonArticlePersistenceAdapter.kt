@@ -28,7 +28,7 @@ class LessonArticlePersistenceAdapter(
     //--Query--//
     override fun findAllByLessonId(lessonId: UUID): List<LessonArticle> =
         lessonArticleRepository
-            .findAllByLessonIdAndArticleIsDeletedFalse(lessonId)
+            .findAllByLesson_IdAndArticle_IsDeletedFalse(lessonId)
             .map { lessonArticleMapper.toModel(it) }
 
     override fun findAllRoundArticlesByLessonId(lessonId: UUID, nowInvRound: Int): List<LessonRoundArticleResponse> =

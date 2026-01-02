@@ -9,5 +9,5 @@ interface LessonArticleJpaRepository : JpaRepository<LessonArticleJpaEntity, Les
 
     fun findAllByLessonId(lessonId: UUID): List<LessonArticleJpaEntity>
 
-    fun findAllByLessonIdAndArticleIsDeletedFalse(lessonId: UUID): List<LessonArticleJpaEntity>
+    fun findAllByLesson_IdAndArticle_IsDeletedFalse(lessonId: UUID): List<LessonArticleJpaEntity>
 }

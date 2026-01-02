@@ -36,7 +36,7 @@ class ItemPersistenceAdapter(
 
     override fun findAllByOrganId(organId: UUID): List<Item> =
         itemRepository
-            .findAllByOrganIdAndIsDeletedFalse(organId)
+            .findAllByOrgan_IdAndIsDeletedFalse(organId)
             .map { itemMapper.toModel(it) }
 
     //--Command--//

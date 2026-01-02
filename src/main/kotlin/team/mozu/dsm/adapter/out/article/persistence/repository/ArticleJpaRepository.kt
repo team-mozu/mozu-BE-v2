@@ -10,5 +10,5 @@ interface ArticleJpaRepository : JpaRepository<ArticleJpaEntity, UUID> {
 
     fun findAllByIdInAndIsDeletedFalse(ids: List<UUID>): List<ArticleJpaEntity>
 
-    fun findAllByOrganIdAndIsDeletedFalse(organId: UUID): List<ArticleJpaEntity>
+    fun findAllByOrgan_IdAndIsDeletedFalse(organId: UUID): List<ArticleJpaEntity>
 }
