@@ -3,7 +3,7 @@ package team.mozu.dsm.adapter.`in`.item.dto.response
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
-data class ItemResponse(
+data class ItemDetailResponse(
     val itemId: Int,
     val itemName: String,
     val itemLogo: String? = null,

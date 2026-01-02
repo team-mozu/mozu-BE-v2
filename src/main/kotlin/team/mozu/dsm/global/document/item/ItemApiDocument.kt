@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
 import team.mozu.dsm.global.error.ErrorResponse
 
 @Tag(name = "Item", description = "종목 관련 API")
@@ -31,7 +31,7 @@ interface ItemApiDocument {
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = Schema(implementation = ItemResponse::class)
+                    schema = Schema(implementation = ItemDetailResponse::class)
                 )
             ]
         ),
@@ -59,7 +59,7 @@ interface ItemApiDocument {
     fun create(
         @RequestBody @Valid
         request: ItemRequest
-    ): ItemResponse
+    ): ItemDetailResponse
 
     @Operation(
         summary = "종목 수정",
@@ -72,7 +72,7 @@ interface ItemApiDocument {
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = Schema(implementation = ItemResponse::class)
+                    schema = Schema(implementation = ItemDetailResponse::class)
                 )
             ]
         ),
@@ -111,7 +111,7 @@ interface ItemApiDocument {
         @PathVariable id: Int,
         @RequestBody @Valid
         request: UpdateItemRequest
-    ): ItemResponse
+    ): ItemDetailResponse
 
     @Operation(
         summary = "종목 상세 조회",
@@ -124,7 +124,7 @@ interface ItemApiDocument {
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = Schema(implementation = ItemResponse::class)
+                    schema = Schema(implementation = ItemDetailResponse::class)
                 )
             ]
         ),
@@ -151,7 +151,7 @@ interface ItemApiDocument {
     )
     fun queryDetail(
         @PathVariable id: Int
-    ): ItemResponse
+    ): ItemDetailResponse
 
     @Operation(
         summary = "종목 목록 조회",

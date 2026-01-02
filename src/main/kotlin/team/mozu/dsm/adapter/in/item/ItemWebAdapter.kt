@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemQueryResponse
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
 import team.mozu.dsm.application.port.`in`.item.QueryItemsUseCase
@@ -38,7 +38,7 @@ class ItemWebAdapter(
     override fun create(
         @ModelAttribute @Valid
         request: ItemRequest
-    ): ItemResponse = createItemUseCase.execute(request)
+    ): ItemDetailResponse = createItemUseCase.execute(request)
 
     @PatchMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseStatus(HttpStatus.OK)
@@ -46,13 +46,13 @@ class ItemWebAdapter(
         @PathVariable id: Int,
         @ModelAttribute @Valid
         request: UpdateItemRequest
-    ): ItemResponse = updateItemUseCase.execute(id, request)
+    ): ItemDetailResponse = updateItemUseCase.execute(id, request)
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @PathVariable id: Int
-    ): ItemResponse = queryItemDetailUseCase.execute(id)
+    ): ItemDetailResponse = queryItemDetailUseCase.execute(id)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

@@ -3,7 +3,7 @@ package team.mozu.dsm.application.service.item
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
-import team.mozu.dsm.adapter.`in`.item.dto.response.ItemResponse
+import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
 import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
@@ -21,7 +21,7 @@ class CreateItemService(
 ) : CreateItemUseCase {
 
     @Transactional
-    override fun execute(request: ItemRequest): ItemResponse {
+    override fun execute(request: ItemRequest): ItemDetailResponse {
         val organ = securityPort.getCurrentOrgan()
 
         val logoUrl: String? = request.itemLogo
@@ -48,6 +48,6 @@ class CreateItemService(
 
         val saved = itemPort.save(item)
 
-        return itemMapper.toResponse(saved)
+        return itemMapper.toDetailResponse(saved)
     }
 }
