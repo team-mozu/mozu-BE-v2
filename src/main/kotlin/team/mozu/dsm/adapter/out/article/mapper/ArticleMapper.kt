@@ -3,7 +3,7 @@ package team.mozu.dsm.adapter.out.article.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
-import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
 import team.mozu.dsm.adapter.out.article.entity.ArticleJpaEntity
 import team.mozu.dsm.adapter.out.organ.entity.OrganJpaEntity
 import team.mozu.dsm.domain.article.model.Article
@@ -15,7 +15,7 @@ abstract class ArticleMapper {
     abstract fun toModel(entity: ArticleJpaEntity): Article
 
     @Mapping(target = "articleImg", source = "articleImage")
-    abstract fun toResponse(model: Article): ArticleResponse
+    abstract fun toDetailResponse(model: Article): ArticleDetailResponse
 
     abstract fun toQueryResponse(model: Article): ArticleQueryResponse
 

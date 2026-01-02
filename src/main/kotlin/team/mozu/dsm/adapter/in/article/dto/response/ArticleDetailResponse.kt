@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 import java.util.UUID
 
-data class ArticleResponse(
+data class ArticleDetailResponse(
     val id: UUID,
     val articleName: String,
     val articleDesc: String,

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PatchMapping
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
-import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
 import team.mozu.dsm.application.port.`in`.article.CreateArticleUseCase
 import team.mozu.dsm.application.port.`in`.article.QueryArticlesUseCase
 import team.mozu.dsm.application.port.`in`.article.QueryArticleDetailUseCase
@@ -39,13 +39,13 @@ class ArticleWebAdapter(
     override fun create(
         @ModelAttribute @Valid
         request: ArticleRequest
-    ): ArticleResponse = createArticleUseCase.execute(request)
+    ): ArticleDetailResponse = createArticleUseCase.execute(request)
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     override fun queryDetail(
         @PathVariable id: UUID
-    ): ArticleResponse = queryArticleDetailUseCase.execute(id)
+    ): ArticleDetailResponse = queryArticleDetailUseCase.execute(id)
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -64,5 +64,5 @@ class ArticleWebAdapter(
         @PathVariable id: UUID,
         @ModelAttribute @Valid
         request: UpdateArticleRequest
-    ): ArticleResponse = updateArticleUseCase.execute(id, request)
+    ): ArticleDetailResponse = updateArticleUseCase.execute(id, request)
 }

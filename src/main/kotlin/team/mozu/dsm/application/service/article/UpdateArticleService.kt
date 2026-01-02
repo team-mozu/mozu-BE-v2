@@ -3,7 +3,7 @@ package team.mozu.dsm.application.service.article
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
-import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
 import team.mozu.dsm.adapter.out.article.mapper.ArticleMapper
 import team.mozu.dsm.application.exception.article.ArticleNotFoundException
 import team.mozu.dsm.application.exception.article.CannotDeleteArticleException
@@ -25,7 +25,7 @@ class UpdateArticleService(
 ) : UpdateArticleUseCase {
 
     @Transactional
-    override fun execute(id: UUID, request: UpdateArticleRequest): ArticleResponse {
+    override fun execute(id: UUID, request: UpdateArticleRequest): ArticleDetailResponse {
         val organ = securityPort.getCurrentOrgan()
         val article: Article = queryArticlePort.findById(id) ?: throw ArticleNotFoundException
 
@@ -57,6 +57,6 @@ class UpdateArticleService(
         }
 
         val saveArticle = commandArticlePort.save(article.updateArticle(request, newImageUrl))
-        return articleMapper.toResponse(saveArticle)
+        return articleMapper.toDetailResponse(saveArticle)
     }
 }
