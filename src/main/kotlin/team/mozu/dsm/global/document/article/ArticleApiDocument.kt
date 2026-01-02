@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
-import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
 import team.mozu.dsm.global.error.ErrorResponse
 import java.util.UUID
@@ -113,7 +113,7 @@ interface ArticleApiDocument {
             content = [
                 Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    array = ArraySchema(schema = Schema(implementation = ArticleQueryResponse::class))
+                    array = ArraySchema(schema = Schema(implementation = ArticleResponse::class))
                 )
             ]
         ),
@@ -128,7 +128,7 @@ interface ArticleApiDocument {
             ]
         )
     )
-    fun queryAll(): List<ArticleQueryResponse>
+    fun queryAll(): List<ArticleResponse>
 
     @Operation(
         summary = "기사 삭제",

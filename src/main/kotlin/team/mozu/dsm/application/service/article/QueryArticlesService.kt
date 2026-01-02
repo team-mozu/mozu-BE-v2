@@ -2,7 +2,7 @@ package team.mozu.dsm.application.service.article
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.out.article.mapper.ArticleMapper
 import team.mozu.dsm.application.port.`in`.article.QueryArticlesUseCase
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
@@ -16,7 +16,7 @@ class QueryArticlesService(
 ) : QueryArticlesUseCase {
 
     @Transactional(readOnly = true)
-    override fun execute(): List<ArticleQueryResponse> =
+    override fun execute(): List<ArticleResponse> =
         queryArticlePort.findAllByOrganId(securityPort.getCurrentOrgan().id!!)
-            .map { articleMapper.toQueryResponse(it) }
+            .map { articleMapper.toResponse(it) }
 }

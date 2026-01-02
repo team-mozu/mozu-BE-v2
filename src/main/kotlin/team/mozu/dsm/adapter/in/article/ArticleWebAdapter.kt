@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
-import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleQueryResponse
+import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleResponse
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
 import team.mozu.dsm.application.port.`in`.article.CreateArticleUseCase
 import team.mozu.dsm.application.port.`in`.article.QueryArticlesUseCase
@@ -49,7 +49,7 @@ class ArticleWebAdapter(
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    override fun queryAll(): List<ArticleQueryResponse> =
+    override fun queryAll(): List<ArticleResponse> =
         queryArticlesUseCase.execute()
 
     @DeleteMapping("/{id}")
