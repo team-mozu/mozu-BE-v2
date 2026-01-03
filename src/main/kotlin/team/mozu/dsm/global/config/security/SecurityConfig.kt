@@ -40,6 +40,7 @@ class SecurityConfig(
             }
             .authorizeHttpRequests { auth ->
                 auth
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     // organ
                     .requestMatchers(HttpMethod.POST, "/organ/create").permitAll()
                     .requestMatchers(HttpMethod.PATCH, "/organ/token/reissue").permitAll()
@@ -78,15 +79,17 @@ class SecurityConfig(
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = listOf(
-            "http://localhost:3000",
-            "https://mozu-v2-prod.dsmhs.kr",
-            "https://mozu-v2-stag.dsmhs.kr"
+            "http://admin.localhost:3002",
+            "http://student.localhost:3001",
+            "https://mozu-admin.vercel.app",
+            "https://mozu-student.vercel.app"
         )
         configuration.allowedMethods = listOf(
             HttpMethod.GET.name(),
             HttpMethod.POST.name(),
             HttpMethod.PATCH.name(),
-            HttpMethod.DELETE.name()
+            HttpMethod.DELETE.name(),
+            HttpMethod.OPTIONS.name()
         )
         configuration.allowedHeaders = listOf("Content-Type", "Authorization")
         configuration.allowCredentials = true
