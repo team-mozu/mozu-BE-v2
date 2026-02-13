@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.article.dto.request.ArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
-import team.mozu.dsm.adapter.out.article.mapper.ArticleMapper
 import team.mozu.dsm.application.port.`in`.article.CreateArticleUseCase
 import team.mozu.dsm.application.port.out.article.CommandArticlePort
 import team.mozu.dsm.application.port.out.auth.SecurityPort
@@ -16,7 +15,6 @@ import java.time.LocalDateTime
 class CreateArticleService(
     private val securityPort: SecurityPort,
     private val articlePort: CommandArticlePort,
-    private val articleMapper: ArticleMapper,
     private val s3Port: S3Port
 ) : CreateArticleUseCase {
 
@@ -40,6 +38,6 @@ class CreateArticleService(
 
         val saved = articlePort.save(article)
 
-        return articleMapper.toDetailResponse(saved)
+        return ArticleDetailResponse.from(saved)
     }
 }

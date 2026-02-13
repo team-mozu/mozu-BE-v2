@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.item.dto.request.UpdateItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
-import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.exception.item.ItemNotFoundException
 import team.mozu.dsm.application.exception.lesson.CannotDeleteLessonException
 import team.mozu.dsm.application.port.`in`.item.UpdateItemUseCase
@@ -18,7 +17,6 @@ import java.time.LocalDateTime
 class UpdateItemService(
     private val commandItemPort: CommandItemPort,
     private val queryItemPort: QueryItemPort,
-    private val itemMapper: ItemMapper,
     private val securityPort: SecurityPort,
     private val s3Port: S3Port
 ) : UpdateItemUseCase {
@@ -70,6 +68,6 @@ class UpdateItemService(
         )
 
         val saved = commandItemPort.save(updated)
-        return itemMapper.toDetailResponse(saved)
+        return ItemDetailResponse.from(saved)
     }
 }
