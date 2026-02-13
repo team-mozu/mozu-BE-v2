@@ -30,13 +30,13 @@ class QueryTeamRanksService(
         // 수익 계산을 위한 차수: 현재 진행 차수(N) + 1 (/team/result와 동일)
         val profitCalculationRound = lesson.curInvRound + 1
 
-        val teamRanks = teams.map { team ->
+        return teams.map { team ->
             // 각 팀의 주식 조회
             val stocks = queryStockPort.findAllByTeamId(team.id!!)
             val stockItemIds = stocks.map { it.itemId }.distinct()
 
             val lessonItemMap = if (stockItemIds.isNotEmpty()) {
-                queryLessonItemPort.findAllByLessonIdAndItemIds(lesson.id!!, stockItemIds)
+                queryLessonItemPort.findAllByLessonIdAndItemIds(lesson.id, stockItemIds)
                     .associateBy { it.lessonItemId.itemId }
             } else {
                 emptyMap()
@@ -52,15 +52,7 @@ class QueryTeamRanksService(
             // 실제 총 자산 = 현금 + 주식 평가액 (/team/result와 동일)
             val actualTotalMoney = team.cashMoney + currentStockValuation
 
-            TeamRankResponse(
-                id = team.id,
-                teamName = team.teamName,
-                schoolName = team.schoolName,
-                totalMoney = actualTotalMoney, // 실시간 계산된 값
-                isMyTeam = team.id == teamId
-            )
-        }.sortedByDescending { it.totalMoney } // 실시간 계산 후 정렬
-
-        return teamRanks
+            TeamRankResponse.of(team, actualTotalMoney, teamId)
+        }.sortedByDescending { it.totalMoney }
     }
 }

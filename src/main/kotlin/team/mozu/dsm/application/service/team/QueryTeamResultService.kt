@@ -40,6 +40,7 @@ class QueryTeamResultService(
             emptyMap()
         }
 
+        // 투자중인 금액 (매입한 주식 총액)
         val totalBuyMoney = stocks.sumOf { it.buyMoney }
 
         // 수익 계산을 위한 차수: 현재 진행 차수(N) + 1
@@ -52,35 +53,9 @@ class QueryTeamResultService(
             currentPrice * stock.quantity
         }
 
-        // 실제 총 자산 = 현금 + 주식 평가액
-        val actualTotalMoney = team.cashMoney + currentStockValuation
+        // 주문 수량 조회
+        val orderCount = queryOrderItemPort.countOrderItemsByTeamId(teamId)
 
-        // 평가손익 = 총 자산 - 초기 자산
-        val valProfit = actualTotalMoney - lesson.baseMoney
-
-        // 수익률 = ((최종 자산 - 초기 자산) / 초기 자산) * 100
-        val profitNum = if (lesson.baseMoney > 0) {
-            ((actualTotalMoney.toDouble() - lesson.baseMoney.toDouble()) / lesson.baseMoney.toDouble()) * 100
-        } else {
-            0.0
-        }
-
-        val formattedProfitNum = when {
-            profitNum > 0 -> "+%.2f%%".format(profitNum)
-            else -> "%.2f%%".format(profitNum)
-        }
-
-        return TeamResultResponse(
-            id = team.id!!,
-            teamName = team.teamName,
-            baseMoney = lesson.baseMoney,
-            totalMoney = actualTotalMoney,
-            investingMoney = totalBuyMoney, // 투자중인 금액 (매입한 주식 총액)
-            availableMoney = team.cashMoney, // 주문 가능 금액 (보유 현금)
-            invRound = lesson.curInvRound,
-            valProfit = valProfit,
-            profitNum = formattedProfitNum,
-            orderCount = queryOrderItemPort.countOrderItemsByTeamId(teamId)
-        )
+        return TeamResultResponse.of(team, lesson, currentStockValuation, totalBuyMoney, orderCount)
     }
 }

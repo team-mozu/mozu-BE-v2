@@ -110,20 +110,8 @@ class LessonFacade(
         // LessonItem 도메인을 LessonItemResponse DTO로 변환
         // 존재하지 않거나 삭제된 Item은 제외
         return lessonItems.mapNotNull { lessonItem ->
-            val item = itemMap[lessonItem.lessonItemId.itemId]
-            if (item == null) {
-                null
-            } else {
-                LessonItemResponse(
-                    itemId = item.id!!,
-                    itemName = item.itemName,
-                    money = listOf(
-                        lessonItem.round1Price, // 0번째 -> 1차
-                        lessonItem.round2Price, // 1번째 -> 2차
-                        lessonItem.round3Price // 2번째 -> 3차
-                    ) + listOfNotNull(lessonItem.round4Price, lessonItem.round5Price, lessonItem.endPrice) // 4차, 5차, 종료가
-                )
-            }
+            val item = itemMap[lessonItem.lessonItemId.itemId] ?: return@mapNotNull null
+            LessonItemResponse.of(item, lessonItem)
         }
     }
 
@@ -142,10 +130,7 @@ class LessonFacade(
                     articles = articles.map { lessonArticle ->
                         val article = articleMap[lessonArticle.lessonArticleId.articleId]
                             ?: throw ArticleNotFoundException
-                        ArticleResponse(
-                            articleId = article.id!!,
-                            title = article.articleName
-                        )
+                        ArticleResponse.from(article)
                     }
                 )
             }

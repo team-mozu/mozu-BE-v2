@@ -9,7 +9,6 @@ import team.mozu.dsm.application.port.`in`.lesson.QueryLessonItemDetailUseCase
 import team.mozu.dsm.application.port.out.item.QueryItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
-import kotlin.math.roundToInt
 
 @Service
 class QueryLessonItemDetailService(
@@ -26,43 +25,6 @@ class QueryLessonItemDetailService(
             ?: throw ItemNotFoundException
         val lessonItem = lessonItemPort.findItemDetailByLessonIdAndItemId(lesson.id!!, item.id!!)
 
-        val moneyList = listOf(
-            lessonItem.round1Price,
-            lessonItem.round2Price,
-            lessonItem.round3Price,
-            lessonItem.round4Price ?: 0,
-            lessonItem.round5Price ?: 0
-        ).take(lesson.curInvRound)
-
-        val profitMoney = if (lessonItem.preMoney != 0L) {
-            lessonItem.curMoney - lessonItem.preMoney
-        } else {
-            0
-        }
-        val profitNum = if (lessonItem.preMoney != 0L) {
-            ((profitMoney.toDouble() * 100 / lessonItem.preMoney) * 100).roundToInt() / 100.0
-        } else {
-            0.0
-        }
-
-        val formattedProfitNum = if (profitNum > 0) "+$profitNum%" else "$profitNum%"
-
-        return LessonItemDetailResponse(
-            itemId = item.id,
-            itemName = item.itemName,
-            itemLogo = item.itemLogo,
-            nowMoney = lessonItem.curMoney,
-            profitMoney = profitMoney,
-            profitNum = formattedProfitNum,
-            moneyList = moneyList,
-            itemInfo = item.itemInfo,
-            money = item.money,
-            debt = item.debt,
-            capital = item.capital,
-            profit = item.profit,
-            profitOg = item.profitOg,
-            profitBen = item.profitBenefit,
-            netProfit = item.netProfit
-        )
+        return LessonItemDetailResponse.of(item, lessonItem, lesson.curInvRound)
     }
 }

@@ -53,20 +53,6 @@ class CreateLessonService(
         // LessonArticles DTO 변환
         val lessonArticleResponses = lessonFacade.toLessonArticleResponses(lessonArticles)
 
-        // 최종 LessonResponse 반환
-        return LessonResponse(
-            id = saved.id!!,
-            name = saved.lessonName,
-            maxInvRound = saved.maxInvRound,
-            curInvRound = saved.curInvRound,
-            baseMoney = saved.baseMoney,
-            lessonNum = saved.lessonNum,
-            isInProgress = saved.isInProgress,
-            isStarred = saved.isStarred,
-            isDeleted = saved.isDeleted,
-            createdAt = saved.createdAt!!,
-            lessonItems = lessonItemResponses,
-            lessonArticles = lessonArticleResponses
-        )
+        return LessonResponse.of(saved, lessonItemResponses, lessonArticleResponses)
     }
 }

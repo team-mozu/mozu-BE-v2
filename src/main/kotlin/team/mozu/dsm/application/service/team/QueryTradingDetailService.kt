@@ -43,28 +43,7 @@ class QueryTradingDetailService(
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
-            val currentPrice = lessonItem.getPriceByRound(currentRound)
-                ?: lessonItem.endPrice
-
-            val valuationAmount = currentPrice * stock.quantity
-            val totalPurchaseAmount = stock.buyMoney // 총 매입금액 사용
-            val profitLoss = valuationAmount - totalPurchaseAmount
-            val profitLossRate = if (totalPurchaseAmount > 0) {
-                (profitLoss.toDouble() / totalPurchaseAmount.toDouble()) * 100
-            } else {
-                0.0
-            }
-
-            TradingDetailResponse(
-                itemId = stock.itemId,
-                itemName = stock.itemName,
-                holdingQuantity = stock.quantity,
-                purchasePrice = totalPurchaseAmount, // 총 매입금액
-                currentPrice = currentPrice,
-                valuationAmount = valuationAmount,
-                profitLoss = profitLoss,
-                profitLossRate = profitLossRate
-            )
+            TradingDetailResponse.of(stock, lessonItem, currentRound)
         }.sortedByDescending { it.valuationAmount } // 평가금액 높은 순으로 정렬
     }
 }
