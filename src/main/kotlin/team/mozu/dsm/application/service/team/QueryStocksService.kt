@@ -32,9 +32,7 @@ class QueryStocksService(
 
         val lessonItemMap = queryLessonItemPort.findAllByLessonIdAndItemIds(
             lesson.id!!,
-            validStocks
-                .map { it.itemId }
-                .distinct()
+            validStocks.map { it.itemId }.distinct()
         ).associateBy { it.lessonItemId.itemId }
 
         val currentRound = lesson.curInvRound
@@ -44,32 +42,7 @@ class QueryStocksService(
             val lessonItem = lessonItemMap[stock.itemId]
                 ?: throw LessonItemNotFoundException
 
-            val currentPrice = lessonItem.getPriceByRound(currentRound)
-                ?: lessonItem.endPrice
-            val previousPrice = lessonItem.getPriceByRound(previousRound)
-                ?: lessonItem.endPrice
-
-            val currentValuation = currentPrice * stock.quantity
-            val previousValuation = previousPrice * stock.quantity
-            val valProfit = currentValuation - previousValuation
-            val profitNum = if (previousValuation > 0) {
-                (valProfit.toDouble() / previousValuation.toDouble()) * 100
-            } else {
-                0.0
-            }
-
-            StockResponse(
-                id = stock.id!!,
-                itemId = stock.itemId,
-                itemName = stock.itemName,
-                avgPurchasePrice = stock.avgPurchasePrice,
-                quantity = stock.quantity,
-                totalMoney = stock.buyMoney,
-                nowMoney = currentPrice,
-                valuationMoney = currentValuation,
-                valProfit = valProfit,
-                profitNum = profitNum
-            )
+            StockResponse.of(stock, lessonItem, currentRound, previousRound)
         }
     }
 }

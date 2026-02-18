@@ -62,20 +62,13 @@ class UpdateLessonService(
         // LessonArticles DTO 변환
         val lessonArticleResponses = lessonFacade.toLessonArticleResponses(lessonArticles)
 
-        // 최종 LessonResponse 반환
-        return LessonResponse(
-            id = lesson.id,
-            name = command.lessonName,
+        // 업데이트된 값을 반영한 lesson 객체 생성
+        val updatedLesson = lesson.copy(
+            lessonName = command.lessonName,
             maxInvRound = command.lessonRound,
-            curInvRound = lesson.curInvRound,
-            baseMoney = command.baseMoney,
-            lessonNum = lesson.lessonNum,
-            isInProgress = lesson.isInProgress,
-            isStarred = lesson.isStarred,
-            isDeleted = lesson.isDeleted,
-            createdAt = lesson.createdAt!!,
-            lessonItems = lessonItemResponses,
-            lessonArticles = lessonArticleResponses
+            baseMoney = command.baseMoney
         )
+
+        return LessonResponse.of(updatedLesson, lessonItemResponses, lessonArticleResponses)
     }
 }

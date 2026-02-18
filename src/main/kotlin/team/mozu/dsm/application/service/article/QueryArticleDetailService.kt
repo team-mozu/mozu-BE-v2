@@ -3,7 +3,6 @@ package team.mozu.dsm.application.service.article
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
-import team.mozu.dsm.adapter.out.article.mapper.ArticleMapper
 import team.mozu.dsm.application.exception.article.ArticleNotFoundException
 import team.mozu.dsm.application.port.`in`.article.QueryArticleDetailUseCase
 import team.mozu.dsm.application.port.out.article.QueryArticlePort
@@ -11,13 +10,12 @@ import java.util.UUID
 
 @Service
 class QueryArticleDetailService(
-    private val queryArticlePort: QueryArticlePort,
-    private val articleMapper: ArticleMapper
+    private val queryArticlePort: QueryArticlePort
 ) : QueryArticleDetailUseCase {
 
     @Transactional(readOnly = true)
     override fun execute(id: UUID): ArticleDetailResponse =
-        articleMapper.toDetailResponse(
+        ArticleDetailResponse.from(
             queryArticlePort.findById(id)
                 ?: throw ArticleNotFoundException
         )

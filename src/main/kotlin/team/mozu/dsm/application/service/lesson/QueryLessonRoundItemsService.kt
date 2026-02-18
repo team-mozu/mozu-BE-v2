@@ -7,7 +7,6 @@ import team.mozu.dsm.application.exception.lesson.LessonNotFoundException
 import team.mozu.dsm.application.port.`in`.lesson.QueryLessonRoundItemsUseCase
 import team.mozu.dsm.application.port.out.lesson.QueryLessonItemPort
 import team.mozu.dsm.application.port.out.lesson.QueryLessonPort
-import kotlin.math.roundToInt
 
 @Service
 class QueryLessonRoundItemsService(
@@ -19,31 +18,8 @@ class QueryLessonRoundItemsService(
     override fun execute(lessonNum: String): List<LessonRoundItemResponse> {
         val lesson = lessonPort.findByLessonNum(lessonNum)
             ?: throw LessonNotFoundException
-        val lessonItems = lessonItemPort.findAllRoundItemsByLessonId(lesson.id!!)
 
-        return lessonItems.map { item ->
-            val nowMoney = item.curMoney
-            val profitMoney = if (item.preMoney != 0L) {
-                item.curMoney - item.preMoney
-            } else {
-                0
-            }
-            val profitNum = if (item.preMoney != 0L) {
-                ((profitMoney.toDouble() * 100 / item.preMoney) * 100).roundToInt() / 100.0
-            } else {
-                0.0
-            }
-
-            val formattedProfitNum = if (profitNum > 0) "+$profitNum%" else "$profitNum%"
-
-            LessonRoundItemResponse(
-                itemId = item.itemId,
-                itemName = item.itemName,
-                itemLogo = item.itemLogo,
-                nowMoney = nowMoney,
-                profitMoney = profitMoney,
-                profitNum = formattedProfitNum
-            )
-        }
+        return lessonItemPort.findAllRoundItemsByLessonId(lesson.id!!)
+            .map { LessonRoundItemResponse.from(it) }
     }
 }

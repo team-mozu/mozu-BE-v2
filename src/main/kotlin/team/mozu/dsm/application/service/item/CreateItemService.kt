@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.item.dto.request.ItemRequest
 import team.mozu.dsm.adapter.`in`.item.dto.response.ItemDetailResponse
-import team.mozu.dsm.adapter.out.item.mapper.ItemMapper
 import team.mozu.dsm.application.port.`in`.item.CreateItemUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
 import team.mozu.dsm.application.port.out.item.CommandItemPort
@@ -16,7 +15,6 @@ import java.time.LocalDateTime
 class CreateItemService(
     private val securityPort: SecurityPort,
     private val itemPort: CommandItemPort,
-    private val itemMapper: ItemMapper,
     private val s3Port: S3Port
 ) : CreateItemUseCase {
 
@@ -48,6 +46,6 @@ class CreateItemService(
 
         val saved = itemPort.save(item)
 
-        return itemMapper.toDetailResponse(saved)
+        return ItemDetailResponse.from(saved)
     }
 }

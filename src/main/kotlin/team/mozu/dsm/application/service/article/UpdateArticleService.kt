@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.mozu.dsm.adapter.`in`.article.dto.request.UpdateArticleRequest
 import team.mozu.dsm.adapter.`in`.article.dto.response.ArticleDetailResponse
-import team.mozu.dsm.adapter.out.article.mapper.ArticleMapper
 import team.mozu.dsm.application.exception.article.ArticleNotFoundException
 import team.mozu.dsm.application.exception.article.CannotDeleteArticleException
 import team.mozu.dsm.application.port.`in`.article.UpdateArticleUseCase
@@ -19,7 +18,6 @@ import java.util.UUID
 class UpdateArticleService(
     private val commandArticlePort: CommandArticlePort,
     private val queryArticlePort: QueryArticlePort,
-    private val articleMapper: ArticleMapper,
     private val securityPort: SecurityPort,
     private val s3Port: S3Port
 ) : UpdateArticleUseCase {
@@ -57,6 +55,6 @@ class UpdateArticleService(
         }
 
         val saveArticle = commandArticlePort.save(article.updateArticle(request, newImageUrl))
-        return articleMapper.toDetailResponse(saveArticle)
+        return ArticleDetailResponse.from(saveArticle)
     }
 }
