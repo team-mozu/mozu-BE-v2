@@ -78,11 +78,17 @@ class SecurityConfig(
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf(
+        configuration.allowedOriginPatterns = listOf(
             "http://admin.localhost:3002",
             "http://student.localhost:3001",
             "https://mozu-admin.vercel.app",
-            "https://mozu-student.vercel.app"
+            "https://mozu-student.vercel.app",
+            "http://192.168.*.*",
+            "http://192.168.*.*:*",
+            "http://10.*.*.*",
+            "http://10.*.*.*:*",
+            "http://172.16.*.*",
+            "http://172.16.*.*:*"
         )
         configuration.allowedMethods = listOf(
             HttpMethod.GET.name(),
