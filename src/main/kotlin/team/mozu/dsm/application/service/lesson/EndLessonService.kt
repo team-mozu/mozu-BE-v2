@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.transaction.support.TransactionSynchronization
 import org.springframework.transaction.support.TransactionSynchronizationManager
+import team.mozu.dsm.adapter.out.sse.persistence.repository.SseEmitterRepository
 import team.mozu.dsm.application.exception.lesson.CannotEndLessonException
 import team.mozu.dsm.application.port.`in`.lesson.EndLessonUseCase
 import team.mozu.dsm.application.port.out.auth.SecurityPort
@@ -21,7 +22,8 @@ class EndLessonService(
     private val securityPort: SecurityPort,
     private val publishSsePort: PublishSsePort,
     private val queryTeamPort: QueryTeamPort,
-    private val commandTeamPort: CommandTeamPort
+    private val commandTeamPort: CommandTeamPort,
+    private val sseEmitterRepository: SseEmitterRepository
 ) : EndLessonUseCase {
 
     companion object {
@@ -48,11 +50,29 @@ class EndLessonService(
             object : TransactionSynchronization {
                 override fun afterCommit() {
                     teams.forEach { team ->
+                        val clientId = "team-sse:${team.id}"
                         val eventData = mapOf(
                             "classId" to lesson.id,
                             "teamId" to team.id
                         )
-                        publishSsePort.publishTo("team-sse:${team.id}", CLASS_CANCEL_EVENT, eventData)
+                        publishSsePort.publishTo(clientId, CLASS_CANCEL_EVENT, eventData)
+                        sseEmitterRepository.get(clientId)?.let { emitter ->
+                            try {
+                                emitter.complete()
+                            } catch (_: Exception) {
+                                // emitter already completed
+                            }
+                            sseEmitterRepository.delete(clientId)
+                        }
+                    }
+                    val organClientId = "lesson-organ-sse:${lesson.id}:${lesson.organId}"
+                    sseEmitterRepository.get(organClientId)?.let { emitter ->
+                        try {
+                            emitter.complete()
+                        } catch (_: Exception) {
+                            // emitter already completed
+                        }
+                        sseEmitterRepository.delete(organClientId)
                     }
                 }
             }
