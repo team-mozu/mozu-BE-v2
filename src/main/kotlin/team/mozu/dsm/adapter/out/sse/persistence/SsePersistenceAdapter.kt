@@ -1,5 +1,6 @@
 package team.mozu.dsm.adapter.out.sse.persistence
 
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.out.sse.persistence.repository.SseEmitterRepository
@@ -19,6 +20,7 @@ class SsePersistenceAdapter(
 
     companion object {
         private const val DEFAULT_TIMEOUT = 60L * 1000 * 60
+        private val logger = LoggerFactory.getLogger(SsePersistenceAdapter::class.java)
     }
 
     override fun subscribe(clientId: String): SseEmitter {
@@ -35,17 +37,26 @@ class SsePersistenceAdapter(
         val event = SseEvent.create(clientId, eventName, data.toString())
         sseEventStorePort.save(event)
 
-        sseEmitterRepository.get(clientId)?.let { emitter ->
-            try {
-                emitter.send(
-                    SseEmitter.event()
-                        .id(event.id)
-                        .name(eventName)
-                        .data(data)
-                )
-            } catch (e: Exception) {
-                sseExceptionHandler.handle(clientId, emitter, e)
-            }
+        val emitter = sseEmitterRepository.get(clientId)
+        if (emitter == null) {
+            logger.warn(
+                "SSE publish: emitter not in pool — clientId={}, eventName={}, eventId={}. " +
+                    "Stored in event store; recovery requires reconnect with Last-Event-ID.",
+                clientId, eventName, event.id
+            )
+            return
+        }
+
+        try {
+            emitter.send(
+                SseEmitter.event()
+                    .id(event.id)
+                    .name(eventName)
+                    .data(data)
+            )
+        } catch (e: Exception) {
+            logger.warn("SSE publish failed — clientId={}, eventName={}, eventId={}: {}", clientId, eventName, event.id, e.message)
+            sseExceptionHandler.handle(clientId, emitter, e)
         }
     }
 

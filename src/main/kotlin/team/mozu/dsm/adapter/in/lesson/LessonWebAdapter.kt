@@ -6,6 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.PatchMapping
@@ -142,8 +143,9 @@ class LessonWebAdapter(
     @GetMapping("/sse/{lesson-id}")
     @ResponseStatus(HttpStatus.OK)
     override fun sse(
-        @PathVariable("lesson-id") lessonId: UUID
-    ): SseEmitter = lessonOrganSSEUseCase.execute(lessonId)
+        @PathVariable("lesson-id") lessonId: UUID,
+        @RequestHeader(value = "Last-Event-ID", required = false) lastEventId: String?
+    ): SseEmitter = lessonOrganSSEUseCase.execute(lessonId, lastEventId)
 
     @GetMapping("/team/items")
     @ResponseStatus(HttpStatus.OK)

@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface LessonOrganSSEUseCase {
 
-    fun execute(lessonId: UUID): SseEmitter
+    fun execute(lessonId: UUID, lastEventId: String? = null): SseEmitter
 }

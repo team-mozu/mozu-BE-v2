@@ -12,6 +12,7 @@ import org.springframework.http.MediaType
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import team.mozu.dsm.adapter.`in`.lesson.dto.request.LessonRequest
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonArticleResponse
@@ -482,7 +483,8 @@ interface LessonApiDocument {
         )
     )
     fun sse(
-        @PathVariable("lesson-id") lessonId: UUID
+        @PathVariable("lesson-id") lessonId: UUID,
+        @RequestHeader(value = "Last-Event-ID", required = false) lastEventId: String?
     ): SseEmitter
 
     @Operation(
