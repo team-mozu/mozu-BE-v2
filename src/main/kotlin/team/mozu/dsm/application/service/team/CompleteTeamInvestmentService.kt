@@ -27,8 +27,10 @@ import team.mozu.dsm.application.port.out.team.CommandStockPort
 import team.mozu.dsm.application.port.out.team.QueryStockPort
 import team.mozu.dsm.application.port.out.team.QueryTeamPort
 import team.mozu.dsm.application.port.out.team.CommandTeamPort
+import team.mozu.dsm.application.port.out.team.RoundSnapshotPort
 import team.mozu.dsm.domain.lesson.model.Lesson
 import team.mozu.dsm.domain.team.model.OrderItem
+import team.mozu.dsm.domain.team.model.RoundSnapshot
 import team.mozu.dsm.domain.team.model.Stock
 import team.mozu.dsm.domain.team.model.Team
 import team.mozu.dsm.domain.team.type.OrderType
@@ -46,7 +48,8 @@ class CompleteTeamInvestmentService(
     private val commandStockPort: CommandStockPort,
     private val commandTeamPort: CommandTeamPort,
     private val queryItemPort: QueryItemPort,
-    private val publishToSseUseCase: PublishToSseUseCase
+    private val publishToSseUseCase: PublishToSseUseCase,
+    private val roundSnapshotPort: RoundSnapshotPort
 ) : CompleteTeamInvestmentUseCase {
 
     @Transactional
@@ -84,6 +87,41 @@ class CompleteTeamInvestmentService(
         updatePreviouslyTradedStocksProfit(teamId, lesson, requests.map { it.itemId })
 
         updateStocksAndTeam(requests, team)
+
+        // === Round Snapshot 저장 (트랜잭션 안, source of truth) ===
+        val snapshotRound = lesson.curInvRound
+        if (!roundSnapshotPort.existsByLessonIdAndTeamIdAndInvRound(lessonId, teamId, snapshotRound)) {
+            val refreshed = queryTeamPort.findById(teamId) ?: throw TeamNotFoundException
+            val stocksNow = queryStockPort.findAllByTeamId(teamId)
+            val stockItemIdsNow = stocksNow.map { it.itemId }.distinct()
+            val lessonItemMapNow = if (stockItemIdsNow.isNotEmpty()) {
+                queryLessonItemPort.findAllByLessonIdAndItemIds(lessonId, stockItemIdsNow)
+                    .associateBy { it.lessonItemId.itemId }
+            } else emptyMap()
+            val nextRoundValuation = stocksNow.sumOf { stock ->
+                val lessonItem = lessonItemMapNow[stock.itemId] ?: return@sumOf 0L
+                val price = lessonItem.getPriceByRound(snapshotRound + 1) ?: lessonItem.endPrice
+                price * stock.quantity
+            }
+            val nextRoundTotal = refreshed.cashMoney + nextRoundValuation
+            val profitVal = nextRoundTotal - lesson.baseMoney
+            val profitPct = if (lesson.baseMoney > 0) {
+                (profitVal.toDouble() / lesson.baseMoney.toDouble()) * 100
+            } else 0.0
+            roundSnapshotPort.save(
+                RoundSnapshot(
+                    id = null,
+                    lessonId = lessonId,
+                    teamId = teamId,
+                    invRound = snapshotRound,
+                    totalMoney = nextRoundTotal,
+                    cashMoney = refreshed.cashMoney,
+                    valuationMoney = profitVal,
+                    profitNum = profitPct,
+                    endedAt = LocalDateTime.now()
+                )
+            )
+        }
 
         TransactionSynchronizationManager.registerSynchronization(
             object : TransactionSynchronization {

@@ -19,6 +19,7 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonItemResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.ParticipatingTeamResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.RoundStatusResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonArticleResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
@@ -37,6 +38,7 @@ import team.mozu.dsm.application.port.`in`.lesson.QueryLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.StartLessonInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
+import team.mozu.dsm.application.port.`in`.lesson.QueryLessonRoundStatusUseCase
 import team.mozu.dsm.application.port.`in`.lesson.QueryParticipatingTeamsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.QueryLessonRoundItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.QueryLessonRoundArticlesUseCase
@@ -62,6 +64,7 @@ class LessonWebAdapter(
     private val startLessonInvestmentUseCase: StartLessonInvestmentUseCase,
     private val lessonOrganSSEUseCase: LessonOrganSSEUseCase,
     private val queryParticipatingTeamsUseCase: QueryParticipatingTeamsUseCase,
+    private val queryLessonRoundStatusUseCase: QueryLessonRoundStatusUseCase,
     private val queryLessonRoundItemsUseCase: QueryLessonRoundItemsUseCase,
     private val queryLessonRoundArticlesUseCase: QueryLessonRoundArticlesUseCase,
     private val queryLessonItemDetailUseCase: QueryLessonItemDetailUseCase
@@ -155,6 +158,12 @@ class LessonWebAdapter(
     fun queryParticipatingTeams(
         @PathVariable("lesson-id") lessonId: UUID
     ): List<ParticipatingTeamResponse> = queryParticipatingTeamsUseCase.execute(lessonId)
+
+    @GetMapping("/{lesson-id}/round-status")
+    @ResponseStatus(HttpStatus.OK)
+    fun queryRoundStatus(
+        @PathVariable("lesson-id") lessonId: UUID
+    ): List<RoundStatusResponse> = queryLessonRoundStatusUseCase.execute(lessonId)
 
     @GetMapping("/team/items")
     @ResponseStatus(HttpStatus.OK)
