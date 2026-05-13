@@ -18,6 +18,7 @@ import team.mozu.dsm.adapter.`in`.lesson.dto.request.LessonRequest
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonItemResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonListResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonResponse
+import team.mozu.dsm.adapter.`in`.lesson.dto.response.ParticipatingTeamResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.StartLessonResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonArticleResponse
 import team.mozu.dsm.adapter.`in`.lesson.dto.response.LessonRoundItemResponse
@@ -36,6 +37,7 @@ import team.mozu.dsm.application.port.`in`.lesson.QueryLessonArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.NextLessonUseCase
 import team.mozu.dsm.application.port.`in`.lesson.StartLessonInvestmentUseCase
 import team.mozu.dsm.application.port.`in`.lesson.LessonOrganSSEUseCase
+import team.mozu.dsm.application.port.`in`.lesson.QueryParticipatingTeamsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.QueryLessonRoundItemsUseCase
 import team.mozu.dsm.application.port.`in`.lesson.QueryLessonRoundArticlesUseCase
 import team.mozu.dsm.application.port.`in`.lesson.QueryLessonItemDetailUseCase
@@ -59,6 +61,7 @@ class LessonWebAdapter(
     private val nextLessonUseCase: NextLessonUseCase,
     private val startLessonInvestmentUseCase: StartLessonInvestmentUseCase,
     private val lessonOrganSSEUseCase: LessonOrganSSEUseCase,
+    private val queryParticipatingTeamsUseCase: QueryParticipatingTeamsUseCase,
     private val queryLessonRoundItemsUseCase: QueryLessonRoundItemsUseCase,
     private val queryLessonRoundArticlesUseCase: QueryLessonRoundArticlesUseCase,
     private val queryLessonItemDetailUseCase: QueryLessonItemDetailUseCase
@@ -146,6 +149,12 @@ class LessonWebAdapter(
         @PathVariable("lesson-id") lessonId: UUID,
         @RequestHeader(value = "Last-Event-ID", required = false) lastEventId: String?
     ): SseEmitter = lessonOrganSSEUseCase.execute(lessonId, lastEventId)
+
+    @GetMapping("/{lesson-id}/teams")
+    @ResponseStatus(HttpStatus.OK)
+    fun queryParticipatingTeams(
+        @PathVariable("lesson-id") lessonId: UUID
+    ): List<ParticipatingTeamResponse> = queryParticipatingTeamsUseCase.execute(lessonId)
 
     @GetMapping("/team/items")
     @ResponseStatus(HttpStatus.OK)
