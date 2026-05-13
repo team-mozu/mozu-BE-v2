@@ -51,11 +51,15 @@ class TeamPersistenceAdapter(
     }
 
     override fun findAllByLessonId(lessonId: UUID): List<Team> {
+        // 같은 lesson_id라도 lesson.lesson_num이 새 사이클로 갱신되면
+        // 옛 사이클의 팀(team.lesson_num != lesson.lesson_num)은 제외
         val teams = jpaQueryFactory
             .selectFrom(teamJpaEntity)
+            .join(teamJpaEntity.lesson).fetchJoin()
             .where(
                 teamJpaEntity.lesson.id.eq(lessonId)
                     .and(teamJpaEntity.isInvestmentInProgress.isTrue)
+                    .and(teamJpaEntity.lessonNum.eq(teamJpaEntity.lesson.lessonNum))
             )
             .fetch()
 
@@ -65,9 +69,11 @@ class TeamPersistenceAdapter(
     override fun findAllByLessonIdAndInvestmentInProgress(lessonId: UUID): List<Team> =
         jpaQueryFactory
             .selectFrom(teamJpaEntity)
+            .join(teamJpaEntity.lesson).fetchJoin()
             .where(
                 teamJpaEntity.lesson.id.eq(lessonId)
                     .and(teamJpaEntity.isInvestmentInProgress.isTrue)
+                    .and(teamJpaEntity.lessonNum.eq(teamJpaEntity.lesson.lessonNum))
             )
             .fetch()
             .map { teamMapper.toModel(it) }
