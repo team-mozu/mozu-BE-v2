@@ -15,6 +15,6 @@ data class Team(
     val valuationMoney: Long,
     val lessonNum: String,
     val isInvestmentInProgress: Boolean,
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?
 )
