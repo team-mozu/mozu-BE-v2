@@ -97,7 +97,13 @@ class SecurityConfig(
             HttpMethod.DELETE.name(),
             HttpMethod.OPTIONS.name()
         )
-        configuration.allowedHeaders = listOf("Content-Type", "Authorization")
+        configuration.allowedHeaders = listOf(
+            "Content-Type",
+            "Authorization",
+            "Last-Event-ID",
+            "Cache-Control"
+        )
+        configuration.exposedHeaders = listOf("Last-Event-ID")
         configuration.allowCredentials = true
 
         val source = UrlBasedCorsConfigurationSource()
