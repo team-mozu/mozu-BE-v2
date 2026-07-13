@@ -176,14 +176,19 @@ Lifecycle hooks on each emitter: `onCompletion`, `onTimeout`, `onError` → all 
 
 ### 7.1 토폴로지
 
-- **BE staging**: `mozu-server-v2-stag` 앱 (xquare PaaS).
-  - 트리거: `team-mozu/mozu-BE-v2@develop` 푸시 → 자동 빌드 → ArgoCD sync → rollout
-  - 가시성: `xquare app status mozu-server-v2-stag -p mozu`, `xquare logs mozu-server-v2-stag -p mozu --follow`
-  - DB: `mozu-mozu-server-v2-stag-mysql` addon, tunneling: `xquare addon tunnel ... --local-port 13306`
-  - 강제 재배포: `xquare trigger mozu-server-v2-stag -p mozu --watch`
+- **BE prod**: AWS EC2 단일 인스턴스 (계정 `179895363651`, ap-northeast-2, `i-0852c8dc7c325ce07`, t3.small, 태그 `Project=mozu`).
+  - 엔드포인트: `https://54.180.64.83.sslip.io` (EIP `54.180.64.83`, Caddy가 Let's Encrypt TLS + reverse proxy)
+  - 스택: `/opt/mozu/docker-compose.yml` — MySQL 8 + Redis 7 + MinIO + backend + Caddy (전부 컨테이너, 데이터는 `./mysql-data`, `./redis-data`, `./minio-data`)
+  - 트리거: `team-mozu/mozu-BE-v2@develop` 푸시 → GitHub Actions `deploy-aws.yml` (빌드 → docker save/load over SSH → `compose up -d backend` → 헬스체크)
+  - 가시성: `ssh -i ~/.ssh/mozu-key.pem ec2-user@54.180.64.83`, `docker logs mozu-server`
+  - SSE: Caddy `flush_interval -1`, 프록시 idle timeout 없음 — 구 xquare의 127초 강제 종료 문제 해소 (200초+ 유지 검증됨)
+  - 이미지 스토리지: MinIO (S3 호환, `AWS_S3_ENDPOINT=http://minio:9000`) → 공개 URL `https://img.54.180.64.83.sslip.io/{key}`
+  - 백업: cron 매일 04:00 KST — mysqldump + minio tar, `/opt/mozu/backups/` 7일 보관
+- **BE staging (구)**: `mozu-server-v2-stag` (xquare PaaS) — AWS 전환 완료로 폐기 예정, 롤백 안전망으로 한시 유지.
 - **FE prod**: `mozu-fe-admin-v2` / `mozu-fe-student-v2` (Vercel).
   - 트리거: `jidohyun/mozu-FE@main` 푸시 → Vercel 자동 빌드 (note: `team-mozu/mozu-FE`는 별개 리포)
   - 도메인: `mozu-admin.vercel.app`, `mozu-student.vercel.app`
+  - `VITE_SERVER_URL=https://54.180.64.83.sslip.io` (2026-07-13 xquare → AWS 전환)
   - Preview deployment 검증: 브랜치 푸시 → Vercel preview URL (SSO 보호) → `mcp__vercel__get_access_to_vercel_url`로 share token 발급
 
 ### 7.2 마이그레이션
@@ -193,7 +198,7 @@ Lifecycle hooks on each emitter: `onCompletion`, `onTimeout`, `onError` → all 
 
 ### 7.3 Secrets
 
-- `.env` (DB, JWT secret, AWS keys, S3 bucket). staging은 xquare env vars로 주입.
+- `.env` (DB, JWT secret, MinIO 크리덴셜). prod는 EC2 `/opt/mozu/.env`에만 존재. GitHub Secrets: `EC2_HOST`, `EC2_SSH_KEY`(배포 전용 키).
 
 ## 8. Open questions / TODOs
 
@@ -203,7 +208,7 @@ Lifecycle hooks on each emitter: `onCompletion`, `onTimeout`, `onError` → all 
 - **`tbl_lesson_item` round 가격 정규화**: `round1price..round5price` 컬럼 → `(item_id, lesson_id, round, price)` row.
 - **`POST /lesson/next` idempotency**: 빠른 중복 클릭 시 두 번 진행될 가능성. FE에서 `inFlightRef` 가드 추가됐으나 BE도 lesson version 확인이나 멱등 키 검토.
 - **`EndLessonService` emitter complete**: 학생/admin emitter `complete()` 명시 호출 (이미 `c731b9ba`에서 추가).
-- **인프라 ingress idle timeout 조정**: 학교 PaaS 담당에게 600s 이상으로 변경 요청 중 (architecture §9.4 Phase 5).
+- ~~**인프라 ingress idle timeout 조정**~~: AWS 전환으로 해소 (Caddy는 SSE 스트림에 idle timeout 없음, 2026-07-13 검증).
 
 ## Related docs
 
