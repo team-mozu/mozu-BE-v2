@@ -1,0 +1,46 @@
+name: Deploy to AWS EC2
+
+on:
+    push:
+        branches: [develop]
+    workflow_dispatch:
+
+concurrency:
+    group: deploy-aws
+    cancel-in-progress: false
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Build Docker image
+              run: docker build -t mozu-server:aws .
+
+            - name: Setup SSH
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key
+                  chmod 600 ~/.ssh/deploy_key
+                  ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts
+
+            - name: Ship image & restart backend
+              run: |
+                  docker save mozu-server:aws | gzip | \
+                    ssh -i ~/.ssh/deploy_key ec2-user@"${{ secrets.EC2_HOST }}" 'gunzip | docker load'
+                  ssh -i ~/.ssh/deploy_key ec2-user@"${{ secrets.EC2_HOST }}" \
+                    'cd /opt/mozu && docker compose up -d backend && docker image prune -f'
+
+            - name: Health check
+              run: |
+                  sleep 30
+                  for i in $(seq 1 10); do
+                    code=$(curl -s -o /dev/null -w "%{http_code}" https://54.180.64.83.sslip.io/organ/login \
+                      -X POST -H 'Content-Type: application/json' -d '{"code":"probe","password":"probe"}')
+                    if [ "$code" = "404" ] || [ "$code" = "401" ] || [ "$code" = "400" ]; then
+                      echo "backend healthy (HTTP $code)"; exit 0
+                    fi
+                    echo "waiting... (HTTP $code)"; sleep 10
+                  done
+                  echo "backend did not become healthy" >&2; exit 1
