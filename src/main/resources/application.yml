@@ -49,6 +49,7 @@ cloud:
         s3:
             bucket: ${BUCKET_NAME}
             url-prefix: ${MOZU_IMAGE_FOLDER}
+            endpoint: ${AWS_S3_ENDPOINT:}
         region:
             static: ${AWS_REGION}
         credentials:
